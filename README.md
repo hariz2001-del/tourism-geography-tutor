@@ -26,6 +26,20 @@ uv run pytest
 
 Place approved source PDFs in `data/course-materials/` locally. They are ignored by Git.
 
+## Learner web app
+
+The `web/` Next.js application reads only published Course Brain records through a server-side Supabase repository. Configure only public browser values in `web/.env.local` from `web/.env.example`; no service-role credential belongs in the web application.
+
+```bash
+cd web
+npm run test
+npm run lint
+npm run typecheck
+npm run build
+```
+
+`/chapters/CH1` deliberately renders an empty state until reviewed, cited Course Brain records exist. Raw extraction output is not web seed data.
+
 ## Ingest materials
 
 ```bash

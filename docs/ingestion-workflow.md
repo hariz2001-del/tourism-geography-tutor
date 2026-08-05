@@ -5,7 +5,9 @@
 3. Validate required provenance fields with `scripts/validate_content_units.py`.
 4. Review and split draft pages into topical content units.
 5. Insert reviewed content and source references into Supabase in one transaction.
-6. Mark content `published` only after its provenance is attached.
+6. Validate reviewed JSON with `scripts/import_reviewed_content.py --dry-run`.
+7. With an approved local `COURSE_BRAIN_DATABASE_URL` configured, run `uv run python scripts/import_reviewed_content.py path/to/reviewed.json --apply`; the importer uses one transaction, a transaction advisory lock, stable identities, and parameterized SQL.
+8. Mark content `published` only after its provenance is attached.
 
 ## Extraction limits
 

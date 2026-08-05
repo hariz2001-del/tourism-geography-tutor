@@ -5,7 +5,7 @@ flowchart LR
   A[Approved Chapter 1–4 PDFs] --> B[Extraction Script]
   B --> C[Reviewable JSONL Drafts]
   C --> D[Supabase Course Brain]
-  D --> E[Future Retrieval Index]
+  D --> E[Deterministic Grounding]
   D --> F[Learning Materials UI]
   E --> G[Grounded Side Tutor]
   D --> H[Quiz Engine]
