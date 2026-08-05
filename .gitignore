@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
+# Environment and Supabase secrets
+.env
+.env.*
+!.env.example
+.supabase/
+
+# Course materials and generated extraction output
+/data/course-materials/
+/data/extracted/
+!data/course-materials/.gitkeep
+!data/extracted/.gitkeep
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
