@@ -1,12 +1,47 @@
 import { render, screen } from "@testing-library/react";
-import Home from "./page";
+import { vi } from "vitest";
+
+const listChapters = vi.fn();
+const listChapterTopics = vi.fn();
+
+vi.mock("@/lib/supabase/server", () => ({
+  createServerCourseBrainRepository: () => ({ listChapters, listChapterTopics }),
+}));
 
 describe("Home", () => {
-  it("offers the Chapter 1 learning entry point", () => {
-    render(<Home />);
+  beforeEach(() => {
+    listChapters.mockReset();
+    listChapterTopics.mockReset();
+  });
 
-    expect(
-      screen.getByRole("link", { name: /start chapter 1/i }),
-    ).toBeVisible();
+  it("lists each chapter with links to its topics", async () => {
+    listChapters.mockResolvedValue([
+      { code: "CH1", title: "Chapter 1", displayOrder: 1 },
+      { code: "CH2", title: "CH2", displayOrder: 2 },
+    ]);
+    listChapterTopics.mockImplementation(async (code: string) =>
+      code === "CH1"
+        ? [{ id: "topic-1", name: "Geography foundations", summary: null, displayOrder: 1 }]
+        : [],
+    );
+    const { default: Home } = await import("./page");
+
+    render(await Home());
+
+    expect(screen.getByRole("heading", { name: /learn from approved course materials/i })).toBeVisible();
+    expect(screen.getByRole("link", { name: /geography foundations/i })).toHaveAttribute(
+      "href",
+      "/chapters/CH1?topic=topic-1",
+    );
+    expect(screen.getByText(/no approved material is available for this chapter yet/i)).toBeVisible();
+  });
+
+  it("falls back to a single Chapter 1 entry point when the Course Brain is unconfigured", async () => {
+    listChapters.mockRejectedValue(new Error("Course Brain is not configured."));
+    const { default: Home } = await import("./page");
+
+    render(await Home());
+
+    expect(screen.getByRole("link", { name: /start chapter 1/i })).toBeVisible();
   });
 });

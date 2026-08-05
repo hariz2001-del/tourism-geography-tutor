@@ -1,4 +1,5 @@
 import type {
+  Chapter,
   ChapterTopic,
   PublishedContentUnit,
   QuizAnswerFeedback,
@@ -46,6 +47,15 @@ function citationFrom(row: Record<string, unknown>) {
 
 export function createCourseBrainRepository(client: SupabaseQueryAdapter) {
   return {
+    async listChapters(): Promise<Chapter[]> {
+      const result = await execute(client.from("chapters")
+        .select("code, title, display_order")
+        .order("display_order"));
+      return rows(requireData(result)).map((row) => ({
+        code: String(row.code), title: String(row.title), displayOrder: Number(row.display_order),
+      }));
+    },
+
     async listChapterTopics(chapterCode: string): Promise<ChapterTopic[]> {
       const result = await execute(client.from("topics")
         .select("id, name, summary, display_order, chapters!inner(code)")

@@ -11,6 +11,12 @@ export type ChapterTopic = {
   displayOrder: number;
 };
 
+export type Chapter = {
+  code: string;
+  title: string;
+  displayOrder: number;
+};
+
 export type PublishedContentUnit = {
   id: string;
   topicId: string;

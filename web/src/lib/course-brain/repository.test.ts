@@ -13,6 +13,19 @@ function queryBuilder(rows: unknown[]) {
 }
 
 describe("Course Brain repository", () => {
+  it("lists chapters ordered by display order", async () => {
+    const query = queryBuilder([
+      { code: "CH1", title: "Chapter 1", display_order: 1 },
+      { code: "CH2", title: "CH2", display_order: 2 },
+    ]);
+    const repository = createCourseBrainRepository({ from: () => query.builder, rpc: async () => ({ data: [], error: null }) });
+
+    await expect(repository.listChapters()).resolves.toEqual([
+      { code: "CH1", title: "Chapter 1", displayOrder: 1 },
+      { code: "CH2", title: "CH2", displayOrder: 2 },
+    ]);
+  });
+
   it("always applies the published filter when reading topic content", async () => {
     const query = queryBuilder([{ id: "unit-1", topic_id: "topic-1", title: "A", body: "B", content_type: "explanation", status: "published", source_references: [{ source_file: "reviewed.pdf", chapter_label: "Chapter 1", page_or_slide: 4 }] }]);
     const repository = createCourseBrainRepository({ from: () => query.builder, rpc: async () => ({ data: [], error: null }) });
