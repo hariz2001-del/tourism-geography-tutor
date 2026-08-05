@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 .venv/
 .pytest_cache/
+*.egg-info/
 
 # Environment and Supabase secrets
 .env
@@ -11,8 +12,8 @@ __pycache__/
 .supabase/
 
 # Course materials and generated extraction output
-/data/course-materials/
-/data/extracted/
+/data/course-materials/*
+/data/extracted/*
 !data/course-materials/.gitkeep
 !data/extracted/.gitkeep
 
