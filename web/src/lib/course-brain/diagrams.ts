@@ -54,11 +54,18 @@ export const topicDiagrams: Record<string, TopicDiagram> = {
     sourceFile: "chapter-4.pdf",
     pageOrSlide: 16,
   },
+  "c5a8827e-c9e5-4b96-a85c-a9f060638849": {
+    src: "/diagrams/ch4-hydrosphere-lithosphere-floor-plan.png",
+    alt: "Labelled schematic \"floor plan\" of a coastline showing a continent, island, cays, atoll, peninsula/foreland, coral/reef, gulf, bay, fiord, river, glacier, waterfall, lagoon, and springs all in one landscape.",
+    caption: "The forms of hydrosphere and lithosphere: floor plan",
+    sourceFile: "chapter-4.pdf",
+    pageOrSlide: 23,
+  },
   "a457ad66-58e3-41cb-922c-1c9966c9a988": {
-    src: "/diagrams/ch3-time-zones.jpg",
-    alt: "World time zone map showing hour offsets from the Greenwich Meridian and the International Date Line.",
-    caption: "World time zones",
+    src: "/diagrams/ch3-latitude-longitude-comparison.png",
+    alt: "Two globes side by side: the left globe shows latitude lines (Equator, and parallels at 30/60/90 degrees North and South) with the Northern and Southern Hemispheres labelled; the right globe shows longitude meridian lines converging at the poles, labelled East (+) and West (-) of the Prime Meridian at 0 degrees.",
+    caption: "Latitude and longitude compared",
     sourceFile: "chapter-3.pdf",
-    pageOrSlide: 10,
+    pageOrSlide: 5,
   },
 };
