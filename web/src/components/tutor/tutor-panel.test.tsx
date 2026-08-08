@@ -23,6 +23,21 @@ describe("TutorPanel", () => {
     expect(screen.getByText(/page\/slide 4/i)).toBeVisible();
   });
 
+  it("labels an AI-generated answer distinctly from a direct course-material answer", async () => {
+    vi.stubGlobal("fetch", vi.fn(() => mockResponse({
+      kind: "ai_grounded",
+      text: "A desert has very low precipitation.",
+      citations: [{ sourceFile: "chapter-4.pdf", chapterLabel: "Chapter 4", pageOrSlide: 18 }],
+    })));
+
+    render(<TutorPanel topicTitle="Tourism geography" />);
+    fireEvent.change(screen.getByLabelText(/ask the tutor/i), { target: { value: "whats a dessert with low precipitaton" } });
+    fireEvent.click(screen.getByRole("button", { name: /ask tutor/i }));
+
+    expect(await screen.findByText(/ai-generated from course material/i)).toBeVisible();
+    expect(screen.getByText(/desert has very low precipitation/i)).toBeVisible();
+  });
+
   it("clearly renders an out-of-scope answer", async () => {
     vi.stubGlobal("fetch", vi.fn(() => mockResponse({
       kind: "out_of_scope",

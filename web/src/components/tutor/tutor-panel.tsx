@@ -5,7 +5,7 @@ import type { Citation } from "@/lib/course-brain/types";
 import CitationCard from "./citation-card";
 
 type TutorResponse = {
-  kind: "grounded" | "out_of_scope";
+  kind: "grounded" | "ai_grounded" | "out_of_scope";
   text: string;
   citations: Citation[];
 };
@@ -58,6 +58,9 @@ export default function TutorPanel({ topicTitle }: Props) {
       {error ? <p className="mt-4 text-red-800" role="alert">{error}</p> : null}
       {answer ? (
         <div className="mt-5 space-y-3" role="status" aria-live="polite">
+          {answer.kind === "ai_grounded" ? (
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">AI-generated from course material — verify against the source below</p>
+          ) : null}
           <p>{answer.text}</p>
           {answer.citations.map((citation) => <CitationCard key={`${citation.sourceFile}-${citation.pageOrSlide}`} citation={citation} />)}
         </div>

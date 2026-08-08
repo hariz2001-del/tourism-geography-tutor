@@ -10,10 +10,16 @@ export type GroundedTutorAnswer = {
   citations: Citation[];
 };
 
+export type AiGroundedTutorAnswer = {
+  kind: "ai_grounded";
+  text: string;
+  citations: Citation[];
+};
+
 export type OutOfScopeTutorAnswer = {
   kind: "out_of_scope";
   text: string;
   citations: [];
 };
 
-export type TutorAnswer = GroundedTutorAnswer | OutOfScopeTutorAnswer;
+export type TutorAnswer = GroundedTutorAnswer | AiGroundedTutorAnswer | OutOfScopeTutorAnswer;
