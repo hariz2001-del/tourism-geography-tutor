@@ -1,0 +1,37 @@
+# Project checklist
+
+This is a living checklist for the Tourism Geography Tutor / Course Brain project. It's grounded in the original blueprint (`fyp cb.pdf`, in the Google Drive folder `Aztech Digital/Tourism Chatbot`) and is meant to be appended to, not rewritten, as new client feedback comes in.
+
+**How to use this doc:**
+- Check items off (`- [x]`) as they ship.
+- When new client feedback arrives, add a new dated subsection under "Client feedback log" rather than editing prior entries — keep the history intact.
+
+## Blueprint feature checklist
+
+From the original mockup (`fyp cb.pdf`, Figures 3.1–3.8), against the actual state of the codebase:
+
+- [ ] **Homepage/landing with chatbot framing** — partial: `web/src/app/page.tsx` exists but is a plain chapter/topic index, not the blueprint's marketing hero with mascot + "Start Chat"
+- [x] **Conversational chatbot Q&A interface** — live (2026-08-08): `TutorPanel` is rendered on the chapter page. `grounding.ts`'s keyword-overlap matcher runs first (free); a DeepSeek fallback (`web/src/lib/tutor/llm-fallback.ts`, `deepseek-v4-flash`) now handles questions it misses — typos, loose phrasing, or questions about topics other than the one currently open. Every answer's citation is a real link back to its source content block, which briefly highlights on arrival.
+- [ ] **Topic selection by category** (Tourism Destinations, Climate, Physical Geography, Human Geography, Transportation & Access, Cultural Heritage) — model mismatch: current app organizes content by Chapter → Topic drawn from the actual DTM10333 course PDFs, not this 6-category taxonomy from the mockup. Open decision: keep the course-chapter structure, or reorganize navigation around these 6 categories.
+- [ ] **Rich answer format** (definition + bullet points + "Example" + "Importance" + related-SDG badges + "Suggested Reading") — partial (2026-08-08): `ContentUnit` now renders a `content_type` badge and visually separates `example` blocks; all 66 published units were reclassified from a single generic type into 44 definition / 7 example / 6 explanation / 6 key_takeaway / 1 case_study / 2 learning_note. Still missing: "Importance" section, SDG badges, "Suggested Reading".
+- [ ] **Learning Materials page** (chapter list with View/Download) — partial: chapters/topics are listed on the home page, but there's no dedicated materials page and no view/download links to source PDFs
+- [ ] **Quiz/Self-Assessment** (multi-question flow with progress bar + final score) — partial: `QuizCard` + `/api/quiz/answer` work, but `quiz_questions` has **zero rows** in the DB (verified 2026-08-08) — nothing renders today regardless of the single-question-cap limitation. No multi-question sequence, no score summary.
+- [ ] **About/User Guide page** — not built: no `/about` route exists
+- [x] **Backing content actually published** — resolved: this item was stale. Verified 2026-08-08 by querying the live DB directly that all 66 content units were already `status: published` — the app was serving real content the whole time, just undifferentiated by type (see "Rich answer format" above).
+
+## Client feedback log
+
+### 2026-08-08
+
+- [ ] **Examples grounded in slides** — author `example`-type content units (data/content work during the review step) so each topic's notes surface a slide-sourced example, not just definitions; no new schema needed (the `example` content_type already exists), just content authoring + a UI branch in `ContentUnit` to visually separate example blocks
+  - **Status (2026-08-08):** partial. The UI branch shipped, and reclassifying the existing 66 units by type recovered `example` content for 4/19 topics (where the text already named concrete things, e.g. Mount Everest, the Sahara, named plateaus). The other 15 topics still need genuinely new example content authored from the real source slide PDFs — those aren't in this repo checkout (`data/course-materials/` is gitignored and empty), so this is blocked on the client/content-owner supplying them.
+- [ ] **"Let's make a quiz" CTA per topic/chapter** — add a link/button at the end of a topic's content units pointing to that topic's quiz section; can reuse the existing `?topic=<uuid>` query-param routing with an anchor (e.g. `#quiz`) for a same-page jump, or a dedicated `/quiz` route if quiz-only real estate is wanted
+  - **Status (2026-08-08):** not started.
+- [ ] **Chatbot section for questions** — re-enable `TutorPanel` on the chapter page (component + API route already exist, just unrendered) as a first step; note the blueprint's Figures 3.2/3.4 imply a persistent chat thread, while today's `TutorPanel` is a single-shot Q&A box with no message history — decide whether re-enabling as-is is enough for now or whether a real chat UI is in scope for this round
+  - **Status (2026-08-08):** done, and taken further than "re-enable as-is" — see the blueprint checklist's "Conversational chatbot Q&A interface" item above (global search + DeepSeek fallback + clickable/highlighting citations). Still single-shot, no message history — that part of the open decision above remains unaddressed.
+- [ ] **Interactive images for definitions** ("define an ocean" → image) — today, diagram images are mapped only per-topic (`diagrams.ts`, keyed by topic UUID, one diagram per topic); showing an image per-definition needs either extending that map's key scheme to content-unit IDs, or a new column/table — this is a data-model extension, not just a UI change
+  - **Status (2026-08-08):** not started.
+- [ ] **Flashcard section** — net-new feature, no existing flashcard code anywhere in the repo; the `content_type` filter (e.g. `definition`, `key_takeaway`) gives a ready-made dataset to drive flashcards from once content is published; no flip/swipe animation library is installed yet (no framer-motion or similar)
+  - **Status (2026-08-08):** not started. The `content_type` dataset this needs now actually exists (see reclassification above), so this is more buildable than when originally written.
+- [ ] **Colorful UI** — currently pure Tailwind v4 defaults (`slate-*` grays only, no `@theme` tokens, no design-tokens file); a color pass would start in `web/src/app/globals.css`'s `:root` block, which has no custom tokens defined yet
+  - **Status (2026-08-08):** explicitly deferred to backlog per client decision this session — not scoped for the current round.
