@@ -1,0 +1,55 @@
+---
+name: course-content
+description: Standards and workflow for authoring, reviewing, or auditing Course Brain content_units for the Tourism Geography Tutor project — granularity rules, source fidelity, citation requirements, and the visual-scan extraction process. Use whenever adding, reviewing, splitting, or auditing content_units, topics, or their source_references; when reading a course-material PDF to extract content; or when asked to check content for oversimplification/missing detail.
+---
+
+# Course Brain content standards
+
+This project imports course-slide content into `content_units` (Supabase). Two mistakes have already happened in this project and are easy to repeat — read this before adding or reviewing any content.
+
+## The core rule: one entity, one unit
+
+**Never merge multiple distinct named things into a single content unit**, even when they share one source slide/page, and even when it's tempting for economy. Each named entity gets its own `content_units` row with its own title and its own full description.
+
+Two real examples of this mistake already in (or added to) this project's DB:
+
+- **Pre-existing, not yet fixed**: Chapter 2's 7 continents and 5 major oceans are compressed into 3 "compare selected features of X and Y" units (e.g. one unit covers both Asia *and* Africa) instead of 7 + 5 = 12 individual units. This loses per-continent/per-ocean detail the source slides actually have.
+- **Added in the 2026-08-08 visual-scan session, same mistake**: "Cays and atoll", "Gulf and bay", "Fiord and glacier", and "Waterfall, lagoon, and springs" each crammed 2–3 distinct glossary terms into one unit instead of one unit per term.
+
+If a source slide covers several named things (continents, oceans, glossary terms, climate subtypes, anything with its own name/heading), extract **each one individually**. It's fine for several units to share the same citation page — that's normal, not a signal to merge them.
+
+The exception: a unit that is genuinely *about* a relationship between things (e.g. "Push and pull relationship," "Relate the continents to surrounding oceans" as an explicit summary/synthesis point) is legitimately one unit — the test is whether the source itself frames it as one coherent idea, not whether it's convenient to group.
+
+## Source fidelity
+
+- Content must come only from what the actual source PDF/slide says. Never invent facts, examples, or numbers not present in the source — this includes not "correcting" apparent errors in the source material (e.g. a slide that says "nine planets"). Faithfully transcribe/paraphrase, and separately **flag** apparent errors (in `docs/checklist.md` or to the user) rather than silently fixing or silently propagating them.
+- `scripts/extract_course_materials.py` only reads the PDF text layer and marks image-only/scanned pages `needs_ocr` — it silently produces nothing for those pages. **Don't trust "extraction already ran" as proof a chapter's content is complete.** The only reliable way to catch what text-layer extraction misses is to read the actual PDF pages directly (vision), not re-run OCR tooling.
+- Cross-check every new finding against what's already in the DB before inserting — many slides restate content that's already covered elsewhere (sometimes in a different chapter). Skip re-adding true duplicates; do add material that's genuinely new, richer, or independently sourced.
+
+## Reading source PDFs
+
+- Source PDFs live in `data/course-materials/` (gitignored — get them from the Google Drive folder linked in `docs/checklist.md` if missing locally).
+- The `Read` tool reads PDFs directly via vision, which is how image-only/`needs_ocr` pages actually get captured — this is preferred over any OCR script for that reason. It has a **20MB whole-file limit**, and page range reads to Bash `pages` param need `poppler-utils` (`pdftoppm`), which is **not installed on this machine**.
+- For PDFs over 20MB: split into page-range chunks with `pdf-lib` (pure JS, no system dependency) rather than trying to install poppler. See the approach used in the 2026-08-08 session — `npm install pdf-lib` in a scratch directory, then a small script using `PDFDocument.copyPages` to write ~6-page chunks, each read individually.
+- Downloading large files from a shared Google Drive link: use `curl -sL -A "<a real user-agent>" -c cookies.txt -b cookies.txt "https://drive.google.com/uc?export=download&id=<FILE_ID>"` — no `--max-time` (large files legitimately take a while; a tight timeout just produces a truncated file that looks fine until you check for a trailing `%%EOF`). **Never delete/restart a background download while a prior attempt at the same output path might still be running** — that caused real file corruption from concurrent writes in this project already. Stop a background task explicitly (or confirm it's actually finished) before touching its output file.
+- After downloading, always verify with `tail -c 20 file.pdf | grep -q EOF` before trusting a file is complete.
+
+## Citation and DB mechanics
+
+- Every published `content_units` row requires a matching `source_references` row (`content_unit_id`, `source_file`, `chapter_label`, `page_or_slide`) — the DB enforces this and **rejects a direct insert with `status: "published"` and no reference yet**. Insert as `status: "draft"`, insert the `source_references` row, then `PATCH` the content unit to `status: "published"`.
+- **When replacing a merged unit with several individual ones, insert-then-delete, never delete-then-insert.** First fully insert and publish every replacement unit; only after all of them are confirmed published, delete the old merged unit's `source_references` row and then the unit itself. A background agent doing this work got interrupted mid-task on 2026-08-09 (unrelated session termination) after deleting a merged "Hydrosphere, lithosphere, and biosphere" unit but before finishing its replacements — the live site had zero content for that topic until the next session found and fixed the orphaned `draft` rows. Insert-first means an interruption at worst leaves a harmless temporary duplicate, never a content gap. Periodically check for orphaned `draft`-status rows or `content_units` with no `source_references` row as a sign of an interrupted split.
+- Use the existing `chapter_label` convention **per chapter** (check a few existing rows for that `source_file` first) — it's inconsistent across chapters by history (`"CH2"` vs `"Chapter 3"` vs `"Chapter 4 — Tourism Natural Resources"`), but consistent *within* each chapter, so match what's already there rather than inventing a new style.
+- Chapter 1's citations use `source_file: "chapter-1-candidate-a.pdf"` even though the locally re-downloaded copy may be named differently (`chapter-1.pdf`) — same content, verified byte-identical duplicate per `docs/course-material-inventory.md`. Match the existing citation convention, don't introduce a second `source_file` value for the same underlying chapter.
+- `content_type` values: `definition`, `explanation`, `example`, `key_takeaway`, `case_study`, `learning_note` (fallback for anything that doesn't clearly fit). Rough rubric: a term/concept being defined → `definition`; a mechanism, process, or cause-effect being described → `explanation`; a concrete named real-world instance illustrating a concept → `example`; a synthesizing insight/principle/"why it matters" → `key_takeaway`; a specific narrative scenario with some depth → `case_study`.
+
+## Save the scan, don't repeat it
+
+After reading through source PDFs, write a scan-notes file to `data/extracted/vision-scan-<date>.md` recording, per chapter/page: what's already covered in the DB, what's new, what was inserted, and what pages weren't specifically checked. That directory is gitignored by default (raw extraction output) — **force-add scan-notes markdown files specifically** (`git add -f`) since they're small, valuable, and expensive to regenerate; the large source PDFs themselves should stay untracked. Check `data/extracted/` for existing scan files before starting a new read-through — a prior pass may already cover the chapter you're about to read.
+
+## Extracting real images (photos/diagrams) from a source PDF
+
+No system PDF-rendering tool is available on this machine (`poppler-utils`/`pdftoppm` and `pip` are both missing), so don't try to rasterize pages. Instead pull embedded raster images directly out of the PDF's object structure with `pdf-lib`, no rendering needed: load the PDF, walk `doc.context.enumerateIndirectObjects()`, and for each `PDFRawStream` whose dict has `Subtype = /Image`, its `.contents` is the raw image bytes — `DCTDecode`-filtered ones are plain JPEG bytes, writable straight to a `.jpg` file. Confirmed working on `chapter-3.pdf` (36 embedded images found). Caveat: not every embedded image is a real photo — slide title text and small UI/label graphics are often embedded as images too, so filter candidates by pixel dimensions (real photos tend to be larger, e.g. >300px on the short side) before treating one as a usable photo.
+
+## When asked to audit for oversimplification
+
+Query `content_units` grouped by topic and look for bodies that list or compare multiple distinct named things in one unit (titles like "Compare X and Y," "X and Y," bodies with multiple proper nouns each getting only a clause). For each one found, check the actual source page (re-read via vision if needed) to confirm what the individual entities' full descriptions actually say, then split into one unit per entity, preserving the same citation page for all of them unless the source shows otherwise.
