@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import type { PublishedContentUnit } from "@/lib/course-brain/types";
 
 const CONTENT_TYPE_LABELS: Record<string, string> = {
@@ -11,12 +14,32 @@ const CONTENT_TYPE_LABELS: Record<string, string> = {
 export default function ContentUnit({ unit }: { unit: PublishedContentUnit }) {
   const isExample = unit.contentType === "example";
   const label = CONTENT_TYPE_LABELS[unit.contentType];
+  const anchorId = `unit-${unit.id}`;
+  const [isHighlighted, setIsHighlighted] = useState(false);
+
+  useEffect(() => {
+    let timeoutId: number | undefined;
+    function checkHash() {
+      if (window.location.hash !== `#${anchorId}`) return;
+      setIsHighlighted(true);
+      window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(() => setIsHighlighted(false), 1800);
+    }
+    checkHash();
+    window.addEventListener("hashchange", checkHash);
+    return () => {
+      window.removeEventListener("hashchange", checkHash);
+      window.clearTimeout(timeoutId);
+    };
+  }, [anchorId]);
 
   return (
     <article
-      className={`space-y-3 rounded-lg border p-5 shadow-sm ${
+      id={anchorId}
+      data-highlighted={isHighlighted}
+      className={`space-y-3 rounded-lg border p-5 shadow-sm transition-shadow duration-700 ${
         isExample ? "border-amber-300 bg-amber-50" : "border-slate-300 bg-white"
-      }`}
+      } ${isHighlighted ? "ring-4 ring-sky-400" : ""}`}
     >
       {label ? (
         <span

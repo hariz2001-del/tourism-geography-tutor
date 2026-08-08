@@ -45,6 +45,16 @@ function citationFrom(row: Record<string, unknown>) {
   return { sourceFile: String(source.source_file), chapterLabel: String(source.chapter_label), pageOrSlide: Number(source.page_or_slide) };
 }
 
+function chapterCodeFrom(row: Record<string, unknown>): string {
+  const topicsValue = row.topics;
+  const topic = Array.isArray(topicsValue) ? topicsValue[0] : topicsValue;
+  if (!topic || typeof topic !== "object") return "";
+  const chaptersValue = (topic as Record<string, unknown>).chapters;
+  const chapter = Array.isArray(chaptersValue) ? chaptersValue[0] : chaptersValue;
+  if (!chapter || typeof chapter !== "object") return "";
+  return String((chapter as Record<string, unknown>).code ?? "");
+}
+
 export function createCourseBrainRepository(client: SupabaseQueryAdapter) {
   return {
     async listChapters(): Promise<Chapter[]> {
@@ -74,6 +84,17 @@ export function createCourseBrainRepository(client: SupabaseQueryAdapter) {
         .order("created_at"));
       return rows(requireData(result)).map((row) => ({
         id: String(row.id), topicId: String(row.topic_id), title: String(row.title), body: String(row.body), contentType: String(row.content_type), citation: citationFrom(row),
+      }));
+    },
+
+    async getAllPublishedContent(): Promise<PublishedContentUnit[]> {
+      const result = await execute(client.from("content_units")
+        .select("id, topic_id, title, body, content_type, source_references(source_file, chapter_label, page_or_slide), topics(chapter_id, chapters(code))")
+        .eq("status", "published")
+        .order("created_at"));
+      return rows(requireData(result)).map((row) => ({
+        id: String(row.id), topicId: String(row.topic_id), title: String(row.title), body: String(row.body), contentType: String(row.content_type),
+        citation: { ...citationFrom(row), chapterCode: chapterCodeFrom(row), topicId: String(row.topic_id), contentUnitId: String(row.id) },
       }));
     },
 

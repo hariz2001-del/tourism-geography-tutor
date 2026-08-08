@@ -14,7 +14,7 @@ describe("TutorPanel", () => {
       citations: [{ sourceFile: "chapter-1-reviewed.pdf", chapterLabel: "Chapter 1", pageOrSlide: 4 }],
     })));
 
-    render(<TutorPanel chapterCode="CH1" topicId="topic-1" topicTitle="Tourism geography" />);
+    render(<TutorPanel topicTitle="Tourism geography" />);
     fireEvent.change(screen.getByLabelText(/ask the tutor/i), { target: { value: "What is tourism geography?" } });
     fireEvent.click(screen.getByRole("button", { name: /ask tutor/i }));
 
@@ -30,7 +30,7 @@ describe("TutorPanel", () => {
       citations: [],
     })));
 
-    render(<TutorPanel chapterCode="CH1" topicId="topic-1" topicTitle="Tourism geography" />);
+    render(<TutorPanel topicTitle="Tourism geography" />);
     fireEvent.change(screen.getByLabelText(/ask the tutor/i), { target: { value: "Tell me about another subject" } });
     fireEvent.click(screen.getByRole("button", { name: /ask tutor/i }));
 

@@ -12,7 +12,7 @@ describe("TutorPanel response announcements", () => {
       } }),
     })));
 
-    render(<TutorPanel chapterCode="CH1" topicId="topic-1" topicTitle="Topic one" />);
+    render(<TutorPanel topicTitle="Topic one" />);
     fireEvent.change(screen.getByLabelText(/ask the tutor/i), { target: { value: "What is topic one?" } });
     fireEvent.click(screen.getByRole("button", { name: /ask tutor/i }));
 

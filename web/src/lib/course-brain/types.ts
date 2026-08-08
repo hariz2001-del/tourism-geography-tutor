@@ -2,6 +2,9 @@ export type Citation = {
   sourceFile: string;
   chapterLabel: string;
   pageOrSlide: number;
+  chapterCode?: string;
+  topicId?: string;
+  contentUnitId?: string;
 };
 
 export type ChapterTopic = {

@@ -26,7 +26,6 @@ export function answerQuestion(
 ): TutorAnswer {
   const questionTerms = terms(input.question);
   const supported = units
-    .filter((unit) => unit.topicId === input.topicId)
     .map((unit) => ({ unit, score: overlap(questionTerms, unit) }))
     .filter(({ score }) => score >= 2)
     .sort((left, right) => right.score - left.score);
@@ -35,7 +34,7 @@ export function answerQuestion(
   if (!best) {
     return {
       kind: "out_of_scope",
-      text: "I could not find support for that in the approved Chapter 1 material for this topic.",
+      text: "I could not find support for that in the approved material for this topic.",
       citations: [],
     };
   }

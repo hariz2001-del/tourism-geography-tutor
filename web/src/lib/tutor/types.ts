@@ -2,7 +2,6 @@ import type { Citation } from "../course-brain/types";
 
 export type TutorQuestion = {
   question: string;
-  topicId: string;
 };
 
 export type GroundedTutorAnswer = {

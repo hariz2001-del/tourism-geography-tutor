@@ -11,12 +11,10 @@ type TutorResponse = {
 };
 
 type Props = {
-  chapterCode: string;
-  topicId: string;
   topicTitle: string;
 };
 
-export default function TutorPanel({ chapterCode, topicId, topicTitle }: Props) {
+export default function TutorPanel({ topicTitle }: Props) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState<TutorResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +30,7 @@ export default function TutorPanel({ chapterCode, topicId, topicTitle }: Props) 
       const response = await fetch("/api/tutor", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ chapterCode, topicId, question }),
+        body: JSON.stringify({ question }),
       });
       const body = await response.json() as { data?: TutorResponse; error?: string };
       if (!response.ok || !body.data) {
@@ -49,7 +47,7 @@ export default function TutorPanel({ chapterCode, topicId, topicTitle }: Props) 
   return (
     <section className="rounded-lg border border-slate-300 bg-white p-5 shadow-sm" aria-labelledby="tutor-heading">
       <h2 id="tutor-heading" className="text-xl font-bold text-slate-950">Tutor</h2>
-      <p className="mt-1 text-sm text-slate-700">Current topic: {topicTitle}</p>
+      <p className="mt-1 text-sm text-slate-700">Ask about any topic in the course, not just &ldquo;{topicTitle}&rdquo; — matching answers link back to where they come from.</p>
       <form className="mt-4 space-y-3" onSubmit={submit}>
         <label className="block font-medium text-slate-900" htmlFor="tutor-question">Question</label>
         <textarea id="tutor-question" aria-label="Ask the tutor" value={question} onChange={(event) => setQuestion(event.target.value)} required maxLength={500} className="min-h-24 w-full rounded-md border border-slate-400 p-3 text-slate-950 outline-offset-2 focus-visible:outline-2 focus-visible:outline-slate-900" />
