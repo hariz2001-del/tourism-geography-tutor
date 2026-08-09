@@ -45,23 +45,23 @@ export default function TutorPanel({ topicTitle }: Props) {
   }
 
   return (
-    <section className="rounded-lg border border-slate-300 bg-white p-5 shadow-sm" aria-labelledby="tutor-heading">
-      <h2 id="tutor-heading" className="text-xl font-bold text-slate-950">Tutor</h2>
-      <p className="mt-1 text-sm text-slate-700">Ask about any topic in the course, not just &ldquo;{topicTitle}&rdquo; — matching answers link back to where they come from.</p>
+    <section className="rounded-card border border-graticule bg-surface p-5" aria-labelledby="tutor-heading">
+      <h2 id="tutor-heading" className="font-display text-[1.375rem] font-semibold text-ink-strong">Tutor</h2>
+      <p className="mt-1 text-[0.9375rem]/[1.6] text-ink-muted">Ask about any topic in the course, not just &ldquo;{topicTitle}&rdquo; — matching answers link back to where they come from.</p>
       <form className="mt-4 space-y-3" onSubmit={submit}>
-        <label className="block font-medium text-slate-900" htmlFor="tutor-question">Question</label>
-        <textarea id="tutor-question" aria-label="Ask the tutor" value={question} onChange={(event) => setQuestion(event.target.value)} required maxLength={500} className="min-h-24 w-full rounded-md border border-slate-400 p-3 text-slate-950 outline-offset-2 focus-visible:outline-2 focus-visible:outline-slate-900" />
-        <button type="submit" disabled={isLoading} className="rounded-md bg-slate-900 px-4 py-2 font-semibold text-white outline-offset-4 hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-500 focus-visible:outline-2 focus-visible:outline-slate-900">
+        <label className="block font-medium text-ink-strong" htmlFor="tutor-question">Question</label>
+        <textarea id="tutor-question" aria-label="Ask the tutor" value={question} onChange={(event) => setQuestion(event.target.value)} required maxLength={500} className="min-h-24 w-full rounded-card border border-graticule bg-surface p-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian" />
+        <button type="submit" disabled={isLoading} className="rounded-card bg-meridian px-4 py-2 font-medium text-chart transition-colors duration-150 hover:bg-ink-strong disabled:cursor-not-allowed disabled:bg-ink-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian">
           {isLoading ? "Asking…" : "Ask tutor"}
         </button>
       </form>
-      {error ? <p className="mt-4 text-red-800" role="alert">{error}</p> : null}
+      {error ? <p className="mt-4 text-danger" role="alert">{error}</p> : null}
       {answer ? (
         <div className="mt-5 space-y-3" role="status" aria-live="polite">
           {answer.kind === "ai_grounded" ? (
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">AI-generated from course material — verify against the source below</p>
+            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-ink-muted">AI-generated from course material — verify against the source below</p>
           ) : null}
-          <p>{answer.text}</p>
+          <p className="text-[1.0625rem]/[1.7] text-ink">{answer.text}</p>
           {answer.citations.map((citation) => <CitationCard key={`${citation.sourceFile}-${citation.pageOrSlide}`} citation={citation} />)}
         </div>
       ) : null}

@@ -24,16 +24,18 @@ export default function TopicDiagramFigure({ diagram }: { diagram: TopicDiagram 
 
   return (
     <>
-      <figure className="overflow-hidden rounded-lg border border-slate-300 bg-white shadow-sm">
+      <figure className="overflow-hidden rounded-card border border-graticule bg-surface">
         <button
           type="button"
           onClick={() => { setIsZoomed(false); setIsOpen(true); }}
-          className="block w-full cursor-zoom-in focus-visible:outline-2 focus-visible:outline-slate-900"
+          className="block w-full cursor-zoom-in focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
           aria-label={`Expand diagram: ${diagram.caption}`}
         >
-          <Image src={diagram.src} alt={diagram.alt} width={1400} height={788} className="h-auto w-full" priority={false} />
+          <div className="bg-white p-2 dark:p-3">
+            <Image src={diagram.src} alt={diagram.alt} width={1400} height={788} className="h-auto w-full" priority={false} />
+          </div>
         </button>
-        <figcaption className="border-t border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">
+        <figcaption className="border-t border-graticule bg-chart px-4 py-2.5 font-mono text-[0.8125rem] text-ink-muted">
           {diagram.caption} — {diagram.sourceFile}, page/slide {diagram.pageOrSlide}
         </figcaption>
       </figure>
@@ -43,17 +45,17 @@ export default function TopicDiagramFigure({ diagram }: { diagram: TopicDiagram 
           role="dialog"
           aria-modal="true"
           aria-label={diagram.caption}
-          className="fixed inset-0 z-50 flex flex-col bg-slate-950/95 p-4"
+          className="fixed inset-0 z-50 flex flex-col bg-[#050C0F]/96 p-4"
           onClick={() => setIsOpen(false)}
         >
-          <div className="flex items-center justify-between gap-4 text-white">
+          <div className="flex items-center justify-between gap-4 text-chart">
             <p className="text-sm">
               {diagram.caption} — {diagram.sourceFile}, page/slide {diagram.pageOrSlide}
             </p>
             <button
               type="button"
               onClick={(event) => { event.stopPropagation(); setIsOpen(false); }}
-              className="rounded-md border border-white/40 px-3 py-1 text-sm font-semibold text-white hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-white"
+              className="rounded-card border border-graticule/60 px-3 py-1 text-sm font-semibold text-chart hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               Close
             </button>
@@ -65,14 +67,16 @@ export default function TopicDiagramFigure({ diagram }: { diagram: TopicDiagram 
               aria-label={isZoomed ? "Zoom out" : "Zoom in"}
               className={isZoomed ? "cursor-zoom-out" : "cursor-zoom-in"}
             >
-              <Image
-                src={diagram.src}
-                alt={diagram.alt}
-                width={1400}
-                height={788}
-                className={isZoomed ? "max-w-none" : "max-h-[80vh] max-w-[90vw] object-contain"}
-                priority
-              />
+              <div className={`bg-white p-2 dark:p-3 ${isZoomed ? "" : "max-h-[80vh] max-w-[90vw]"}`}>
+                <Image
+                  src={diagram.src}
+                  alt={diagram.alt}
+                  width={1400}
+                  height={788}
+                  className={isZoomed ? "max-w-none" : "h-full max-h-[calc(80vh-1.5rem)] w-full object-contain"}
+                  priority
+                />
+              </div>
             </button>
           </div>
         </div>

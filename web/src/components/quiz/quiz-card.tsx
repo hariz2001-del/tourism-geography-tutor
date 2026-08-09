@@ -25,15 +25,15 @@ export default function QuizCard({ question }: { question: QuizQuestion }) {
   }
 
   return (
-    <section className="rounded-lg border border-slate-300 bg-white p-5 shadow-sm" aria-labelledby={`quiz-${question.id}`}>
-      <h2 id={`quiz-${question.id}`} className="text-xl font-bold text-slate-950">Self-check</h2>
+    <section className="rounded-card border border-graticule bg-surface p-5" aria-labelledby={`quiz-${question.id}`}>
+      <h2 id={`quiz-${question.id}`} className="font-display text-[1.375rem] font-semibold text-ink-strong">Self-check</h2>
       <fieldset className="mt-4">
-        <legend className="font-medium text-slate-950">{question.question}</legend>
-        <div className="mt-3 space-y-2">{question.options.map((option) => <label key={option.id} className="flex cursor-pointer items-start gap-2 rounded-md p-2 hover:bg-slate-50"><input type="radio" name={question.id} value={option.id} checked={selectedOptionId === option.id} onChange={() => { setSelectedOptionId(option.id); setFeedback(null); }} /><span>{option.text}</span></label>)}</div>
+        <legend className="font-medium text-ink-strong">{question.question}</legend>
+        <div className="mt-3 space-y-2">{question.options.map((option) => <label key={option.id} className="flex cursor-pointer items-start gap-2 rounded-card p-2 hover:bg-meridian/6"><input type="radio" name={question.id} value={option.id} checked={selectedOptionId === option.id} onChange={() => { setSelectedOptionId(option.id); setFeedback(null); }} className="accent-meridian" /><span className="text-ink">{option.text}</span></label>)}</div>
       </fieldset>
-      <button type="button" className="mt-4 rounded-md bg-slate-900 px-4 py-2 font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-500" disabled={!selectedOptionId || isChecking} onClick={checkAnswer}>{isChecking ? "Checking…" : "Check answer"}</button>
-      {error ? <p role="alert" className="mt-4 text-red-800">{error}</p> : null}
-      {feedback ? <div className="mt-4 space-y-2" role="status"><p className="font-semibold">{feedback.isCorrect ? "Correct." : "Not quite."}</p><p>{feedback.explanation}</p><CitationCard citation={question.citation} /></div> : null}
+      <button type="button" className="mt-4 rounded-card bg-meridian px-4 py-2 font-medium text-chart transition-colors duration-150 hover:bg-ink-strong disabled:cursor-not-allowed disabled:bg-ink-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian" disabled={!selectedOptionId || isChecking} onClick={checkAnswer}>{isChecking ? "Checking…" : "Check answer"}</button>
+      {error ? <p role="alert" className="mt-4 text-danger">{error}</p> : null}
+      {feedback ? <div className="mt-4 space-y-2" role="status"><p className="font-medium text-ink-strong">{feedback.isCorrect ? "Correct." : "Not quite."}</p><p className="text-ink">{feedback.explanation}</p><CitationCard citation={question.citation} /></div> : null}
     </section>
   );
 }

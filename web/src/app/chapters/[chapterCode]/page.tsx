@@ -1,9 +1,10 @@
 import ChapterNav from "@/components/materials/chapter-nav";
-import ContentUnit from "@/components/materials/content-unit";
+import ContentSection from "@/components/materials/content-section";
 import TopicDiagramFigure from "@/components/materials/topic-diagram";
 import TopicList from "@/components/materials/topic-list";
 import QuizCard from "@/components/quiz/quiz-card";
 import TutorPanel from "@/components/tutor/tutor-panel";
+import { buildSections, shouldShowLabels } from "@/lib/course-brain/group-units";
 import { topicDiagrams } from "@/lib/course-brain/diagrams";
 import type { Chapter, ChapterTopic, PublishedContentUnit, QuizQuestion } from "@/lib/course-brain/types";
 import { createServerCourseBrainRepository } from "@/lib/supabase/server";
@@ -24,15 +25,24 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
   const chapter = await loadChapter(chapterCode, selectedTopicId);
   if (!chapter) return <EmptyState chapterCode={chapterCode} />;
   const diagram = topicDiagrams[chapter.topic.id];
-  return <main className="mx-auto flex min-h-screen max-w-7xl flex-col gap-6 p-6">
+  const sections = buildSections(chapter.units);
+  const showLabels = shouldShowLabels(sections);
+  return <main className="mx-auto flex min-h-screen max-w-[86rem] flex-col gap-8 px-6 py-8">
     <ChapterNav chapters={chapter.chapters} activeChapterCode={chapterCode} />
-    <div className="grid gap-6 lg:grid-cols-[15rem_minmax(0,1fr)_22rem]">
-      <aside><TopicList chapterCode={chapterCode} topics={chapter.topics} selectedTopicId={chapter.topic.id} /></aside>
-      <section className="space-y-4">
-        <p className="font-semibold text-slate-700">{chapterCode}</p>
-        <h1 className="text-3xl font-bold">{chapter.topic.name}</h1>
+    <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)_21rem]">
+      <aside className="lg:sticky lg:top-8 lg:self-start"><TopicList chapterCode={chapterCode} topics={chapter.topics} selectedTopicId={chapter.topic.id} /></aside>
+      <section className="space-y-10">
+        <div className="space-y-3">
+          <p className="font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-ink-muted">{chapterCode}</p>
+          <h1 className="font-display text-[2rem] font-semibold leading-[1.15] tracking-[-0.015em] text-ink-strong md:text-[2.5rem]">{chapter.topic.name}</h1>
+          {chapter.topic.summary ? <p className="max-w-[62ch] text-[1.0625rem]/[1.7] text-ink-muted">{chapter.topic.summary}</p> : null}
+        </div>
         {diagram ? <TopicDiagramFigure diagram={diagram} /> : null}
-        {chapter.units.length ? chapter.units.map((unit) => <ContentUnit key={unit.id} unit={unit} />) : <p role="status" className="rounded-md border border-slate-300 bg-white p-4">No approved material is available for this topic yet.</p>}
+        {sections.length
+          ? sections.map((section, i) => (
+              <ContentSection key={section.id} section={section} showLabel={showLabels} isFirst={i === 0} />
+            ))
+          : <p role="status" className="rounded-card border border-graticule bg-surface p-4 text-ink">No approved material is available for this topic yet.</p>}
         {chapter.quiz ? <QuizCard question={chapter.quiz} /> : null}
       </section>
       <aside className="lg:sticky lg:top-6 lg:self-start"><TutorPanel topicTitle={chapter.topic.name} /></aside>
@@ -41,5 +51,9 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
 }
 
 function EmptyState({ chapterCode }: { chapterCode: string }) {
-  return <main className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-4 p-6"><h1 className="text-3xl font-bold">{chapterCode} materials</h1><p className="text-lg text-slate-800">No approved Course Brain records are available for this chapter yet.</p><p className="text-slate-700">Reviewed material will appear here after it has been imported and published with source citations.</p></main>;
+  return <main className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-4 p-6">
+    <h1 className="font-display text-[2rem] font-semibold leading-[1.15] tracking-[-0.015em] text-ink-strong md:text-[2.5rem]">{chapterCode} materials</h1>
+    <p className="text-lg text-ink">No approved Course Brain records are available for this chapter yet.</p>
+    <p className="text-ink-muted">Reviewed material will appear here after it has been imported and published with source citations.</p>
+  </main>;
 }
