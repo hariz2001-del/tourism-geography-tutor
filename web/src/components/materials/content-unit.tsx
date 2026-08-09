@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import { contentImages } from "@/lib/course-brain/content-images";
 import type { PublishedContentUnit } from "@/lib/course-brain/types";
 
 const CONTENT_TYPE_LABELS: Record<string, string> = {
@@ -32,6 +34,19 @@ function stackKindOf(variant: Variant, contentType: string): "overview" | "examp
   if (contentType === "example" || contentType === "case_study") return "example";
   if (contentType === "learning_note") return "note";
   return "overview";
+}
+
+function UnitImage({ unitId }: { unitId: string }) {
+  const image = contentImages[unitId];
+  if (!image) return null;
+  return (
+    <div className="mb-3 overflow-hidden rounded-card border border-graticule bg-white">
+      <Image src={image.src} alt={image.alt} width={image.width} height={image.height} className="h-auto w-full" />
+      {image.caption ? (
+        <p className="border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem] text-ink-muted">{image.caption}</p>
+      ) : null}
+    </div>
+  );
 }
 
 export default function ContentUnit({
@@ -88,6 +103,7 @@ export default function ContentUnit({
         data-highlighted={isHighlighted}
         className={`rounded-card border border-graticule border-l-2 border-l-deep bg-deep/6 p-5 ${highlightRing}`}
       >
+        <UnitImage unitId={unit.id} />
         <h3 className="font-serif text-[1.1875rem]/[1.35] font-semibold text-deep">{unit.title}</h3>
         <p className="text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
       </article>
@@ -106,6 +122,7 @@ export default function ContentUnit({
             {String(index).padStart(2, "0")}
           </span>
         ) : null}
+        <UnitImage unitId={unit.id} />
         <h3 className="pr-8 font-serif text-[1.0625rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
         <p className="mt-1.5 text-[0.9375rem]/[1.6] text-ink">{unit.body}</p>
       </article>
@@ -119,6 +136,7 @@ export default function ContentUnit({
         data-highlighted={isHighlighted}
         className={`space-y-2 rounded-card border border-lowland/30 bg-lowland/8 p-5 ${highlightRing}`}
       >
+        <UnitImage unitId={unit.id} />
         <span className="block font-mono text-[0.6875rem]/[1.2] font-medium uppercase tracking-[0.14em] text-lowland">KEY TAKEAWAY</span>
         <h3 className="font-serif text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
         <p className="text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
@@ -136,6 +154,7 @@ export default function ContentUnit({
       data-highlighted={isHighlighted}
       className={`space-y-3 rounded-card border border-graticule border-l-2 bg-surface p-5 transition-colors duration-150 ${accentBorder} ${exampleFill} ${highlightRing}`}
     >
+      <UnitImage unitId={unit.id} />
       {showBadge && label ? (
         <span className={`font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] ${badgeAccent}`}>{label}</span>
       ) : null}
