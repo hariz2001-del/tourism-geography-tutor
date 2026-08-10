@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { contentImages } from "@/lib/course-brain/content-images";
+import type { SectionKind } from "@/lib/course-brain/group-units";
 import type { PublishedContentUnit } from "@/lib/course-brain/types";
 
 const CONTENT_TYPE_LABELS: Record<string, string> = {
@@ -54,11 +55,13 @@ export default function ContentUnit({
   variant,
   index,
   showBadge,
+  kind,
 }: {
   unit: PublishedContentUnit;
   variant: Variant;
   index?: number;
   showBadge?: boolean;
+  kind?: SectionKind;
 }) {
   const label = CONTENT_TYPE_LABELS[unit.contentType];
   const badgeAccent = BADGE_ACCENT[unit.contentType] ?? "text-ink-muted";
@@ -88,9 +91,9 @@ export default function ContentUnit({
       <article
         id={anchorId}
         data-highlighted={isHighlighted}
-        className={`space-y-2 border-l-2 border-l-meridian pb-2 pl-5 ${highlightRing}`}
+        className={`scroll-mt-8 space-y-2 border-l-2 border-l-meridian pb-2 pl-5 ${highlightRing}`}
       >
-        <h3 className="font-serif text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
+        <h3 className="font-display text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
         <p className="max-w-[62ch] text-[1.25rem]/[1.55] text-ink">{unit.body}</p>
       </article>
     );
@@ -101,21 +104,22 @@ export default function ContentUnit({
       <article
         id={anchorId}
         data-highlighted={isHighlighted}
-        className={`rounded-card border border-graticule border-l-2 border-l-deep bg-deep/6 p-5 ${highlightRing}`}
+        className={`scroll-mt-8 rounded-card border border-graticule border-l-2 border-l-deep bg-deep/6 p-5 ${highlightRing}`}
       >
         <UnitImage unitId={unit.id} />
-        <h3 className="font-serif text-[1.1875rem]/[1.35] font-semibold text-deep">{unit.title}</h3>
+        <h3 className="font-display text-[1.1875rem]/[1.35] font-semibold text-deep">{unit.title}</h3>
         <p className="text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
       </article>
     );
   }
 
   if (variant === "entry") {
+    const exampleAccent = kind === "example" ? "border-l-2 border-l-relief" : "";
     return (
       <article
         id={anchorId}
         data-highlighted={isHighlighted}
-        className={`relative flex h-full flex-col rounded-card border border-graticule bg-surface px-4 pt-4 pb-3.5 transition-colors duration-150 hover:border-meridian/50 ${highlightRing}`}
+        className={`relative flex h-full flex-col scroll-mt-8 rounded-card border border-graticule ${exampleAccent} bg-surface px-4 pt-4 pb-3.5 transition-colors duration-150 hover:border-meridian/50 ${highlightRing}`}
       >
         {index !== undefined ? (
           <span aria-hidden="true" className="absolute right-3 top-3 font-mono text-[0.8125rem]/[1.5] tabular-nums text-ink-muted">
@@ -123,7 +127,7 @@ export default function ContentUnit({
           </span>
         ) : null}
         <UnitImage unitId={unit.id} />
-        <h3 className="pr-8 font-serif text-[1.0625rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
+        <h3 className="pr-8 font-display text-[1.0625rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
         <p className="mt-1.5 text-[0.9375rem]/[1.6] text-ink">{unit.body}</p>
       </article>
     );
@@ -134,31 +138,33 @@ export default function ContentUnit({
       <article
         id={anchorId}
         data-highlighted={isHighlighted}
-        className={`space-y-2 rounded-card border border-lowland/30 bg-lowland/8 p-5 ${highlightRing}`}
+        className={`scroll-mt-8 space-y-2 rounded-card border border-lowland/30 bg-lowland/8 p-5 ${highlightRing}`}
       >
         <UnitImage unitId={unit.id} />
-        <span className="block font-mono text-[0.6875rem]/[1.2] font-medium uppercase tracking-[0.14em] text-lowland">KEY TAKEAWAY</span>
-        <h3 className="font-serif text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
+        {showBadge ? (
+          <span className="block font-mono text-[0.6875rem]/[1.2] font-medium uppercase tracking-[0.14em] text-lowland">KEY TAKEAWAY</span>
+        ) : null}
+        <h3 className="font-display text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
         <p className="text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
       </article>
     );
   }
 
   // variant === "stack" or "note"
-  const kind = stackKindOf(variant, unit.contentType);
-  const accentBorder = STACK_ACCENT_BORDER[kind];
-  const exampleFill = kind === "example" ? "bg-relief/5" : "";
+  const stackKind = stackKindOf(variant, unit.contentType);
+  const accentBorder = STACK_ACCENT_BORDER[stackKind];
+  const surfaceFill = stackKind === "example" ? "bg-relief/5" : "bg-surface";
   return (
     <article
       id={anchorId}
       data-highlighted={isHighlighted}
-      className={`space-y-3 rounded-card border border-graticule border-l-2 bg-surface p-5 transition-colors duration-150 ${accentBorder} ${exampleFill} ${highlightRing}`}
+      className={`scroll-mt-8 space-y-3 rounded-card border border-graticule border-l-2 p-5 transition-colors duration-150 ${accentBorder} ${surfaceFill} ${highlightRing}`}
     >
       <UnitImage unitId={unit.id} />
       {showBadge && label ? (
         <span className={`font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] ${badgeAccent}`}>{label}</span>
       ) : null}
-      <h3 className="font-serif text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
+      <h3 className="font-display text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
       <p className="max-w-[68ch] text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
     </article>
   );

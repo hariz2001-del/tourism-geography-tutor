@@ -14,6 +14,12 @@ type Props = {
   topicTitle: string;
 };
 
+// Thrown only when the API responded but the response itself carries an
+// error (non-ok status, or a malformed body). Its `.message` is safe to show
+// to a user. Any other thrown error (network failure, JSON parse failure,
+// etc.) is not an ApiError and always falls back to a friendly string.
+class TutorApiError extends Error {}
+
 export default function TutorPanel({ topicTitle }: Props) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState<TutorResponse | null>(null);
@@ -34,11 +40,11 @@ export default function TutorPanel({ topicTitle }: Props) {
       });
       const body = await response.json() as { data?: TutorResponse; error?: string };
       if (!response.ok || !body.data) {
-        throw new Error(body.error ?? "The tutor could not answer right now.");
+        throw new TutorApiError(body.error ?? "The tutor could not answer right now.");
       }
       setAnswer(body.data);
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "The tutor could not answer right now.");
+      setError(caught instanceof TutorApiError ? caught.message : "The tutor could not answer right now.");
     } finally {
       setIsLoading(false);
     }
@@ -59,9 +65,12 @@ export default function TutorPanel({ topicTitle }: Props) {
       {answer ? (
         <div className="mt-5 space-y-3" role="status" aria-live="polite">
           {answer.kind === "ai_grounded" ? (
-            <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-ink-muted">AI-generated from course material — verify against the source below</p>
+            <p className="font-mono text-[0.8125rem]/[1.5] font-medium uppercase tracking-[0.14em] text-relief">AI-generated from course material — verify against the source below</p>
           ) : null}
-          <p className="text-[1.0625rem]/[1.7] text-ink">{answer.text}</p>
+          {answer.kind === "out_of_scope" ? (
+            <p className="font-mono text-[0.6875rem]/[1.2] font-medium uppercase tracking-[0.14em] text-ink-muted">Not in course material</p>
+          ) : null}
+          <p className={`text-[1.0625rem]/[1.7] ${answer.kind === "out_of_scope" ? "text-ink-muted" : "text-ink"}`}>{answer.text}</p>
           {answer.citations.map((citation) => <CitationCard key={`${citation.sourceFile}-${citation.pageOrSlide}`} citation={citation} />)}
         </div>
       ) : null}

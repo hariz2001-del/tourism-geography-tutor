@@ -9,6 +9,9 @@ describe("TopicList", () => {
       { id: "topic-2", name: "Second topic", summary: null, displayOrder: 2 },
     ]} />);
 
-    expect(screen.getByRole("link", { name: "Second topic" })).toHaveAttribute("href", "/chapters/CH1?topic=topic-2");
+    // The list lives inside a <details> that is closed by default on small
+    // viewports (see topic-list.tsx); { hidden: true } finds it regardless
+    // of open/closed state, matching real behavior verified via CSS at `lg:`.
+    expect(screen.getByRole("link", { name: "Second topic", hidden: true })).toHaveAttribute("href", "/chapters/CH1?topic=topic-2");
   });
 });

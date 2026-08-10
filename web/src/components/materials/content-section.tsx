@@ -28,19 +28,15 @@ export default function ContentSection({
   showLabel: boolean;
   isFirst: boolean;
 }) {
-  const labelId = `${section.id}-label`;
   const hasHeader = showLabel && section.label !== null;
   const dividerClass = isFirst ? "" : "border-t border-graticule pt-8";
 
   return (
-    <section
-      className={dividerClass}
-      aria-labelledby={hasHeader ? labelId : undefined}
-    >
+    <section className={dividerClass}>
       {hasHeader ? (
         <div className="mb-3 flex items-center gap-2.5">
           <span aria-hidden="true" className={`h-px w-6 ${HEADER_RULE[section.kind]}`} />
-          <h2 id={labelId} className={`font-mono text-[0.6875rem]/[1.2] font-medium uppercase tracking-[0.14em] ${HEADER_ACCENT[section.kind]}`}>
+          <h2 className={`font-mono text-[0.6875rem]/[1.2] font-medium uppercase tracking-[0.14em] ${HEADER_ACCENT[section.kind]}`}>
             {section.label}
           </h2>
         </div>
@@ -73,13 +69,19 @@ function renderBody(section: ContentSectionModel) {
     return (
       <div className={`grid gap-3 sm:grid-cols-2 ${section.columns === 3 ? "xl:grid-cols-3" : ""}`}>
         {section.units.map((unit, i) => (
-          <ContentUnit key={unit.id} unit={unit} variant="entry" index={i + 1} />
+          <ContentUnit key={unit.id} unit={unit} variant="entry" index={i + 1} kind={section.kind} />
         ))}
       </div>
     );
   }
 
   // layout === "stack"
+  // bucket() groups a run by kind, so "takeaway" and "note" stacks are always
+  // internally uniform — the badge would repeat the section label and is
+  // suppressed. An "overview" stack can legitimately mix content_types
+  // (definition + explanation), so keep the badge there when they differ.
+  const allSameType = section.units.every((u) => u.contentType === section.units[0].contentType);
+  const showBadge = section.kind === "overview" && !allSameType;
   return (
     <div className="space-y-3">
       {section.units.map((unit) => (
@@ -87,7 +89,7 @@ function renderBody(section: ContentSectionModel) {
           key={unit.id}
           unit={unit}
           variant={section.kind === "takeaway" ? "takeaway" : section.kind === "note" ? "note" : "stack"}
-          showBadge
+          showBadge={showBadge}
         />
       ))}
     </div>

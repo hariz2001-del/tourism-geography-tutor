@@ -23,7 +23,10 @@ async function loadChapter(chapterCode: string, selectedTopicId?: string): Promi
 export default async function ChapterPage({ params, searchParams }: { params: Promise<{ chapterCode: string }>; searchParams: Promise<{ topic?: string }> }) {
   const [{ chapterCode }, { topic: selectedTopicId }] = await Promise.all([params, searchParams]);
   const chapter = await loadChapter(chapterCode, selectedTopicId);
-  if (!chapter) return <EmptyState chapterCode={chapterCode} />;
+  if (!chapter) {
+    const chapters = await createServerCourseBrainRepository().listChapters();
+    return <EmptyState chapterCode={chapterCode} chapters={chapters} />;
+  }
   const diagram = topicDiagrams[chapter.topic.id];
   const sections = buildSections(chapter.units);
   const showLabels = shouldShowLabels(sections);
@@ -35,7 +38,6 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
         <div className="space-y-3">
           <p className="font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-ink-muted">{chapterCode}</p>
           <h1 className="font-display text-[2rem] font-semibold leading-[1.15] tracking-[-0.015em] text-ink-strong md:text-[2.5rem]">{chapter.topic.name}</h1>
-          {chapter.topic.summary ? <p className="max-w-[62ch] text-[1.0625rem]/[1.7] text-ink-muted">{chapter.topic.summary}</p> : null}
         </div>
         {diagram ? <TopicDiagramFigure diagram={diagram} /> : null}
         {sections.length
@@ -50,10 +52,13 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
   </main>;
 }
 
-function EmptyState({ chapterCode }: { chapterCode: string }) {
-  return <main className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-4 p-6">
-    <h1 className="font-display text-[2rem] font-semibold leading-[1.15] tracking-[-0.015em] text-ink-strong md:text-[2.5rem]">{chapterCode} materials</h1>
-    <p className="text-lg text-ink">No approved Course Brain records are available for this chapter yet.</p>
-    <p className="text-ink-muted">Reviewed material will appear here after it has been imported and published with source citations.</p>
+function EmptyState({ chapterCode, chapters }: { chapterCode: string; chapters: Chapter[] }) {
+  return <main className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-6 p-6">
+    <ChapterNav chapters={chapters} />
+    <div className="flex flex-col gap-4">
+      <h1 className="font-display text-[2rem] font-semibold leading-[1.15] tracking-[-0.015em] text-ink-strong md:text-[2.5rem]">{chapterCode} materials</h1>
+      <p className="text-lg text-ink">No approved Course Brain records are available for this chapter yet.</p>
+      <p className="text-ink-muted">Reviewed material will appear here after it has been imported and published with source citations.</p>
+    </div>
   </main>;
 }

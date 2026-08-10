@@ -4,7 +4,7 @@ export default function CitationCard({ citation }: { citation: Citation }) {
   const body = (
     <>
       <p className="uppercase tracking-[0.14em] text-meridian">Source</p>
-      <p>{citation.sourceFile}</p>
+      <p className="underline decoration-graticule underline-offset-2">{citation.sourceFile}</p>
       <p>
         {citation.chapterLabel}, Page/slide {citation.pageOrSlide}
       </p>
