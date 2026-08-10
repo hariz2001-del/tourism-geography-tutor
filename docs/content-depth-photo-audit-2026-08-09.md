@@ -450,3 +450,94 @@ All four units (`ec537a47` Domestic, `05319d3a` International, `c020c1b6` Inboun
 - **p1** — title slide ("TOURISM GEOGRAPHY"), already used for the chapter title.
 - **p2, p10, p12, p16, p24** — section-divider slides carrying no content. Each has a genuine but generic banner photo: p2 a **close-up of a laser-engraved wooden map of Europe** with country names (~780×560 px, attractive, could serve as a topic-level image for `485bee15` if one is wanted); p12 **hiking boots on a boardwalk**; p16 a **sandstone vaulted colonnade / caravanserai interior**; p24 the "FORMS OF TOURISM" three-column contents slide (no photo). **All low priority.**
 - **p20, p21, p22, p23, p25, p26, p32** — content verified complete against their units (p20/p21/p22/p23 in the 2026-08-09 pass, p25/p26/p32 re-verified this pass).
+
+---
+
+## Chapter 3 — Geographical Time Zone (`chapter-3.pdf`)
+
+Much shorter deck (11 pages, 2 topics, 11 units total) and a much cleaner one — no
+merged entities, no structural gaps (no heading promises content the deck never
+delivers), and the two known source typos/errors on p2 ("nine planet[s]"; ocean names
+"Hindi"/"Artic"; the Equator-diameter "north to east" wording) were **already** found,
+flagged in `docs/checklist.md`, and handled correctly (omitted/corrected with a
+documented rationale, not silently reproduced or silently miscorrected) in the
+2026-08-09 pass — re-verified here, nothing further to do on those three items.
+Pixel dimensions below are the **native embedded-image size** (read directly from
+each JPEG/image XObject in the PDF, not a visual estimate), which is more precise
+than the "as rendered" estimates used in the Ch1/2/4 sections above. Every page in
+the deck repeats one 1287×12 decorative gradient header strip — noted once here,
+skipped everywhere below, not a photo opportunity anywhere it appears.
+
+### Topic: Earth systems and global divisions (`171860d9`) — page 2
+
+- **p2 — `3c779620` "Earth's position and habitability", `199a1e35` "Hydrosphere", `9c311f4e` "Lithosphere", `9778dbb4` "Biosphere", `59312e55` "The Equator".** All five units re-checked word-by-word against p2. **Every one matches its source clause, including the two intentional, already-documented departures** (the false "nine planet[s]" claim omitted; "Hindi"/"Artic" spelled as "Indian"/"Arctic"; the Equator's "north to east" rendered as "north to south"). **No shallowness. Nothing to do.**
+- **No photo on p2** — pure text slide, no image (confirmed both visually and against the embedded-image inventory: p2 has only the repeated decorative header strip).
+
+### Topic: Latitude and longitude (`a457ad66`) — pages 3, 4, 5, 6, 7, 8, 9, 10, 11
+
+- **p3 — `ab312ce7` "Latitude parallels and principal lines".** Body captures both source bullets (parallels; the five named lines — Arctic Circle, Tropic of Cancer, Equator, Tropic of Capricorn, Antarctic Circle) in full. **Complete.**
+  - **PHOTO OPPORTUNITY (p3, → `ab312ce7`), native 550×384 px.** A labelled globe diagram (credited "www.visualdictionaryonline.com") showing the Earth with **North Pole, Arctic Circle, Northern Hemisphere, Tropic of Cancer, Equator, Southern Hemisphere, Tropic of Capricorn, Antarctic Circle, South Pole** all named directly on the sphere. This is a closer, more literal match for the unit's text than the topic-level `ch3-latitude-longitude-comparison.png` already in `diagrams.ts` (that one shows the north/south sign convention; this one names the actual five lines the unit lists). **Confidence: genuine diagram, high.**
+- **p4 — `04c61a82` "Longitude".** Body captures all five source bullets (meridian lines; north-south direction; equal length, 15° segments; 15° = 1 hour; Greenwich Meridian in England as the reference). **Complete.**
+  - **PHOTO OPPORTUNITY (p4, → `04c61a82`), native 320×312 px.** A companion globe diagram showing longitude lines converging at the poles, labelled "180 degrees of west longitude" / "180 degrees of east longitude" and degree markings around the equator. **Confidence: genuine diagram, high.** Pairs naturally with p3's — extracting both gives the Latitude and Longitude units matching illustrations.
+- **p5 — the Latitude/Longitude sign-convention comparison chart.** Already `diagrams.ts` → `ch3-latitude-longitude-comparison.png` (native 572×312 px in the source, `FlateDecode`, not a JPEG — consistent with it being a rendered chart rather than a photo). **Checked, nothing to do.**
+- **p6 — `2aa381ff` "Greenwich Mean Time as a reference time".**
+  - **Source:** "Greenwich Mean Time (GMT) is the mean solar time at the Royal Observatory in Greenwich, London. Greenwich Mean Time is international time, the basis of the world time clock. **It defines date and time and the exact time.**"
+  - **SHALLOW (minor):** the closing clause — that GMT "**defines date and time and the exact time**" — is dropped; the body keeps "the basis of...world timekeeping" but loses the more specific "defines date and time" framing.
+  - **PHOTO OPPORTUNITY (p6, → `2aa381ff`), native 220×262 px.** A real photograph of the **"Royal Observatory Greenwich" clock and plaque** mounted on a brick wall — the actual physical clock the unit's text refers to. **Confidence: genuine photo, high; entity match: exact.**
+- **p7/p8 — `6fd79ae0` "The Prime Meridian as a tourist attraction" (cited to p7).** No body text on either slide — the unit's description (visitors straddling the meridian line, one foot in each hemisphere) is a faithful, well-grounded synthesis of what the photos actually show, not an invention. **No shallowness — but this is the best photo set in the chapter, currently completely unused:**
+  - **PHOTO OPPORTUNITY 1 (p7, → `6fd79ae0`), native 500×375 px.** A woman posing at the stainless-steel **Prime Meridian marker sculpture** at the Royal Observatory, Greenwich (credited "www.shutterstock.com – 226636570"). **Confidence: genuine (stock) photo, high.**
+  - **PHOTO OPPORTUNITY 2 (p7, → `6fd79ae0`), native 300×470 px — the strongest single image in the chapter.** A first-person photo of two feet in sneakers **straddling the physical Prime Meridian line** embedded in the pavement, with brass plaques on either side giving real longitude/city labels: **"Bogota 74°05' W," "Quito 78°39' W"** on the west side and **"Singapore 103°...," "36°50' E," "106°45' E"** on the east side. A literal, unambiguous illustration of "one foot in the Eastern Hemisphere, one in the Western." **Confidence: genuine photo, high.**
+  - **PHOTO OPPORTUNITY 3 (p7, low priority), native 262×192 px.** A smaller "alamy stock photo"-credited image of a compass/sundial marker in a paved plaza — likely a different meridian-line installation nearby. Genuine but redundant next to photos 1–2. **Skip unless a second image is wanted.**
+  - **PHOTO OPPORTUNITY 4 (p8, → `6fd79ae0`), native 367×388 px.** Continuation shot: the same steel meridian sculpture from a different angle, with the meridian line running down a cobblestone path toward a brick gatehouse. **Confidence: genuine photo, high.**
+  - **PHOTO OPPORTUNITY 5 (p8, → `6fd79ae0`), native 211×239 px.** A closer shot of the pavement plaques, this time showing **"Anchorage," "Dublin 6°15' W," "Greenwich 00°00' W"**. Good alternative or second image to photo 2. **Confidence: genuine photo, high.**
+- **p9 — the Greenwich Meridian graticule map.** No unit currently cites p9. It's a black-and-white equirectangular world map with the Prime Meridian and Equator both drawn and labelled, gridlines every 15°. It doesn't add any fact beyond what `04c61a82` "Longitude" and `59312e55` "The Equator" already state — **not a missing-content gap**, just an uncited reinforcing map.
+  - **PHOTO OPPORTUNITY (p9, low priority), native 804×535 px.** The graticule map itself, `FlateDecode` (a rendered chart, not a photo). Could serve either the Longitude unit or as a second topic-level diagram if one is wanted, but photos 1–5 above are higher-value picks for this topic. A second, smaller embedded image (native 480×238 px) was also detected on this page in the PDF's resource table but wasn't distinguishable as a separate visible element in the rendered page — low priority either way, not investigated further.
+- **p10 — `a6943945` "Time zones and the International Date Line".** No body text on the slide — the unit's description (standard time zones radiating from Greenwich in hourly steps; the International Date Line near 180°; the Sunday/Monday boundary) matches the map's content exactly. **No shallowness — but this is the highest-value missing diagram in the chapter:**
+  - **PHOTO OPPORTUNITY (p10, → `a6943945`), native 839×495 px.** The **"TIME ZONE" world map** — a full-colour equirectangular map with a row of 24 clock faces along the top (Noon to Midnight), colour-banded time-zone strips, the **Greenwich Meridian** and **International Date Line** both explicitly labelled, and the **"MONDAY / SUNDAY"** boundary marked exactly where the unit's text describes it. This is the single figure that would make the chapter's most abstract unit concrete. **Confidence: genuine diagram, high; directly and completely matches the unit's text.**
+- **p11 — `3922aa2c` "Relating longitude to time differences".**
+  - **Source (4 bullets):** "Different location varies different time. 15 degrees difference in meridian line differs to 1 hour differences. **Each degree is divided into minutes and minutes into seconds** [bolded in the source]. The Earth takes 24 hours to complete one rotation or to cover 360° of longitudes. This means that the Earth covers 15° of longitudes every hour. One degree of longitude takes 4 minutes **(1 hour = 60 minutes, divided by 15° per hour = 4 minutes per longitude)**."
+  - **Body now:** "Earth rotates through 360° of longitude in 24 hours, equivalent to 15° per hour and 4 minutes per degree."
+  - **SHALLOW:** the body keeps only the final derived numbers. Two things the slide treats as important enough to bold are missing entirely: **"each degree is divided into minutes and minutes into seconds"** (the arcminute/arcsecond precision concept — a distinct fact, not just phrasing) and **the worked arithmetic itself** ("1 hour = 60 minutes ÷ 15° per hour = 4 minutes per longitude") that shows *how* the 4-minutes figure is derived rather than just stating it. The opening framing line ("different location varies different time") is also dropped but is low-value filler.
+  - **No photo on p11** — pure text slide (confirmed against the embedded-image inventory: only the repeated decorative header strip is present).
+
+### Chapter 3 pages checked with nothing to do
+- **p1** — title slide ("GEOGRAPHICAL TIME ZONE") with a genuine, detailed **"WORLD STANDARD TIME ZONES"** reference map (native 800×426 px, credited mapsofworld.com, showing real UTC offsets including half/quarter-hour zones like +5:30, +5:45, +3:30). Richer in geographic detail than p10's map but a weaker match for any single unit's text (no International Date Line callout) — **low priority**; p10's map above is the better pick if only one time-zone image is wanted for the topic.
+- **p5** — already covered by the existing `ch3-latitude-longitude-comparison.png` topic diagram.
+
+---
+
+## Audit complete — all 4 chapters covered
+
+Chapters 1, 2, 3, and 4 have all now been read page-by-page against their live
+content units. Nothing below this line is a new finding — this is a wrap-up index for
+whoever does the build/fix pass next.
+
+**Scale of what's open, roughly:**
+- Shallow-content findings needing a `content_units.body` rewrite: several per
+  chapter (worst offenders: Chapter 1 p14 "Tourist destinations" and p29 "Business
+  and professional tourism," each missing two whole source bullets; Chapter 3 p11
+  "Relating longitude to time differences," missing a bolded-in-source concept and
+  the worked arithmetic).
+- One citation correction: Chapter 2 unit `e6f73628` "Tundra climate" is cited to
+  page 21, content is actually on page 22.
+- Missing-content tables with no content unit at all: Chapter 4 p18 (largest
+  deserts), p19 (continental landmasses), p20 (sea/ocean ranking) — these need new
+  units created, not existing ones edited.
+- Structural gaps to flag to the client, not fix: Chapter 4's "valley" (p18 heading)
+  and "beach" (p19 heading) — the deck promises content under these headings and
+  never delivers it.
+- Photo opportunities identified: roughly 40–45 across all four chapters, ranging
+  from single highest-value pages (Chapter 4 p24's four captioned photos; Chapter 3
+  p10's time-zone map; Chapter 3 p7's Prime-Meridian photo set) down to low-priority
+  decorative-but-genuine images explicitly marked "skip" above.
+
+**Recommended extraction order for the build pass** (highest-value, lowest-ambiguity
+first): Chapter 4 p24 (four captioned photos, unambiguous unit matches) → Chapter 3
+p10 (single diagram, completes the chapter's most abstract unit) → Chapter 3 p6/p7/p8
+(Prime Meridian photo set) → Chapter 1's named-landmark photos (Plaza de España,
+Tower Bridge, Galata Tower, KL skyline, Hagia Sophia — all high-confidence, specific
+entities) → the remaining Chapter 2/4 photo opportunities → the harder-to-extract
+`/Indexed`-colorspace diagrams if any remain.
+
+See `docs/handoff.md` for what to do next and the standing workflow this project
+follows.

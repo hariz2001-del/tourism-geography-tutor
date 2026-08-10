@@ -20,15 +20,14 @@ from-scratch build — the app is live and working; this pass is about making th
 in each content unit match the full depth of its source slide, and adding real photos
 extracted from the slides where they add value.
 
-**Status of the audit itself:** `docs/content-depth-photo-audit-2026-08-09.md` is the
-working document. As of this doc's last update:
-- Chapter 2 (`chapter-2.pdf`) — audited, complete.
-- Chapter 4 (`chapter-4.pdf`) — audited, complete (all 27 pages).
-- Chapter 1 (`chapter-1.pdf` / `chapter-1-candidate-a.pdf`) — audited, complete.
-- Chapter 3 (`chapter-3.pdf`) — **not yet audited.** This is the only remaining gap in
-  the audit itself. See "Next step" below.
+**Status of the audit itself: DONE, all 4 chapters.**
+`docs/content-depth-photo-audit-2026-08-09.md` is the finished audit document —
+Chapters 1, 2, 3, and 4 have all been read page-by-page against the live database and
+have full write-ups. Its final section ("Audit complete — all 4 chapters covered")
+summarizes the scale of what's open and a recommended extraction order. There is no
+remaining audit work — the next step is the build/fix pass, not more auditing.
 
-**Status of the fix/build pass:** not started at all. The audit file so far is
+**Status of the fix/build pass: not started at all.** The audit file is
 findings-only — no DB writes, no image extraction, no `content-images.ts` entries have
 happened yet for this pass. Every "SHALLOW" / "PHOTO OPPORTUNITY" / "MISSING CONTENT"
 item in the audit file is still open.
@@ -43,35 +42,34 @@ dispatching a big subagent for it.
 
 ## Next step
 
-1. Audit Chapter 3 (`data/course-materials/chapter-3.pdf`, 11 pages, ~650KB — small
-   enough to `Read` as a whole file directly, no need to split it). Follow the exact
-   method and write-up format already used for Chapters 1/2/4 in
-   `docs/content-depth-photo-audit-2026-08-09.md` — read that file first for the
-   format (per-page findings: body-vs-source diff, SHALLOW/MISSING/STRUCTURAL GAP
-   callouts, PHOTO OPPORTUNITY callouts with position/size/confidence). Also see
-   `.claude/skills/course-content/SKILL.md`'s "When asked to audit for oversimplification"
-   section.
-2. Append the Chapter 3 section to `docs/content-depth-photo-audit-2026-08-09.md`
-   (don't rewrite the existing Chapter 1/2/4 sections). Commit after.
-3. Once all 4 chapters are audited, do the build/fix pass:
-   - Enrich shallow `content_units.body` rows with the missing source detail found.
-   - Extract the identified real photos from the PDFs (technique in the course-content
-     skill) and populate `web/src/lib/course-brain/content-images.ts` (currently an
-     empty scaffold — `Record<contentUnitId, ContentImage>`).
-   - Fix the one known citation error: content unit `e6f73628` ("Tundra climate") is
-     cited to page 21 but its content is actually on page 22 of `chapter-2.pdf`.
-   - Decide what to do about the "MISSING CONTENT" tables the audit found with no
-     corresponding content unit (e.g. Chapter 4 p18 "largest deserts" table, p19
-     continental-landmasses table, p20 sea/ocean ranking table) — these need new
-     content units created, not existing ones edited.
-   - Do NOT invent content for the "STRUCTURAL GAP" items (e.g. Chapter 4's "valley"
-     and "beach" headings that the source deck never actually delivers content for) —
-     flag those to the client instead, per the course-content skill's source-fidelity
-     rule.
-   - Test, build, deploy, and independently re-verify each fix (don't just trust a
-     subagent's self-report — check the actual rendered result), per the workflow
-     below.
-4. Once the build/fix pass is done, run an independent review pass against the live
+The audit is done. Read `docs/content-depth-photo-audit-2026-08-09.md`'s final
+"Audit complete" section first — it has the recommended extraction order. Then:
+
+1. Extract photos in the recommended order (Chapter 4 p24 first — four captioned,
+   unambiguous photos) and populate
+   `web/src/lib/course-brain/content-images.ts` (currently an empty scaffold —
+   `Record<contentUnitId, ContentImage>`). Technique is in
+   `.claude/skills/course-content/SKILL.md`'s image-extraction section. Do this in
+   chunks (a few pages' worth at a time) and commit after each chunk, same reasoning
+   as the audit itself — don't let one giant uncommitted pass be the only copy of the
+   work.
+2. Enrich shallow `content_units.body` rows with the missing source detail the audit
+   found, chapter by chapter. Follow the DB-write mechanics in the course-content
+   skill (draft → add `source_references` → publish; never delete-then-insert).
+3. Fix the one known citation error: content unit `e6f73628` ("Tundra climate") is
+   cited to page 21 but its content is actually on page 22 of `chapter-2.pdf`.
+4. Decide what to do about the "MISSING CONTENT" tables the audit found with no
+   corresponding content unit (e.g. Chapter 4 p18 "largest deserts" table, p19
+   continental-landmasses table, p20 sea/ocean ranking table) — these need new
+   content units created, not existing ones edited.
+5. Do NOT invent content for the "STRUCTURAL GAP" items (e.g. Chapter 4's "valley"
+   and "beach" headings that the source deck never actually delivers content for) —
+   flag those to the client instead, per the course-content skill's source-fidelity
+   rule.
+6. Test, build, deploy, and independently re-verify each fix (don't just trust a
+   subagent's self-report — check the actual rendered result), per the workflow
+   below.
+7. Once the build/fix pass is done, run an independent review pass against the live
    site before considering this done (see "Standing workflow" below).
 
 ## Standing workflow (established and requested by the project owner)
