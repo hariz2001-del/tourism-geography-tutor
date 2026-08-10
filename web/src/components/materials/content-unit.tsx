@@ -93,6 +93,7 @@ export default function ContentUnit({
         data-highlighted={isHighlighted}
         className={`scroll-mt-8 space-y-2 border-l-2 border-l-meridian pb-2 pl-5 ${highlightRing}`}
       >
+        <UnitImage unitId={unit.id} />
         <h3 className="font-display text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
         <p className="max-w-[62ch] text-[1.25rem]/[1.55] text-ink">{unit.body}</p>
       </article>
