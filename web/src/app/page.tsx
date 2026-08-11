@@ -42,6 +42,12 @@ export default async function Home() {
           >
             Start Chapter 1
           </Link>
+          <Link
+            className="ml-4 inline-flex rounded-card border border-meridian px-5 py-3 font-medium text-meridian transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
+            href="/practice/course"
+          >
+            Full course exam
+          </Link>
         </div>
       </main>
     );
@@ -92,6 +98,10 @@ export default async function Home() {
             ) : (
               <p className="text-ink-muted">No approved material is available for this chapter yet.</p>
             )}
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link className="font-medium text-meridian underline underline-offset-4" href={`/practice/chapter?chapter=${encodeURIComponent(chapter.code)}`}>Chapter mini exam</Link>
+              <Link className="font-medium text-meridian underline underline-offset-4" href="/practice/course">Full course exam</Link>
+            </div>
           </section>
         ))}
       </div>
