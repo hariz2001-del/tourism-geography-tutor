@@ -297,17 +297,47 @@ def apply_rest(records: list[dict[str, Any]], client: Any) -> int:
     return len(prepared)
 
 
+def replace_ch2_rest(records: list[dict[str, Any]], client: Any) -> dict[str, int]:
+    """Atomically replace only CH2 deepseek draft rows through a private RPC.
+
+    Client-side validation runs before this call.  The database function then
+    validates every source/citation before deleting anything, so a bad fixture
+    cannot leave CH2 with an empty or partially replaced bank.
+    """
+    validate(records)
+    if not records or any(record["chapter_code"] != "CH2" for record in records):
+        raise ValueError("The CH2 replacement path accepts CH2 records only.")
+    result = client.request("POST", "rpc/replace_ch2_deepseek_draft_bank", payload={"p_records": records})
+    if not isinstance(result, dict) or not all(isinstance(result.get(key), int) for key in ("deleted", "inserted")):
+        raise RuntimeError("CH2 replacement RPC returned an invalid result.")
+    return {"deleted": result["deleted"], "inserted": result["inserted"]}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("input", type=Path)
     parser.add_argument("--apply", action="store_true")
+    parser.add_argument("--replace-ch2-drafts", action="store_true",
+                        help="Atomically replace only existing CH2 draft/deepseek_draft rows.")
     args = parser.parse_args()
     records = json.loads(args.input.read_text(encoding="utf-8"))
     validate(records)
+    if args.replace_ch2_drafts and not args.apply:
+        raise RuntimeError("--replace-ch2-drafts requires --apply.")
     if not args.apply:
         print(f"Validated {len(records)} draft question(s); no database changes made.")
         return 0
     database_url = os.environ.get("COURSE_BRAIN_DATABASE_URL")
+    if args.replace_ch2_drafts:
+        if database_url:
+            raise RuntimeError("CH2 replacement uses the private Supabase RPC; unset COURSE_BRAIN_DATABASE_URL.")
+        supabase_url = os.environ.get("SUPABASE_URL")
+        service_role_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+        if not supabase_url or not service_role_key:
+            raise RuntimeError("CH2 replacement requires SUPABASE_URL plus SUPABASE_SERVICE_ROLE_KEY.")
+        result = replace_ch2_rest(records, SupabaseRestClient(supabase_url, service_role_key))
+        print(f"Replaced {result['deleted']} CH2 draft question(s) with {result['inserted']} revised draft question(s).")
+        return 0
     if database_url:
         import psycopg
         with psycopg.connect(database_url) as connection:

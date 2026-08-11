@@ -113,3 +113,23 @@ def test_rest_import_rolls_back_created_drafts_after_child_write_failure() -> No
 
     deletes = [call for call in client.calls if call[0] == "DELETE" and call[1] == "quiz_questions"]
     assert deletes == [("DELETE", "quiz_questions", {"id": "eq.question-1"}, None)]
+
+
+def test_ch2_replacement_calls_private_atomic_rpc_after_validation() -> None:
+    bank = json.loads(Path("data/extracted/draft_exam_questions_ch2_bank.json").read_text(encoding="utf-8"))
+
+    class ReplacementClient(FakeRestClient):
+        def request(self, method, table, *, params=None, payload=None, prefer=None):
+            self.calls.append((method, table, params, payload))
+            if table == "rpc/replace_ch2_deepseek_draft_bank":
+                return {"deleted": 80, "inserted": len(payload["p_records"])}
+            raise AssertionError("The replacement path must use one private RPC call.")
+
+    result = module.replace_ch2_rest(bank, ReplacementClient())
+    assert result == {"deleted": 80, "inserted": 75}
+
+
+def test_ch2_replacement_rejects_a_non_ch2_fixture() -> None:
+    bank = records()
+    with pytest.raises(ValueError, match="CH2 records only"):
+        module.replace_ch2_rest(bank, FakeRestClient())
