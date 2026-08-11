@@ -44,7 +44,7 @@ export type QuizQuestion = {
 
 export type ExamQuestionScope =
   | { type: "topic"; id: string }
-  | { type: "chapter"; id: string }
+  | { type: "chapter"; code: string }
   | { type: "course" };
 
 export type ExamQuestion = {

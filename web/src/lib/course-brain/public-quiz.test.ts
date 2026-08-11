@@ -31,12 +31,27 @@ describe("public quiz repository boundary", () => {
       },
     } as never);
 
-    const questions = await repository.getPublicExamQuestionBatch({ type: "course" }, 12);
+    const questions = await repository.getPublicExamQuestionBatch({ type: "course" }, "subjective", 12);
 
     expect(rpcName).toBe("get_public_exam_question_batch");
-    expect(parameters).toEqual({ p_scope_type: "course", p_scope_id: null, p_limit: 12 });
+    expect(parameters).toEqual({ p_scope_type: "course", p_scope_value: null, p_question_type: "subjective", p_limit: 12 });
     expect(questions).toMatchObject([{ questionType: "subjective", maxMarks: 5, options: [] }]);
     expect(JSON.stringify(questions)).not.toMatch(/isCorrect|answerScheme|criteria|explanation/);
+  });
+
+  it("uses a chapter code and an explicit type for independently sized batches", async () => {
+    let parameters: Record<string, unknown> | undefined;
+    const repository = createCourseBrainRepository({
+      from: () => queryBuilder([]),
+      rpc: async (_name: string, args?: Record<string, unknown>) => {
+        parameters = args;
+        return { data: [], error: null };
+      },
+    } as never);
+
+    await repository.getPublicExamQuestionBatch({ type: "chapter", code: "CH3" }, "mcq", 8);
+
+    expect(parameters).toEqual({ p_scope_type: "chapter", p_scope_value: "CH3", p_question_type: "mcq", p_limit: 8 });
   });
 
   it("returns the safe RPC quiz shape without an answer key", async () => {

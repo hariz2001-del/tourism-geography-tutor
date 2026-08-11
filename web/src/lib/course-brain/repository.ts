@@ -112,10 +112,18 @@ export function createCourseBrainRepository(client: SupabaseQueryAdapter) {
       };
     },
 
-    async getPublicExamQuestionBatch(scope: ExamQuestionScope, limit = 10): Promise<ExamQuestion[]> {
-      const parameters = scope.type === "course"
-        ? { p_scope_type: scope.type, p_scope_id: null, p_limit: limit }
-        : { p_scope_type: scope.type, p_scope_id: scope.id, p_limit: limit };
+    async getPublicExamQuestionBatch(
+      scope: ExamQuestionScope,
+      questionType: ExamQuestion["questionType"],
+      limit = 10,
+    ): Promise<ExamQuestion[]> {
+      const scopeValue = scope.type === "course" ? null : scope.type === "chapter" ? scope.code : scope.id;
+      const parameters = {
+        p_scope_type: scope.type,
+        p_scope_value: scopeValue,
+        p_question_type: questionType,
+        p_limit: limit,
+      };
       const result = await client.rpc("get_public_exam_question_batch", parameters);
       return rows(requireData(result)).map((row) => {
         const questionType = String(row.question_type);

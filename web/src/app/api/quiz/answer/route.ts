@@ -1,6 +1,6 @@
 import { quizAnswerRequestSchema } from "@/lib/course-brain/quiz-schema";
 import type { CourseBrainRepository } from "@/lib/course-brain/repository";
-import { createServerCourseBrainRepository } from "@/lib/supabase/server";
+import { createServerOnlyCourseBrainRepository } from "@/lib/supabase/server";
 
 type AnswerRepository = Pick<CourseBrainRepository, "checkApprovedQuizAnswer">;
 
@@ -23,4 +23,4 @@ export function createQuizAnswerRouteHandler(createRepository: () => AnswerRepos
   };
 }
 
-export const POST = createQuizAnswerRouteHandler(createServerCourseBrainRepository);
+export const POST = createQuizAnswerRouteHandler(createServerOnlyCourseBrainRepository);

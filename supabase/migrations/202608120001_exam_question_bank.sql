@@ -32,11 +32,136 @@ create index quiz_marking_criteria_question_id_idx
 
 alter table public.quiz_marking_criteria enable row level security;
 
+-- Rubrics contain answer schemes and must never be readable directly by public
+-- roles. The service-only function below is the sole supported access path.
+revoke all on table public.quiz_marking_criteria from public, anon, authenticated;
+
+-- An approved question is a complete, source-grounded assessment item. This is
+-- deferred because an importer commonly creates the question, options, rubric,
+-- and citations in one transaction.
+create or replace function public.require_complete_approved_exam_question()
+returns trigger
+language plpgsql
+as $$
+declare
+  affected_question_ids uuid[];
+  affected_content_unit_id uuid;
+  affected_question_id uuid;
+  approved_question public.quiz_questions%rowtype;
+  option_count integer;
+  correct_option_count integer;
+  criterion_count integer;
+  criterion_marks integer;
+begin
+  if tg_table_name = 'quiz_questions' then
+    affected_question_ids := array[coalesce(new.id, old.id)];
+  elsif tg_table_name in ('quiz_question_options', 'quiz_marking_criteria') then
+    affected_question_ids := array_remove(array[new.question_id, old.question_id], null);
+  else
+    if tg_table_name = 'source_references' then
+      affected_content_unit_id := coalesce(new.content_unit_id, old.content_unit_id);
+    else
+      affected_content_unit_id := coalesce(new.id, old.id);
+    end if;
+    select array_agg(distinct question_id)
+      into affected_question_ids
+      from (
+        select quiz.id as question_id
+          from public.quiz_questions quiz
+         where quiz.source_content_unit_id = affected_content_unit_id
+        union
+        select criterion.question_id
+          from public.quiz_marking_criteria criterion
+         where criterion.source_content_unit_id = affected_content_unit_id
+      ) affected_questions;
+  end if;
+
+  foreach affected_question_id in array coalesce(affected_question_ids, '{}'::uuid[])
+  loop
+    select * into approved_question
+      from public.quiz_questions
+     where id = affected_question_id
+       and status = 'approved';
+    if not found then
+      continue;
+    end if;
+
+    if approved_question.source_content_unit_id is null
+       or not exists (
+         select 1
+           from public.content_units content_unit
+           join public.source_references source_ref on source_ref.content_unit_id = content_unit.id
+          where content_unit.id = approved_question.source_content_unit_id
+            and content_unit.status = 'published'
+       ) then
+      raise exception 'Approved question % requires a published, cited question source', approved_question.id;
+    end if;
+
+    select count(*), count(*) filter (where is_correct)
+      into option_count, correct_option_count
+      from public.quiz_question_options
+     where question_id = approved_question.id;
+    select count(*), coalesce(sum(marks), 0)
+      into criterion_count, criterion_marks
+      from public.quiz_marking_criteria
+     where question_id = approved_question.id;
+
+    if approved_question.question_type = 'mcq' then
+      if option_count < 2 or correct_option_count <> 1 or criterion_count <> 0 then
+        raise exception 'Approved MCQ % requires at least two options, exactly one correct option, and no marking criteria', approved_question.id;
+      end if;
+    elsif option_count <> 0 or criterion_count < 1 or criterion_marks <> approved_question.max_marks then
+      raise exception 'Approved subjective question % requires no options and criteria totalling max_marks', approved_question.id;
+    elsif exists (
+      select 1
+        from public.quiz_marking_criteria criterion
+        left join public.content_units content_unit
+          on content_unit.id = criterion.source_content_unit_id
+         and content_unit.status = 'published'
+        left join public.source_references source_ref on source_ref.content_unit_id = content_unit.id
+       where criterion.question_id = approved_question.id
+         and (content_unit.id is null or source_ref.id is null)
+    ) then
+      raise exception 'Approved subjective question % requires every criterion source to be published and cited', approved_question.id;
+    end if;
+  end loop;
+  return null;
+end;
+$$;
+
+create constraint trigger approved_exam_question_is_complete
+  after insert or update or delete on public.quiz_questions
+  deferrable initially deferred for each row
+  execute function public.require_complete_approved_exam_question();
+
+create constraint trigger approved_exam_question_options_are_complete
+  after insert or update or delete on public.quiz_question_options
+  deferrable initially deferred for each row
+  execute function public.require_complete_approved_exam_question();
+
+create constraint trigger approved_exam_question_criteria_are_complete
+  after insert or update or delete on public.quiz_marking_criteria
+  deferrable initially deferred for each row
+  execute function public.require_complete_approved_exam_question();
+
+create constraint trigger approved_exam_question_sources_are_complete
+  after insert or update or delete on public.content_units
+  deferrable initially deferred for each row
+  execute function public.require_complete_approved_exam_question();
+
+create constraint trigger approved_exam_question_citations_are_complete
+  after insert or update or delete on public.source_references
+  deferrable initially deferred for each row
+  execute function public.require_complete_approved_exam_question();
+
 -- Delivers approved questions scoped to one topic, one chapter, or the whole
--- course. Course scope has no course table in this MVP, so it requires NULL.
+-- course, of one explicitly requested type. Callers request MCQs and subjective
+-- questions separately, so they can guarantee each count. Chapter scope uses
+-- the stable chapter code, not its internal UUID.
 create or replace function public.get_public_exam_question_batch(
   p_scope_type text,
-  p_scope_id uuid default null,
+  p_scope_value text default null,
+  p_question_type public.quiz_question_type default 'mcq',
   p_limit integer default 10
 )
 returns table (
@@ -85,10 +210,15 @@ as $$
   left join public.quiz_question_options option_row
     on option_row.question_id = quiz.id
   where quiz.status = 'approved'
+    and quiz.question_type = p_question_type
     and (
-      (p_scope_type = 'topic' and quiz.topic_id = p_scope_id)
-      or (p_scope_type = 'chapter' and topic.chapter_id = p_scope_id)
-      or (p_scope_type = 'course' and p_scope_id is null)
+      (p_scope_type = 'topic' and quiz.topic_id::text = p_scope_value)
+      or (p_scope_type = 'chapter' and exists (
+        select 1 from public.chapters chapter
+         where chapter.id = topic.chapter_id
+           and chapter.code = p_scope_value
+      ))
+      or (p_scope_type = 'course' and p_scope_value is null)
     )
   group by quiz.id, source_ref.id
   order by min(quiz.created_at), quiz.id
@@ -145,8 +275,13 @@ as $$
   group by quiz.id;
 $$;
 
-revoke all on function public.get_public_exam_question_batch(text, uuid, integer) from public, anon, authenticated;
-grant execute on function public.get_public_exam_question_batch(text, uuid, integer) to anon, authenticated;
+-- The legacy answer checker exposes answer validation directly to browser roles.
+-- Retain it only for the server-side answer route.
+revoke all on function public.check_public_quiz_answer(uuid, uuid) from anon, authenticated;
+grant execute on function public.check_public_quiz_answer(uuid, uuid) to service_role;
+
+revoke all on function public.get_public_exam_question_batch(text, text, public.quiz_question_type, integer) from public, anon, authenticated;
+grant execute on function public.get_public_exam_question_batch(text, text, public.quiz_question_type, integer) to anon, authenticated;
 
 revoke all on function public.get_subjective_question_marking_context(uuid) from public, anon, authenticated;
 grant execute on function public.get_subjective_question_marking_context(uuid) to service_role;
