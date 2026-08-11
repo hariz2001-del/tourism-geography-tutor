@@ -11,5 +11,6 @@ describe("TopicList", () => {
 
     expect(screen.getByRole("link", { name: "Second topic" })).toHaveAttribute("href", "/chapters/CH1?topic=topic-2");
     expect(screen.getByRole("link", { name: "Second topic" }).closest("details")).toHaveAttribute("open");
+    expect(screen.getByRole("link", { name: "First topic" })).toHaveAttribute("aria-current", "page");
   });
 });

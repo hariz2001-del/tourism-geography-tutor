@@ -24,7 +24,7 @@ export default function TopicList({ chapterCode, topics, selectedTopicId }: { ch
               aria-current={topic.id === selectedTopicId ? "page" : undefined}
               className={
                 topic.id === selectedTopicId
-                  ? "-ml-px block border-l-2 border-l-meridian py-2.5 pl-4 text-[0.9375rem] font-medium text-ink-strong transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
+                  ? "-ml-px block border-l-2 border-l-meridian bg-meridian/12 py-2.5 pl-4 text-[0.9375rem] font-semibold text-ink-strong transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
                   : "-ml-px block border-l-2 border-l-transparent py-2.5 pl-4 text-[0.9375rem] text-ink-muted transition-colors duration-150 hover:border-l-graticule hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
               }
               href={`/chapters/${chapterCode}?topic=${encodeURIComponent(topic.id)}`}

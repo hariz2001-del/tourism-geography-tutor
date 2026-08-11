@@ -18,7 +18,7 @@ export default function CitationCard({ citation }: { citation: Citation }) {
       <a
         href={`/chapters/${citation.chapterCode}?topic=${encodeURIComponent(citation.topicId)}#unit-${citation.contentUnitId}`}
         className="block rounded-card border border-graticule bg-chart p-3 font-mono text-[0.8125rem] text-ink-muted transition-colors duration-150 hover:border-meridian/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
-        aria-label="Go to this source in its topic"
+        aria-label={`Go to this source in its topic: Source ${citation.sourceFile}, ${citation.chapterLabel}, Page/slide ${citation.pageOrSlide}`}
       >
         {body}
       </a>
