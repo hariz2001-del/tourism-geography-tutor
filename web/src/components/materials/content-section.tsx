@@ -40,7 +40,7 @@ export default function ContentSection({
             {section.label}
           </h2>
         </div>
-      ) : null}
+      ) : section.layout !== "lead" ? <h2 className="sr-only">{section.label ?? "Topic overview"}</h2> : null}
       {renderBody(section)}
     </section>
   );
