@@ -39,15 +39,15 @@ forests, p22 tundra/ice-cap, p23 highland), most of Chapter 4 (p2–p21), and mo
 Chapter 1 (p3–p19 topic photos, plus p13's Tower Bridge/Galata Tower and p14's dancer
 photo). See the audit's "Recommended extraction order" for the next chunk.
 
-*DB-write work* (Supabase, `content_units`/`source_references`): started 2026-08-11.
-Done so far: the one known citation fix (Chapter 2 `e6f73628` "Tundra climate," p21→p22),
-and the 3 flagged missing-table units (Chapter 4 "Largest deserts" p18, "Continental
-landmasses" p19, "Largest bodies of water by area" p20) — all published and verified live.
-DB is at 128 published content units. **Not started yet:** the much larger
-body-enrichment pass — several dozen `content_units.body` rows across all 4 chapters
-the audit flagged **SHALLOW** (dropped named examples, numbers, or sub-details their
-source page actually gives). See `docs/checklist.md`'s 2026-08-11 entry for the exact
-scope done vs. open.
+*DB-write work* (Supabase, `content_units`/`source_references`): **done, 2026-08-11.**
+Fixed the one known citation error, added the 3 flagged missing-table units, and then
+fixed every **SHALLOW** finding in the audit — 41 body rewrites across all 4 chapters
+plus a 3-unit split (Deciduous/Evergreen/Mixed forest, the client's originally-flagged
+case) — all published, spot-checked live on the deployed site. DB is at 131 published
+content units, up from 125 at the start of this pass. Two more structural gaps and two
+more source defects were found and flagged (not fixed, per the source-fidelity rule).
+See `docs/checklist.md`'s 2026-08-11 entries for the full list of what changed and
+what's flagged-only. **The only remaining track is photo extraction** — see below.
 
 **Why work is being done directly instead of via subagents:** large parallel subagent
 dispatches (both the audit pass and an earlier design-fix pass) repeatedly hit an
@@ -59,30 +59,26 @@ dispatching a big subagent for it.
 
 ## Next step
 
-Read `docs/content-depth-photo-audit-2026-08-09.md`'s final "Audit complete" section
-for the recommended photo-extraction order. Two tracks remain open, either can be
-picked up next:
+All DB-write work from the audit is done (see above). **The only remaining track is
+photo extraction:**
 
-1. **Photo extraction** — continue down the recommended order into Chapter 2's
-   remaining opportunities (p14/15 tropical, p16/17 dry, p19 forests, p22 tundra/ice-cap,
-   p23 highland), then the bulk of Chapter 4 (p2–p21) and Chapter 1 (p3–p19), populating
+1. Read `docs/content-depth-photo-audit-2026-08-09.md`'s final "Audit complete"
+   section for the recommended order, then continue into Chapter 2's remaining
+   opportunities (p14/15 tropical, p16/17 dry, p19 forests — now with their own
+   Deciduous/Evergreen/Mixed forest units to attach photos to, p22 tundra/ice-cap,
+   p23 highland), then the bulk of Chapter 4 (p2–p21, the richest photo source in the
+   course) and Chapter 1 (p3–p19), populating
    `web/src/lib/course-brain/content-images.ts`. Technique is in
    `.claude/skills/course-content/SKILL.md`'s image-extraction section. Do this in
    chunks and commit after each chunk.
-2. **Body enrichment** — the bulk of remaining DB-write work: several dozen shallow
-   `content_units.body` rows across all 4 chapters (see the audit doc's **SHALLOW**
-   markers for the full list, chapter by chapter). Follow the DB-write mechanics in the
-   course-content skill (draft → add `source_references` → publish; never
-   delete-then-insert). ~~Fix the one known citation error~~ and ~~add the 3 known
-   missing tables~~ — **done 2026-08-11**, see `docs/checklist.md`.
-3. Do NOT invent content for the "STRUCTURAL GAP" items (e.g. Chapter 4's "valley"
-   and "beach" headings that the source deck never actually delivers content for) —
-   flag those to the client instead, per the course-content skill's source-fidelity
-   rule.
-4. Test, build, deploy, and independently re-verify each fix (don't just trust a
-   subagent's self-report — check the actual rendered result), per the workflow
-   below.
-5. Once the build/fix pass is done, run an independent review pass against the live
+2. Do NOT invent content for "STRUCTURAL GAP" items (Chapter 4's "valley" p18 and
+   "beach" p19 headings the deck never delivers content for) — these stay flagged in
+   `docs/checklist.md`, not fixed, per the source-fidelity rule.
+3. Test and independently re-verify each fix live (don't just trust a subagent's
+   self-report), per the workflow below. Content changes are visible immediately
+   (served from Supabase at runtime); photo files need a commit/push to actually
+   reach the deployed site.
+4. Once the build/fix pass is done, run an independent review pass against the live
    site before considering this done (see "Standing workflow" below).
 
 ## Standing workflow (established and requested by the project owner)
