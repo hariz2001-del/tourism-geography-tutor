@@ -42,6 +42,23 @@ export type QuizQuestion = {
   citation: Citation;
 };
 
+export type ExamQuestionScope =
+  | { type: "topic"; id: string }
+  | { type: "chapter"; id: string }
+  | { type: "course" };
+
+export type ExamQuestion = {
+  id: string;
+  topicId: string;
+  sourceContentUnitId: string;
+  questionType: "mcq" | "subjective";
+  question: string;
+  difficulty: "introductory" | "intermediate" | "application";
+  maxMarks: number;
+  options: QuizOption[];
+  citation: Citation;
+};
+
 export type QuizAnswerFeedback = {
   isCorrect: boolean;
   explanation: string;

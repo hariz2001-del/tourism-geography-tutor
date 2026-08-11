@@ -12,6 +12,33 @@ function queryBuilder(rows: unknown[]) {
 }
 
 describe("public quiz repository boundary", () => {
+  it("retrieves an exam batch without answer schemes, marking criteria, or answer keys", async () => {
+    let rpcName = "";
+    let parameters: Record<string, unknown> | undefined;
+    const repository = createCourseBrainRepository({
+      from: () => queryBuilder([]),
+      rpc: async (name: string, args?: Record<string, unknown>) => {
+        rpcName = name;
+        parameters = args;
+        return {
+          data: [{
+            id: "quiz-1", topic_id: "topic-1", source_content_unit_id: "unit-1",
+            question_type: "subjective", question: "Explain place.", difficulty: "application", max_marks: 5,
+            source_file: "reviewed.pdf", chapter_label: "Chapter 1", page_or_slide: 4, options: [],
+          }],
+          error: null,
+        };
+      },
+    } as never);
+
+    const questions = await repository.getPublicExamQuestionBatch({ type: "course" }, 12);
+
+    expect(rpcName).toBe("get_public_exam_question_batch");
+    expect(parameters).toEqual({ p_scope_type: "course", p_scope_id: null, p_limit: 12 });
+    expect(questions).toMatchObject([{ questionType: "subjective", maxMarks: 5, options: [] }]);
+    expect(JSON.stringify(questions)).not.toMatch(/isCorrect|answerScheme|criteria|explanation/);
+  });
+
   it("returns the safe RPC quiz shape without an answer key", async () => {
     const repository = createCourseBrainRepository({
       from: () => queryBuilder([]),

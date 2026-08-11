@@ -1,6 +1,8 @@
 import type {
   Chapter,
   ChapterTopic,
+  ExamQuestion,
+  ExamQuestionScope,
   PublishedContentUnit,
   QuizAnswerFeedback,
   QuizQuestion,
@@ -108,6 +110,31 @@ export function createCourseBrainRepository(client: SupabaseQueryAdapter) {
         options: options.map((option) => ({ id: String(option.id), text: String(option.text) })),
         citation: { sourceFile: String(row.source_file), chapterLabel: String(row.chapter_label), pageOrSlide: Number(row.page_or_slide) },
       };
+    },
+
+    async getPublicExamQuestionBatch(scope: ExamQuestionScope, limit = 10): Promise<ExamQuestion[]> {
+      const parameters = scope.type === "course"
+        ? { p_scope_type: scope.type, p_scope_id: null, p_limit: limit }
+        : { p_scope_type: scope.type, p_scope_id: scope.id, p_limit: limit };
+      const result = await client.rpc("get_public_exam_question_batch", parameters);
+      return rows(requireData(result)).map((row) => {
+        const questionType = String(row.question_type);
+        if (questionType !== "mcq" && questionType !== "subjective") {
+          throw new Error("Course Brain returned an unsupported exam question type.");
+        }
+        const options = Array.isArray(row.options) ? row.options as Record<string, unknown>[] : [];
+        return {
+          id: String(row.id),
+          topicId: String(row.topic_id),
+          sourceContentUnitId: String(row.source_content_unit_id),
+          questionType,
+          question: String(row.question),
+          difficulty: String(row.difficulty) as ExamQuestion["difficulty"],
+          maxMarks: Number(row.max_marks),
+          options: options.map((option) => ({ id: String(option.id), text: String(option.text) })),
+          citation: { sourceFile: String(row.source_file), chapterLabel: String(row.chapter_label), pageOrSlide: Number(row.page_or_slide) },
+        };
+      });
     },
 
     async checkApprovedQuizAnswer(quizId: string, optionId: string): Promise<QuizAnswerFeedback | null> {
