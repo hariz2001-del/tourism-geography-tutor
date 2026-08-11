@@ -27,10 +27,27 @@ have full write-ups. Its final section ("Audit complete — all 4 chapters cover
 summarizes the scale of what's open and a recommended extraction order. There is no
 remaining audit work — the next step is the build/fix pass, not more auditing.
 
-**Status of the fix/build pass: not started at all.** The audit file is
-findings-only — no DB writes, no image extraction, no `content-images.ts` entries have
-happened yet for this pass. Every "SHALLOW" / "PHOTO OPPORTUNITY" / "MISSING CONTENT"
-item in the audit file is still open.
+**Status of the fix/build pass: in progress, on both tracks.**
+
+*Photo extraction* (`web/src/lib/course-brain/content-images.ts`): well underway.
+Populated so far, in the audit's recommended order: Chapter 4 p24 (4 photos), all 5
+Chapter 3 photo/diagram opportunities (p3, p4, p6, p7, p10), Chapter 1's 4 named-landmark
+photos (p13 Plaza de España, p14 KL skyline, p15 travel route, p30 Hagia Sophia), and
+Chapter 2's Middle latitude climate photos (p18 Mediterranean, p20 marine-west-coast +
+NE-US satellite). Still open: the rest of Chapter 2 (p14/15 tropical, p16/17 dry, p19
+forests, p22 tundra/ice-cap, p23 highland), most of Chapter 4 (p2–p21), and most of
+Chapter 1 (p3–p19 topic photos, plus p13's Tower Bridge/Galata Tower and p14's dancer
+photo). See the audit's "Recommended extraction order" for the next chunk.
+
+*DB-write work* (Supabase, `content_units`/`source_references`): started 2026-08-11.
+Done so far: the one known citation fix (Chapter 2 `e6f73628` "Tundra climate," p21→p22),
+and the 3 flagged missing-table units (Chapter 4 "Largest deserts" p18, "Continental
+landmasses" p19, "Largest bodies of water by area" p20) — all published and verified live.
+DB is at 128 published content units. **Not started yet:** the much larger
+body-enrichment pass — several dozen `content_units.body` rows across all 4 chapters
+the audit flagged **SHALLOW** (dropped named examples, numbers, or sub-details their
+source page actually gives). See `docs/checklist.md`'s 2026-08-11 entry for the exact
+scope done vs. open.
 
 **Why work is being done directly instead of via subagents:** large parallel subagent
 dispatches (both the audit pass and an earlier design-fix pass) repeatedly hit an
@@ -42,34 +59,30 @@ dispatching a big subagent for it.
 
 ## Next step
 
-The audit is done. Read `docs/content-depth-photo-audit-2026-08-09.md`'s final
-"Audit complete" section first — it has the recommended extraction order. Then:
+Read `docs/content-depth-photo-audit-2026-08-09.md`'s final "Audit complete" section
+for the recommended photo-extraction order. Two tracks remain open, either can be
+picked up next:
 
-1. Extract photos in the recommended order (Chapter 4 p24 first — four captioned,
-   unambiguous photos) and populate
-   `web/src/lib/course-brain/content-images.ts` (currently an empty scaffold —
-   `Record<contentUnitId, ContentImage>`). Technique is in
+1. **Photo extraction** — continue down the recommended order into Chapter 2's
+   remaining opportunities (p14/15 tropical, p16/17 dry, p19 forests, p22 tundra/ice-cap,
+   p23 highland), then the bulk of Chapter 4 (p2–p21) and Chapter 1 (p3–p19), populating
+   `web/src/lib/course-brain/content-images.ts`. Technique is in
    `.claude/skills/course-content/SKILL.md`'s image-extraction section. Do this in
-   chunks (a few pages' worth at a time) and commit after each chunk, same reasoning
-   as the audit itself — don't let one giant uncommitted pass be the only copy of the
-   work.
-2. Enrich shallow `content_units.body` rows with the missing source detail the audit
-   found, chapter by chapter. Follow the DB-write mechanics in the course-content
-   skill (draft → add `source_references` → publish; never delete-then-insert).
-3. Fix the one known citation error: content unit `e6f73628` ("Tundra climate") is
-   cited to page 21 but its content is actually on page 22 of `chapter-2.pdf`.
-4. Decide what to do about the "MISSING CONTENT" tables the audit found with no
-   corresponding content unit (e.g. Chapter 4 p18 "largest deserts" table, p19
-   continental-landmasses table, p20 sea/ocean ranking table) — these need new
-   content units created, not existing ones edited.
-5. Do NOT invent content for the "STRUCTURAL GAP" items (e.g. Chapter 4's "valley"
+   chunks and commit after each chunk.
+2. **Body enrichment** — the bulk of remaining DB-write work: several dozen shallow
+   `content_units.body` rows across all 4 chapters (see the audit doc's **SHALLOW**
+   markers for the full list, chapter by chapter). Follow the DB-write mechanics in the
+   course-content skill (draft → add `source_references` → publish; never
+   delete-then-insert). ~~Fix the one known citation error~~ and ~~add the 3 known
+   missing tables~~ — **done 2026-08-11**, see `docs/checklist.md`.
+3. Do NOT invent content for the "STRUCTURAL GAP" items (e.g. Chapter 4's "valley"
    and "beach" headings that the source deck never actually delivers content for) —
    flag those to the client instead, per the course-content skill's source-fidelity
    rule.
-6. Test, build, deploy, and independently re-verify each fix (don't just trust a
+4. Test, build, deploy, and independently re-verify each fix (don't just trust a
    subagent's self-report — check the actual rendered result), per the workflow
    below.
-7. Once the build/fix pass is done, run an independent review pass against the live
+5. Once the build/fix pass is done, run an independent review pass against the live
    site before considering this done (see "Standing workflow" below).
 
 ## Standing workflow (established and requested by the project owner)
