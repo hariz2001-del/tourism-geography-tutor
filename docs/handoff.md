@@ -52,6 +52,12 @@ structural gaps and two source defects remain found-and-flagged, not fixed, per 
 source-fidelity rule. See `docs/checklist.md`'s 2026-08-11 entries for the full list.
 **The build/fix implementation is complete.**
 
+**Latest UI correction (Codex, 2026-08-12):** small-screen topic navigation had
+become closed by default because `TopicList` used a native `<details>` without the
+`open` attribute. This made subtopic/sibling-topic links appear to disappear after a
+topic was opened. The disclosure now starts open; users can still collapse it
+manually. A regression test covers the open state.
+
 **Why work is being done directly instead of via subagents:** large parallel subagent
 dispatches (both the audit pass and an earlier design-fix pass) repeatedly hit an
 account-level session/usage rate limit mid-task and died silently. Direct main-thread

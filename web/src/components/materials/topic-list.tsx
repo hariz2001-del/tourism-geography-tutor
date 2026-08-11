@@ -14,7 +14,7 @@ export default function TopicList({ chapterCode, topics, selectedTopicId }: { ch
         page `<h1>` in heading order — the `aria-label` on `<nav>` already
         names the region.
       */}
-      <details className="lg:pointer-events-none">
+      <details open className="lg:pointer-events-none">
         <summary className="cursor-pointer list-none font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-ink-muted marker:hidden [&::-webkit-details-marker]:hidden lg:pointer-events-none lg:cursor-default">
           Topics
         </summary>
