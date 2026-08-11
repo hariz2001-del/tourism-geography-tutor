@@ -1,6 +1,6 @@
 import type { Citation } from "@/lib/course-brain/types";
 
-export default function CitationCard({ citation }: { citation: Citation }) {
+export default function CitationCard({ citation, actionLabel }: { citation: Citation; actionLabel?: string }) {
   const body = (
     <>
       <p className="uppercase tracking-[0.14em] text-meridian">Source</p>
@@ -20,6 +20,7 @@ export default function CitationCard({ citation }: { citation: Citation }) {
         className="block rounded-card border border-graticule bg-chart p-3 font-mono text-[0.8125rem] text-ink-muted transition-colors duration-150 hover:border-meridian/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
         aria-label={`Go to this source in its topic: Source ${citation.sourceFile}, ${citation.chapterLabel}, Page/slide ${citation.pageOrSlide}`}
       >
+        {actionLabel ? <p className="mb-1 font-sans font-medium text-meridian">{actionLabel}</p> : null}
         {body}
       </a>
     );

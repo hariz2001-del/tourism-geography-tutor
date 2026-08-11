@@ -12,14 +12,16 @@ const context: SubjectiveMarkingContext = {
 };
 
 describe("POST /api/quiz/subjective", () => {
-  it("grades server-side and never returns the private marking context", async () => {
+  it("grades server-side and returns the answer scheme only after submission", async () => {
     const getSubjectiveQuestionMarkingContext = vi.fn().mockResolvedValue(context);
     const POST = createSubjectiveQuizRouteHandler(() => ({ getSubjectiveQuestionMarkingContext }));
     const response = await POST(request({ quizId: context.id, answer: "A place." }));
     const body = await response.json();
     expect(response.status).toBe(200);
     expect(body.data.awardedMarks).toBe(1);
-    expect(JSON.stringify(body)).not.toContain("secret");
+    expect(body.data.answerScheme).toBe("secret scheme");
+    expect(JSON.stringify(body)).not.toContain("secret criterion");
+    expect(JSON.stringify(body)).not.toContain("Private excerpt");
     expect(getSubjectiveQuestionMarkingContext).toHaveBeenCalledWith(context.id);
   });
 

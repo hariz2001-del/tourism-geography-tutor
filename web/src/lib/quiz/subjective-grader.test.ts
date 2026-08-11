@@ -18,20 +18,51 @@ describe("subjective grader", () => {
     expect(normalizeAnswer("  TOURIST—destination!\n")).toBe("tourist destination");
   });
 
-  it("awards configured concepts locally without calling the model and returns no private scheme", async () => {
+  it("awards configured concepts locally without calling the model and returns the post-submission answer scheme", async () => {
     const fetchSpy = vi.fn();
     vi.stubEnv("DEEPSEEK_API_KEY", "test-key"); vi.stubGlobal("fetch", fetchSpy);
 
     const result = await gradeSubjectiveAnswer("A tourist destination attracts visitors.", context);
 
-    expect(result).toEqual({ awardedMarks: 3, maxMarks: 3, criteria: [{ awardedMarks: 3, maxMarks: 3, feedback: "This part is supported by your answer.", citations: [context.criteria[0].sourceUnit.citation] }] });
+    expect(result).toEqual({ awardedMarks: 3, maxMarks: 3, answerScheme: "private", criteria: [{ awardedMarks: 3, maxMarks: 3, feedback: "This part is supported by your answer.", citations: [context.criteria[0].sourceUnit.citation] }] });
     expect(fetchSpy).not.toHaveBeenCalled();
-    expect(JSON.stringify(result)).not.toContain("private");
   });
 
   it("allows only a conservative typo match for configured one-word terms", async () => {
     const oneWordContext = { ...context, criteria: [{ ...context.criteria[0], acceptedConcepts: ["destination"], acceptedSynonyms: [] }] };
     const result = await gradeSubjectiveAnswer("A destnation can attract visitors.", oneWordContext);
+    expect(result.awardedMarks).toBe(3);
+  });
+
+  it("does not award a repeated configured fact to multiple distinct-list criteria", async () => {
+    const listContext = {
+      ...context, maxMarks: 3,
+      criteria: ["one", "two", "three"].map((id) => ({
+        ...context.criteria[0], id, marks: 1,
+        acceptedConcepts: ["Pacific", "Atlantic", "Indian"], acceptedSynonyms: [],
+      })),
+    };
+    const fetchSpy = vi.fn();
+    vi.stubEnv("DEEPSEEK_API_KEY", "test-key"); vi.stubGlobal("fetch", fetchSpy);
+
+    const result = await gradeSubjectiveAnswer("Pacific, Pacific, Pacific.", listContext);
+
+    expect(result.awardedMarks).toBe(1);
+    expect(result.criteria.map((criterion) => criterion.awardedMarks)).toEqual([1, 0, 0]);
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("awards separately named configured facts across distinct-list criteria", async () => {
+    const listContext = {
+      ...context, maxMarks: 3,
+      criteria: ["one", "two", "three"].map((id) => ({
+        ...context.criteria[0], id, marks: 1,
+        acceptedConcepts: ["Pacific", "Atlantic", "Indian"], acceptedSynonyms: [],
+      })),
+    };
+
+    const result = await gradeSubjectiveAnswer("Pacific, Atlantic and Indian.", listContext);
+
     expect(result.awardedMarks).toBe(3);
   });
 

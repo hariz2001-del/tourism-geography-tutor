@@ -14,6 +14,28 @@ first.
 
 ## Right now
 
+**Active task: generated assessment banks and learner assessment flow (2026-08-12).**
+The learner-facing assessment routes now generate a fresh shuffled set at launch:
+topic quiz (3 MCQ + 2 written), chapter mini exam (5 + 3), and full four-chapter
+exam (10 + 6). After submission, the learner sees the score, a question-specific
+answer scheme, and a clickable **Which to refer** citation that opens the exact
+chapter/topic/source unit, matching the Tutor flow. The marking API keeps answer
+keys and rubrics server-only until submission; written responses use the existing
+Tutor/DeepSeek grader with conservative configured synonym and typo matching.
+
+`202608120001_exam_question_bank.sql` establishes safe exam records and private
+marking data. `202608120002_shuffle_exam_batches_and_reviews.sql` randomizes batch
+selection and adds server-only MCQ answer review; `202608120003_restore_exam_batch_grants.sql`
+restores public access to the safe question-only batch RPC after the function was
+replaced. All three are applied to Supabase.
+
+Question banks are intentionally **draft-only** (`generated_by=deepseek_draft`) and
+therefore not visible to learners until the future approval/login workflow exists.
+Completed imports so far: CH1 Leisure topic 15, CH2 80, CH3 30, CH4 60. Ignored
+fixtures remain under `data/extracted/`; use `scripts/import_draft_exam_questions.py`
+with service-role REST access for future draft imports. Remaining CH1 topics and a
+Sol review of completed banks are in progress. Never bulk-approve these rows.
+
 **Active task:** content-depth-and-photo audit of the course content database against
 the 4 source PDFs, followed by a build/fix pass. This is a quality pass, not a
 from-scratch build — the app is live and working; this pass is about making the text

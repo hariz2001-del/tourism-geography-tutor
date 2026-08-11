@@ -81,12 +81,12 @@ describe("public quiz repository boundary", () => {
     const repository = createCourseBrainRepository({
       from: () => queryBuilder([]),
       rpc: async (name: string) => ({
-        data: name === "check_public_quiz_answer" ? [{ is_correct: true, explanation: "Reviewed explanation." }] : [],
+        data: name === "get_quiz_answer_review" ? [{ is_correct: true, explanation: "Reviewed explanation.", answer_scheme: "Correct answer: Place" }] : [],
         error: null,
       }),
     } as never);
 
     await expect((repository as { checkApprovedQuizAnswer: (quizId: string, optionId: string) => Promise<unknown> }).checkApprovedQuizAnswer("quiz-1", "option-a"))
-      .resolves.toEqual({ isCorrect: true, explanation: "Reviewed explanation." });
+      .resolves.toEqual({ isCorrect: true, explanation: "Reviewed explanation.", answerScheme: "Correct answer: Place" });
   });
 });

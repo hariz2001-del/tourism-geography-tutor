@@ -141,16 +141,16 @@ export function createCourseBrainRepository(client: SupabaseQueryAdapter) {
           difficulty: String(row.difficulty) as ExamQuestion["difficulty"],
           maxMarks: Number(row.max_marks),
           options: options.map((option) => ({ id: String(option.id), text: String(option.text) })),
-          citation: { sourceFile: String(row.source_file), chapterLabel: String(row.chapter_label), pageOrSlide: Number(row.page_or_slide) },
+          citation: { sourceFile: String(row.source_file), chapterLabel: String(row.chapter_label), pageOrSlide: Number(row.page_or_slide), chapterCode: String(row.chapter_code), topicId: String(row.topic_id), contentUnitId: String(row.source_content_unit_id) },
         };
       });
     },
 
     async checkApprovedQuizAnswer(quizId: string, optionId: string): Promise<QuizAnswerFeedback | null> {
-      const result = await client.rpc("check_public_quiz_answer", { p_quiz_id: quizId, p_option_id: optionId });
+      const result = await client.rpc("get_quiz_answer_review", { p_quiz_id: quizId, p_option_id: optionId });
       const row = rows(requireData(result))[0];
       if (!row) return null;
-      return { isCorrect: Boolean(row.is_correct), explanation: String(row.explanation) };
+      return { isCorrect: Boolean(row.is_correct), explanation: String(row.explanation), answerScheme: String(row.answer_scheme) };
     },
 
     async getSubjectiveQuestionMarkingContext(quizId: string): Promise<SubjectiveMarkingContext | null> {

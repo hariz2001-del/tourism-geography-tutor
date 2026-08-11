@@ -62,6 +62,7 @@ export type ExamQuestion = {
 export type QuizAnswerFeedback = {
   isCorrect: boolean;
   explanation: string;
+  answerScheme: string;
 };
 
 // This shape is deliberately server-only. It contains reviewed marking material
@@ -84,6 +85,8 @@ export type SubjectiveMarkingContext = {
 export type SubjectiveGrade = {
   awardedMarks: number;
   maxMarks: number;
+  // Returned only after the learner submits the relevant written answer.
+  answerScheme: string;
   criteria: Array<{
     awardedMarks: number;
     maxMarks: number;

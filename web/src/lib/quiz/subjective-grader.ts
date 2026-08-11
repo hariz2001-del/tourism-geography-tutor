@@ -24,20 +24,29 @@ function editDistance(left: string, right: string): number {
   return previous[right.length];
 }
 
-function hasConfiguredMatch(answer: string, values: string[]): boolean {
+type ConfiguredMatch = { matchedTerm?: string; blockedByUsedTerm: boolean };
+
+function findConfiguredMatch(answer: string, values: string[], usedTerms: Set<string>): ConfiguredMatch {
   const padded = ` ${answer} `;
+  let blockedByUsedTerm = false;
   for (const value of values) {
     const term = normalizeAnswer(value);
     if (!term) continue;
-    if (padded.includes(` ${term} `)) return true;
+    if (padded.includes(` ${term} `)) {
+      if (usedTerms.has(term)) { blockedByUsedTerm = true; continue; }
+      return { matchedTerm: term, blockedByUsedTerm };
+    }
     // Typo tolerance is intentionally token-only and narrow: no fuzzy matches
     // for short words or multi-word phrases, which would over-award marks.
     if (!term.includes(" ") && term.length >= 5) {
       const allowedDistance = term.length >= 8 ? 2 : 1;
-      if (answer.split(" ").some((token) => token.length >= 5 && editDistance(token, term) <= allowedDistance)) return true;
+      if (answer.split(" ").some((token) => token.length >= 5 && editDistance(token, term) <= allowedDistance)) {
+        if (usedTerms.has(term)) { blockedByUsedTerm = true; continue; }
+        return { matchedTerm: term, blockedByUsedTerm };
+      }
     }
   }
-  return false;
+  return { blockedByUsedTerm };
 }
 
 function feedback(marks: number, maxMarks: number): string {
@@ -92,10 +101,26 @@ async function gradeWithLlm(answer: string, context: SubjectiveMarkingContext, p
 export async function gradeSubjectiveAnswer(answer: string, context: SubjectiveMarkingContext): Promise<SubjectiveGrade> {
   const normalized = normalizeAnswer(answer);
   const local = new Map<string, number>();
+  const configuredTermCounts = new Map<string, number>();
+  for (const criterion of context.criteria) {
+    for (const value of [...criterion.acceptedConcepts, ...criterion.acceptedSynonyms]) {
+      const term = normalizeAnswer(value);
+      if (term) configuredTermCounts.set(term, (configuredTermCounts.get(term) ?? 0) + 1);
+    }
+  }
+  const usedConfiguredTerms = new Set<string>();
   const pending = context.criteria.filter((criterion) => {
-    if (hasConfiguredMatch(normalized, [...criterion.acceptedConcepts, ...criterion.acceptedSynonyms])) {
+    const match = findConfiguredMatch(normalized, [...criterion.acceptedConcepts, ...criterion.acceptedSynonyms], usedConfiguredTerms);
+    if (match.matchedTerm) {
+      // Only terms shared by more than one criterion are consumed. This keeps
+      // ordinary multi-part answers unchanged while enforcing distinct facts
+      // for list-style criteria that intentionally share their accepted pool.
+      if ((configuredTermCounts.get(match.matchedTerm) ?? 0) > 1) usedConfiguredTerms.add(match.matchedTerm);
       local.set(criterion.id, criterion.marks); return false;
     }
+    // A repeated configured fact is not a second distinct answer. Keeping it
+    // out of model grading prevents a model from re-awarding the same fact.
+    if (match.blockedByUsedTerm) return false;
     return true;
   });
   const ai = await gradeWithLlm(answer, context, pending);
@@ -104,5 +129,5 @@ export async function gradeSubjectiveAnswer(answer: string, context: SubjectiveM
     return { awardedMarks, maxMarks: criterion.marks, feedback: feedback(awardedMarks, criterion.marks), citations: [criterion.sourceUnit.citation] };
   });
   const awardedMarks = Math.min(context.maxMarks, Math.max(0, criteria.reduce((sum, criterion) => sum + criterion.awardedMarks, 0)));
-  return { awardedMarks, maxMarks: context.maxMarks, criteria };
+  return { awardedMarks, maxMarks: context.maxMarks, answerScheme: context.answerScheme, criteria };
 }
