@@ -313,17 +313,32 @@ def replace_ch2_rest(records: list[dict[str, Any]], client: Any) -> dict[str, in
     return {"deleted": result["deleted"], "inserted": result["inserted"]}
 
 
+def replace_ch4_rest(records: list[dict[str, Any]], client: Any) -> dict[str, int]:
+    """Atomically replace only CH4 deepseek draft rows through a private RPC."""
+    validate(records)
+    if not records or any(record["chapter_code"] != "CH4" for record in records):
+        raise ValueError("The CH4 replacement path accepts CH4 records only.")
+    result = client.request("POST", "rpc/replace_ch4_deepseek_draft_bank", payload={"p_records": records})
+    if not isinstance(result, dict) or not all(isinstance(result.get(key), int) for key in ("deleted", "inserted")):
+        raise RuntimeError("CH4 replacement RPC returned an invalid result.")
+    return {"deleted": result["deleted"], "inserted": result["inserted"]}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("input", type=Path)
     parser.add_argument("--apply", action="store_true")
     parser.add_argument("--replace-ch2-drafts", action="store_true",
                         help="Atomically replace only existing CH2 draft/deepseek_draft rows.")
+    parser.add_argument("--replace-ch4-drafts", action="store_true",
+                        help="Atomically replace only existing CH4 draft/deepseek_draft rows.")
     args = parser.parse_args()
     records = json.loads(args.input.read_text(encoding="utf-8"))
     validate(records)
-    if args.replace_ch2_drafts and not args.apply:
-        raise RuntimeError("--replace-ch2-drafts requires --apply.")
+    if (args.replace_ch2_drafts or args.replace_ch4_drafts) and not args.apply:
+        raise RuntimeError("A draft replacement flag requires --apply.")
+    if args.replace_ch2_drafts and args.replace_ch4_drafts:
+        raise RuntimeError("Choose only one chapter-specific replacement flag.")
     if not args.apply:
         print(f"Validated {len(records)} draft question(s); no database changes made.")
         return 0
@@ -337,6 +352,16 @@ def main() -> int:
             raise RuntimeError("CH2 replacement requires SUPABASE_URL plus SUPABASE_SERVICE_ROLE_KEY.")
         result = replace_ch2_rest(records, SupabaseRestClient(supabase_url, service_role_key))
         print(f"Replaced {result['deleted']} CH2 draft question(s) with {result['inserted']} revised draft question(s).")
+        return 0
+    if args.replace_ch4_drafts:
+        if database_url:
+            raise RuntimeError("CH4 replacement uses the private Supabase RPC; unset COURSE_BRAIN_DATABASE_URL.")
+        supabase_url = os.environ.get("SUPABASE_URL")
+        service_role_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+        if not supabase_url or not service_role_key:
+            raise RuntimeError("CH4 replacement requires SUPABASE_URL plus SUPABASE_SERVICE_ROLE_KEY.")
+        result = replace_ch4_rest(records, SupabaseRestClient(supabase_url, service_role_key))
+        print(f"Replaced {result['deleted']} CH4 draft question(s) with {result['inserted']} revised draft question(s).")
         return 0
     if database_url:
         import psycopg

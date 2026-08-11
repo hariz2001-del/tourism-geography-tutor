@@ -133,3 +133,23 @@ def test_ch2_replacement_rejects_a_non_ch2_fixture() -> None:
     bank = records()
     with pytest.raises(ValueError, match="CH2 records only"):
         module.replace_ch2_rest(bank, FakeRestClient())
+
+
+def test_ch4_replacement_calls_private_atomic_rpc_after_validation() -> None:
+    bank = json.loads(Path("data/extracted/draft_exam_questions_ch4_banks.json").read_text(encoding="utf-8"))
+
+    class ReplacementClient(FakeRestClient):
+        def request(self, method, table, *, params=None, payload=None, prefer=None):
+            self.calls.append((method, table, params, payload))
+            if table == "rpc/replace_ch4_deepseek_draft_bank":
+                return {"deleted": 60, "inserted": len(payload["p_records"])}
+            raise AssertionError("The replacement path must use one private RPC call.")
+
+    result = module.replace_ch4_rest(bank, ReplacementClient())
+    assert result == {"deleted": 60, "inserted": 50}
+
+
+def test_ch4_replacement_rejects_a_non_ch4_fixture() -> None:
+    bank = records()
+    with pytest.raises(ValueError, match="CH4 records only"):
+        module.replace_ch4_rest(bank, FakeRestClient())
