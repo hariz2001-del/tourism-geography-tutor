@@ -27,9 +27,12 @@ have full write-ups. Its final section ("Audit complete — all 4 chapters cover
 summarizes the scale of what's open and a recommended extraction order. There is no
 remaining audit work — the next step is the build/fix pass, not more auditing.
 
-**Status of the fix/build pass: COMPLETE (2026-08-12).** The DB-write and
-photo-extraction tracks are both complete across all four chapters. An independent
-review of the actual deployed result remains the next required workflow step.
+**Status of the fix/build pass and independent live review: COMPLETE (2026-08-12).**
+The DB-write and photo-extraction tracks are complete across all four chapters. The
+deployed result was independently reviewed in Chrome DevTools across representative
+CH1–CH4 topics, an intentional empty state, the Tutor flow, and desktop/mobile
+accessibility audits. Review findings were fixed, pushed to `main`, and re-verified
+on the Vercel production deployment.
 
 *Photo extraction* (`web/src/lib/course-brain/content-images.ts`): all four chapters
 are done. **Chapter 1 was completed by Codex on 2026-08-12** using the project's
@@ -58,6 +61,17 @@ become closed by default because `TopicList` used a native `<details>` without t
 topic was opened. The disclosure now starts open; users can still collapse it
 manually. A regression test covers the open state.
 
+**Independent deployment review (Codex, 2026-08-12):** Chrome DevTools verified
+the homepage, CH1 Tutor response and citation link, large CH2 glossary/roster topic,
+small CH2 topic, dense CH3 topic, mixed CH4 topic, and the CH99 empty state. There
+were no console errors or failed document/fetch requests. Two accessibility findings
+were fixed and deployed: compact sections now retain a real screen-reader `h2` before
+their `h3` entries, and citation link accessible names include their visible source
+text. The selected subtopic now has a persistent tinted background, bold label, and
+teal marker rather than relying on the marker alone. Production Lighthouse snapshot
+audits now score 100 for accessibility, best practices, SEO, and agentic browsing on
+both desktop and mobile. Commits: `ea4b81e`, `2881c68`.
+
 **Why work is being done directly instead of via subagents:** large parallel subagent
 dispatches (both the audit pass and an earlier design-fix pass) repeatedly hit an
 account-level session/usage rate limit mid-task and died silently. Direct main-thread
@@ -68,16 +82,16 @@ dispatching a big subagent for it.
 
 ## Next step
 
-The implementation is done. **Next: independent review of the deployed site, then
-fix and re-verify any findings before treating the audit/build pass as closed.**
+The content-depth/photo audit build-and-review pass is closed. **Next product work
+should be a separately scoped feature decision, with quiz content the highest-value
+open MVP item.**
 
 1. Do NOT invent content for "STRUCTURAL GAP" items (Chapter 4's "valley" p18 and
    "beach" p19 headings the deck never delivers content for) — these stay flagged in
    `docs/checklist.md`, not fixed, per the source-fidelity rule.
-2. Test and independently re-verify each fix live (don't just trust a subagent's
-   self-report), per the workflow below. Content changes are visible immediately
-   (served from Supabase at runtime); photo files need a commit/push to actually
-   reach the deployed site.
+2. Before authoring quiz records, decide the lecturer review workflow and write only
+   questions grounded in the approved Chapter 1–4 material; AI drafts remain `draft`
+   until explicitly approved.
 
 ## Standing workflow (established and requested by the project owner)
 

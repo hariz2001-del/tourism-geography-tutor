@@ -68,6 +68,8 @@ the cleanest one.
 - Don't flag a spec-literal implementation as a *usability* problem just because you'd have designed it differently — that's a design disagreement, raise it as an open question, not a Broken verdict.
 - Don't skip states that are hard to trigger (an actual network error, an actual empty topic) — these are exactly where real usability bugs hide.
 - A "Pass" needs the same evidence bar as a "Broken" — cite what you actually saw, don't assume conformance from reading source alone when the live site is checkable.
+- When checking an active topic programmatically, scope `[aria-current="page"]` to `nav[aria-label="Chapter topics"]`; chapter navigation also uses the same ARIA state.
+- Run Lighthouse after any heading or link-label fix. A compact visual section may still require a visually-hidden real `h2` before its `h3` entries when its section label is suppressed.
 
 ## Origin
 
