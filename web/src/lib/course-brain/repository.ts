@@ -6,6 +6,7 @@ import type {
   PublishedContentUnit,
   QuizAnswerFeedback,
   QuizQuestion,
+  SubjectiveMarkingContext,
 } from "./types";
 
 type QueryResult = { data: unknown; error: { message: string } | null };
@@ -150,6 +151,39 @@ export function createCourseBrainRepository(client: SupabaseQueryAdapter) {
       const row = rows(requireData(result))[0];
       if (!row) return null;
       return { isCorrect: Boolean(row.is_correct), explanation: String(row.explanation) };
+    },
+
+    async getSubjectiveQuestionMarkingContext(quizId: string): Promise<SubjectiveMarkingContext | null> {
+      const result = await client.rpc("get_subjective_question_marking_context", { p_quiz_id: quizId });
+      const row = rows(requireData(result))[0];
+      if (!row) return null;
+      const criteria = Array.isArray(row.criteria) ? row.criteria as Record<string, unknown>[] : [];
+      if (!criteria.length) return null;
+
+      const sourceUnits = await Promise.all(criteria.map(async (criterion) => {
+        const sourceUnitId = String(criterion.sourceContentUnitId);
+        const sourceResult = await execute(client.from("content_units")
+          .select("id, topic_id, title, body, content_type, source_references(source_file, chapter_label, page_or_slide)")
+          .eq("id", sourceUnitId)
+          .eq("status", "published"));
+        const sourceRow = rows(requireData(sourceResult))[0];
+        if (!sourceRow) throw new Error("Subjective marking criterion requires a published source.");
+        return [sourceUnitId, {
+          id: String(sourceRow.id), topicId: String(sourceRow.topic_id), title: String(sourceRow.title),
+          body: String(sourceRow.body), contentType: String(sourceRow.content_type), citation: citationFrom(sourceRow),
+        }] as const;
+      }));
+      const byId = new Map(sourceUnits);
+      return {
+        id: String(row.id), question: String(row.question), maxMarks: Number(row.max_marks),
+        answerScheme: String(row.subjective_answer_scheme),
+        criteria: criteria.map((criterion) => ({
+          id: String(criterion.id), criterion: String(criterion.criterion), marks: Number(criterion.marks),
+          acceptedConcepts: Array.isArray(criterion.acceptedConcepts) ? criterion.acceptedConcepts.map(String) : [],
+          acceptedSynonyms: Array.isArray(criterion.acceptedSynonyms) ? criterion.acceptedSynonyms.map(String) : [],
+          sourceUnit: byId.get(String(criterion.sourceContentUnitId))!,
+        })),
+      };
     },
   };
 }

@@ -63,3 +63,31 @@ export type QuizAnswerFeedback = {
   isCorrect: boolean;
   explanation: string;
 };
+
+// This shape is deliberately server-only. It contains reviewed marking material
+// and must never be passed to a Client Component or returned by a public API.
+export type SubjectiveMarkingContext = {
+  id: string;
+  question: string;
+  maxMarks: number;
+  answerScheme: string;
+  criteria: Array<{
+    id: string;
+    criterion: string;
+    marks: number;
+    acceptedConcepts: string[];
+    acceptedSynonyms: string[];
+    sourceUnit: PublishedContentUnit;
+  }>;
+};
+
+export type SubjectiveGrade = {
+  awardedMarks: number;
+  maxMarks: number;
+  criteria: Array<{
+    awardedMarks: number;
+    maxMarks: number;
+    feedback: string;
+    citations: Citation[];
+  }>;
+};
