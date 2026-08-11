@@ -27,17 +27,20 @@ have full write-ups. Its final section ("Audit complete — all 4 chapters cover
 summarizes the scale of what's open and a recommended extraction order. There is no
 remaining audit work — the next step is the build/fix pass, not more auditing.
 
-**Status of the fix/build pass: in progress, on both tracks.**
+**Status of the fix/build pass: DB-write side fully done; photo extraction underway,
+Chapters 2 and 3 now complete.**
 
-*Photo extraction* (`web/src/lib/course-brain/content-images.ts`): well underway.
-Populated so far, in the audit's recommended order: Chapter 4 p24 (4 photos), all 5
-Chapter 3 photo/diagram opportunities (p3, p4, p6, p7, p10), Chapter 1's 4 named-landmark
-photos (p13 Plaza de España, p14 KL skyline, p15 travel route, p30 Hagia Sophia), and
-Chapter 2's Middle latitude climate photos (p18 Mediterranean, p20 marine-west-coast +
-NE-US satellite). Still open: the rest of Chapter 2 (p14/15 tropical, p16/17 dry, p19
-forests, p22 tundra/ice-cap, p23 highland), most of Chapter 4 (p2–p21), and most of
-Chapter 1 (p3–p19 topic photos, plus p13's Tower Bridge/Galata Tower and p14's dancer
-photo). See the audit's "Recommended extraction order" for the next chunk.
+*Photo extraction* (`web/src/lib/course-brain/content-images.ts`): Chapter 4 p24 (4
+photos), all of Chapter 3, all of Chapter 2 (including p13's climate-zones figure,
+p14/15 tropical, p16/17 dry, the p19 forest pair, p21 subarctic map, p22 tundra/ice-cap,
+p23 highland — 24 entries total for Ch2 alone), and Chapter 1's 4 named-landmark photos
+(p13 Plaza de España, p14 KL skyline, p15 travel route, p30 Hagia Sophia) are done.
+**Still open: most of Chapter 4 (p2–p21, the richest photo source in the course) and
+most of Chapter 1 (p3–p19 topic photos, plus p13's Tower Bridge/Galata Tower and p14's
+dancer photo).** A reusable `pdf-lib` + `jimp` extraction/crop script now lives in the
+session scratch dir (not committed — the technique is documented in
+`.claude/skills/course-content/SKILL.md`); note some slides bake several photos into
+one full-slide composite image that needs cropping apart, not just direct extraction.
 
 *DB-write work* (Supabase, `content_units`/`source_references`): **done, 2026-08-11.**
 Fixed the one known citation error, added the 3 flagged missing-table units, and then
@@ -62,14 +65,12 @@ dispatching a big subagent for it.
 All DB-write work from the audit is done (see above). **The only remaining track is
 photo extraction:**
 
-1. Read `docs/content-depth-photo-audit-2026-08-09.md`'s final "Audit complete"
-   section for the recommended order, then continue into Chapter 2's remaining
-   opportunities (p14/15 tropical, p16/17 dry, p19 forests — now with their own
-   Deciduous/Evergreen/Mixed forest units to attach photos to, p22 tundra/ice-cap,
-   p23 highland), then the bulk of Chapter 4 (p2–p21, the richest photo source in the
-   course) and Chapter 1 (p3–p19), populating
+1. Chapters 2 and 3 are fully done. Continue into the bulk of Chapter 4 (p2–p21, the
+   richest photo source in the course) and Chapter 1 (p3–p19), populating
    `web/src/lib/course-brain/content-images.ts`. Technique is in
-   `.claude/skills/course-content/SKILL.md`'s image-extraction section. Do this in
+   `.claude/skills/course-content/SKILL.md`'s image-extraction section — a working
+   `pdf-lib` + `jimp` extraction/crop script from this session is in the scratch dir if
+   useful as a starting point (re-derivable from the skill doc either way). Do this in
    chunks and commit after each chunk.
 2. Do NOT invent content for "STRUCTURAL GAP" items (Chapter 4's "valley" p18 and
    "beach" p19 headings the deck never delivers content for) — these stay flagged in
