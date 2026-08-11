@@ -27,30 +27,33 @@ have full write-ups. Its final section ("Audit complete — all 4 chapters cover
 summarizes the scale of what's open and a recommended extraction order. There is no
 remaining audit work — the next step is the build/fix pass, not more auditing.
 
-**Status of the fix/build pass: DB-write side fully done; photo extraction underway,
-Chapters 2 and 3 now complete.**
+**Status of the fix/build pass: DB-write side fully done; photo extraction underway —
+Chapters 2, 3, and 4 now complete, only Chapter 1 remains.**
 
-*Photo extraction* (`web/src/lib/course-brain/content-images.ts`): Chapter 4 p24 (4
-photos), all of Chapter 3, all of Chapter 2 (including p13's climate-zones figure,
-p14/15 tropical, p16/17 dry, the p19 forest pair, p21 subarctic map, p22 tundra/ice-cap,
-p23 highland — 24 entries total for Ch2 alone), and Chapter 1's 4 named-landmark photos
-(p13 Plaza de España, p14 KL skyline, p15 travel route, p30 Hagia Sophia) are done.
-**Still open: most of Chapter 4 (p2–p21, the richest photo source in the course) and
-most of Chapter 1 (p3–p19 topic photos, plus p13's Tower Bridge/Galata Tower and p14's
-dancer photo).** A reusable `pdf-lib` + `jimp` extraction/crop script now lives in the
-session scratch dir (not committed — the technique is documented in
-`.claude/skills/course-content/SKILL.md`); note some slides bake several photos into
-one full-slide composite image that needs cropping apart, not just direct extraction.
+*Photo extraction* (`web/src/lib/course-brain/content-images.ts`): all of Chapter 2, 3,
+and 4 are done (Chapter 4 alone: p2, p3, p9, p10, p14 [new Kinabalu unit], p17, p18,
+p20, p21, and 4 more from a second captioned photo grid on p24 — Coral reef/Bay/River/
+Fiord). **Still open: Chapter 1** (p3–p19 topic photos, plus p13's Tower Bridge/Galata
+Tower and p14's dancer photo — the 4 named-landmark photos p13/14/15/30 are already
+done). A reusable `pdf-lib` + `jimp` extraction/crop script lives in the session scratch
+dir (not committed — the technique is documented in
+`.claude/skills/course-content/SKILL.md`); some slides bake several photos into one
+full-slide composite image that needs cropping apart, not just direct extraction — and
+watch for genuine data tables hiding among the image candidates (one was found during
+the Chapter 4 pass with figures that corrected a small error made earlier in this same
+session, see checklist).
 
 *DB-write work* (Supabase, `content_units`/`source_references`): **done, 2026-08-11.**
-Fixed the one known citation error, added the 3 flagged missing-table units, and then
-fixed every **SHALLOW** finding in the audit — 41 body rewrites across all 4 chapters
-plus a 3-unit split (Deciduous/Evergreen/Mixed forest, the client's originally-flagged
-case) — all published, spot-checked live on the deployed site. DB is at 131 published
-content units, up from 125 at the start of this pass. Two more structural gaps and two
-more source defects were found and flagged (not fixed, per the source-fidelity rule).
-See `docs/checklist.md`'s 2026-08-11 entries for the full list of what changed and
-what's flagged-only. **The only remaining track is photo extraction** — see below.
+Fixed the one known citation error, added the 3 flagged missing-table units, then fixed
+every **SHALLOW** finding — 41 body rewrites across all 4 chapters plus a 3-unit split
+(Deciduous/Evergreen/Mixed forest, the client's originally-flagged case). During the
+Chapter 4 photo pass, also added one new content unit (**Mount Kinabalu mountain
+tourism**, filling a real content gap the audit flagged) and corrected one body that had
+wrong data (the "Largest bodies of water" unit — see checklist for what was wrong and
+why). DB is at 132 published content units, up from 125 at the start of this pass. Two
+structural gaps and two source defects remain found-and-flagged, not fixed, per the
+source-fidelity rule. See `docs/checklist.md`'s 2026-08-11 entries for the full list.
+**The only remaining track is Chapter 1's photo extraction** — see below.
 
 **Why work is being done directly instead of via subagents:** large parallel subagent
 dispatches (both the audit pass and an earlier design-fix pass) repeatedly hit an
@@ -65,13 +68,15 @@ dispatching a big subagent for it.
 All DB-write work from the audit is done (see above). **The only remaining track is
 photo extraction:**
 
-1. Chapters 2 and 3 are fully done. Continue into the bulk of Chapter 4 (p2–p21, the
-   richest photo source in the course) and Chapter 1 (p3–p19), populating
-   `web/src/lib/course-brain/content-images.ts`. Technique is in
+1. Chapters 2, 3, and 4 are fully done. Continue into Chapter 1 (p3–p19: geography
+   foundations photos, leisure/recreation photos, p13's Tower Bridge + Galata Tower,
+   p14's dancer photo, p17-21's push-pull photos, etc. — see the audit doc's Chapter 1
+   section), populating `web/src/lib/course-brain/content-images.ts`. Technique is in
    `.claude/skills/course-content/SKILL.md`'s image-extraction section — a working
    `pdf-lib` + `jimp` extraction/crop script from this session is in the scratch dir if
    useful as a starting point (re-derivable from the skill doc either way). Do this in
-   chunks and commit after each chunk.
+   chunks and commit after each chunk. This is the last remaining chapter — once it's
+   done, the entire content-depth-and-photo audit's build/fix pass is complete.
 2. Do NOT invent content for "STRUCTURAL GAP" items (Chapter 4's "valley" p18 and
    "beach" p19 headings the deck never delivers content for) — these stay flagged in
    `docs/checklist.md`, not fixed, per the source-fidelity rule.
