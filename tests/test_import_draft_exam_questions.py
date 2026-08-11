@@ -153,3 +153,25 @@ def test_ch4_replacement_rejects_a_non_ch4_fixture() -> None:
     bank = records()
     with pytest.raises(ValueError, match="CH4 records only"):
         module.replace_ch4_rest(bank, FakeRestClient())
+
+
+def test_ch1_replacement_calls_private_atomic_rpc_after_validation() -> None:
+    leisure = json.loads(Path("data/extracted/draft_exam_questions_ch1_leisure_bank.json").read_text(encoding="utf-8"))
+    remaining = json.loads(Path("data/extracted/draft_exam_questions_ch1_remaining_bank.json").read_text(encoding="utf-8"))
+    bank = leisure + remaining
+
+    class ReplacementClient(FakeRestClient):
+        def request(self, method, table, *, params=None, payload=None, prefer=None):
+            self.calls.append((method, table, params, payload))
+            if table == "rpc/replace_ch1_deepseek_draft_bank":
+                return {"deleted": 55, "inserted": len(payload["p_records"])}
+            raise AssertionError("The replacement path must use one private RPC call.")
+
+    result = module.replace_ch1_rest(bank, ReplacementClient())
+    assert result == {"deleted": 55, "inserted": 53}
+
+
+def test_ch1_replacement_rejects_a_non_ch1_fixture() -> None:
+    bank = [{**record, "chapter_code": "CH2"} for record in records()]
+    with pytest.raises(ValueError, match="CH1 records only"):
+        module.replace_ch1_rest(bank, FakeRestClient())
