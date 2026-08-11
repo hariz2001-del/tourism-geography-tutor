@@ -27,21 +27,18 @@ have full write-ups. Its final section ("Audit complete — all 4 chapters cover
 summarizes the scale of what's open and a recommended extraction order. There is no
 remaining audit work — the next step is the build/fix pass, not more auditing.
 
-**Status of the fix/build pass: DB-write side fully done; photo extraction underway —
-Chapters 2, 3, and 4 now complete, only Chapter 1 remains.**
+**Status of the fix/build pass: COMPLETE (2026-08-12).** The DB-write and
+photo-extraction tracks are both complete across all four chapters. An independent
+review of the actual deployed result remains the next required workflow step.
 
-*Photo extraction* (`web/src/lib/course-brain/content-images.ts`): all of Chapter 2, 3,
-and 4 are done (Chapter 4 alone: p2, p3, p9, p10, p14 [new Kinabalu unit], p17, p18,
-p20, p21, and 4 more from a second captioned photo grid on p24 — Coral reef/Bay/River/
-Fiord). **Still open: Chapter 1** (p3–p19 topic photos, plus p13's Tower Bridge/Galata
-Tower and p14's dancer photo — the 4 named-landmark photos p13/14/15/30 are already
-done). A reusable `pdf-lib` + `jimp` extraction/crop script lives in the session scratch
-dir (not committed — the technique is documented in
-`.claude/skills/course-content/SKILL.md`); some slides bake several photos into one
-full-slide composite image that needs cropping apart, not just direct extraction — and
-watch for genuine data tables hiding among the image candidates (one was found during
-the Chapter 4 pass with figures that corrected a small error made earlier in this same
-session, see checklist).
+*Photo extraction* (`web/src/lib/course-brain/content-images.ts`): all four chapters
+are done. **Chapter 1 was completed by Codex on 2026-08-12** using the project's
+Claude-style workflow: separate Terra extraction passes for p3–16 and p17–33, a Sol
+selection review, then Codex's own visual inspection and single-map consolidation.
+Seven new entries cover p4 Topography, p6 geography/tourism, p7 Leisure, p8 Recreation,
+p17 push-pull, p18 push factors, and p19 pull factors; its prior named-landmark entries
+p13/p14/p15/p30 remain. Weak, decorative, duplicate, vector, and already-diagrammed
+assets were deliberately not added.
 
 *DB-write work* (Supabase, `content_units`/`source_references`): **done, 2026-08-11.**
 Fixed the one known citation error, added the 3 flagged missing-table units, then fixed
@@ -53,7 +50,7 @@ wrong data (the "Largest bodies of water" unit — see checklist for what was wr
 why). DB is at 132 published content units, up from 125 at the start of this pass. Two
 structural gaps and two source defects remain found-and-flagged, not fixed, per the
 source-fidelity rule. See `docs/checklist.md`'s 2026-08-11 entries for the full list.
-**The only remaining track is Chapter 1's photo extraction** — see below.
+**The build/fix implementation is complete.**
 
 **Why work is being done directly instead of via subagents:** large parallel subagent
 dispatches (both the audit pass and an earlier design-fix pass) repeatedly hit an
@@ -65,27 +62,16 @@ dispatching a big subagent for it.
 
 ## Next step
 
-All DB-write work from the audit is done (see above). **The only remaining track is
-photo extraction:**
+The implementation is done. **Next: independent review of the deployed site, then
+fix and re-verify any findings before treating the audit/build pass as closed.**
 
-1. Chapters 2, 3, and 4 are fully done. Continue into Chapter 1 (p3–p19: geography
-   foundations photos, leisure/recreation photos, p13's Tower Bridge + Galata Tower,
-   p14's dancer photo, p17-21's push-pull photos, etc. — see the audit doc's Chapter 1
-   section), populating `web/src/lib/course-brain/content-images.ts`. Technique is in
-   `.claude/skills/course-content/SKILL.md`'s image-extraction section — a working
-   `pdf-lib` + `jimp` extraction/crop script from this session is in the scratch dir if
-   useful as a starting point (re-derivable from the skill doc either way). Do this in
-   chunks and commit after each chunk. This is the last remaining chapter — once it's
-   done, the entire content-depth-and-photo audit's build/fix pass is complete.
-2. Do NOT invent content for "STRUCTURAL GAP" items (Chapter 4's "valley" p18 and
+1. Do NOT invent content for "STRUCTURAL GAP" items (Chapter 4's "valley" p18 and
    "beach" p19 headings the deck never delivers content for) — these stay flagged in
    `docs/checklist.md`, not fixed, per the source-fidelity rule.
-3. Test and independently re-verify each fix live (don't just trust a subagent's
+2. Test and independently re-verify each fix live (don't just trust a subagent's
    self-report), per the workflow below. Content changes are visible immediately
    (served from Supabase at runtime); photo files need a commit/push to actually
    reach the deployed site.
-4. Once the build/fix pass is done, run an independent review pass against the live
-   site before considering this done (see "Standing workflow" below).
 
 ## Standing workflow (established and requested by the project owner)
 
