@@ -31,10 +31,20 @@ replaced. All three are applied to Supabase.
 
 Question banks are intentionally **draft-only** (`generated_by=deepseek_draft`) and
 therefore not visible to learners until the future approval/login workflow exists.
-Completed imports so far: CH1 Leisure topic 15, CH2 80, CH3 30, CH4 60. Ignored
-fixtures remain under `data/extracted/`; use `scripts/import_draft_exam_questions.py`
-with service-role REST access for future draft imports. Remaining CH1 topics and a
-Sol review of completed banks are in progress. Never bulk-approve these rows.
+The completed, reviewed banks total **208** drafts: CH1 53 (33 MCQ/20 written), CH2
+75 (41/34), CH3 30 (18/12), and CH4 50 (36/14). Source/citation validation,
+idempotent chapter-scoped replacement, and importer tests passed; the banks were
+remediated for answer leakage, duplicate patterns, cross-source criteria, and
+distinct-list scoring. Ignored fixtures remain under `data/extracted/`; use
+`scripts/import_draft_exam_questions.py` with service-role REST access for future
+draft imports. Never bulk-approve these rows.
+
+**Shipped (2026-08-12):** commit `fd3547c` was deployed to Vercel production at
+`https://tourism-geography-tutor.vercel.app`. Vercel’s production build compiled,
+type-checked, and generated the assessment route successfully. The visible learner
+flow is ready for approved records: select a topic/chapter/course assessment, receive
+a shuffled set, submit for a score and answer schemes, then use **Which to refer** to
+open the exact cited source unit.
 
 **Active task:** content-depth-and-photo audit of the course content database against
 the 4 source PDFs, followed by a build/fix pass. This is a quality pass, not a
