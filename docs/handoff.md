@@ -29,8 +29,10 @@ selection and adds server-only MCQ answer review; `202608120003_restore_exam_bat
 restores public access to the safe question-only batch RPC after the function was
 replaced. All three are applied to Supabase.
 
-Question banks are intentionally **draft-only** (`generated_by=deepseek_draft`) and
-therefore not visible to learners until the future approval/login workflow exists.
+Question banks remain labelled **draft-only** (`generated_by=deepseek_draft`), but
+the owner explicitly deferred lecturer approval/login and enabled this
+source-validated generated bank for learner practice on 2026-08-12. Answer keys and
+subjective rubrics remain server-only until a learner submits an answer.
 The completed, reviewed banks total **208** drafts: CH1 53 (33 MCQ/20 written), CH2
 75 (41/34), CH3 30 (18/12), and CH4 50 (36/14). Source/citation validation,
 idempotent chapter-scoped replacement, and importer tests passed; the banks were
