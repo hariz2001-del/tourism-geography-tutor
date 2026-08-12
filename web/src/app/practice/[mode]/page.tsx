@@ -17,7 +17,7 @@ export default async function PracticePage({ params, searchParams }: { params: P
       repository.getPublicExamQuestionBatch(scope, "subjective", counts.subjectiveCount),
     ]);
     if (mcqQuestions.length !== counts.mcqCount || subjectiveQuestions.length !== counts.subjectiveCount) {
-      return <Unavailable title={practiceModes[mode].label} detail={`This assessment needs ${counts.mcqCount} multiple-choice and ${counts.subjectiveCount} written questions. There are not enough approved questions in this scope yet.`} />;
+      return <Unavailable title={practiceModes[mode].label} detail={`This assessment needs ${counts.mcqCount} multiple-choice and ${counts.subjectiveCount} written questions. There are not enough generated questions in this scope yet.`} />;
     }
     return <ExamRunner title={practiceModes[mode].label} mcqQuestions={mcqQuestions} subjectiveQuestions={subjectiveQuestions} />;
   } catch {
