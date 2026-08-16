@@ -45,9 +45,9 @@ export default async function Home() {
           </Link>
           <Link
             className="ml-4 inline-flex rounded-card border border-meridian px-5 py-3 font-medium text-meridian transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
-            href="/practice/course"
+            href="/flashcards"
           >
-            Full course exam
+            Review flashcards
           </Link>
         </div>
       </main>
@@ -80,6 +80,12 @@ export default async function Home() {
           >
             Ask the tutor
           </Link>
+          <Link
+            className="inline-flex min-h-11 items-center rounded-card border border-graticule bg-surface px-5 font-medium text-meridian transition-colors hover:border-meridian hover:bg-meridian/6 active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
+            href="/flashcards"
+          >
+            Review flashcards
+          </Link>
         </div>
       </div>
 
@@ -89,7 +95,7 @@ export default async function Home() {
           {[
             ["01", "Read", "Choose a chapter and study one topic at a time."],
             ["02", "Ask", "Use the tutor when a definition or example is unclear."],
-            ["03", "Practise", "Check your understanding with focused questions."],
+            ["03", "Review", "Recall key ideas with flashcards, then practise with focused questions."],
           ].map(([number, title, detail]) => (
             <li key={number} className="grid grid-cols-[2rem_1fr] gap-2">
               <span className="font-mono text-xs text-meridian" aria-hidden="true">{number}</span>
@@ -133,6 +139,7 @@ export default async function Home() {
               <p className="text-ink-muted">This chapter does not have any topics yet.</p>
             )}
             <div className="mt-4 flex flex-wrap gap-3">
+              <Link className="font-medium text-meridian underline underline-offset-4" href={`/flashcards?chapter=${encodeURIComponent(chapter.code)}`}>Chapter flashcards</Link>
               <Link className="font-medium text-meridian underline underline-offset-4" href={`/practice/chapter?chapter=${encodeURIComponent(chapter.code)}`}>Chapter mini exam</Link>
               <Link className="font-medium text-meridian underline underline-offset-4" href="/practice/course">Full course exam</Link>
             </div>

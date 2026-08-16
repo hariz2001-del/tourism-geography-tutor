@@ -35,6 +35,10 @@ describe("Home", () => {
     );
     expect(screen.getByRole("link", { name: /start learning/i })).toHaveAttribute("href", "/chapters/CH1");
     expect(screen.getByRole("link", { name: /ask the tutor/i })).toHaveAttribute("href", "/chapters/CH1#tutor");
+    expect(screen.getByRole("link", { name: /review flashcards/i })).toHaveAttribute("href", "/flashcards");
+    expect(screen.getAllByRole("link", { name: /chapter flashcards/i }).some(
+      (link) => link.getAttribute("href") === "/flashcards?chapter=CH1",
+    )).toBe(true);
     expect(screen.getByText(/this chapter does not have any topics yet/i)).toBeVisible();
   });
 

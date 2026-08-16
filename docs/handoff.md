@@ -14,22 +14,19 @@ first.
 
 ## Right now
 
-**Active task: natural assessment language (2026-08-16, production release).**
+**Active task: source-grounded flashcards (2026-08-16, release pending).**
 GitHub `main` remains the build source of truth; the Google Drive checkout holds the
-approved local materials and editable handoff workspace. All 208 generated questions
-have been reviewed. The remediation rewrites 140 stems and 34 Chapter 2 option sets,
-removes learner-visible phrases that expose course/database/draft constraints,
-normalizes explanations and written-answer criteria, and shuffles MCQ options at
-display time. Source links, answer keys, and provenance remain intact internally.
+approved local materials and editable handoff workspace. The new `/flashcards` route
+derives 103 cards directly from the 97 published definitions and 6 key takeaways.
+It adds chapter/topic filters, shuffle, answer reveal, self-rating, a marked-card
+review deck, and exact source links back to each learning note. Entry points are
+present in the global header, homepage, study guide, chapter cards, and topic pages.
 
-The database change is captured in
-`supabase/migrations/202608160001_naturalize_exam_language.sql`, generated from the
-versioned before/after manifest `data/question-language-rewrite-2026-08-16.json`.
-Validation passes 33 Python tests, 62 web tests, ESLint, TypeScript, the Next.js
-production build, migration dry-run, and a full 208-question language audit with
-zero remaining learner-facing pipeline terms. The migration is applied to the
-linked Supabase project, PR #2 is merged at `a401bb5`, and the existing Vercel
-production domain is verified live. The temporary PR preview was removed.
+No content rows or facts were added or changed. A clean Git checkout passes 67 web
+tests, ESLint, TypeScript, and the Next.js production build. A 390 px Chrome smoke
+test loaded all 103 live cards, revealed the answer and citation, found no horizontal
+overflow, and logged no browser errors. The release still needs to be pushed through
+GitHub and verified on the existing Vercel production domain.
 
 **Active task: generated assessment banks and learner assessment flow (2026-08-12).**
 The learner-facing assessment routes now generate a fresh shuffled set at launch:

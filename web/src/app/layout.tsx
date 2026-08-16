@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${sourceSans.variable} ${sourceSerif.variable} ${plexMono.variable}`}>
       <body>
         <a
-          className="fixed left-3 top-3 z-50 -translate-y-24 rounded-card bg-ink-strong px-4 py-3 font-medium text-chart transition-transform focus:translate-y-0"
+          className="fixed -top-24 left-3 z-50 rounded-card bg-ink-strong px-4 py-3 font-medium text-chart transition-[top] focus:top-3"
           href="#main-content"
         >
           Skip to main content
