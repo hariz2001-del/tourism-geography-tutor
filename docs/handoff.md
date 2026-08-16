@@ -27,9 +27,9 @@ The database change is captured in
 versioned before/after manifest `data/question-language-rewrite-2026-08-16.json`.
 Validation passes 33 Python tests, 62 web tests, ESLint, TypeScript, the Next.js
 production build, migration dry-run, and a full 208-question language audit with
-zero remaining learner-facing pipeline terms. The release must be applied to the
-linked Supabase project and merged through GitHub before the existing Vercel
-production domain is reported as verified.
+zero remaining learner-facing pipeline terms. The migration is applied to the
+linked Supabase project, PR #2 is merged at `a401bb5`, and the existing Vercel
+production domain is verified live. The temporary PR preview was removed.
 
 **Active task: generated assessment banks and learner assessment flow (2026-08-12).**
 The learner-facing assessment routes now generate a fresh shuffled set at launch:
