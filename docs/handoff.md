@@ -14,7 +14,7 @@ first.
 
 ## Right now
 
-**Active task: source-grounded flashcards (2026-08-16, release pending).**
+**Active task: source-grounded flashcards (2026-08-16, production release).**
 GitHub `main` remains the build source of truth; the Google Drive checkout holds the
 approved local materials and editable handoff workspace. The new `/flashcards` route
 derives 103 cards directly from the 97 published definitions and 6 key takeaways.
@@ -23,10 +23,12 @@ review deck, and exact source links back to each learning note. Entry points are
 present in the global header, homepage, study guide, chapter cards, and topic pages.
 
 No content rows or facts were added or changed. A clean Git checkout passes 67 web
-tests, ESLint, TypeScript, and the Next.js production build. A 390 px Chrome smoke
-test loaded all 103 live cards, revealed the answer and citation, found no horizontal
-overflow, and logged no browser errors. The release still needs to be pushed through
-GitHub and verified on the existing Vercel production domain.
+tests, ESLint, TypeScript, and the Next.js production build. PR #4 is merged at
+`554f412` and its Vercel production deployment is Ready. A 390 px Chrome check on
+the existing production domain loaded all 103 cards, filtered CH4 to 27 cards,
+revealed a cited answer, advanced progress from 0 to 1, found no horizontal overflow,
+and logged no browser errors. Keyboard skip navigation was also verified. The
+temporary PR preview was removed.
 
 **Active task: generated assessment banks and learner assessment flow (2026-08-12).**
 The learner-facing assessment routes now generate a fresh shuffled set at launch:
