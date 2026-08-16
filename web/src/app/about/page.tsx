@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Study guide | Tourism Geography Tutor",
-  description: "How to study Tourism Geography, ask the tutor, and use practice assessments.",
+  description: "How to study Tourism Geography, use flashcards, ask the tutor, and practise.",
 };
 
 const steps = [
@@ -20,7 +20,7 @@ const steps = [
   {
     number: "03",
     title: "Practise and review",
-    detail: "Take a five-question topic quiz, a chapter mini exam, or the full exam. After submission, review the marking scheme and revisit any topic that needs more work.",
+    detail: "Use flashcards to recall definitions and key ideas, then take a topic quiz, chapter mini exam, or full exam. Revisit any topic that needs more work.",
   },
 ];
 
@@ -57,6 +57,9 @@ export default function AboutPage() {
       <div className="mt-10 flex flex-wrap gap-3">
         <Link className="inline-flex min-h-11 items-center rounded-card bg-meridian px-5 font-medium text-chart transition-colors hover:bg-ink-strong active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian" href="/chapters/CH1">
           Start Chapter 1
+        </Link>
+        <Link className="inline-flex min-h-11 items-center rounded-card border border-graticule bg-surface px-5 font-medium text-meridian transition-colors hover:border-meridian hover:bg-meridian/6 active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian" href="/flashcards">
+          Review flashcards
         </Link>
         <Link className="inline-flex min-h-11 items-center rounded-card border border-graticule bg-surface px-5 font-medium text-meridian transition-colors hover:border-meridian hover:bg-meridian/6 active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian" href="/practice/course">
           Take the full exam

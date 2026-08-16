@@ -59,6 +59,18 @@ export type ExamQuestion = {
   citation: Citation;
 };
 
+export type Flashcard = {
+  id: string;
+  title: string;
+  answer: string;
+  contentType: "definition" | "key_takeaway";
+  chapterCode: string;
+  chapterTitle: string;
+  topicId: string;
+  topicName: string;
+  citation: Citation;
+};
+
 export type QuizAnswerFeedback = {
   isCorrect: boolean;
   explanation: string;
