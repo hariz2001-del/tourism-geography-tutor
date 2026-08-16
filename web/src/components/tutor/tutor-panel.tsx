@@ -51,7 +51,7 @@ export default function TutorPanel({ topicTitle }: Props) {
   }
 
   return (
-    <section className="rounded-card border border-graticule bg-surface p-5" aria-labelledby="tutor-heading">
+    <section id="tutor" tabIndex={-1} className="scroll-mt-6 rounded-card border border-graticule bg-surface p-5" aria-labelledby="tutor-heading">
       <h2 id="tutor-heading" className="font-display text-[1.375rem] font-semibold text-ink-strong">Tutor</h2>
       <p className="mt-1 text-[0.9375rem]/[1.6] text-ink-muted">Ask about any topic in the course, not just &ldquo;{topicTitle}&rdquo; — matching answers link back to where they come from.</p>
       <form className="mt-4 space-y-3" onSubmit={submit}>

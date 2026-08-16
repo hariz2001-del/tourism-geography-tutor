@@ -14,6 +14,22 @@ first.
 
 ## Right now
 
+**Active task: focused UI/UX learner-flow pass (2026-08-16, production release).**
+GitHub `main` at `e69043d` is the build source of truth; the Google Drive checkout is
+used for the approved local course materials and as the editable handoff workspace.
+The current UI/UX change set adds global Course/Guide/Full exam navigation, a skip
+link, a `/about` study guide, homepage Start learning / Ask the tutor actions, compact
+long topic menus on mobile, a direct mobile tutor jump, assessment return/retry
+actions, and valid progressbar semantics. It also fixes clean-checkout test/lint/type
+failures exposed when the build was moved out of Google Drive. Validation currently
+passes 61 web tests, ESLint, TypeScript, and a production Next.js build; the local
+mobile assessment Lighthouse snapshot is 100 across accessibility, best practices,
+SEO, and agentic browsing. See `docs/audits/ui-ux-review-2026-08-16.md`.
+
+This batch is released through GitHub PR #1 and the existing Vercel production
+project. The production domain must show commit `72543dd` or a descendant before
+the release is reported as verified.
+
 **Active task: generated assessment banks and learner assessment flow (2026-08-12).**
 The learner-facing assessment routes now generate a fresh shuffled set at launch:
 topic quiz (3 MCQ + 2 written), chapter mini exam (5 + 3), and full four-chapter

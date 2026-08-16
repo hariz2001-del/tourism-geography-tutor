@@ -33,6 +33,8 @@ describe("Home", () => {
       "href",
       "/chapters/CH1?topic=topic-1",
     );
+    expect(screen.getByRole("link", { name: /start learning/i })).toHaveAttribute("href", "/chapters/CH1");
+    expect(screen.getByRole("link", { name: /ask the tutor/i })).toHaveAttribute("href", "/chapters/CH1#tutor");
     expect(screen.getByText(/no approved material is available for this chapter yet/i)).toBeVisible();
   });
 
