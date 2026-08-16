@@ -21,6 +21,7 @@ async function loadChaptersWithTopics(): Promise<ChapterWithTopics[] | null> {
 
 export default async function Home() {
   const chaptersWithTopics = await loadChaptersWithTopics();
+  const firstChapterCode = chaptersWithTopics?.[0]?.chapter.code ?? "CH1";
 
   if (!chaptersWithTopics) {
     return (
@@ -66,7 +67,40 @@ export default async function Home() {
           Explore reviewed material by topic, practise with source-linked questions, and ask
           for explanations grounded in your course content.
         </p>
+        <div className="flex flex-wrap items-center gap-3 pt-2">
+          <Link
+            className="inline-flex min-h-11 items-center rounded-card bg-meridian px-5 font-medium text-chart transition-colors hover:bg-ink-strong active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
+            href={`/chapters/${firstChapterCode}`}
+          >
+            Start learning
+          </Link>
+          <Link
+            className="inline-flex min-h-11 items-center rounded-card border border-graticule bg-surface px-5 font-medium text-meridian transition-colors hover:border-meridian hover:bg-meridian/6 active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
+            href={`/chapters/${firstChapterCode}#tutor`}
+          >
+            Ask the tutor
+          </Link>
+        </div>
       </div>
+
+      <section aria-labelledby="study-flow-heading" className="border-y border-graticule py-5">
+        <h2 id="study-flow-heading" className="sr-only">How to study</h2>
+        <ol className="grid gap-5 sm:grid-cols-3">
+          {[
+            ["01", "Read", "Choose a chapter and study one topic at a time."],
+            ["02", "Ask", "Use the tutor when a definition or example is unclear."],
+            ["03", "Practise", "Check your understanding with source-linked questions."],
+          ].map(([number, title, detail]) => (
+            <li key={number} className="grid grid-cols-[2rem_1fr] gap-2">
+              <span className="font-mono text-xs text-meridian" aria-hidden="true">{number}</span>
+              <div>
+                <h3 className="font-display text-lg font-semibold text-ink-strong">{title}</h3>
+                <p className="mt-1 text-[0.9375rem]/[1.55] text-ink-muted">{detail}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
 
       <div className="space-y-8">
         {chaptersWithTopics.map(({ chapter, topics }) => (

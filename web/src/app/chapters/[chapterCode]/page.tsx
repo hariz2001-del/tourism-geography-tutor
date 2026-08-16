@@ -39,9 +39,10 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
         <div className="space-y-3">
           <p className="font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-ink-muted">{chapterCode}</p>
           <h1 className="font-display text-[2rem] font-semibold leading-[1.15] tracking-[-0.015em] text-ink-strong md:text-[2.5rem]">{chapter.topic.name}</h1>
-          <div className="flex flex-wrap gap-4 text-sm font-medium">
-            <Link className="text-meridian underline underline-offset-4" href={`/practice/topic?topic=${encodeURIComponent(chapter.topic.id)}`}>Topic quiz</Link>
-            <Link className="text-meridian underline underline-offset-4" href={`/practice/chapter?chapter=${encodeURIComponent(chapterCode)}`}>Chapter mini exam</Link>
+          <div className="flex flex-wrap gap-x-4 text-sm font-medium">
+            <Link className="inline-flex min-h-11 items-center text-meridian underline underline-offset-4" href={`/practice/topic?topic=${encodeURIComponent(chapter.topic.id)}`}>Topic quiz</Link>
+            <Link className="inline-flex min-h-11 items-center text-meridian underline underline-offset-4" href={`/practice/chapter?chapter=${encodeURIComponent(chapterCode)}`}>Chapter mini exam</Link>
+            <Link className="inline-flex min-h-11 items-center text-meridian underline underline-offset-4 lg:hidden" href="#tutor">Ask tutor</Link>
           </div>
         </div>
         {diagram ? <TopicDiagramFigure diagram={diagram} /> : null}

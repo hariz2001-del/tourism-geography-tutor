@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Source_Sans_3, Source_Serif_4 } from "next/font/google";
+import SiteHeader from "@/components/site-header";
 import "./globals.css";
 
 const sourceSans = Source_Sans_3({
@@ -24,10 +25,19 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${sourceSans.variable} ${sourceSerif.variable} ${plexMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <a
+          className="fixed left-3 top-3 z-50 -translate-y-24 rounded-card bg-ink-strong px-4 py-3 font-medium text-chart transition-transform focus:translate-y-0"
+          href="#main-content"
+        >
+          Skip to main content
+        </a>
+        <SiteHeader />
+        <div id="main-content" tabIndex={-1}>{children}</div>
+      </body>
     </html>
   );
 }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import ExamRunner from "@/components/practice/exam-runner";
 import { isPracticeMode, practiceModes, scopeForPractice } from "@/lib/practice/config";
 import { createServerCourseBrainRepository } from "@/lib/supabase/server";
+import type { ExamQuestion } from "@/lib/course-brain/types";
 
 export default async function PracticePage({ params, searchParams }: { params: Promise<{ mode: string }>; searchParams: Promise<{ topic?: string; chapter?: string }> }) {
   const [{ mode }, query] = await Promise.all([params, searchParams]);
@@ -10,19 +11,35 @@ export default async function PracticePage({ params, searchParams }: { params: P
   const scope = scopeForPractice(mode, scopeValue);
   if (!scope) return <Unavailable title={practiceModes[mode].label} detail={`Open this assessment from a ${mode} learning page so its scope can be selected.`} />;
   const counts = practiceModes[mode];
+  let mcqQuestions: ExamQuestion[];
+  let subjectiveQuestions: ExamQuestion[];
   try {
     const repository = createServerCourseBrainRepository();
-    const [mcqQuestions, subjectiveQuestions] = await Promise.all([
+    [mcqQuestions, subjectiveQuestions] = await Promise.all([
       repository.getPublicExamQuestionBatch(scope, "mcq", counts.mcqCount),
       repository.getPublicExamQuestionBatch(scope, "subjective", counts.subjectiveCount),
     ]);
-    if (mcqQuestions.length !== counts.mcqCount || subjectiveQuestions.length !== counts.subjectiveCount) {
-      return <Unavailable title={practiceModes[mode].label} detail={`This assessment needs ${counts.mcqCount} multiple-choice and ${counts.subjectiveCount} written questions. There are not enough generated questions in this scope yet.`} />;
-    }
-    return <ExamRunner title={practiceModes[mode].label} mcqQuestions={mcqQuestions} subjectiveQuestions={subjectiveQuestions} />;
   } catch {
     return <Unavailable title={practiceModes[mode].label} detail="Approved questions are temporarily unavailable. Please try again shortly." />;
   }
+  if (mcqQuestions.length !== counts.mcqCount || subjectiveQuestions.length !== counts.subjectiveCount) {
+    return <Unavailable title={practiceModes[mode].label} detail={`This assessment needs ${counts.mcqCount} multiple-choice and ${counts.subjectiveCount} written questions. There are not enough generated questions in this scope yet.`} />;
+  }
+  const firstQuestion = mcqQuestions[0] ?? subjectiveQuestions[0];
+  const chapterCode = firstQuestion?.citation.chapterCode;
+  const topicId = firstQuestion?.topicId;
+  const returnHref = mode === "course" || !chapterCode
+    ? "/"
+    : mode === "topic" && topicId
+      ? `/chapters/${chapterCode}?topic=${encodeURIComponent(topicId)}`
+      : `/chapters/${chapterCode}`;
+  const returnLabel = mode === "topic" ? "Return to topic" : mode === "chapter" ? `Return to ${chapterCode}` : "Return to course home";
+  const restartHref = mode === "course"
+    ? "/practice/course"
+    : mode === "topic"
+      ? `/practice/topic?topic=${encodeURIComponent(scopeValue ?? "")}`
+      : `/practice/chapter?chapter=${encodeURIComponent(scopeValue ?? "")}`;
+  return <ExamRunner title={practiceModes[mode].label} mcqQuestions={mcqQuestions} subjectiveQuestions={subjectiveQuestions} returnHref={returnHref} returnLabel={returnLabel} restartHref={restartHref} />;
 }
 
 function Unavailable({ title, detail }: { title: string; detail: string }) {
