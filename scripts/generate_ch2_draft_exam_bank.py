@@ -13,6 +13,8 @@ import json
 import re
 from pathlib import Path
 
+from rewrite_question_language import rewrite_record
+
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "data" / "extracted" / "ch2_published_source_units.json"
@@ -74,7 +76,7 @@ def base(unit: dict, question: str, question_type: str) -> dict:
             "topic_name": unit["topics"]["name"], "source_title": unit["title"], "source_content_unit_id": unit["id"],
             "source_citation": citation(unit), "question_type": question_type, "question": question,
             "difficulty": "introductory" if question_type == "mcq" else "application", "status": "draft",
-            "generated_by": "deepseek_draft", "explanation": "AI-generated draft; requires lecturer review before publication."}
+            "generated_by": "deepseek_draft", "explanation": "This option best matches the definition or fact in the question."}
 
 
 def description_without_answer(unit: dict) -> str:
@@ -84,7 +86,7 @@ def description_without_answer(unit: dict) -> str:
     body = re.sub(re.escape(title), "", body, flags=re.IGNORECASE).strip(" —–:-. ")
     # Several labels use singular/plural wording different from the source lead.
     body = re.sub(r"^(Evergreens?|[A-Z][A-Za-z -]* climates?)\s*[—–:-]\s*", "", body).strip()
-    return body or "It is described in the cited course unit."
+    return body or "It matches the available definition."
 
 
 def mcq_options(unit: dict, topic_units: list[dict]) -> list[dict]:
@@ -103,19 +105,19 @@ def build(units: list[dict]) -> list[dict]:
     for topic_units in by_topic.values():
         # One MCQ per distinct source unit avoids weak duplicate sets in short topics.
         for unit in topic_units:
-            item = base(unit, f"Which course item is described here? {description_without_answer(unit)}", "mcq")
+            item = base(unit, f"Which term best matches this description? {description_without_answer(unit)}", "mcq")
             item["options"] = mcq_options(unit, topic_units)
             result.append(item)
         # A smaller written pool remains sufficient for the mixed assessment modes.
         for unit in topic_units[:min(6, len(topic_units))]:
             concepts, synonyms = FACTS[unit["title"]]
-            item = base(unit, f"Using the course material, state two supported facts about {unit['title']}.", "subjective")
-            item.update({"answer_scheme": "Award one mark for each distinct supported fact; do not award a mark merely for repeating the term in the question.",
+            item = base(unit, f"State two accurate facts about {unit['title']}.", "subjective")
+            item.update({"answer_scheme": "Award one mark for each distinct, accurate fact. Repeating the term in the question does not earn a mark.",
                          "max_marks": 2,
                          "criteria": [
-                             {"criterion": "States one supported fact from the cited unit", "marks": 1,
+                             {"criterion": "States one accurate fact", "marks": 1,
                               "accepted_concepts": concepts[:1], "accepted_synonyms": synonyms[:2]},
-                             {"criterion": "States a second supported fact from the cited unit", "marks": 1,
+                             {"criterion": "States a second accurate fact", "marks": 1,
                               "accepted_concepts": concepts[1:], "accepted_synonyms": synonyms[2:]},
                          ]})
             result.append(item)
@@ -124,7 +126,7 @@ def build(units: list[dict]) -> list[dict]:
 
 def main() -> None:
     units = json.loads(SOURCE.read_text(encoding="utf-8-sig"))
-    records = build(units)
+    records = [rewrite_record(record) for record in build(units)]
     OUTPUT.write_text(json.dumps(records, indent=2) + "\n", encoding="utf-8")
     print(f"Wrote {len(records)} CH2 draft questions ({sum(x['question_type'] == 'mcq' for x in records)} MCQ) to {OUTPUT}")
 

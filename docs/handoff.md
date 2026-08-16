@@ -14,21 +14,22 @@ first.
 
 ## Right now
 
-**Active task: focused UI/UX learner-flow pass (2026-08-16, production release).**
-GitHub `main` at `e69043d` is the build source of truth; the Google Drive checkout is
-used for the approved local course materials and as the editable handoff workspace.
-The current UI/UX change set adds global Course/Guide/Full exam navigation, a skip
-link, a `/about` study guide, homepage Start learning / Ask the tutor actions, compact
-long topic menus on mobile, a direct mobile tutor jump, assessment return/retry
-actions, and valid progressbar semantics. It also fixes clean-checkout test/lint/type
-failures exposed when the build was moved out of Google Drive. Validation currently
-passes 61 web tests, ESLint, TypeScript, and a production Next.js build; the local
-mobile assessment Lighthouse snapshot is 100 across accessibility, best practices,
-SEO, and agentic browsing. See `docs/audits/ui-ux-review-2026-08-16.md`.
+**Active task: natural assessment language (2026-08-16, production release).**
+GitHub `main` remains the build source of truth; the Google Drive checkout holds the
+approved local materials and editable handoff workspace. All 208 generated questions
+have been reviewed. The remediation rewrites 140 stems and 34 Chapter 2 option sets,
+removes learner-visible phrases that expose course/database/draft constraints,
+normalizes explanations and written-answer criteria, and shuffles MCQ options at
+display time. Source links, answer keys, and provenance remain intact internally.
 
-This batch is released through GitHub PR #1 and the existing Vercel production
-project. The production domain must show commit `72543dd` or a descendant before
-the release is reported as verified.
+The database change is captured in
+`supabase/migrations/202608160001_naturalize_exam_language.sql`, generated from the
+versioned before/after manifest `data/question-language-rewrite-2026-08-16.json`.
+Validation passes 33 Python tests, 62 web tests, ESLint, TypeScript, the Next.js
+production build, migration dry-run, and a full 208-question language audit with
+zero remaining learner-facing pipeline terms. The release must be applied to the
+linked Supabase project and merged through GitHub before the existing Vercel
+production domain is reported as verified.
 
 **Active task: generated assessment banks and learner assessment flow (2026-08-12).**
 The learner-facing assessment routes now generate a fresh shuffled set at launch:

@@ -23,7 +23,7 @@
 | Assessment progress uses invalid ARIA | RED | Lighthouse flagged `aria-label` on a generic `<div>`; baseline mobile snapshot scored 95 accessibility and 0 agentic browsing. | Added `role="progressbar"` plus `aria-valuemin`, `aria-valuemax`, and `aria-valuenow`; re-audit scored 100 in both categories. |
 | Landing page does not explain the study loop | GREEN | The configured home page moved directly from its introductory sentence to four chapter cards. | Added Start learning / Ask the tutor actions and a compact Read → Ask → Practise orientation. |
 | No consistent global wayfinding or guide | GREEN | Chapter and practice pages had no shared site header; `/about` did not exist. | Added a global Course/Guide/Full exam header, keyboard skip link, and a source-trust-focused study guide. |
-| Several generated MCQs read awkwardly | YELLOW | Examples include “Which course item is described here? is the…” in the live bank. | Not changed in this UI-only pass; requires a question-bank content remediation. |
+| Several generated MCQs read awkwardly | GREEN | Examples included “Which course item is described here? is the…” in the live bank. | Resolved in the 2026-08-16 content follow-up: all 208 questions were reviewed, 140 stems and 34 Chapter 2 option sets were rewritten, learner-visible pipeline language was removed, and MCQ options are now shuffled at display time. |
 
 ## Accessibility and verification
 

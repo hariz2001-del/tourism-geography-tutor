@@ -28,14 +28,14 @@ describe("Home", () => {
 
     render(await Home());
 
-    expect(screen.getByRole("heading", { name: /learn from approved course materials/i })).toBeVisible();
+    expect(screen.getByRole("heading", { name: /build your tourism geography knowledge/i })).toBeVisible();
     expect(screen.getByRole("link", { name: /geography foundations/i })).toHaveAttribute(
       "href",
       "/chapters/CH1?topic=topic-1",
     );
     expect(screen.getByRole("link", { name: /start learning/i })).toHaveAttribute("href", "/chapters/CH1");
     expect(screen.getByRole("link", { name: /ask the tutor/i })).toHaveAttribute("href", "/chapters/CH1#tutor");
-    expect(screen.getByText(/no approved material is available for this chapter yet/i)).toBeVisible();
+    expect(screen.getByText(/this chapter does not have any topics yet/i)).toBeVisible();
   });
 
   it("falls back to a single Chapter 1 entry point when the Course Brain is unconfigured", async () => {

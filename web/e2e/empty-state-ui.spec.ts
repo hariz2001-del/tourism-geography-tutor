@@ -8,7 +8,7 @@ test("home exposes the Chapter 1 entry point without browser errors", async ({ p
 
   await page.goto("/");
   await expect(page.getByRole("link", { name: "Start Chapter 1" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: /learn from approved course materials/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /build your tourism geography knowledge/i })).toBeVisible();
   expect(failures, failures.join("\n")).toHaveLength(0);
 });
 

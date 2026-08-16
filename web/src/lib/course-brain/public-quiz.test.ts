@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createCourseBrainRepository } from "./repository";
 
 function queryBuilder(rows: unknown[]) {
@@ -52,6 +52,34 @@ describe("public quiz repository boundary", () => {
     await repository.getPublicExamQuestionBatch({ type: "chapter", code: "CH3" }, "mcq", 8);
 
     expect(parameters).toEqual({ p_scope_type: "chapter", p_scope_value: "CH3", p_question_type: "mcq", p_limit: 8 });
+  });
+
+  it("shuffles MCQ options before returning an exam batch", async () => {
+    const random = vi.spyOn(Math, "random").mockReturnValue(0);
+    const repository = createCourseBrainRepository({
+      from: () => queryBuilder([]),
+      rpc: async () => ({
+        data: [{
+          id: "quiz-1", topic_id: "topic-1", source_content_unit_id: "unit-1",
+          question_type: "mcq", question: "Which answer?", difficulty: "introductory", max_marks: 1,
+          source_file: "reviewed.pdf", chapter_label: "Chapter 1", page_or_slide: 4, chapter_code: "CH1",
+          options: [
+            { id: "option-a", text: "A" },
+            { id: "option-b", text: "B" },
+            { id: "option-c", text: "C" },
+            { id: "option-d", text: "D" },
+          ],
+        }],
+        error: null,
+      }),
+    } as never);
+
+    try {
+      const [question] = await repository.getPublicExamQuestionBatch({ type: "chapter", code: "CH1" }, "mcq", 1);
+      expect(question.options.map((option) => option.id)).toEqual(["option-b", "option-c", "option-d", "option-a"]);
+    } finally {
+      random.mockRestore();
+    }
   });
 
   it("returns the safe RPC quiz shape without an answer key", async () => {

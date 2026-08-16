@@ -23,7 +23,7 @@ describe("TutorPanel", () => {
     expect(screen.getByText(/page\/slide 4/i)).toBeVisible();
   });
 
-  it("labels an AI-generated answer distinctly from a direct course-material answer", async () => {
+  it("labels an AI-assisted answer and keeps its reference visible", async () => {
     vi.stubGlobal("fetch", vi.fn(() => mockResponse({
       kind: "ai_grounded",
       text: "A desert has very low precipitation.",
@@ -34,14 +34,14 @@ describe("TutorPanel", () => {
     fireEvent.change(screen.getByLabelText(/ask the tutor/i), { target: { value: "whats a dessert with low precipitaton" } });
     fireEvent.click(screen.getByRole("button", { name: /ask tutor/i }));
 
-    expect(await screen.findByText(/ai-generated from course material/i)).toBeVisible();
+    expect(await screen.findByText(/ai-assisted explanation/i)).toBeVisible();
     expect(screen.getByText(/desert has very low precipitation/i)).toBeVisible();
   });
 
   it("clearly renders an out-of-scope answer", async () => {
     vi.stubGlobal("fetch", vi.fn(() => mockResponse({
       kind: "out_of_scope",
-      text: "I could not find support for that in the approved Chapter 1 material.",
+      text: "I could not find a confident answer to that. Try rephrasing the question.",
       citations: [],
     })));
 
@@ -49,6 +49,6 @@ describe("TutorPanel", () => {
     fireEvent.change(screen.getByLabelText(/ask the tutor/i), { target: { value: "Tell me about another subject" } });
     fireEvent.click(screen.getByRole("button", { name: /ask tutor/i }));
 
-    await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent(/could not find support/i));
+    await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent(/could not find a confident answer/i));
   });
 });

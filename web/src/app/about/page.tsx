@@ -3,24 +3,24 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Study guide | Tourism Geography Tutor",
-  description: "How to study course topics, ask the grounded tutor, and use practice assessments.",
+  description: "How to study Tourism Geography, ask the tutor, and use practice assessments.",
 };
 
 const steps = [
   {
     number: "01",
     title: "Choose one topic",
-    detail: "Open a chapter, then choose a topic from its topic menu. Definitions, examples, diagrams, and source-slide photos are grouped to make the material easier to scan.",
+    detail: "Open a chapter, then choose a topic from its menu. Definitions, examples, diagrams, and photos are grouped to make each lesson easier to scan.",
   },
   {
     number: "02",
-    title: "Ask the course tutor",
-    detail: "Ask for a definition, comparison, or explanation. Supported answers link back to the exact course unit and slide so you can verify them in context.",
+    title: "Ask the tutor",
+    detail: "Ask for a definition, comparison, or explanation. Helpful answers include a reference so you can revisit the related topic.",
   },
   {
     number: "03",
     title: "Practise and review",
-    detail: "Take a five-question topic quiz, a chapter mini exam, or the full course exam. After submission, review the marking scheme and use Which to refer links to revisit weak areas.",
+    detail: "Take a five-question topic quiz, a chapter mini exam, or the full exam. After submission, review the marking scheme and revisit any topic that needs more work.",
   },
 ];
 
@@ -30,10 +30,10 @@ export default function AboutPage() {
       <header className="max-w-3xl space-y-4">
         <p className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-meridian">Study guide</p>
         <h1 className="text-balance font-display text-[2.5rem]/[1.08] font-semibold tracking-[-0.02em] text-ink-strong md:text-[3.5rem]">
-          Read, ask, and practise with the course material.
+          Study Tourism Geography with a clear routine.
         </h1>
         <p className="max-w-[62ch] text-[1.1875rem]/[1.6] text-ink">
-          This tutor is built around the approved Tourism Geography slides. Use it as a study companion, then follow every citation back to the source when you need the lecturer&apos;s exact wording.
+          Read one topic at a time, ask questions when something is unclear, and practise until the ideas feel familiar.
         </p>
       </header>
 
@@ -48,9 +48,9 @@ export default function AboutPage() {
       </ol>
 
       <aside className="mt-10 border-l-2 border-l-relief bg-relief/5 p-5" aria-labelledby="trust-heading">
-        <h2 id="trust-heading" className="font-display text-xl font-semibold text-ink-strong">What the tutor can support</h2>
+        <h2 id="trust-heading" className="font-display text-xl font-semibold text-ink-strong">How references help</h2>
         <p className="mt-2 max-w-[65ch] text-[1.0625rem]/[1.7] text-ink">
-          Course-grounded answers include a chapter and page or slide citation. If the approved material does not support an answer, the tutor should say so instead of presenting outside knowledge as course fact.
+          Helpful answers include a chapter and page or slide reference so you can review the idea in context. If the tutor is not confident, it will ask you to rephrase instead of guessing.
         </p>
       </aside>
 

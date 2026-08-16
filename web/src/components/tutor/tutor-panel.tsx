@@ -53,7 +53,7 @@ export default function TutorPanel({ topicTitle }: Props) {
   return (
     <section id="tutor" tabIndex={-1} className="scroll-mt-6 rounded-card border border-graticule bg-surface p-5" aria-labelledby="tutor-heading">
       <h2 id="tutor-heading" className="font-display text-[1.375rem] font-semibold text-ink-strong">Tutor</h2>
-      <p className="mt-1 text-[0.9375rem]/[1.6] text-ink-muted">Ask about any topic in the course, not just &ldquo;{topicTitle}&rdquo; — matching answers link back to where they come from.</p>
+      <p className="mt-1 text-[0.9375rem]/[1.6] text-ink-muted">Ask any Tourism Geography question, not just about &ldquo;{topicTitle}&rdquo;. Helpful answers include a related reference.</p>
       <form className="mt-4 space-y-3" onSubmit={submit}>
         <label className="block font-medium text-ink-strong" htmlFor="tutor-question">Question</label>
         <textarea id="tutor-question" aria-label="Ask the tutor" value={question} onChange={(event) => setQuestion(event.target.value)} required maxLength={500} className="min-h-24 w-full rounded-card border border-graticule bg-surface p-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian" />
@@ -65,10 +65,10 @@ export default function TutorPanel({ topicTitle }: Props) {
       {answer ? (
         <div className="mt-5 space-y-3" role="status" aria-live="polite">
           {answer.kind === "ai_grounded" ? (
-            <p className="font-mono text-[0.8125rem]/[1.5] font-medium uppercase tracking-[0.14em] text-relief">AI-generated from course material — verify against the source below</p>
+            <p className="font-mono text-[0.8125rem]/[1.5] font-medium uppercase tracking-[0.14em] text-relief">AI-assisted explanation — check the reference below</p>
           ) : null}
           {answer.kind === "out_of_scope" ? (
-            <p className="font-mono text-[0.6875rem]/[1.2] font-medium uppercase tracking-[0.14em] text-ink-muted">Not in course material</p>
+            <p className="font-mono text-[0.6875rem]/[1.2] font-medium uppercase tracking-[0.14em] text-ink-muted">No confident match</p>
           ) : null}
           <p className={`text-[1.0625rem]/[1.7] ${answer.kind === "out_of_scope" ? "text-ink-muted" : "text-ink"}`}>{answer.text}</p>
           {answer.citations.map((citation) => <CitationCard key={`${citation.sourceFile}-${citation.pageOrSlide}`} citation={citation} />)}

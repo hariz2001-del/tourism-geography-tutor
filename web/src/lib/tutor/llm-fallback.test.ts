@@ -10,7 +10,7 @@ const units: PublishedContentUnit[] = [
   },
 ];
 
-const outOfScope: OutOfScopeTutorAnswer = { kind: "out_of_scope", text: "I could not find support for that in the approved material for this topic.", citations: [] };
+const outOfScope: OutOfScopeTutorAnswer = { kind: "out_of_scope", text: "I could not find a confident answer to that. Try rephrasing the question.", citations: [] };
 
 function mockFetchJson(body: unknown, ok = true) {
   return vi.fn(async () => ({ ok, json: async () => body }));

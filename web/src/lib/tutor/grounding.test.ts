@@ -50,6 +50,6 @@ describe("answerQuestion", () => {
 
     expect(answer.kind).toBe("out_of_scope");
     expect(answer.citations).toHaveLength(0);
-    expect(answer.text).toMatch(/approved material/i);
+    expect(answer.text).toMatch(/try rephrasing/i);
   });
 });
