@@ -14,7 +14,7 @@ first.
 
 ## Right now
 
-**Active task: focused UI/UX learner-flow pass (2026-08-16, published for preview and awaiting merge).**
+**Active task: focused UI/UX learner-flow pass (2026-08-16, production release).**
 GitHub `main` at `e69043d` is the build source of truth; the Google Drive checkout is
 used for the approved local course materials and as the editable handoff workspace.
 The current UI/UX change set adds global Course/Guide/Full exam navigation, a skip
@@ -26,9 +26,9 @@ passes 61 web tests, ESLint, TypeScript, and a production Next.js build; the loc
 mobile assessment Lighthouse snapshot is 100 across accessibility, best practices,
 SEO, and agentic browsing. See `docs/audits/ui-ux-review-2026-08-16.md`.
 
-This batch is published on an `agent/` branch for a Vercel preview. It is not a
-production release until its pull request is approved, merged, and verified on the
-production site.
+This batch is released through GitHub PR #1 and the existing Vercel production
+project. The production domain must show commit `72543dd` or a descendant before
+the release is reported as verified.
 
 **Active task: generated assessment banks and learner assessment flow (2026-08-12).**
 The learner-facing assessment routes now generate a fresh shuffled set at launch:
