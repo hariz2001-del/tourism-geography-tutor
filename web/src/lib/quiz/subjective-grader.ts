@@ -51,7 +51,7 @@ function findConfiguredMatch(answer: string, values: string[], usedTerms: Set<st
 
 function feedback(marks: number, maxMarks: number): string {
   if (marks === maxMarks) return "This part is supported by your answer.";
-  if (marks === 0) return "This part needs more support from the course material.";
+  if (marks === 0) return "This part needs a more complete or accurate explanation.";
   return "This part is partly supported by your answer.";
 }
 

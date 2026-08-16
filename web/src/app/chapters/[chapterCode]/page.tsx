@@ -50,7 +50,7 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
           ? sections.map((section, i) => (
               <ContentSection key={section.id} section={section} showLabel={showLabels} isFirst={i === 0} />
             ))
-          : <p role="status" className="rounded-card border border-graticule bg-surface p-4 text-ink">No approved material is available for this topic yet.</p>}
+          : <p role="status" className="rounded-card border border-graticule bg-surface p-4 text-ink">This topic does not have any learning notes yet.</p>}
         {chapter.quiz ? <QuizCard question={chapter.quiz} /> : null}
       </section>
       <aside className="lg:sticky lg:top-6 lg:self-start"><TutorPanel topicTitle={chapter.topic.name} /></aside>
@@ -63,8 +63,8 @@ function EmptyState({ chapterCode, chapters }: { chapterCode: string; chapters: 
     <ChapterNav chapters={chapters} />
     <div className="flex flex-col gap-4">
       <h1 className="font-display text-[2rem] font-semibold leading-[1.15] tracking-[-0.015em] text-ink-strong md:text-[2.5rem]">{chapterCode} materials</h1>
-      <p className="text-lg text-ink">No approved Course Brain records are available for this chapter yet.</p>
-      <p className="text-ink-muted">Reviewed material will appear here after it has been imported and published with source citations.</p>
+      <p className="text-lg text-ink">This chapter does not have any topics yet.</p>
+      <p className="text-ink-muted">Choose another chapter to continue learning.</p>
     </div>
   </main>;
 }

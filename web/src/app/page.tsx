@@ -30,11 +30,11 @@ export default async function Home() {
           Tourism Geography Tutor
         </p>
         <h1 className="font-display text-[2.5rem]/[1.1] font-semibold tracking-[-0.02em] text-ink-strong md:text-[3.25rem]">
-          Learn from approved course materials.
+          Build your Tourism Geography knowledge.
         </h1>
         <p className="max-w-[62ch] text-[1.25rem]/[1.55] text-ink">
-          Explore reviewed material, practise with source-linked questions, and ask
-          for explanations grounded in your course content.
+          Explore topics, practise with focused questions, and ask the tutor for
+          clear explanations.
         </p>
         <div>
           <Link
@@ -61,11 +61,11 @@ export default async function Home() {
           Tourism Geography Tutor
         </p>
         <h1 className="font-display text-[2.5rem]/[1.1] font-semibold tracking-[-0.02em] text-ink-strong md:text-[3.25rem]">
-          Learn from approved course materials.
+          Build your Tourism Geography knowledge.
         </h1>
         <p className="max-w-[62ch] text-[1.25rem]/[1.55] text-ink">
-          Explore reviewed material by topic, practise with source-linked questions, and ask
-          for explanations grounded in your course content.
+          Explore topics, practise with focused questions, and ask the tutor for
+          clear explanations.
         </p>
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <Link
@@ -89,7 +89,7 @@ export default async function Home() {
           {[
             ["01", "Read", "Choose a chapter and study one topic at a time."],
             ["02", "Ask", "Use the tutor when a definition or example is unclear."],
-            ["03", "Practise", "Check your understanding with source-linked questions."],
+            ["03", "Practise", "Check your understanding with focused questions."],
           ].map(([number, title, detail]) => (
             <li key={number} className="grid grid-cols-[2rem_1fr] gap-2">
               <span className="font-mono text-xs text-meridian" aria-hidden="true">{number}</span>
@@ -130,7 +130,7 @@ export default async function Home() {
                 ))}
               </ul>
             ) : (
-              <p className="text-ink-muted">No approved material is available for this chapter yet.</p>
+              <p className="text-ink-muted">This chapter does not have any topics yet.</p>
             )}
             <div className="mt-4 flex flex-wrap gap-3">
               <Link className="font-medium text-meridian underline underline-offset-4" href={`/practice/chapter?chapter=${encodeURIComponent(chapter.code)}`}>Chapter mini exam</Link>

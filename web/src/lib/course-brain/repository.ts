@@ -38,6 +38,15 @@ function rows(data: unknown): Record<string, unknown>[] {
   return Array.isArray(data) ? data as Record<string, unknown>[] : [];
 }
 
+function shuffled<T>(values: T[]): T[] {
+  const result = [...values];
+  for (let index = result.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [result[index], result[swapIndex]] = [result[swapIndex], result[index]];
+  }
+  return result;
+}
+
 function citationFrom(row: Record<string, unknown>) {
   const references = row.source_references;
   const reference = Array.isArray(references) ? references[0] : references;
@@ -108,7 +117,7 @@ export function createCourseBrainRepository(client: SupabaseQueryAdapter) {
       const options = Array.isArray(row.options) ? row.options as Record<string, unknown>[] : [];
       return {
         id: String(row.id), question: String(row.question), explanation: String(row.explanation),
-        options: options.map((option) => ({ id: String(option.id), text: String(option.text) })),
+        options: shuffled(options.map((option) => ({ id: String(option.id), text: String(option.text) }))),
         citation: { sourceFile: String(row.source_file), chapterLabel: String(row.chapter_label), pageOrSlide: Number(row.page_or_slide) },
       };
     },
@@ -140,7 +149,7 @@ export function createCourseBrainRepository(client: SupabaseQueryAdapter) {
           question: String(row.question),
           difficulty: String(row.difficulty) as ExamQuestion["difficulty"],
           maxMarks: Number(row.max_marks),
-          options: options.map((option) => ({ id: String(option.id), text: String(option.text) })),
+          options: shuffled(options.map((option) => ({ id: String(option.id), text: String(option.text) }))),
           citation: { sourceFile: String(row.source_file), chapterLabel: String(row.chapter_label), pageOrSlide: Number(row.page_or_slide), chapterCode: String(row.chapter_code), topicId: String(row.topic_id), contentUnitId: String(row.source_content_unit_id) },
         };
       });

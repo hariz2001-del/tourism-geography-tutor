@@ -15,7 +15,7 @@ const plexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: "Tourism Geography Tutor",
-  description: "Learn from approved Tourism Geography course material.",
+  description: "Learn Tourism Geography through clear explanations, practice questions, and guided review.",
 };
 
 export const viewport: Viewport = {

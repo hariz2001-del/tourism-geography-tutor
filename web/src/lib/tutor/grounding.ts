@@ -34,7 +34,7 @@ export function answerQuestion(
   if (!best) {
     return {
       kind: "out_of_scope",
-      text: "I could not find support for that in the approved material for this topic.",
+      text: "I could not find a confident answer to that. Try rephrasing the question or asking about a more specific Tourism Geography topic.",
       citations: [],
     };
   }
