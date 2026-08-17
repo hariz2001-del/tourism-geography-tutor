@@ -33,6 +33,20 @@ export function createServerOnlyCourseBrainRepository() {
   );
 }
 
+// Raw service-role client, for the one job RLS cannot do: writing an assessment
+// result on a learner's behalf. Learners have no insert policy on their own
+// attempts precisely so a score cannot be self-reported.
+export function createServiceRoleClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!url || !serviceRoleKey) {
+    throw new Error("Course Brain is not configured.");
+  }
+
+  return createClient(url, serviceRoleKey);
+}
+
 // Runs every query as the signed-in learner, so the row-level policies added in
 // 202608170001_learner_accounts.sql are what actually decide access. Use this for
 // anything learner-scoped; keep the anon client above for public course content.

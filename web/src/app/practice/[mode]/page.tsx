@@ -2,6 +2,7 @@ import Link from "next/link";
 import ExamRunner from "@/components/practice/exam-runner";
 import { isPracticeMode, practiceModes, scopeForPractice } from "@/lib/practice/config";
 import { createServerCourseBrainRepository } from "@/lib/supabase/server";
+import { getProfile } from "@/lib/auth/session";
 import type { ExamQuestion } from "@/lib/course-brain/types";
 
 export default async function PracticePage({ params, searchParams }: { params: Promise<{ mode: string }>; searchParams: Promise<{ topic?: string; chapter?: string }> }) {
@@ -39,7 +40,18 @@ export default async function PracticePage({ params, searchParams }: { params: P
     : mode === "topic"
       ? `/practice/topic?topic=${encodeURIComponent(scopeValue ?? "")}`
       : `/practice/chapter?chapter=${encodeURIComponent(scopeValue ?? "")}`;
-  return <ExamRunner title={practiceModes[mode].label} mcqQuestions={mcqQuestions} subjectiveQuestions={subjectiveQuestions} returnHref={returnHref} returnLabel={returnLabel} restartHref={restartHref} />;
+  const profile = await getProfile();
+  return <ExamRunner
+    title={practiceModes[mode].label}
+    mcqQuestions={mcqQuestions}
+    subjectiveQuestions={subjectiveQuestions}
+    returnHref={returnHref}
+    returnLabel={returnLabel}
+    restartHref={restartHref}
+    mode={mode}
+    scopeValue={scopeValue ?? null}
+    isLearner={profile?.role === "student"}
+  />;
 }
 
 function Unavailable({ title, detail }: { title: string; detail: string }) {

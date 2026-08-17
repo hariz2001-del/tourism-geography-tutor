@@ -13,18 +13,24 @@ function isMcqResult(result: McqResult | SubjectiveResult): result is McqResult 
   return "isCorrect" in result;
 }
 
-export default function ExamRunner({ title, mcqQuestions, subjectiveQuestions, returnHref, returnLabel, restartHref }: {
+export default function ExamRunner({ title, mcqQuestions, subjectiveQuestions, returnHref, returnLabel, restartHref, mode, scopeValue, isLearner = false }: {
   title: string;
   mcqQuestions: ExamQuestion[];
   subjectiveQuestions: ExamQuestion[];
   returnHref: string;
   returnLabel: string;
   restartHref: string;
+  mode: "topic" | "chapter" | "course";
+  scopeValue: string | null;
+  // Only a signed-in learner has a result worth recording.
+  isLearner?: boolean;
 }) {
   const questions = useMemo(() => [...mcqQuestions, ...subjectiveQuestions], [mcqQuestions, subjectiveQuestions]);
   const [mcqAnswers, setMcqAnswers] = useState<Record<string, string>>({});
   const [subjectiveAnswers, setSubjectiveAnswers] = useState<Record<string, string>>({});
   const [results, setResults] = useState<Results | null>(null);
+  const [totals, setTotals] = useState<{ awardedMarks: number; totalMarks: number } | null>(null);
+  const [attemptId, setAttemptId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -39,33 +45,44 @@ export default function ExamRunner({ title, mcqQuestions, subjectiveQuestions, r
     }
     setError(null); setIsSubmitting(true);
     try {
-      const checked = await Promise.all([
-        ...mcqQuestions.map(async (question) => {
-          const response = await fetch("/api/quiz/answer", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ quizId: question.id, optionId: mcqAnswers[question.id] }) });
-          const body = await response.json() as { data?: QuizAnswerFeedback; error?: string };
-          if (!response.ok || !body.data) throw new Error(body.error ?? "An MCQ answer could not be checked.");
-          return [question.id, { ...body.data, awardedMarks: body.data.isCorrect ? question.maxMarks : 0, maxMarks: question.maxMarks }] as const;
+      // One request for the whole paper. Marks are computed and totalled on the
+      // server so a recorded score never depends on what the browser claims.
+      const response = await fetch("/api/attempts", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          mode,
+          scopeValue: mode === "course" ? null : scopeValue,
+          scopeLabel: title,
+          answers: [
+            ...mcqQuestions.map((question) => ({ questionId: question.id, questionType: "mcq" as const, optionId: mcqAnswers[question.id] })),
+            ...subjectiveQuestions.map((question) => ({ questionId: question.id, questionType: "subjective" as const, answer: subjectiveAnswers[question.id].trim() })),
+          ],
         }),
-        ...subjectiveQuestions.map(async (question) => {
-          const response = await fetch("/api/quiz/subjective", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ quizId: question.id, answer: subjectiveAnswers[question.id].trim() }) });
-          const body = await response.json() as { data?: SubjectiveGrade; error?: string };
-          if (!response.ok || !body.data) throw new Error(body.error ?? "A written answer could not be marked.");
-          return [question.id, body.data] as const;
-        }),
-      ]);
-      setResults(Object.fromEntries(checked));
+      });
+      const body = await response.json() as { data?: { attemptId: string | null; awardedMarks: number; totalMarks: number; results: Results }; error?: string };
+      if (!response.ok || !body.data) throw new Error(body.error ?? "Your answers could not be submitted.");
+      setResults(body.data.results);
+      setTotals({ awardedMarks: body.data.awardedMarks, totalMarks: body.data.totalMarks });
+      setAttemptId(body.data.attemptId);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Your answers could not be submitted.");
     } finally { setIsSubmitting(false); }
   }
 
   if (results) {
-    const awarded = questions.reduce((sum, question) => sum + results[question.id].awardedMarks, 0);
-    const total = questions.reduce((sum, question) => sum + question.maxMarks, 0);
+    const awarded = totals?.awardedMarks ?? 0;
+    const total = totals?.totalMarks ?? 0;
     return <main className="mx-auto min-h-[calc(100vh-4rem)] max-w-4xl space-y-8 px-6 py-10">
       <header className="space-y-4">
         <Link className="inline-flex min-h-11 items-center font-medium text-meridian underline underline-offset-4" href={returnHref}>← {returnLabel}</Link>
-        <div className="space-y-2"><p className="font-mono text-[0.75rem] uppercase tracking-[0.14em] text-meridian">Submitted practice</p><h1 className="font-display text-4xl font-semibold text-ink-strong">{title} results</h1><p className="text-xl text-ink">{awarded} / {total} marks</p></div>
+        <div className="space-y-2"><p className="font-mono text-[0.75rem] uppercase tracking-[0.14em] text-meridian">Submitted practice</p><h1 className="font-display text-4xl font-semibold text-ink-strong">{title} results</h1><p className="text-xl text-ink">{awarded} / {total} marks</p>
+        {attemptId
+          ? <p role="status" className="text-ink-muted">Saved to your results. <Link className="font-medium text-meridian underline underline-offset-4" href={`/dashboard/student/results/${attemptId}`}>Review this attempt</Link> or retake it to improve your best score.</p>
+          : isLearner
+            ? <p role="status" className="text-ink-muted">This result could not be saved to your record.</p>
+            : <p role="status" className="text-ink-muted"><Link className="font-medium text-meridian underline underline-offset-4" href="/login">Sign in</Link> to keep your score history and retake this to improve it.</p>}
+        </div>
         <div className="flex flex-wrap gap-3">
           <a className="inline-flex min-h-11 items-center rounded-card bg-meridian px-5 font-medium text-chart transition-colors hover:bg-ink-strong active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian" href={restartHref}>Try another set</a>
           <Link className="inline-flex min-h-11 items-center rounded-card border border-graticule bg-surface px-5 font-medium text-meridian transition-colors hover:border-meridian hover:bg-meridian/6 active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian" href={returnHref}>{returnLabel}</Link>
