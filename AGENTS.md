@@ -12,12 +12,20 @@ Build a course-grounded Tourism Geography learning platform. The product is a le
 
 ## MVP scope
 - Include: course-material browser, topic explorer, citation-grounded tutor, basic self-assessment quizzes, anonymous helpfulness feedback.
-- Exclude for now: login, student profiles, saved cross-device progress, public web knowledge, and a lecturer-admin UI.
+- Include as of 2026-08-17: username/password login, student and lecturer roles, saved
+  bookmarks, reading history, recorded assessment results, and a lecturer dashboard with
+  question-bank CRUD and a draft-approval queue.
+- Exclude for now: self-registration, public web knowledge, and multiple classrooms.
+- The course materials, flashcards, and practice assessments stay open without an account.
+  Signing in adds persistence and the dashboards; it does not gate the learning content.
 - The UI design/branding is intentionally deferred until functionality is reviewed.
 
 ## Quiz policy
 - Initial questions are sourced from or derived from approved Chapter 1–4 content.
 - A future DeepSeek integration may draft questions from approved content, but AI-generated questions must remain `draft` until lecturer/admin review explicitly approves them.
+- The lecturer approval UI now exists at `/dashboard/lecturer/review`. All 208 generated
+  questions are still `draft`; approving one is a deliberate act, and the database refuses
+  to approve any question that is not complete and traceable to a published, cited unit.
 
 ## Architecture preferences
 - Use Supabase/Postgres as the system of record.

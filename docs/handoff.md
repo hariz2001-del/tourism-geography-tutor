@@ -14,7 +14,52 @@ first.
 
 ## Right now
 
-**Active task: source-grounded flashcards (2026-08-16, production release).**
+**Active task: learner accounts, roles, and the two dashboards (2026-08-17).**
+Branch `agent/learner-accounts`, four commits, not yet pushed or merged.
+
+Two seeded Supabase accounts, `lecturer`/`lecturer` and `student`/`student`. Supabase Auth
+needs an email, so the login form maps username to `<username>@tgtutor.local`; learners type
+only the username. Accounts were created directly in `auth.users` (with matching
+`auth.identities` rows) because the service-role key is not persisted on this machine; a
+trigger on `auth.users` creates the matching `public.profiles` row from user metadata.
+
+Migration `202608170001_learner_accounts.sql` adds profiles, classrooms, bookmarks,
+topic_progress, assessment_attempts, and attempt_answers. **Read the header comment before
+touching any policy** — the role separation is deliberate and was verified by probing the
+database as each role before any UI existed:
+
+- Lecturers have **no policy at all** on `bookmarks` or `topic_progress`, so a learner's saved
+  material and reading history cannot leak through a dashboard bug.
+- Students have no insert policy on `assessment_attempts`; results are written server-side only.
+- `quiz_questions` / `_options` / `_marking_criteria` are now granted to `authenticated` but
+  every policy requires the lecturer role, so a student still reads zero answer keys. This is
+  the one place the change could have widened the trust boundary; it is covered by e2e tests.
+
+Shipped and verified: login and role routing, both dashboards, question-bank list/filter/CRUD,
+the draft-approval queue, saved material (course units and flashcards), and reading history.
+
+**Not yet verified: assessment marking and recording** (`/api/attempts`). The code is written,
+typechecks, builds, and has unit tests asserting the browser sends no marks and renders the
+server's totals — but the live round trip needs `SUPABASE_SERVICE_ROLE_KEY`, which is not on
+this machine. `vercel env pull` returns it as the literal string `"[SENSITIVE]"`. Ask the
+project owner for it, put it in `web/.env.local`, restart `next dev`, then run
+`BASE_URL=http://localhost:3000 npx playwright test e2e/assessment.spec.ts`.
+
+**Working directory changed.** Build and test from the local clone at
+`C:\Users\User\dev\tourism-geography-tutor`, not the Google Drive checkout. Drive's file
+provider truncates and fails to materialise `node_modules` — 758 zero-byte `package.json`
+files and 13,022 zero-byte `.js` files out of 28,115, against zero on local disk. A single
+small `npm install` there took over five minutes and left 120 of 130 files empty. The Drive
+copy still holds `data/course-materials/` and is where the owner keeps the handoff package.
+
+**Running the e2e suite.** `npm run test:e2e` starts its own server with the Supabase env
+deliberately blanked, which is what the pre-existing empty-state spec needs; the auth,
+dashboard, learner-activity, and assessment specs skip themselves there. To run those, point
+the suite at a configured server: `BASE_URL=http://localhost:3000 npx playwright test`.
+
+---
+
+**Previous task: source-grounded flashcards (2026-08-16, production release).**
 GitHub `main` remains the build source of truth; the Google Drive checkout holds the
 approved local materials and editable handoff workspace. The new `/flashcards` route
 derives 103 cards directly from the 97 published definitions and 6 key takeaways.
@@ -198,8 +243,20 @@ No credentials are stored in this repo or in any doc, by design. If you need the
 ## Other open items (lower priority than the current audit/fix pass)
 
 From `docs/checklist.md`, not part of the active task but tracked there:
-- Quiz content is completely empty (0 rows in `quiz_questions`) — no quiz exists for
-  any topic yet.
+- ~~Quiz content is completely empty~~ — out of date. The bank holds 208 questions
+  (128 MCQ, 80 written), all still `status='draft'`, `generated_by='deepseek_draft'`.
+  They serve learners today via `202608120007_enable_generated_practice_bank.sql`;
+  the lecturer can now review and approve them at `/dashboard/lecturer/review`.
+- Phase 2 of the learner-accounts work, not started: the AI PDF-to-questions importer
+  for the lecturer. Needs a Node-side PDF text extractor (`unpdf` is the
+  serverless-friendly pick — the repo's existing PDF tooling is Python/`pymupdf`,
+  which will not run on Vercel). Extracted questions must land as `draft` and be given
+  a topic and a published source unit before they can be approved, per the
+  source-fidelity rule.
+- Lecturer features scoped but not built: item analysis (% correct per question from
+  real attempt data), manual mark override on auto-graded written answers, CSV export,
+  and a review queue for the source defects `docs/checklist.md` flags but deliberately
+  does not fix.
 - No manual dark/light mode toggle exists in the app (only OS-level
   `prefers-color-scheme` is respected).
 - A few source-fidelity issues are flagged-but-not-fixed on purpose (e.g. Chapter 3

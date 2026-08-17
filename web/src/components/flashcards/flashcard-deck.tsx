@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 import CitationCard from "@/components/tutor/citation-card";
+import { toggleBookmark } from "@/app/bookmark-actions";
 import type { Chapter, Flashcard } from "@/lib/course-brain/types";
 
 type Rating = "known" | "review";
@@ -27,11 +28,15 @@ export default function FlashcardDeck({
   chapters,
   initialChapterCode,
   initialTopicId,
+  savesMarkedCards = false,
 }: {
   cards: Flashcard[];
   chapters: Chapter[];
   initialChapterCode?: string;
   initialTopicId?: string;
+  // True only for a signed-in learner. Marking a card for review then also saves
+  // it, so the session's outcome outlives the session.
+  savesMarkedCards?: boolean;
 }) {
   const requestedTopic = initialTopicId && cards.some((card) => card.topicId === initialTopicId)
     ? initialTopicId
@@ -48,6 +53,7 @@ export default function FlashcardDeck({
   const [isRevealed, setIsRevealed] = useState(false);
   const [ratings, setRatings] = useState<Record<string, Rating>>({});
   const [isComplete, setIsComplete] = useState(false);
+  const [isSaving, startSaving] = useTransition();
 
   const topics = useMemo(() => {
     const seen = new Set<string>();
@@ -84,6 +90,13 @@ export default function FlashcardDeck({
     const current = deck[currentIndex];
     if (!current) return;
     setRatings((existing) => ({ ...existing, [current.id]: rating }));
+    if (savesMarkedCards) {
+      // A card marked for review is saved; "Got it" clears any earlier save, so
+      // the saved list tracks what the learner currently finds difficult.
+      startSaving(async () => {
+        await toggleBookmark(current.id, "flashcard", rating === "review");
+      });
+    }
     if (currentIndex === deck.length - 1) {
       setIsComplete(true);
       return;
@@ -153,6 +166,13 @@ export default function FlashcardDeck({
             <p className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-lowland">Deck complete</p>
             <h2 className="font-display text-3xl font-semibold text-ink-strong">You reviewed {deck.length} {deck.length === 1 ? "idea" : "ideas"}.</h2>
             <p className="text-lg text-ink">You knew {knownCount} and marked {reviewCards.length} to review again.</p>
+            {savesMarkedCards && reviewCards.length ? (
+              <p aria-busy={isSaving} className="text-ink-muted">
+                {isSaving
+                  ? "Saving your marked cards…"
+                  : "Your marked cards are in Saved material on your dashboard."}
+              </p>
+            ) : null}
           </div>
           <div className="flex flex-wrap justify-center gap-3">
             {reviewCards.length ? (
