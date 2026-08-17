@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Source_Sans_3, Source_Serif_4 } from "next/font/google";
 import SiteHeader from "@/components/site-header";
+import { getProfile } from "@/lib/auth/session";
 import "./globals.css";
 
 const sourceSans = Source_Sans_3({
@@ -25,7 +26,8 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const profile = await getProfile();
   return (
     <html lang="en" className={`${sourceSans.variable} ${sourceSerif.variable} ${plexMono.variable}`}>
       <body>
@@ -35,7 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to main content
         </a>
-        <SiteHeader />
+        <SiteHeader profile={profile} />
         <div id="main-content" tabIndex={-1}>{children}</div>
       </body>
     </html>
