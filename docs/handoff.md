@@ -14,8 +14,28 @@ first.
 
 ## Right now
 
-**Active task: learner accounts, roles, and the two dashboards (2026-08-17).**
-Branch `agent/learner-accounts`, four commits, not yet pushed or merged.
+**Shipped to production (2026-08-18).** PR #6 merged to `main`; live at
+https://tourism-geography-tutor.vercel.app/login.
+
+**The GitHub → Vercel production hook did not fire on the merge.** The branch push produced a
+Preview deployment, but merging to `main` produced no Production deployment after ten minutes.
+Worked around with `npx vercel promote <preview-url>`, after confirming
+`git rev-parse origin/main^{tree}` matched the tested build's tree exactly, so promoting was
+equivalent to building `main`. **If a future merge appears not to deploy, this is why — check
+`npx vercel ls` before assuming the build failed.** Worth investigating the integration.
+
+**The previously-unverified assessment path is now verified**, against production, where the
+service-role key exists. A full course exam was submitted as `student`: 16 answers stored, all
+carrying their answer scheme, citation, and topic; all 6 written answers marked per-criterion.
+Confirmed by querying the database directly, not by reading the screen. The synthetic attempt
+was then deleted, so both demo accounts start empty.
+
+**Live verification run:** 12 auth/dashboard e2e tests plus the assessment round trip, all
+against the production URL — `BASE_URL=https://tourism-geography-tutor.vercel.app npx playwright test`.
+
+---
+
+**Previous task: learner accounts, roles, and the two dashboards (2026-08-17).**
 
 Two seeded Supabase accounts, `lecturer`/`lecturer` and `student`/`student`. Supabase Auth
 needs an email, so the login form maps username to `<username>@tgtutor.local`; learners type
