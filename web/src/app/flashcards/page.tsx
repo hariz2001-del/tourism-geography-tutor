@@ -3,6 +3,7 @@ import Link from "next/link";
 import FlashcardDeck from "@/components/flashcards/flashcard-deck";
 import type { Chapter, Flashcard } from "@/lib/course-brain/types";
 import { createServerCourseBrainRepository } from "@/lib/supabase/server";
+import { getProfile } from "@/lib/auth/session";
 
 export const metadata: Metadata = {
   title: "Flashcards | Tourism Geography Tutor",
@@ -56,7 +57,7 @@ export default async function FlashcardsPage({
 }: {
   searchParams: Promise<{ chapter?: string; topic?: string }>;
 }) {
-  const [{ chapter, topic }, data] = await Promise.all([searchParams, loadFlashcards()]);
+  const [{ chapter, topic }, data, profile] = await Promise.all([searchParams, loadFlashcards(), getProfile()]);
 
   if (!data || !data.cards.length) {
     return (
@@ -76,7 +77,13 @@ export default async function FlashcardsPage({
         <h1 className="text-balance font-display text-[2.5rem]/[1.08] font-semibold tracking-[-0.02em] text-ink-strong md:text-[3.5rem]">Recall the idea before you reveal it.</h1>
         <p className="max-w-[62ch] text-[1.125rem]/[1.65] text-ink">Choose a chapter or topic, explain each term in your own words, then check the answer and mark what needs another look.</p>
       </header>
-      <FlashcardDeck cards={data.cards} chapters={data.chapters} initialChapterCode={chapter} initialTopicId={topic} />
+      <FlashcardDeck
+        cards={data.cards}
+        chapters={data.chapters}
+        initialChapterCode={chapter}
+        initialTopicId={topic}
+        savesMarkedCards={profile?.role === "student"}
+      />
     </main>
   );
 }

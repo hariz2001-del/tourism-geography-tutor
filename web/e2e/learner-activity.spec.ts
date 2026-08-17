@@ -53,3 +53,19 @@ test("the save control is absent for a lecturer", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByRole("button", { name: /^Save / })).toHaveCount(0);
 });
+
+test("marking a flashcard for review saves it to the learner's saved material", async ({ page }) => {
+  await signIn(page, "student", "student");
+  await page.goto("/flashcards?chapter=CH3");
+
+  await page.getByRole("button", { name: "Show answer" }).click();
+  const title = await page.getByRole("heading", { level: 2 }).first().innerText();
+  await page.getByRole("button", { name: "Review again" }).click();
+
+  await page.goto("/dashboard/student/bookmarks");
+  await expect(page.getByRole("heading", { name: title, level: 3 })).toBeVisible();
+  await expect(page.getByText(/from flashcards/i).first()).toBeVisible();
+
+  await page.getByRole("button", { name: `Remove ${title} from saved material` }).click();
+  await expect(page.getByRole("heading", { name: title, level: 3 })).not.toBeVisible();
+});
