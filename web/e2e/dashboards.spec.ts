@@ -90,6 +90,6 @@ test("the approval queue shows the unapproved drafts", async ({ page }) => {
   await signIn(page, "lecturer", "lecturer");
   await page.goto("/dashboard/lecturer/review");
 
-  await expect(page.getByRole("status").first()).toContainText(/208.*drafts awaiting review/s);
+  await expect(page.getByRole("status").first()).toContainText(/208[\s\S]*drafts awaiting review/);
   await expect(page.getByRole("button", { name: "Approve" }).first()).toBeVisible();
 });

@@ -56,12 +56,16 @@ export default function ContentUnit({
   index,
   showBadge,
   kind,
+  bookmark,
 }: {
   unit: PublishedContentUnit;
   variant: Variant;
   index?: number;
   showBadge?: boolean;
   kind?: SectionKind;
+  // Rendered by the server parent so this stays a presentational component and
+  // is simply absent when saving does not apply to the viewer.
+  bookmark?: React.ReactNode;
 }) {
   const label = CONTENT_TYPE_LABELS[unit.contentType];
   const badgeAccent = BADGE_ACCENT[unit.contentType] ?? "text-ink-muted";
@@ -94,7 +98,10 @@ export default function ContentUnit({
         className={`scroll-mt-8 space-y-2 border-l-2 border-l-meridian pb-2 pl-5 ${highlightRing}`}
       >
         <UnitImage unitId={unit.id} />
-        <h2 className="font-display text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h2>
+        <div className="flex items-start justify-between gap-3">
+          <h2 className="font-display text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h2>
+          {bookmark}
+        </div>
         <p className="max-w-[62ch] text-[1.25rem]/[1.55] text-ink">{unit.body}</p>
       </article>
     );
@@ -108,7 +115,10 @@ export default function ContentUnit({
         className={`scroll-mt-8 rounded-card border border-graticule border-l-2 border-l-deep bg-deep/6 p-5 ${highlightRing}`}
       >
         <UnitImage unitId={unit.id} />
-        <h3 className="font-display text-[1.1875rem]/[1.35] font-semibold text-deep">{unit.title}</h3>
+        <div className="flex items-start justify-between gap-3">
+          <h3 className="font-display text-[1.1875rem]/[1.35] font-semibold text-deep">{unit.title}</h3>
+          {bookmark}
+        </div>
         <p className="text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
       </article>
     );
@@ -130,6 +140,7 @@ export default function ContentUnit({
         <UnitImage unitId={unit.id} />
         <h3 className="pr-8 font-display text-[1.0625rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
         <p className="mt-1.5 text-[0.9375rem]/[1.6] text-ink">{unit.body}</p>
+        {bookmark ? <div className="mt-3 flex justify-end">{bookmark}</div> : null}
       </article>
     );
   }
@@ -145,7 +156,10 @@ export default function ContentUnit({
         {showBadge ? (
           <span className="block font-mono text-[0.6875rem]/[1.2] font-medium uppercase tracking-[0.14em] text-lowland">KEY TAKEAWAY</span>
         ) : null}
-        <h3 className="font-display text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
+        <div className="flex items-start justify-between gap-3">
+          <h3 className="font-display text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
+          {bookmark}
+        </div>
         <p className="text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
       </article>
     );
@@ -165,7 +179,10 @@ export default function ContentUnit({
       {showBadge && label ? (
         <span className={`font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] ${badgeAccent}`}>{label}</span>
       ) : null}
-      <h3 className="font-display text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
+      <div className="flex items-start justify-between gap-3">
+        <h3 className="font-display text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
+        {bookmark}
+      </div>
       <p className="max-w-[68ch] text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
     </article>
   );

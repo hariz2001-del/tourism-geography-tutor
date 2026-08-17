@@ -9,6 +9,9 @@ import { buildSections, shouldShowLabels } from "@/lib/course-brain/group-units"
 import { topicDiagrams } from "@/lib/course-brain/diagrams";
 import type { Chapter, ChapterTopic, PublishedContentUnit, QuizQuestion } from "@/lib/course-brain/types";
 import { createServerCourseBrainRepository } from "@/lib/supabase/server";
+import { getProfile } from "@/lib/auth/session";
+import { listBookmarkedUnitIds } from "@/lib/learners/bookmarks";
+import RecordTopicView from "./record-view";
 
 type ChapterData = { chapters: Chapter[]; topics: ChapterTopic[]; topic: ChapterTopic; units: PublishedContentUnit[]; quiz: QuizQuestion | null } | null;
 
@@ -31,7 +34,11 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
   const diagram = topicDiagrams[chapter.topic.id];
   const sections = buildSections(chapter.units);
   const showLabels = shouldShowLabels(sections);
+  const profile = await getProfile();
+  const isStudent = profile?.role === "student";
+  const bookmarkedUnitIds = isStudent ? await listBookmarkedUnitIds(profile.id) : new Set<string>();
   return <main className="mx-auto flex min-h-screen max-w-[86rem] flex-col gap-8 px-6 py-8">
+    {isStudent ? <RecordTopicView topicId={chapter.topic.id} /> : null}
     <ChapterNav chapters={chapter.chapters} activeChapterCode={chapterCode} />
     <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)_21rem]">
       <aside className="lg:sticky lg:top-8 lg:self-start"><TopicList chapterCode={chapterCode} topics={chapter.topics} selectedTopicId={chapter.topic.id} /></aside>
@@ -49,7 +56,13 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
         {diagram ? <TopicDiagramFigure diagram={diagram} /> : null}
         {sections.length
           ? sections.map((section, i) => (
-              <ContentSection key={section.id} section={section} showLabel={showLabels} isFirst={i === 0} />
+              <ContentSection
+                key={section.id}
+                section={section}
+                showLabel={showLabels}
+                isFirst={i === 0}
+                bookmarkedUnitIds={isStudent ? bookmarkedUnitIds : undefined}
+              />
             ))
           : <p role="status" className="rounded-card border border-graticule bg-surface p-4 text-ink">This topic does not have any learning notes yet.</p>}
         {chapter.quiz ? <QuizCard question={chapter.quiz} /> : null}

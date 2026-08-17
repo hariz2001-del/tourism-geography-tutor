@@ -1,4 +1,6 @@
 import type { ContentSectionModel, SectionKind } from "@/lib/course-brain/group-units";
+import type { PublishedContentUnit } from "@/lib/course-brain/types";
+import BookmarkToggle from "./bookmark-toggle";
 import ContentUnit from "./content-unit";
 
 const HEADER_ACCENT: Record<SectionKind, string> = {
@@ -23,13 +25,28 @@ export default function ContentSection({
   section,
   showLabel,
   isFirst,
+  bookmarkedUnitIds,
 }: {
   section: ContentSectionModel;
   showLabel: boolean;
   isFirst: boolean;
+  // Undefined for anonymous visitors and lecturers: saving is a learner feature,
+  // so the control is absent rather than present-but-inert.
+  bookmarkedUnitIds?: Set<string>;
 }) {
   const hasHeader = showLabel && section.label !== null;
   const dividerClass = isFirst ? "" : "border-t border-graticule pt-8";
+
+  function bookmarkFor(unit: PublishedContentUnit) {
+    if (!bookmarkedUnitIds) return null;
+    return (
+      <BookmarkToggle
+        contentUnitId={unit.id}
+        title={unit.title}
+        initiallySaved={bookmarkedUnitIds.has(unit.id)}
+      />
+    );
+  }
 
   return (
     <section className={dividerClass}>
@@ -41,20 +58,22 @@ export default function ContentSection({
           </h2>
         </div>
       ) : section.layout !== "lead" ? <h2 className="sr-only">{section.label ?? "Topic overview"}</h2> : null}
-      {renderBody(section)}
+      {renderBody(section, bookmarkFor)}
     </section>
   );
 }
 
-function renderBody(section: ContentSectionModel) {
+type BookmarkFor = (unit: PublishedContentUnit) => React.ReactNode;
+
+function renderBody(section: ContentSectionModel, bookmarkFor: BookmarkFor) {
   if (section.layout === "lead") {
     const [lead, roster] = section.units;
     return (
       <div className="space-y-2">
-        <ContentUnit unit={lead} variant="lead" />
+        <ContentUnit unit={lead} variant="lead" bookmark={bookmarkFor(lead)} />
         {roster ? (
           <div className="mt-4 border-t border-graticule pt-4">
-            <ContentUnit unit={roster} variant="roster" />
+            <ContentUnit unit={roster} variant="roster" bookmark={bookmarkFor(roster)} />
           </div>
         ) : null}
       </div>
@@ -62,14 +81,14 @@ function renderBody(section: ContentSectionModel) {
   }
 
   if (section.layout === "roster") {
-    return <ContentUnit unit={section.units[0]} variant="roster" />;
+    return <ContentUnit unit={section.units[0]} variant="roster" bookmark={bookmarkFor(section.units[0])} />;
   }
 
   if (section.layout === "grid") {
     return (
       <div className={`grid gap-3 sm:grid-cols-2 ${section.columns === 3 ? "xl:grid-cols-3" : ""}`}>
         {section.units.map((unit, i) => (
-          <ContentUnit key={unit.id} unit={unit} variant="entry" index={i + 1} kind={section.kind} />
+          <ContentUnit key={unit.id} unit={unit} variant="entry" index={i + 1} kind={section.kind} bookmark={bookmarkFor(unit)} />
         ))}
       </div>
     );
@@ -90,6 +109,7 @@ function renderBody(section: ContentSectionModel) {
           unit={unit}
           variant={section.kind === "takeaway" ? "takeaway" : section.kind === "note" ? "note" : "stack"}
           showBadge={showBadge}
+          bookmark={bookmarkFor(unit)}
         />
       ))}
     </div>

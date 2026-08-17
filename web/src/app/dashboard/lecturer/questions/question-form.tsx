@@ -2,7 +2,8 @@
 
 import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
-import { emptyQuestionActionState, saveQuestion } from "./actions";
+import { saveQuestion } from "./actions";
+import { emptyQuestionActionState } from "./action-state";
 import type { QuestionDetail } from "@/lib/learners/question-bank";
 
 type SourceUnit = { id: string; title: string; topicId: string; topicName: string; chapterCode: string };

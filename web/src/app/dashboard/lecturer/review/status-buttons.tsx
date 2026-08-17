@@ -2,7 +2,8 @@
 
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
-import { emptyQuestionActionState, setQuestionStatus } from "../questions/actions";
+import { setQuestionStatus } from "../questions/actions";
+import { emptyQuestionActionState } from "../questions/action-state";
 
 function Action({ label, value, variant }: { label: string; value: string; variant: "primary" | "quiet" }) {
   const { pending } = useFormStatus();

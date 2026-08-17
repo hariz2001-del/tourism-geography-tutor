@@ -4,10 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireProfile } from "@/lib/auth/session";
 import { createUserScopedClient } from "@/lib/supabase/server";
-
-export type QuestionActionState = { error: string | null; message: string | null };
-
-export const emptyQuestionActionState: QuestionActionState = { error: null, message: null };
+import type { QuestionActionState } from "./action-state";
 
 function refreshQuestionViews(questionId?: string) {
   revalidatePath("/dashboard/lecturer");
