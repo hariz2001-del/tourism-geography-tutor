@@ -1,5 +1,28 @@
 # Content depth + photo-opportunity audit — 2026-08-09
 
+> ## ⚠️ UNTRUSTED AS A SOURCE OF QUOTATIONS — added 2026-08-21
+>
+> **Do not copy any `Source:` string out of this file into the database. Re-read the PDF page.**
+>
+> This document's `Source:` strings are *paraphrases, not verbatim transcriptions*. The
+> 2026-08-11 body-enrichment pass implemented them literally, and wherever a quotation here was
+> wrong the database faithfully encoded the error.
+>
+> Verified consequences in Chapter 1 alone (see `docs/ch1-pdf-vs-db-discrepancies-2026-08-21.md`):
+> **three content units stating things that are on no slide** — `90510d10` (p6), `10f721f6`
+> (p29), `571f3d66` (p30) — plus four of five Tier-3 drift items (p15, p17, p18, p28), the p31
+> Queensland generalisation, and one quiz marking criterion that can fail a learner for giving
+> the source-correct answer.
+>
+> Two entries are specifically and demonstrably wrong: the **p6** entry invents "transportation"
+> and "career opportunity in tourism", and the **p29** entry attributes two sentences to the
+> slide that do not appear on it. The **p30** entry explicitly instructs that "by Muslims" be
+> added to a definition where the slide does not say it.
+>
+> **Its *findings* remain useful as leads** — which pages are shallow, where photos are, which
+> units look merged. Only its quotations are untrustworthy. Chapters 2, 3 and 4 have not been
+> re-verified against their PDFs.
+
 Report-only pass. Triggered by client feedback: *"i need more photos, please use the ones provided in slides… there are no photos of each humid subtropical climate, in fact the info is still too shallow from what the slides provide… please fix this and do for the others as well, not just the part i flagged."*
 
 Two problem classes hunted, chapter by chapter, by re-reading every cited source page directly (vision) against the live `content_units` body:
