@@ -119,3 +119,40 @@ Candidate findings, NOT yet acted on:
    source itself lost rows — the DB can only be faithful to what the slide shows.
 
 **Nothing written to CH4 yet.** No DB writes, no repo edits, pending verification.
+
+### CH4 Opus verification: DONE — my "no fabrications" claim was REFUTED
+
+`scratchpad/ch4_verification.md`. **Two fabrications plus one figure distortion, all now fixed
+and verified live.** They sat outside the pp.19-22 range I had spot-checked, which is exactly why
+the spot-check was not sufficient evidence.
+
+| Unit | Page | Was | Now |
+|---|---|---|---|
+| `145feea9` Desert | 18 | "...in which living conditions are hostile for plant and animal life" — the next sentence of the Wikipedia desert lede, on no slide | slide text only; ends at "250 millimetres (10 in) per year" |
+| `d0887588` Mount Kinabalu | 14 | "in Sabah, Malaysia" and "via ferrata" appear nowhere in the deck; the portaledge/cable material is on p13, which the unit does not cite | describes only what p14 shows, incl. the signboard's "Low's Peak 4,095.2 m" |
+| `c53e4367` Tourism and mountains | 12 | "an estimated 50 million" — turns the slide's floor into a point estimate | "More than 50 million", per the slide; also restores "steep slopes or winter snow" |
+
+Verified against production: all four fabricated strings absent, all corrections present.
+
+**Verifier also corrected me on:**
+- **V6 REFUTED** — the Ocean unit does carry "about 361,000,000 square kilometers". No gap.
+- **V8** — **p13 is not contentless**; it is uncited because its content was written into p14's unit.
+- **V7 detail** — the cropped table on p19 is the *island-peaks* table (continental-landmasses above
+  it is complete); p21's cropped item is a bulleted river-name list, not a table. DB is faithful to
+  what the slides show, so no change needed.
+- **V3/V5 PARTIALLY CORRECT** — I was right that p24/p25 need no content units and that p23 needs no
+  supporting unit, but: p24's **Continents photo is stranded** with no unit to host it, and p25's
+  "Gulf / Bay" photo is wired only to Bay, leaving **Gulf with no image**.
+
+**Still open (next chunk):**
+1. **Create the missing `Continents` unit** (p22: "Main land masses of the earth"). V2 CONFIRMED.
+   Also gives p24's stranded Continents photo a host.
+2. **Fix 4 mis-cited image entries** — Coral reef, Bay, River, Fiord are on **p25**, not p24. Wrong
+   in `pageOrSlide`, in the rendered caption, in the filename, and restated in `checklist.md` L72.
+3. **New policy question, do not act unilaterally:** p22's glossary has been silently rewritten out
+   of its broken source grammar, with **three semantic additions** (Coral reef "formed by", Cays
+   "made up largely of", Peninsula "almost completely") and three silent typo corrections elsewhere
+   ("eighteen century"→"eighteenth", "Columbia"→"Colombia", "km"→"km²"). Same class as the CH1
+   Phase 3 ruling — needs the client, then uniform application.
+4. p22's own River and Lake definitions are nowhere in the DB (those units carry p21's different
+   wording); the p16 unit names 6 of ~20 ranges on the map.
