@@ -189,3 +189,39 @@ and confirming with the client.**
 
 Rendered assets already prepared: `scratchpad/ch3_pages/p01..p11.jpg`, `scratchpad/ch3_text.json`.
 **6 of 11 slides have no text layer** — the most vision-dependent deck in the project.
+
+### CH2 PDF scan: DONE. Comparison found two strong fabrication candidates.
+
+`scratchpad/ch2_pdf_inventory.md`. ~98 teachable items. No teachable content on p1 (title) and
+p11 (section divider) — matching exactly the two uncited pages, so **CH2 coverage is complete**.
+16 climate types/sub-types in the deck; 16 appear as unit titles. Good structural match.
+
+**Strong fabrication candidates — confirmed by main thread against the page images, awaiting the
+Opus verdict before any write:**
+
+- **`Marine west coast climate` (p20).** The slide reads only: *"between 30°- 60°N, on west coast
+  of continents cool summers, mild and damp winters, plenty rainfall. Ex. Western Europe, Seattle,
+  Oregon"*. The DB body appends a **second sentence that is not on the slide**: "The wider
+  30–60°N/S band — including the west coasts of North America and southern Chile — supports mixed
+  coniferous and deciduous forests with high rainfall year round."
+- **`Humid continental climate` (p20).** Slide reads only: *"four distinct seasons, long cold
+  winters, short warm summers, climate varies with latitude Ex. North East U.S."*. The DB appends:
+  "The wider 30–55°N/S band (to 60°N in Europe) — including north central North America, north
+  central Asia/China, Korea, Japan, and central and eastern Europe — supports mixed coniferous and
+  deciduous forest…" **Not on the slide.**
+
+Both read like biome/ecoregion reference prose, not deck content. p12 (the biome map) was checked
+and does not carry it either — p12 has only the 5-type list and a 9-key legend with no descriptive
+text. A text-layer sweep confirms "coniferous", "deciduous", "southern chile", "korea" and "japan"
+appear on **no text-layer page** in the deck; the only pages that could still carry them are the
+image-only 13, 19, 21, 23, which the Opus verifier is checking.
+
+**Verified faithful by main thread:** p22 Tundra (permafrost, "soil which is consistently frozen")
+and Ice cap ("more than 2 miles thick (Antarctica & Greenland)") both match the slide exactly —
+my suspicion about those two figures was wrong.
+
+**Confirmed source defects:** the grey redaction bar over screenshot headers is real and systemic
+across pp.18-23; p12 shows two different classification systems side by side (the 5-type climate
+taxonomy and a 9-key biome legend) with "Desert" and "Tundra" in both, unreconciled.
+
+**Merged-entity candidates: still treat as likely false positives** — see the CH2 DB scan note.
