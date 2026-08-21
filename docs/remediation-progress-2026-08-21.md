@@ -196,6 +196,26 @@ Rendered assets already prepared: `scratchpad/ch3_pages/p01..p11.jpg`, `scratchp
 p11 (section divider) — matching exactly the two uncited pages, so **CH2 coverage is complete**.
 16 climate types/sub-types in the deck; 16 appear as unit titles. Good structural match.
 
+**RETRACTED 2026-08-21 — the two "fabrication candidates" below were WRONG. DO NOT DELETE THAT
+TEXT.** The Opus verifier refuted them and I re-verified by reading `ch2_pages/p18.jpg` myself.
+The disputed sentences are transcribed accurately from an **embedded screenshot table on p18**
+("Mid-Latitude Climates": latitude range, world location, vegetation, seasons/rainfall). Every
+disputed string is there verbatim — "30 to 55 N and S, to 60 N in Europe", "Korea; Japan",
+"Mixed coniferous and deciduous forest", "west coast of southern Chile".
+
+**These are WRONG CITATIONS, not fabrications** — both units cite p20 while half their body comes
+from p18.
+
+**Why the main thread got it wrong, and the standing rule that follows:** the text-layer sweep for
+"coniferous"/"korea"/"japan" returned NONE, and that was read as evidence the text was nowhere in
+the deck. But **p18 HAS a text layer — it just silently omits the embedded 525x426 screenshot.**
+The blind spot was never the image-only pages (everyone reads those); it is pages that *look*
+covered by their text layer while carrying content only in an embedded raster.
+**Standing rule for CH3 and the CH1/CH4 re-checks: enumerate embedded image XObjects per page and
+visually read any page carrying a large one, regardless of text-layer status.**
+
+Superseded original claim, kept for the record:
+
 **Strong fabrication candidates — confirmed by main thread against the page images, awaiting the
 Opus verdict before any write:**
 
