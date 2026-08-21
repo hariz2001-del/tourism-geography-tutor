@@ -14,55 +14,124 @@ first.
 
 ## Right now
 
-**Nothing is in flight (state checked 2026-08-20).** `main` is clean and in sync with
-`origin/main` at `6bd5d64`; `agent/learner-accounts` is merged, so there is no unpushed work
-anywhere. Production answers 200 on `/`, `/login`, and `/flashcards`. The last release was
-2026-08-18 and nothing has changed since — whoever picks this up is starting from a green,
-deployed state, not resuming a half-finished task.
+**A content-fidelity incident is being remediated (state as of 2026-08-21). Work is partly done,
+partly in flight, and several decisions are blocked on the project owner.**
 
-**If you are a new agent on this project, read in this order:** this file, then
-`docs/checklist.md` for the dated history, then `AGENTS.md` for the hard rules, and
-`.claude/skills/course-content/SKILL.md` before touching `content_units` (draft →
-source_references → publish, insert-before-delete, ordering-via-`created_at`, and the
-PostgREST embedded-filter gotcha). The two rules that bite hardest: **never invent course
-content** — every fact traces to a PDF in `data/course-materials/`, and apparent source errors
-get transcribed faithfully and flagged in `docs/checklist.md` rather than silently corrected —
-and **insert-then-delete**, never delete-then-insert, when replacing a `content_units` row.
-Work in small committed chunks; a background agent was once interrupted between a delete and
-its replacement and left the live site with no content for a topic.
+**Read these three files before touching anything:**
+- `docs/remediation-progress-2026-08-21.md` — **the live resume point.** Per-unit DONE state,
+  rollback pointers, and what is mid-flight. Read this first if a session died.
+- `docs/content-fidelity-remediation-plan-2026-08-21.md` — the six-phase plan and its sequencing.
+- `docs/ch1-pdf-vs-db-discrepancies-2026-08-21.md` — the Chapter 1 findings in full.
+
+### What went wrong
+
+`docs/content-depth-photo-audit-2026-08-09.md`'s `Source:` strings are **paraphrases, not
+verbatim transcriptions**. The 2026-08-11 body-enrichment pass rewrote 41 bodies across all four
+chapters *from that document instead of from the PDFs*, so wherever its quotation was wrong the
+database faithfully encoded the error. Because that pass was *adding depth*, the errors are
+additions — they read richer and more authoritative than the thin-but-true text they replaced.
+
+That audit doc now carries an **UNTRUSTED** header. Its findings (which pages are shallow, where
+photos are) remain useful as leads. **Never copy a quotation out of it — re-read the PDF page.**
+
+### Fixed and verified live
+
+**Chapter 1 — five units plus one quiz question.** Three units asserted things on no slide:
+`90510d10` (p6 — invented "transportation", narrowed "job opportunities" to "career opportunities
+in tourism"), `10f721f6` (p29 — two invented sentences while the slide's real bullets 2-3 were
+absent), `571f3d66` (p30 — "by Muslims", which the deck's abridged Battour & Ismail abstract does
+not contain). `7e0adbdc` (p31) had generalised "Queensland's domestic market" into an unqualified
+claim. One draft question could **mark a learner wrong for the source-correct answer** — the
+narrowing sat in its stem, its `subjective_answer_scheme` and its marking criterion. Phase 2 then
+restored genuinely missing content: p21's Williams and Zelinsky study design and both
+parentheticals, p22, p27's "based on its market" axis, and p4's first sense of topography.
+
+**Chapter 4 — three units corrected, one added, four image citations fixed.** `145feea9` Desert
+(p18) carried a sentence from the **Wikipedia** desert lede; `d0887588` Mount Kinabalu (p14)
+asserted "in Sabah, Malaysia" and "via ferrata", neither anywhere in the deck; `c53e4367` (p12)
+turned the slide's "More than 50 million" into "an estimated 50 million". Added the missing
+**`Continents`** unit (p22 defines 15 glossary terms; 14 had units). Corrected Coral reef / Bay /
+River / Fiord from p24 to **p25** — the deck has two sibling photo grids and an earlier pass
+conflated them.
+
+Every fix was verified **against production**, not self-reported. Content is served from Supabase
+at runtime, so database writes are live immediately with no deploy.
+
+### In flight
+
+**Chapter 2 re-scan.** Two scanners (PDF + database, two passes each) were dispatched 2026-08-21.
+If they are gone, re-dispatch them; the rendered inputs may still be in the scratchpad
+(`ch2_pages/`, `ch2_text.json`) and are cheap to regenerate — see the tooling note below.
+**Chapter 3 has not been started.**
+
+### Blocked on the project owner — do not guess these
+
+1. **The silent-correction policy.** The database currently handles source typos *both ways*.
+   Silently corrected: CH1 p3 ("nature circulation" to "nature and circulation"), p5 (three
+   defects rewritten and the sentence re-parsed), p23 ("spends" to "spent"); CH4's entire p22
+   glossary rewritten out of its broken grammar, with **three semantic additions** ("formed by",
+   "made up largely of", "almost completely") plus "Columbia" to "Colombia" and "eighteen century"
+   to "eighteenth". Left alone: CH1 p6 "INRELATED", p26 "determine", p33 "involve". The standing
+   rule says flag, don't fix. **One ruling is needed, then uniform application** — including to
+   the CH3 "nine planets" / "Hindi" / "Artic" decisions already made the other way.
+2. **The p30 "by Muslims" removal** wants explicit acknowledgement: it narrows a definition along
+   a religious-participation axis, and the published paper does carry the phrase even though the
+   deck's abridged abstract does not.
+3. **CH1 p26's five tourism types stay merged** — the deck names Rural, Urban, Heritage, Cultural
+   and Eco-Tourism and defines none, so splitting would require inventing definitions. Same
+   posture as CH4's "valley"/"beach" structural gaps. Confirm.
+4. **Possible information loss in the CH4 deck itself** — the tables on p15, p19, p20 and p21 look
+   hard-cropped, as if truncated screenshots were pasted. Only the lecturer can supply the full
+   tables if they exist.
+
+### Method that works, and one hard-won lesson
+
+Two Sonnet scanners (one PDF, one database, **two passes each**), a main-thread comparison that
+re-verifies every candidate finding against the raw text layer, then an **independent Opus
+verifier** that rules on each claim and sweeps for what was missed.
+
+**The Opus pass is not optional.** It caught a third Chapter 1 fabrication after the main thread
+had concluded there were two, and it **refuted** the main thread's "Chapter 4 looks clean" — that
+call rested on a spot-check of pp.19-22, and both CH4 fabrications sat outside that range.
+**Sampling is not sufficient evidence for this defect class.**
+
+**Tooling correction:** `.claude/skills/course-content/SKILL.md` claims no PDF rasterizer exists
+on this machine. That is out of date. `.venv` has **`pymupdf`**:
+`page.get_pixmap(matrix=fitz.Matrix(s,s))` then `.tobytes("jpg", jpg_quality=70)` renders a whole
+chapter to ~140 KB/page JPEGs in seconds, which is what makes the OCR path cheap. Pages with no
+text layer: **CH1 4/33, CH2 6/23, CH3 6/11, CH4 10/27** — CH3 and CH4 are the most
+vision-dependent, and both CH4 fabrications were on text-layer-less pages.
+
+### Git state
+
+Branch **`agent/content-fidelity-remediation`**, off `main` at `6bd5d64`. Nine commits, one per
+chunk, working tree clean, **nothing pushed**. The first commit is unrelated pre-existing
+2026-08-20 doc work found uncommitted in the tree and preserved separately.
 
 **Build and test from `C:\Users\User\dev\tourism-geography-tutor`,** not the Google Drive
-checkout — see the working-directory note further down. Content is served live from Supabase
-at runtime, so database writes are visible in production without a Vercel deploy.
+checkout — see the working-directory note further down.
 
 **`SUPABASE_SERVICE_ROLE_KEY` is deliberately never stored on this machine.** `vercel env pull`
-returns it as the literal string `"[SENSITIVE]"`. Anything needing it either runs against
-production (which has the real key) or waits for the owner to supply it for that session.
-`web/.env.local` holds the Supabase URL, the anon key, and the DeepSeek key.
+returns it as the literal string `"[SENSITIVE]"`. `web/.env.local` holds the Supabase URL, the
+anon key, and the DeepSeek key.
 
-**Open items, roughly in the order they are worth doing:**
+### Older open items, still valid but lower priority than the remediation
 
-1. **Investigate the GitHub → Vercel production hook.** Merging PR #6 to `main` produced no
-   Production deployment after ten minutes; only the branch push produced a Preview. Worked
-   around with `npx vercel promote <preview-url>`, after confirming
-   `git rev-parse origin/main^{tree}` matched the tested build's tree exactly, so promoting was
-   equivalent to building `main`. This doc used to claim "push to `main` = production deploy,
-   no manual step" — that was not true on that occasion. **If a future merge looks like it
-   failed to build, run `npx vercel ls` before assuming anything broke.** Fixing this de-risks
-   every future release, which is why it is first.
-2. **Phase 2, not started: the AI PDF-to-questions importer for lecturers.** Needs a Node-side
-   PDF text extractor — `unpdf` is the serverless-friendly pick; the repo's Python/`pymupdf`
-   tooling will not run on Vercel. Extracted questions must land as `draft` and be given a topic
-   and a published, cited source unit before they can be approved, per the source-fidelity rule.
-3. **Lecturer features scoped but not built:** item analysis (% correct per question from real
-   attempt data), manual mark override on auto-graded written answers, CSV export of the roster,
-   and a review queue surfacing the source defects the checklist flags but deliberately leaves
-   unfixed.
+1. **Investigate the GitHub to Vercel production hook.** Merging PR #6 to `main` produced no
+   Production deployment after ten minutes; only the branch push produced a Preview. Worked around
+   with `npx vercel promote <preview-url>`. **If a future merge looks like it failed to build, run
+   `npx vercel ls` before assuming anything broke.**
+2. **Phase 2, not started: the AI PDF-to-questions importer for lecturers.** Needs a Node-side PDF
+   text extractor — `unpdf` is the serverless-friendly pick; the repo's Python/`pymupdf` tooling
+   will not run on Vercel. Extracted questions must land as `draft` and be given a topic and a
+   published, cited source unit before approval.
+3. **Lecturer features scoped but not built:** item analysis, manual mark override on auto-graded
+   written answers, CSV export of the roster, and a review queue surfacing the source defects the
+   checklist flags but deliberately leaves unfixed.
 4. **All 208 generated questions are still `draft` / `generated_by='deepseek_draft'`.** The
-   lecturer approval queue now exists and the database refuses to approve a question that is not
-   complete and traceable to a published, cited unit — but nothing has actually been approved
-   through it yet. The owner enabled the draft bank for learner practice on 2026-08-12 knowing
-   this.
+   approval queue exists; nothing has been approved through it. **The remediation found one of the
+   four CH1 questions it checked was contaminated — the other 204 have not been re-audited against
+   corrected bodies.**
 5. **Older backlog:** anonymous helpfulness feedback (the table exists, but it needs a secure
    server/RPC write path plus abuse-conscious validation before learner controls go live), and a
    manual light/dark override on top of the working OS-level preference.
@@ -246,16 +315,39 @@ dispatching a big subagent for it.
 
 ## Next step
 
-The content-depth/photo audit build-and-review pass is closed. **Next product work
-should be a separately scoped feature decision, with quiz content the highest-value
-open MVP item.**
+**Superseded 2026-08-21.** This section previously read "the content-depth/photo audit
+build-and-review pass is closed" and pointed at feature work. That is no longer true: the pass it
+called closed is the one that introduced the fabrications described in "Right now". Do the
+remediation before any new product work.
 
-1. Do NOT invent content for "STRUCTURAL GAP" items (Chapter 4's "valley" p18 and
-   "beach" p19 headings the deck never delivers content for) — these stay flagged in
-   `docs/checklist.md`, not fixed, per the source-fidelity rule.
-2. Before authoring quiz records, decide the lecturer review workflow and write only
-   questions grounded in the approved Chapter 1–4 material; AI drafts remain `draft`
-   until explicitly approved.
+In order:
+
+1. **Finish the Chapter 2 re-scan** (dispatched, may need re-dispatching), then **Chapter 3**.
+   Same method: two Sonnet scanners, main-thread comparison re-verified against the raw text
+   layer, then an independent Opus verifier. Do not skip the Opus pass — it has already caught
+   findings the main thread missed on both chapters it has run against.
+2. **Get the project owner's ruling on the silent-correction policy**, then apply it uniformly
+   across all four chapters in one batch. This is Phase 3/4 of the plan and it blocks nothing
+   else, so it can wait on the owner while scanning continues.
+3. **Re-audit the 208 draft quiz questions against the corrected bodies.** One of the four
+   Chapter 1 questions checked so far was contaminated by a fabricated body, and its marking
+   criterion could fail a learner for the source-correct answer. The other 204 have not been
+   checked. Do this **after** the chapter re-scans, so the questions are checked against final
+   text rather than text that is about to change again.
+4. **Update `.claude/skills/course-content/SKILL.md`** with the two lessons from this incident:
+   never copy a quotation from a secondary document into the database (re-read the PDF page), and
+   the corrected tooling note — `pymupdf` in `.venv` renders slides to JPEG, contradicting the
+   skill's current claim that no rasterizer is available.
+5. Only then return to feature work, with quiz approval the highest-value open MVP item.
+
+Standing constraints that still apply:
+
+- Do NOT invent content for "STRUCTURAL GAP" items — Chapter 4's "valley" (p18) and "beach" (p19)
+  headings that the deck never delivers content for, and now also p7's third classification
+  bullet, which has no category label unlike the other three. These stay flagged in
+  `docs/checklist.md`, not fixed, per the source-fidelity rule.
+- AI-drafted questions remain `draft` until explicitly approved, and must be grounded in a
+  published, cited source unit.
 
 ## Standing workflow (established and requested by the project owner)
 

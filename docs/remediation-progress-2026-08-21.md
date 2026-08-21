@@ -156,3 +156,36 @@ Verified against production: all four fabricated strings absent, all corrections
    Phase 3 ruling — needs the client, then uniform application.
 4. p22's own River and Lake definitions are nowhere in the DB (those units carry p21's different
    wording); the p16 unit names 6 of ~20 ranges on the map.
+
+---
+
+## CH4: COMPLETE (except the shared policy ruling)
+
+Fabrications fixed (`145feea9` Desert, `d0887588` Mount Kinabalu, `c53e4367` Tourism and
+mountains), `Continents` unit added, four image citations corrected p24 → p25. All verified live.
+Commits `1bac4f0`, `15d64ab`.
+
+## Phase 5 — CH2 re-scan (IN PROGRESS)
+
+Rendered assets: `scratchpad/ch2_pages/p01..p23.jpg`, `scratchpad/ch2_text.json`.
+
+**DB scan: DONE** (`scratchpad/ch2_db_inventory.md`). 41 units, 8 topics, all published, all
+cited, no orphans. Only pages **1 and 11** have zero citing units — the tightest coverage of any
+chapter so far. 16 distinct climate types/sub-types appear as unit titles (5 major + 11 sub-types).
+20 units under 120 chars.
+
+**Merged-entity candidates flagged — treat with caution, likely false positives.** The scanner
+lists "The seven continents", "The five major oceans", "Continents and their surrounding oceans",
+"The five major climate types" and "Climate zones by latitude". **`docs/checklist.md` records that
+the continents and oceans were already split into 7 + 5 individual units in August**, and that the
+list units were deliberately kept and reordered to match the individual units' sequence. So these
+are almost certainly legitimate list/synthesis units coexisting with per-entity units, not the
+historical merge defect. **Do not split anything here without checking the per-entity units exist
+and confirming with the client.**
+
+**PDF scan: awaiting.** **Not yet started:** main-thread comparison, Opus verification, any fix.
+
+## CH3: NOT STARTED
+
+Rendered assets already prepared: `scratchpad/ch3_pages/p01..p11.jpg`, `scratchpad/ch3_text.json`.
+**6 of 11 slides have no text layer** — the most vision-dependent deck in the project.
