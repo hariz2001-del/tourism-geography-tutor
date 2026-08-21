@@ -85,3 +85,37 @@ Mount Everest appears in two units.
 **PDF scan: awaiting.** Key question put to it: do pages 23–27 carry real teachable content?
 
 **Not yet started:** main-thread comparison, Opus verification, any CH4 fix.
+
+### CH4 PDF scan: DONE, comparison done, Opus verification IN FLIGHT
+
+`scratchpad/ch4_pdf_inventory.md`. ~141 teachable items. No teachable content on p1 (title),
+p10 (uncaptioned photo grid), p26 (pixel-duplicate of p10), p27 (credits).
+
+**Main-thread comparison result — CH4 looks materially healthier than CH1.** Spot-checked
+p19/p20/p21/p22 definitions against the raw slides: River, Lake and Ocean appear verbatim on
+their slides. **No fabrication found so far** (full 40-unit sweep delegated to the Opus verifier).
+
+Candidate findings, NOT yet acted on:
+
+1. **"Continents" has no content unit.** p22's 15-row glossary defines it ("Main land masses of
+   the earth"). 14 of the 15 terms have units; this one does not. `Continental landmasses` (p19)
+   is a highest-point table, not a definition. **Clearest real gap in CH4.**
+2. **Four `content-images.ts` entries look mis-cited.** Eight entries say `pageOrSlide: 24`, but
+   the Coral/Reef, Gulf/Bay, River and Fiord grid is on **p25**. Citation error, not content.
+3. **Ocean unit may drop "361,000,000 square kilometers"** (slide 20 gives it).
+4. p23 floor-plan has no supporting unit — judged **marginal**, since the diagram already renders
+   via `diagrams.ts` and all 15 glossary units sit on the same topic.
+5. **Disagreed with the PDF scanner** on p24/p25: it says they "must be captured"; their payload
+   is which photo illustrates which term, and those eight photos are already in
+   `content-images.ts` attached to the matching units. Capturing them as content units would
+   duplicate p22's definitions. Put to the verifier.
+6. New source defects found (flag, don't fix): p3 "RESOUCES", p4 "MULTIPLES USE"/"mangement",
+   p6 "PYHSICAL…WORD", p15 "MOUNTAIN", p16 "Columbia" + Taurus grouped under Europe, p17
+   grammar, p22's glossary grammar throughout, p27 "HOSPTITALITI", p1/p27 byline mismatch.
+   **p7 structural gap:** the third classification bullet has no category label unlike the other
+   three. **p21 heading defect reconfirmed** (reads "G. SEA AND OCEANS", body is rivers/lakes).
+7. **Possible information loss at deck-authoring time:** p15/p19/p20/p21 tables look hard-cropped
+   at the bottom edge (last rows Cho Oyu / Sumatra / Bay of Bengal / Nechako). If real, the
+   source itself lost rows — the DB can only be faithful to what the slide shows.
+
+**Nothing written to CH4 yet.** No DB writes, no repo edits, pending verification.
