@@ -13,8 +13,8 @@ at runtime, no deploy needed). A unit marked DONE below is already changed for l
 
 | Phase | State |
 |---|---|
-| 0 — contain contaminated audit doc | NOT STARTED |
-| 1 — fix fabrications (4 units + 1 question) | NOT STARTED |
+| 0 — contain contaminated audit doc | **DONE** — commit `1ff1f46` |
+| 1 — fix fabrications (4 units + 1 question) | **DONE** — written + verified live |
 | 2 — restore missing content (4 units) | NOT STARTED |
 | 3 — silent-correction policy ruling | **BLOCKED — needs client** |
 | 4 — Tier 3 drift batch | BLOCKED on Phase 3 |
@@ -25,11 +25,11 @@ at runtime, no deploy needed). A unit marked DONE below is already changed for l
 
 | Unit | Page | State | Verified live |
 |---|---|---|---|
-| `90510d10` "Why geography matters to tourism" | 6 | NOT STARTED | — |
-| `10f721f6` "Business and professional tourism" | 29 | NOT STARTED | — |
-| `571f3d66` "Halal tourism" | 30 | NOT STARTED | — |
-| `7e0adbdc` "Grey tourism (seniors)" | 31 | NOT STARTED | — |
-| quiz question (stem + scheme + criterion) | 6 | NOT STARTED | — |
+| `90510d10` "Why geography matters to tourism" | 6 | **DONE** | yes — prod |
+| `10f721f6` "Business and professional tourism" | 29 | **DONE** | yes — prod |
+| `571f3d66` "Halal tourism" | 30 | **DONE** | yes — prod |
+| `7e0adbdc` "Grey tourism (seniors)" | 31 | **DONE** | yes — prod |
+| quiz question `1e2ac649` (stem + scheme + criterion `f04ba733`) | 6 | **DONE** | yes — re-queried |
 
 ## Phase 2 unit-by-unit
 
