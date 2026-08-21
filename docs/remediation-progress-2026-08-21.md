@@ -15,7 +15,7 @@ at runtime, no deploy needed). A unit marked DONE below is already changed for l
 |---|---|
 | 0 — contain contaminated audit doc | **DONE** — commit `1ff1f46` |
 | 1 — fix fabrications (4 units + 1 question) | **DONE** — written + verified live |
-| 2 — restore missing content (4 units) | NOT STARTED |
+| 2 — restore missing content (4 units) | **DONE** — written + verified live |
 | 3 — silent-correction policy ruling | **BLOCKED — needs client** |
 | 4 — Tier 3 drift batch | BLOCKED on Phase 3 |
 | 5 — re-scan CH4, CH2, CH3 | NOT STARTED |
@@ -35,10 +35,10 @@ at runtime, no deploy needed). A unit marked DONE below is already changed for l
 
 | Unit | Page | State | Verified live |
 |---|---|---|---|
-| `23d2636a` distance/connectivity/attractiveness | 21 | NOT STARTED | — |
-| `57aa58f3` volume statistics | 22 | NOT STARTED | — |
-| `00b45e0c` holiday tourism market | 27 | NOT STARTED | — |
-| `312f4696` topography | 4 | NOT STARTED | — |
+| `23d2636a` distance/connectivity/attractiveness | 21 | **DONE** | yes — prod |
+| `57aa58f3` volume statistics | 22 | **DONE** | yes — prod |
+| `00b45e0c` holiday tourism market | 27 | **DONE** | yes — prod |
+| `312f4696` topography | 4 | **DONE** | yes — prod |
 
 ---
 
