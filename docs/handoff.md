@@ -14,21 +14,70 @@ first.
 
 ## Right now
 
-**Shipped to production (2026-08-18).** PR #6 merged to `main`; live at
-https://tourism-geography-tutor.vercel.app/login.
+**Nothing is in flight (state checked 2026-08-20).** `main` is clean and in sync with
+`origin/main` at `6bd5d64`; `agent/learner-accounts` is merged, so there is no unpushed work
+anywhere. Production answers 200 on `/`, `/login`, and `/flashcards`. The last release was
+2026-08-18 and nothing has changed since — whoever picks this up is starting from a green,
+deployed state, not resuming a half-finished task.
 
-**The GitHub → Vercel production hook did not fire on the merge.** The branch push produced a
-Preview deployment, but merging to `main` produced no Production deployment after ten minutes.
-Worked around with `npx vercel promote <preview-url>`, after confirming
-`git rev-parse origin/main^{tree}` matched the tested build's tree exactly, so promoting was
-equivalent to building `main`. **If a future merge appears not to deploy, this is why — check
-`npx vercel ls` before assuming the build failed.** Worth investigating the integration.
+**If you are a new agent on this project, read in this order:** this file, then
+`docs/checklist.md` for the dated history, then `AGENTS.md` for the hard rules, and
+`.claude/skills/course-content/SKILL.md` before touching `content_units` (draft →
+source_references → publish, insert-before-delete, ordering-via-`created_at`, and the
+PostgREST embedded-filter gotcha). The two rules that bite hardest: **never invent course
+content** — every fact traces to a PDF in `data/course-materials/`, and apparent source errors
+get transcribed faithfully and flagged in `docs/checklist.md` rather than silently corrected —
+and **insert-then-delete**, never delete-then-insert, when replacing a `content_units` row.
+Work in small committed chunks; a background agent was once interrupted between a delete and
+its replacement and left the live site with no content for a topic.
 
-**The previously-unverified assessment path is now verified**, against production, where the
-service-role key exists. A full course exam was submitted as `student`: 16 answers stored, all
-carrying their answer scheme, citation, and topic; all 6 written answers marked per-criterion.
-Confirmed by querying the database directly, not by reading the screen. The synthetic attempt
-was then deleted, so both demo accounts start empty.
+**Build and test from `C:\Users\User\dev\tourism-geography-tutor`,** not the Google Drive
+checkout — see the working-directory note further down. Content is served live from Supabase
+at runtime, so database writes are visible in production without a Vercel deploy.
+
+**`SUPABASE_SERVICE_ROLE_KEY` is deliberately never stored on this machine.** `vercel env pull`
+returns it as the literal string `"[SENSITIVE]"`. Anything needing it either runs against
+production (which has the real key) or waits for the owner to supply it for that session.
+`web/.env.local` holds the Supabase URL, the anon key, and the DeepSeek key.
+
+**Open items, roughly in the order they are worth doing:**
+
+1. **Investigate the GitHub → Vercel production hook.** Merging PR #6 to `main` produced no
+   Production deployment after ten minutes; only the branch push produced a Preview. Worked
+   around with `npx vercel promote <preview-url>`, after confirming
+   `git rev-parse origin/main^{tree}` matched the tested build's tree exactly, so promoting was
+   equivalent to building `main`. This doc used to claim "push to `main` = production deploy,
+   no manual step" — that was not true on that occasion. **If a future merge looks like it
+   failed to build, run `npx vercel ls` before assuming anything broke.** Fixing this de-risks
+   every future release, which is why it is first.
+2. **Phase 2, not started: the AI PDF-to-questions importer for lecturers.** Needs a Node-side
+   PDF text extractor — `unpdf` is the serverless-friendly pick; the repo's Python/`pymupdf`
+   tooling will not run on Vercel. Extracted questions must land as `draft` and be given a topic
+   and a published, cited source unit before they can be approved, per the source-fidelity rule.
+3. **Lecturer features scoped but not built:** item analysis (% correct per question from real
+   attempt data), manual mark override on auto-graded written answers, CSV export of the roster,
+   and a review queue surfacing the source defects the checklist flags but deliberately leaves
+   unfixed.
+4. **All 208 generated questions are still `draft` / `generated_by='deepseek_draft'`.** The
+   lecturer approval queue now exists and the database refuses to approve a question that is not
+   complete and traceable to a published, cited unit — but nothing has actually been approved
+   through it yet. The owner enabled the draft bank for learner practice on 2026-08-12 knowing
+   this.
+5. **Older backlog:** anonymous helpfulness feedback (the table exists, but it needs a secure
+   server/RPC write path plus abuse-conscious validation before learner controls go live), and a
+   manual light/dark override on top of the working OS-level preference.
+
+---
+
+**Last shipped: learner accounts, roles, and both dashboards (2026-08-18).** PR #6 merged to
+`main`; live at https://tourism-geography-tutor.vercel.app/login with the seeded `lecturer` and
+`student` accounts.
+
+**The previously-unverified assessment path was verified** as part of that release, against
+production, where the service-role key exists. A full course exam was submitted as `student`:
+16 answers stored, all carrying their answer scheme, citation, and topic; all 6 written answers
+marked per-criterion. Confirmed by querying the database directly, not by reading the screen.
+The synthetic attempt was then deleted, so both demo accounts start empty.
 
 **Live verification run:** 12 auth/dashboard e2e tests plus the assessment round trip, all
 against the production URL — `BASE_URL=https://tourism-geography-tutor.vercel.app npx playwright test`.
