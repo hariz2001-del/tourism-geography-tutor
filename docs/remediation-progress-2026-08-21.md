@@ -55,3 +55,33 @@ before the change). To revert a unit, restore that quoted string.
 - Do not trust the 2026-08-09 audit doc for quotations. Re-read the PDF page.
 - Render slides: `.venv/Scripts/python.exe`, `pymupdf`, `page.get_pixmap()` →
   `.tobytes("jpg", jpg_quality=70)`.
+
+---
+
+## Phase 5 — CH4 re-scan (IN PROGRESS)
+
+Rendered assets (regenerate with `pymupdf` if the scratchpad is gone):
+`scratchpad/ch4_pages/p01.jpg`..`p27.jpg`, `scratchpad/ch4_text.json`.
+
+**DB scan: DONE** (`scratchpad/ch4_db_inventory.md`). 40 units, 4 topics, all published,
+all cited, no orphans, no wrong source_file/chapter_label. All 4 topic summaries NULL.
+
+**Confirmed: the database cites nothing beyond page 22.** Pages with zero citing units:
+**1, 10, 13, 23, 24, 25, 26, 27**. Whether 23–27 represents a real content gap depends on the
+PDF scan — pages 22–26 are all vision-only (no text layer), so nothing about their contents can
+be assumed.
+
+16 of 40 units are single-sentence stubs under ~120 chars, consistent with a glossary deck.
+
+**Merged-entity candidates flagged (NOT yet judged).** Six are source *tables* rendered as one
+unit each — World's highest mountains (6), Mountain ranges (6), Largest deserts (9), Largest
+bodies of water (10), Highest island peaks (5), Continental landmasses (4). **Note:
+`docs/checklist.md` records the deserts/landmasses/water-bodies units as having been created
+deliberately as whole-table units on 2026-08-11**, so this is a prior decision to revisit with
+the client, not an unnoticed defect. Three softer cases bundle category labels
+(Physical attraction categories, Swarbrooke's four categories, Examples across categories).
+Mount Everest appears in two units.
+
+**PDF scan: awaiting.** Key question put to it: do pages 23–27 carry real teachable content?
+
+**Not yet started:** main-thread comparison, Opus verification, any CH4 fix.
