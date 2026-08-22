@@ -63,7 +63,7 @@ export const topicDiagrams: Record<string, TopicDiagram> = {
   },
   "a457ad66-58e3-41cb-922c-1c9966c9a988": {
     src: "/diagrams/ch3-latitude-longitude-comparison.png",
-    alt: "Two globes side by side: the left globe shows latitude lines (Equator, and parallels at 30/60/90 degrees North and South) with the Northern and Southern Hemispheres labelled; the right globe shows longitude meridian lines converging at the poles, labelled East (+) and West (-) of the Prime Meridian at 0 degrees.",
+    alt: "Two globes side by side. The left globe, labelled Latitude, shows parallels at 30, 60 and 90 degrees with the Equator at 0, North marked (+) and South marked (-). The right globe, labelled Longitude, shows meridians converging at the poles at 30, 60, 90, 120, 150 and 180 degrees, with the Prime meridian at 0, East marked (+) and West marked (-).",
     caption: "Latitude and longitude compared",
     sourceFile: "chapter-3.pdf",
     pageOrSlide: 5,

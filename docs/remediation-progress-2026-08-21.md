@@ -326,3 +326,50 @@ already in the DB and skipping true duplicates.
 at the slide edge on p7 and genuinely illegible on p8 (flagged unreadable, not guessed).
 
 **Nothing written to CH3 yet.**
+
+### CH3 Opus verification: DONE. **Zero fabrications — the first clean chapter.**
+
+`scratchpad/ch3_verification.md`. The verifier re-rendered all 11 pages itself at 2x (plus 7x-14x
+crops) rather than trusting the supplied JPEGs or the text layer, and traced all 11 units
+clause-by-clause. **X1 CLEAN. X3, X4, X5, X6 confirmed.**
+
+**Why CH3 is clean, and why it corroborates the root cause:** no CH3 unit body had been written
+since 2026-08-08 — *before the 2026-08-09 audit document existed*. CH1, CH2 and CH4 were all
+rewritten by the 2026-08-11 pass that used it. CH3 was never touched by that pass, and it is the
+only chapter with no fabrications. That is the cleanest evidence yet that the audit document, not
+the extraction process, is the source of the incident. (Timestamps alone do not prove this —
+`content_units` has no `updated_at` trigger — which is why the full trace was done anyway.)
+
+**Fixed and verified live:** `The Prime Meridian as a tourist attraction` (p7) dropped the
+unsourced editorial "a well-known tourist photo spot" and now cites what the plaque actually
+prints — Bogota 74°05' W and Quito 78°35' W west, Kuala Lumpur and Singapore 103° east.
+`diagrams.ts` CH3 alt text corrected: it claimed p5 labels "Northern and Southern Hemispheres";
+p5 actually prints "North (+)"/"South (-)" and "East (+)"/"West (-)". Typecheck clean, 84/84 tests.
+
+**Uncited pages 1, 5, 8, 9 — ALL legitimately uncited. No new unit warranted.** p1 duplicates
+p10's map; p5 is already delivered by the `diagrams.ts` entry keyed to CH3's own topic; p8 repeats
+p7's meridian line and its one extra datum is already asserted by the p7 unit; **p9 — I was wrong
+to call it the prime suspect.** It is the weakest of the four: its four labelled facts are each
+already carried by existing units and the same geometry is better rendered by the p5 diagram.
+Rich in ink, not content. CH2 p18's precedent does not reach it — that was a data table with
+unique values.
+
+**Five things the verifier corrected in my briefing:**
+1. "Text layer PLUS large image: pages 2, 3, 4, 6, 11" — wrong for **p2 and p11** (title strip
+   only). It is pages 3, 4, 6.
+2. "Meridien on pp.4/6/9" — **p6 has no "Meridien"**; it is pp.4 and 9 only, and "chapter-wide"
+   overstates it (p5 and p11 spell it correctly).
+3. `Lithosphere` "list ends Oceania/Australia" — mistaken premise; both slide and DB end with
+   **Antarctica**, all seven, same order.
+4. **The silent-correction policy must cover SEVEN items, not four.** Three more: p3
+   "Antartic"->"Antarctic", p4 "meridien"->"meridian", and p4 **"Greenwich Meridien Time" ->
+   "the Greenwich Meridian"** — semantic, not spelling: the source conflates a line with a time
+   standard.
+5. `ch3_db_inventory.md` section 8 leaves Hydrosphere/Lithosphere as "live splitting candidates".
+   **Acting on that would create 12 empty units duplicating 12 that already exist in CH2** — the
+   same class of error that nearly deleted CH2 content, running the other way.
+
+**New source defect:** p9's map prints **"20°"** where the northern 30° parallel should be.
+**Also noted:** CH3 says "Antarctic" ocean where CH2 says "Southern Ocean" — a cross-chapter
+inconsistency for the client. `created_at` is hand-set for ordering across all four chapters and
+there is no `updated_at` trigger, so timestamps cannot be used as provenance evidence.
