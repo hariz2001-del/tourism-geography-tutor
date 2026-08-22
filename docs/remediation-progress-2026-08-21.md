@@ -290,3 +290,39 @@ to south" — decisions made the opposite way from the flag-don't-fix rule, and 
 client policy question.
 
 **Not yet started:** main-thread comparison, Opus verification, any CH3 fix.
+
+### CH3 both scans DONE; Opus verification IN FLIGHT
+
+**PDF scan** (`scratchpad/ch3_pdf_inventory.md`): ~256 teachable items, **no page classified NO
+TEACHABLE CONTENT** — every one of the 11 slides carries something transcribable. Counts are
+dominated by two dense world maps (p1, p10). All four known p2 source defects confirmed verbatim:
+"There is nine planet in the world", oceans listed as "Pacific / Atlantic / **Hindi** / **Artic** /
+Antarctic", and the Equator diameter "7,899.8 mile from **north to east**".
+
+**DB scan** (`scratchpad/ch3_db_inventory.md`): 11 units, 2 topics, all published, all cited, no
+orphans. Chapter + both topic summaries NULL; all 11 excerpts NULL.
+
+**Uncited pages: 1, 5, 8, 9** — and since no page is contentless, each needs a ruling:
+- **p9 is the prime suspect** — image-only, rich (world map with EQUATOR 0°, PRIME MERIDIAN,
+  degree gridlines, scale bar), nothing cites it.
+- p5 is likely already covered: `diagrams.ts` has a CH3 entry at `pageOrSlide: 5`.
+- p1 is the title slide bearing a time-zone map; p8 is light (2 photos + coordinates, 2 illegible).
+Precedent to apply: CH4's p23 diagram already rendered via `diagrams.ts` was judged NOT to need a
+supporting unit, while CH2's genuinely uncaptured p18 table WAS given one.
+
+**Silent corrections already in CH3 bodies (policy question, not defects):** `Hydrosphere` renders
+"Hindi"/"Artic" as "Indian"/"Arctic"; `The Equator` renders "north to east" as "north to south";
+`Earth's position and habitability` omits the "nine planet" claim entirely. **CH3 is the chapter
+where the flag-don't-fix rule was most often decided the other way** — the clearest illustration of
+why one uniform client ruling is needed.
+
+**Merged-entity candidates judged NOT defects** (put to the verifier): `Hydrosphere` (5 oceans) and
+`Lithosphere` (7 continents) list entities that **CH2 already covers with individual units**, so
+splitting here would duplicate, not fix. The skill file directs cross-checking against what is
+already in the DB and skipping true duplicates.
+
+**Additional source defects found:** p3 title typo "LOGITUDE"; p3 "Antartic circle"; chapter-wide
+"Meridien" for "Meridian" on pp.4/6/9; **p8 has no slide title at all**; coordinate labels cropped
+at the slide edge on p7 and genuinely illegible on p8 (flagged unreadable, not guessed).
+
+**Nothing written to CH3 yet.**
