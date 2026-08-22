@@ -245,3 +245,48 @@ across pp.18-23; p12 shows two different classification systems side by side (th
 taxonomy and a 9-key biome legend) with "Desert" and "Tundra" in both, unreconciled.
 
 **Merged-entity candidates: still treat as likely false positives** — see the CH2 DB scan note.
+
+---
+
+## CH2: COMPLETE (except the shared policy ruling). Commit `de67722`.
+
+1 fabrication (`Antarctica` p6), 3 unsupported insertions (Pacific "deepest ocean", Evergreen
+"year-round", Ice cap "in places"), and 1 wrong-citation pair fixed structurally — the p18
+embedded table now has its own unit, `Mid-latitude climates compared`. All verified live.
+
+## Phase 5 — CH3 re-scan (IN PROGRESS, dispatched 2026-08-23)
+
+Rendered assets: `scratchpad/ch3_pages/p01..p11.jpg`, `scratchpad/ch3_text.json`.
+
+**XObject enumeration done up front this time** (the CH2 lesson applied). Results, which both
+scanners were given:
+
+| Page | Text layer | Large embedded images | Note |
+|---|---|---|---|
+| 1 | none | 800x426 | image is only source |
+| 2 | 738 ch | title strip only | **the four known source defects live here** |
+| 3 | 177 ch | 550x384 | text layer + large image |
+| 4 | 285 ch | 320x312 | text layer + large image |
+| 5 | none | 572x312 | image is only source |
+| 6 | 222 ch | title strip only | text layer + image |
+| 7 | none | 500x375, 300x470 | image is only source |
+| 8 | none | 367x388 | image is only source |
+| 9 | none | 804x535, 480x238 | image is only source, richest page |
+| 10 | none | 839x495 | image is only source |
+| 11 | 441 ch | title strip only | text layer + image |
+
+**Every page renders its slide TITLE as an image strip (~500-950 x 42 px)**, so titles are often
+absent from the text layer even where one exists. The 1287x12 strip on every page is decorative.
+
+**Conclusion: all 11 pages must be read visually.** No page can be cleared from its text layer
+alone. This is the most image-dependent deck in the project — its content was originally extracted
+under the least reliable conditions of any chapter.
+
+**Known source defects to confirm, not fix** (already flagged on p2 in earlier passes): the "nine
+planet[s]" claim, ocean names "Hindi" and "Artic", and the Equator diameter described as running
+"north to east". Per the source-fidelity rule these stay flagged. Note the earlier pass chose to
+**correct** "Hindi"/"Artic" to "Indian"/"Arctic" in the DB and to render "north to east" as "north
+to south" — decisions made the opposite way from the flag-don't-fix rule, and part of the pending
+client policy question.
+
+**Not yet started:** main-thread comparison, Opus verification, any CH3 fix.
