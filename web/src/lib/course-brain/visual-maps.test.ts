@@ -41,8 +41,11 @@ describe("visual maps — asset integrity (offline)", () => {
       .filter(([, image]) => {
         const fromCourse = Boolean(image.sourceFile) && typeof image.pageOrSlide === "number";
         const attribution = image.attribution;
-        const licensed = Boolean(attribution?.creator && attribution?.sourceUrl && attribution?.license && attribution?.licenseUrl);
-        return !fromCourse && !licensed;
+        const credited = Boolean(attribution?.creator && attribution?.sourceUrl && attribution?.license);
+        // A CC licence has a deed to link to and the licence text requires the link;
+        // a public-domain work has neither, so it is credited without one.
+        const deedLinked = !attribution?.license.startsWith("CC") || Boolean(attribution?.licenseUrl);
+        return !fromCourse && !(credited && deedLinked);
       })
       .map(([unitId, image]) => `${unitId} -> ${image.src}`);
 

@@ -1,13 +1,27 @@
 # Openly licensed supporting images
 
 These Chapter 2 photographs supplement the approved course content. They were
-resized and converted to WebP without semantic alteration.
+resized and converted to WebP without semantic alteration. Every file listed here
+is also declared in `src/lib/course-brain/content-images.ts`, and a test fails if
+an attributed image is missing from this table.
 
 | Local asset | Creator | Source | Licence |
 | --- | --- | --- | --- |
+| `ch2-dry-oasis-hd.webp` | Taguelmoust | [Oasis timimoun](https://commons.wikimedia.org/wiki/File:Oasis_timimoun.png) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `ch2-dry-steppe-hd.webp` | Shizhao | [Grasslands-menggu](https://commons.wikimedia.org/wiki/File:Grasslands-menggu.JPG) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `ch2-highland-scandinavia-hd.webp` | Dirk-Jan van Roest | [Jotunheimen 2017](https://commons.wikimedia.org/wiki/File:Jotunheimen_2017.jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
+| `ch2-highland-treeline-hd.webp` | inkknife_2000 | [Mount Hood Tree Line, OR 8-13 (16171629489)](https://commons.wikimedia.org/wiki/File:Mount_Hood_Tree_Line,_OR_8-13_(16171629489).jpg) | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) |
+| `ch2-highlat-ice-cap-hd.webp` | Hannes Grobe | [Greenland-ice sheet hg](https://commons.wikimedia.org/wiki/File:Greenland-ice_sheet_hg.jpg) | [CC BY-SA 2.5](https://creativecommons.org/licenses/by-sa/2.5/) |
+| `ch2-highlat-subarctic-hd.webp` | Vyacheslav Argenberg | [Ergaki, Taiga in Siberia, Coniferous forest, Sayan Mountains, Siberia, Russia](https://commons.wikimedia.org/wiki/File:Ergaki,_Taiga_in_Siberia,_Coniferous_forest,_Sayan_Mountains,_Siberia,_Russia.jpg) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `ch2-highlat-tundra-hd.webp` | Artem Abdukakharov | [Arctic tundra in autumn colors near lake Lovozero in Murmansk Oblast, Russia](https://commons.wikimedia.org/wiki/File:Arctic_tundra_in_autumn_colors_near_lake_Lovozero_in_Murmansk_Oblast,_Russia.jpg) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `ch2-midlat-deciduous-forest-hd.webp` | lumoplank | [Hakkoda Mountains, Part III- Jogakura Valley - Hakkoda6899](https://commons.wikimedia.org/wiki/File:Hakkoda_Mountains,_Part_III-_Jogakura_Valley_-_Hakkoda6899.jpg) | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `ch2-midlat-evergreen-forest-hd.webp` | Leonhard Lenz | [Coniferous forest in Sweden near the Svartälven river 01](https://commons.wikimedia.org/wiki/File:Coniferous_forest_in_Sweden_near_the_Svart%C3%A4lven_river_01.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `ch2-midlat-humid-continental-hd.webp` | USDA Forest Service | [Green Mountain National Forest (20241222-FS-GM-BME-ChittendenReservoir-001)](https://commons.wikimedia.org/wiki/File:Green_Mountain_National_Forest_(20241222-FS-GM-BME-ChittendenReservoir-001).jpg) | Public domain |
+| `ch2-midlat-humid-subtropical-hd.webp` | Andrew Parlette | [Bald Cypress Forest in Congaree National Park (52781884863)](https://commons.wikimedia.org/wiki/File:Bald_Cypress_Forest_in_Congaree_National_Park_(52781884863).jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
+| `ch2-midlat-marine-west-coast-hd.webp` | Olympic National Park (NPS) | [Hoh Rainforest, mossy log tree NPS Photo (16680304244)](https://commons.wikimedia.org/wiki/File:Hoh_Rainforest,_mossy_log_tree_NPS_Photo_(16680304244).jpg) | Public domain |
+| `ch2-midlat-mediterranean-hd.webp` | bongo vongo | [Olive groves, grape vines and cypresses in Chiantishire (4054460424)](https://commons.wikimedia.org/wiki/File:Olive_groves,_grape_vines_and_cypresses_in_Chiantishire_(4054460424).jpg) | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) |
+| `ch2-midlat-mixed-forest-hd.webp` | Gabriel Picard | [Aerial view of mixed forest in Quebec](https://commons.wikimedia.org/wiki/File:Aerial_view_of_mixed_forest_in_Quebec.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `ch2-summer-monsoon-hd.webp` | lensnmatter | [Monsoon (36877269620)](https://commons.wikimedia.org/wiki/File:Monsoon_(36877269620).jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
 | `ch2-tropical-rainforest-hd.webp` | Vyacheslav Argenberg | [Khao Sok primary tropical rainforest, southern Thailand](https://commons.wikimedia.org/wiki/File:Khao_Sok_primary_tropical_rainforest,_southern_Thailand.jpg) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
-| `ch2-summer-monsoon-hd.webp` | lensnmatter | [Monsoon](https://commons.wikimedia.org/wiki/File:Monsoon_(36877269620).jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
-| `ch2-winter-monsoon-hd.webp` | Takeaway | [Chaloem Phra Kiat District, Nan (2013)](https://commons.wikimedia.org/wiki/File:2013_Chaloem_Phra_Kiat_District_Nan.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
-| `ch2-tropical-savanna-hd.webp` | Bjørn Christian Tørrissen | [Serengeti Landscape 2012](https://commons.wikimedia.org/wiki/File:Serengeti-Landscape-2012.JPG) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
-| `ch2-dry-oasis-hd.webp` | Taguelmoust | [Oasis Timimoun](https://commons.wikimedia.org/wiki/File:Oasis_timimoun.png) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
-| `ch2-dry-steppe-hd.webp` | Shizhao | [Grasslands Menggu](https://commons.wikimedia.org/wiki/File:Grasslands-menggu.JPG) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `ch2-tropical-savanna-hd.webp` | Bjørn Christian Tørrissen | [Serengeti-Landscape-2012](https://commons.wikimedia.org/wiki/File:Serengeti-Landscape-2012.JPG) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `ch2-winter-monsoon-hd.webp` | Takeaway | [2013 Chaloem Phra Kiat District Nan](https://commons.wikimedia.org/wiki/File:2013_Chaloem_Phra_Kiat_District_Nan.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |

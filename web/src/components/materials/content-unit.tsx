@@ -53,9 +53,13 @@ function UnitImage({ unitId }: { unitId: string }) {
                 source
               </a>{" "}
               ·{" "}
-              <a className="underline decoration-graticule underline-offset-2 hover:text-ink" href={image.attribution.licenseUrl} target="_blank" rel="noreferrer">
-                {image.attribution.license}
-              </a>
+              {image.attribution.licenseUrl ? (
+                <a className="underline decoration-graticule underline-offset-2 hover:text-ink" href={image.attribution.licenseUrl} target="_blank" rel="noreferrer">
+                  {image.attribution.license}
+                </a>
+              ) : (
+                image.attribution.license
+              )}
             </span>
           ) : null}
         </figcaption>
