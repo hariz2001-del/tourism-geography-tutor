@@ -123,10 +123,13 @@ Verified before committing, not self-reported: 94/94 tests (including the live S
 typecheck, lint, production build, and both CH2 topics fetched at 1440px and 390px with no failed
 requests and no horizontal overflow.
 
-**Three things left on this:** merge and deploy (owner's call); whether *Winter monsoon* should get
-a dry-season contrast photo, which was deliberately skipped because a still landscape cannot show
-air moving off the land; and whether the deck's p20 Push-Pull figure should return as a unit-level
-figure now that the native table has replaced it.
+*Winter monsoon* was initially left image-less on the argument that a still landscape cannot show
+air moving off the land; the owner ruled otherwise, and it now carries a dry-season Nan Province
+photo that works because it sits directly under the summer-monsoon image — the pair is the lesson,
+not either photo alone.
+
+**One thing left on this:** whether the deck's own p20 Push-Pull figure should return as a
+unit-level figure now that the native table has replaced it. Nothing else is outstanding.
 
 Still open from the review: topic-level elaboration prompts (~23, to lift germane load — 73% of
 units are bare definitions), which need a UI slot first; and the quiz-bank review of all 208

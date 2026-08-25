@@ -219,10 +219,15 @@ picked up, re-verified independently and committed on `agent/native-learning-mod
     optional to admit non-deck images also permitted an entry with *no* provenance at all. Two new
     tests in `visual-maps.test.ts` require every entry to declare either a course source or a
     complete attribution, and every attributed file to appear in `ATTRIBUTION.md`.
-  - **Winter monsoon (`c31bc5c9`) deliberately has no image.** A still landscape cannot show air
-    moving off the land, so a photo there would decorate rather than teach (Mayer's coherence
-    principle — the same reasoning that left p7's waterfall alone). **Open for the client** if they
-    would rather have a dry-season contrast image beside the summer-monsoon one.
+  - **Winter monsoon (`c31bc5c9`) was first left image-less, then given one on the owner's
+    instruction.** The objection — a still landscape cannot show air moving off the land, so the
+    photo would decorate rather than teach — holds for an image standing alone, but this one does
+    not stand alone: it sits directly beneath the summer-monsoon image in the same topic, and the
+    pair carries the contrast neither photo carries by itself. Chosen for what it shows: the Nan
+    River near its source reduced to a stream across a wide gravel bed, harvested paddy terraces,
+    dry haze — Nan Province, Thailand, photographed in December, the dry half of the monsoon year,
+    one screen below the Khao Sok rainforest photo. Same country, opposite season. Takeaway,
+    CC BY-SA 3.0.
 - [x] **Verified independently, not self-reported.** 94/94 tests (including the live Supabase
   referential half — every image key resolves to a published unit), typecheck, lint and the Next
   production build all clean. Both CH2 climate topics fetched at 1440px and 390px: all five images
