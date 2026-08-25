@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import type { PublishedContentUnit } from "@/lib/course-brain/types";
-import TopicLearningModel, { integratedTopicUnitIds } from "./topic-learning-model";
+import TopicLearningModel, { integratedTopicUnitIds, topicModelUnitIds } from "./topic-learning-model";
 
 const pushPullTopicId = "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426";
 const formsTopicId = "254db3b5-6355-49b0-8435-fc4ab3dcd4ba";
@@ -58,5 +58,55 @@ describe("TopicLearningModel", () => {
   it("does not hide ordinary units when a required model unit is missing", () => {
     const incomplete = formsUnits.slice(0, -1);
     expect(integratedTopicUnitIds(formsTopicId, incomplete)).toEqual(new Set());
+  });
+});
+
+const middleLatitudeTopicId = "343da11d-e89d-485c-9024-c8bba3d5f042";
+
+// Verbatim from the published row: the parse is only trustworthy if it is tested
+// against the exact string the database serves, not a convenient paraphrase.
+const midLatitudeTableBody =
+  "The Mid-Latitude Climates table compares two sub-types. Humid Continental: latitude range 30 to 55 N and S, to 60 N in Europe; world location north central North America, north central Asia (China), Korea, Japan, and central and eastern Europe; vegetation mixed coniferous and deciduous forest; warm summers, cold winters, and moderate rainfall throughout the year. Marine-West Coast: latitude range 30 to 60 N and S; world location west coast of N. America, west coast of southern Chile, and northwestern Europe; vegetation mixed coniferous and deciduous forests; cool summers, mild winters, and high rainfall year round.";
+
+const midLatitudeUnits = [
+  {
+    id: "d18c0a11-7b3e-4c6f-9a52-8f1d4e2b7c30",
+    topicId: middleLatitudeTopicId,
+    title: "Mid-latitude climates compared",
+    body: midLatitudeTableBody,
+    contentType: "explanation",
+    citation: { sourceFile: "chapter-2.pdf", chapterLabel: "Chapter 2", pageOrSlide: 18 },
+  } satisfies PublishedContentUnit,
+];
+
+describe("MidLatitudeComparison", () => {
+  it("renders the source table as a native comparison, with cells parsed out of the stored body", () => {
+    render(<TopicLearningModel topicId={middleLatitudeTopicId} units={midLatitudeUnits} />);
+
+    expect(screen.getByRole("columnheader", { name: "Humid Continental" })).toBeVisible();
+    expect(screen.getByRole("columnheader", { name: "Marine-West Coast" })).toBeVisible();
+    for (const label of ["Latitude range", "World location", "Vegetation", "Seasons / rainfall"]) {
+      expect(screen.getByRole("rowheader", { name: label })).toBeVisible();
+    }
+    expect(screen.getByRole("cell", { name: "30 to 55 N and S, to 60 N in Europe" })).toBeVisible();
+    expect(screen.getByRole("cell", { name: "cool summers, mild winters, and high rainfall year round" })).toBeVisible();
+    expect(screen.getByRole("cell", { name: "west coast of N. America, west coast of southern Chile, and northwestern Europe" })).toBeVisible();
+    expect(screen.queryByRole("img")).not.toBeInTheDocument();
+  });
+
+  it("falls back to the prose body rather than a broken table if the wording changes", () => {
+    const reworded = [{ ...midLatitudeUnits[0], body: "The table compares two sub-types of mid-latitude climate." }];
+    render(<TopicLearningModel topicId={middleLatitudeTopicId} units={reworded} />);
+
+    expect(screen.getByText("The table compares two sub-types of mid-latitude climate.")).toBeVisible();
+    expect(screen.queryByRole("table")).not.toBeInTheDocument();
+  });
+
+  it("is a trailing model, so the page renders it after the ordinary cards", () => {
+    expect(topicModelUnitIds("trailing", middleLatitudeTopicId, midLatitudeUnits)).toEqual(
+      new Set(["d18c0a11-7b3e-4c6f-9a52-8f1d4e2b7c30"]),
+    );
+    expect(topicModelUnitIds("leading", middleLatitudeTopicId, midLatitudeUnits)).toEqual(new Set());
+    expect(topicModelUnitIds("trailing", pushPullTopicId, pushPullUnits)).toEqual(new Set());
   });
 });

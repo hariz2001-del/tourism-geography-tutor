@@ -18,16 +18,51 @@ const FORMS_OF_TOURISM_UNIT_IDS = {
   outbound: "641ede37-cc81-4a9b-9d8e-6579d33135db",
 } as const;
 
-const MODEL_UNIT_IDS: Record<string, readonly string[]> = {
+const MIDDLE_LATITUDE_TOPIC_ID = "343da11d-e89d-485c-9024-c8bba3d5f042";
+const MID_LATITUDE_TABLE_UNIT_ID = "d18c0a11-7b3e-4c6f-9a52-8f1d4e2b7c30";
+
+/**
+ * A leading model replaces the whole topic: it is the first thing on the page and
+ * the units it consumes do not appear again below. A trailing model consolidates
+ * a topic that has already been read — it renders after the ordinary cards, which
+ * is the only sensible place for a comparison of entries the learner has just met.
+ */
+const LEADING_MODEL_UNIT_IDS: Record<string, readonly string[]> = {
   [PUSH_PULL_TOPIC_ID]: Object.values(PUSH_PULL_UNIT_IDS),
   [FORMS_OF_TOURISM_TOPIC_ID]: Object.values(FORMS_OF_TOURISM_UNIT_IDS),
 };
 
-export function integratedTopicUnitIds(topicId: string, units: PublishedContentUnit[]): Set<string> {
-  const requiredIds = MODEL_UNIT_IDS[topicId];
+const TRAILING_MODEL_UNIT_IDS: Record<string, readonly string[]> = {
+  [MIDDLE_LATITUDE_TOPIC_ID]: [MID_LATITUDE_TABLE_UNIT_ID],
+};
+
+export type ModelPlacement = "leading" | "trailing";
+
+function claimedUnitIds(
+  source: Record<string, readonly string[]>,
+  topicId: string,
+  units: PublishedContentUnit[],
+): Set<string> {
+  const requiredIds = source[topicId];
   if (!requiredIds) return new Set();
   const availableIds = new Set(units.map((unit) => unit.id));
   return requiredIds.every((id) => availableIds.has(id)) ? new Set(requiredIds) : new Set();
+}
+
+export function topicModelUnitIds(
+  placement: ModelPlacement,
+  topicId: string,
+  units: PublishedContentUnit[],
+): Set<string> {
+  return claimedUnitIds(placement === "leading" ? LEADING_MODEL_UNIT_IDS : TRAILING_MODEL_UNIT_IDS, topicId, units);
+}
+
+/** Every unit a model on this topic has taken over, so the page can leave them out of the ordinary sections. */
+export function integratedTopicUnitIds(topicId: string, units: PublishedContentUnit[]): Set<string> {
+  return new Set([
+    ...topicModelUnitIds("leading", topicId, units),
+    ...topicModelUnitIds("trailing", topicId, units),
+  ]);
 }
 
 export default function TopicLearningModel({
@@ -56,6 +91,12 @@ export default function TopicLearningModel({
         bookmarkedUnitIds={bookmarkedUnitIds}
       />
     );
+  }
+
+  if (topicId === MIDDLE_LATITUDE_TOPIC_ID) {
+    const table = byId.get(MID_LATITUDE_TABLE_UNIT_ID);
+    if (!table) return null;
+    return <MidLatitudeComparison table={table} bookmarkedUnitIds={bookmarkedUnitIds} />;
   }
 
   if (topicId === FORMS_OF_TOURISM_TOPIC_ID) {
@@ -208,6 +249,113 @@ function FormsOfTourismModel({
       <ModelSource units={[domestic, international, inbound, outbound]} />
     </section>
   );
+}
+
+/**
+ * The source deck presents this as a screenshot of a table: two sub-types as rows,
+ * four attributes as columns, at a resolution that is unreadable on a phone. The
+ * stored unit body is a faithful transcription of that screenshot, so the cells are
+ * PARSED OUT OF THE BODY rather than retyped — the table cannot drift from the text
+ * it claims to render, and if the body is ever reworded the parse fails closed and
+ * the prose renders instead.
+ *
+ * The axes are transposed against the source: attributes become rows and the two
+ * climates become columns. Reading down a column gives one climate's profile;
+ * reading across a row gives the contrast, which is the comparison the table exists
+ * to make. Column headings are the deck's own ("Latitude Range", "World Location",
+ * "Vegetation", "Seasons/Rainfall").
+ */
+const MID_LATITUDE_ATTRIBUTES = [
+  { key: "latitude", label: "Latitude range" },
+  { key: "location", label: "World location" },
+  { key: "vegetation", label: "Vegetation" },
+  { key: "seasons", label: "Seasons / rainfall" },
+] as const;
+
+type MidLatitudeRow = { latitude: string; location: string; vegetation: string; seasons: string };
+type MidLatitudeTable = { introduction: string; humidContinental: MidLatitudeRow; marineWestCoast: MidLatitudeRow };
+
+function MidLatitudeComparison({
+  table,
+  bookmarkedUnitIds,
+}: {
+  table: PublishedContentUnit;
+  bookmarkedUnitIds?: Set<string>;
+}) {
+  const parsed = parseMidLatitudeTable(table.body);
+
+  return (
+    <section aria-labelledby="mid-latitude-comparison" className="overflow-hidden rounded-card border border-graticule bg-surface">
+      <UnitAnchor unit={table} bookmarkedUnitIds={bookmarkedUnitIds} className="border-b border-graticule p-5 sm:p-6">
+        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-meridian">Compare the sub-types</p>
+        <h2 id="mid-latitude-comparison" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">{table.title}</h2>
+        <p className="mt-2 max-w-[68ch] whitespace-pre-wrap text-[1rem]/[1.65] text-ink">{parsed ? parsed.introduction : table.body}</p>
+      </UnitAnchor>
+
+      {parsed ? (
+        <>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[22rem] border-collapse text-left">
+              <caption className="sr-only">Humid Continental and Marine-West Coast compared by latitude range, world location, vegetation, and seasons and rainfall</caption>
+              <thead>
+                <tr>
+                  <th scope="col" className="w-[6.5rem] border-b border-graticule bg-chart px-3 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-muted sm:w-[9rem] sm:px-4">
+                    <span className="sr-only">Attribute</span>
+                  </th>
+                  <th scope="col" className="border-b border-l border-graticule bg-relief/10 px-3 py-2 align-bottom font-display text-[0.9375rem]/[1.25] font-semibold text-relief sm:px-4">Humid Continental</th>
+                  <th scope="col" className="border-b border-l border-graticule bg-meridian/10 px-3 py-2 align-bottom font-display text-[0.9375rem]/[1.25] font-semibold text-meridian sm:px-4">Marine-West Coast</th>
+                </tr>
+              </thead>
+              <tbody>
+                {MID_LATITUDE_ATTRIBUTES.map((attribute) => (
+                  <tr key={attribute.key} className="align-top">
+                    <th scope="row" className="border-b border-graticule bg-chart px-3 py-3 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-muted sm:px-4">
+                      {attribute.label}
+                    </th>
+                    <td className="border-b border-l border-graticule bg-relief/4 px-3 py-3 text-[0.9375rem]/[1.5] text-ink sm:px-4">
+                      {parsed.humidContinental[attribute.key]}
+                    </td>
+                    <td className="border-b border-l border-graticule bg-meridian/4 px-3 py-3 text-[0.9375rem]/[1.5] text-ink sm:px-4">
+                      {parsed.marineWestCoast[attribute.key]}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="border-t border-graticule bg-lowland/6 px-5 py-3 text-[0.9375rem]/[1.6] text-ink sm:px-6">
+            <span className="font-semibold text-lowland">Where they differ:</span> both share a vegetation type and overlap in latitude — the working difference is the coast. Read the seasons row.
+          </p>
+        </>
+      ) : null}
+
+      <p className="border-t border-graticule bg-chart px-5 py-2.5 font-mono text-[0.75rem]/[1.5] text-ink-muted sm:px-6">
+        Native table built from the published learning note · {table.citation.sourceFile}, page/slide {table.citation.pageOrSlide} · column headings as on the source table
+      </p>
+    </section>
+  );
+}
+
+function parseMidLatitudeTable(body: string): MidLatitudeTable | null {
+  const match = /^([\s\S]*?)\s*Humid Continental:\s*([\s\S]*?)\.\s*Marine-West Coast:\s*([\s\S]*)$/.exec(body);
+  if (!match) return null;
+  const humidContinental = parseMidLatitudeRow(match[2]);
+  const marineWestCoast = parseMidLatitudeRow(match[3]);
+  if (!humidContinental || !marineWestCoast) return null;
+  return { introduction: match[1].trim(), humidContinental, marineWestCoast };
+}
+
+function parseMidLatitudeRow(value: string): MidLatitudeRow | null {
+  const parts = value.split(";").map((part) => part.trim().replace(/\.$/, ""));
+  if (parts.length !== 4) return null;
+  const [latitude, location, vegetation, seasons] = parts;
+  const stripped = {
+    latitude: latitude.replace(/^latitude range\s+/i, ""),
+    location: location.replace(/^world location\s+/i, ""),
+    vegetation: vegetation.replace(/^vegetation\s+/i, ""),
+    seasons,
+  };
+  return Object.values(stripped).every(Boolean) ? stripped : null;
 }
 
 function FormCell({

@@ -61,11 +61,4 @@ export const topicDiagrams: Record<string, TopicDiagram> = {
     sourceFile: "chapter-3.pdf",
     pageOrSlide: 5,
   },
-  "343da11d-e89d-485c-9024-c8bba3d5f042": {
-    src: "/diagrams/ch2-mid-latitude-climate-table.png",
-    alt: "Mid-Latitude Climates comparison table: Humid Continental (30 to 55 N/S, to 60 N in Europe; north central North America, north central Asia/China, Korea, Japan, central and eastern Europe; mixed coniferous and deciduous forest; warm summers, cold winters, moderate rainfall throughout the year) and Marine-West Coast (30 to 60 N/S; west coast of North America, west coast of southern Chile, and northwestern Europe; mixed coniferous and deciduous forests; cool summers, mild winters, high rainfall year round).",
-    caption: "Mid-latitude climates compared",
-    sourceFile: "chapter-2.pdf",
-    pageOrSlide: 18,
-  },
 };

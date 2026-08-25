@@ -2,7 +2,7 @@ import ChapterNav from "@/components/materials/chapter-nav";
 import Link from "next/link";
 import ContentSection from "@/components/materials/content-section";
 import TopicDiagramFigure from "@/components/materials/topic-diagram";
-import TopicLearningModel, { integratedTopicUnitIds } from "@/components/materials/topic-learning-model";
+import TopicLearningModel, { integratedTopicUnitIds, topicModelUnitIds } from "@/components/materials/topic-learning-model";
 import TopicList from "@/components/materials/topic-list";
 import QuizCard from "@/components/quiz/quiz-card";
 import TutorPanel from "@/components/tutor/tutor-panel";
@@ -34,6 +34,8 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
   }
   const diagram = topicDiagrams[chapter.topic.id];
   const integratedUnitIds = integratedTopicUnitIds(chapter.topic.id, chapter.units);
+  const hasLeadingModel = topicModelUnitIds("leading", chapter.topic.id, chapter.units).size > 0;
+  const hasTrailingModel = topicModelUnitIds("trailing", chapter.topic.id, chapter.units).size > 0;
   const sections = buildSections(chapter.units.filter((unit) => !integratedUnitIds.has(unit.id)));
   const showLabels = shouldShowLabels(sections);
   const profile = await getProfile();
@@ -55,7 +57,7 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
             <Link className="inline-flex min-h-11 items-center text-meridian underline underline-offset-4 lg:hidden" href="#tutor">Ask tutor</Link>
           </div>
         </div>
-        {integratedUnitIds.size > 0 ? (
+        {hasLeadingModel ? (
           <TopicLearningModel
             topicId={chapter.topic.id}
             units={chapter.units}
@@ -73,6 +75,13 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
               />
             ))
           : integratedUnitIds.size === 0 ? <p role="status" className="rounded-card border border-graticule bg-surface p-4 text-ink">This topic does not have any learning notes yet.</p> : null}
+        {hasTrailingModel ? (
+          <TopicLearningModel
+            topicId={chapter.topic.id}
+            units={chapter.units}
+            bookmarkedUnitIds={isStudent ? bookmarkedUnitIds : undefined}
+          />
+        ) : null}
         {chapter.quiz ? <QuizCard question={chapter.quiz} /> : null}
       </section>
       <aside className="lg:sticky lg:top-6 lg:self-start"><TutorPanel topicTitle={chapter.topic.name} /></aside>
