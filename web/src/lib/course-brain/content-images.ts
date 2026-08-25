@@ -4,16 +4,22 @@ export type ContentImage = {
   width: number;
   height: number;
   caption?: string;
-  sourceFile: string;
-  pageOrSlide: number;
+  sourceFile?: string;
+  pageOrSlide?: number;
+  attribution?: {
+    creator: string;
+    sourceUrl: string;
+    license: string;
+    licenseUrl: string;
+  };
 };
 
 /**
- * Real photos/figures extracted directly from the approved course PDFs,
+ * Real photos/figures that support a specific content unit,
  * keyed by content_unit id. Rendered inside that specific ContentUnit card
  * (unlike topicDiagrams in diagrams.ts, which is one figure per topic).
- * Populate only with images actually pulled from a source page — see
- * .claude/skills/course-content/SKILL.md's image-extraction section.
+ * Course-source images record their source file and page. Openly licensed
+ * supporting photos must record creator, source URL, and licence attribution.
  */
 export const contentImages: Record<string, ContentImage> = {
   "53ea1015-3e72-4d7f-867e-77f2ca172e82": {
@@ -170,40 +176,69 @@ export const contentImages: Record<string, ContentImage> = {
     pageOrSlide: 13,
   },
   "0cf701f8-8fde-407e-ae4f-d532dab52975": {
-    src: "/content-images/ch2-p14-rainforest-canopy.png",
-    alt: "Dense tropical rain-forest canopy viewed from above, with large fan-like palm and bromeliad fronds in the foreground",
-    width: 377,
-    height: 472,
-    caption: "Tropical humid climate — chapter-2.pdf, p14",
-    sourceFile: "chapter-2.pdf",
-    pageOrSlide: 14,
+    src: "/content-images/ch2-tropical-rainforest-hd.webp",
+    alt: "Dense, layered primary tropical rainforest covering the limestone hills of Khao Sok in southern Thailand",
+    width: 1600,
+    height: 1067,
+    caption: "Primary tropical rainforest in Khao Sok, southern Thailand",
+    attribution: {
+      creator: "Vyacheslav Argenberg",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Khao_Sok_primary_tropical_rainforest,_southern_Thailand.jpg",
+      license: "CC BY 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+    },
+  },
+  "82c13fdc-c0c5-46d7-9320-d2cf89f273fc": {
+    src: "/content-images/ch2-summer-monsoon-hd.webp",
+    alt: "Heavy summer monsoon clouds and rain over a waterlogged green landscape with mountains in the distance",
+    width: 1600,
+    height: 898,
+    caption: "Moist summer-monsoon conditions",
+    attribution: {
+      creator: "lensnmatter",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Monsoon_(36877269620).jpg",
+      license: "CC BY 2.0",
+      licenseUrl: "https://creativecommons.org/licenses/by/2.0/",
+    },
   },
   "5991f254-816b-4035-ab43-1f911804a967": {
-    src: "/content-images/ch2-p15-savanna-sunset.jpg",
-    alt: "African savanna at sunset — burnt-orange sky, silhouetted flat-topped acacia trees, and grazing animals on the horizon",
-    width: 276,
-    height: 182,
-    caption: "Savanna (tropical wet-and-dry climate) — chapter-2.pdf, p15",
-    sourceFile: "chapter-2.pdf",
-    pageOrSlide: 15,
+    src: "/content-images/ch2-tropical-savanna-hd.webp",
+    alt: "Open Serengeti grassland dotted with flat-topped acacia trees beneath a broad blue sky",
+    width: 1600,
+    height: 922,
+    caption: "Tropical savanna in Serengeti National Park, Tanzania",
+    attribution: {
+      creator: "Bjørn Christian Tørrissen",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Serengeti-Landscape-2012.JPG",
+      license: "CC BY-SA 3.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+    },
   },
   "27a0eeb9-953f-4ac7-9e86-55d9e8789006": {
-    src: "/content-images/ch2-p17-oasis.png",
-    alt: "Desert oasis — rolling apricot sand dunes with a dense band of dark green date palms growing between them",
-    width: 414,
-    height: 374,
-    caption: "Oasis (arid climate) — chapter-2.pdf, p17",
-    sourceFile: "chapter-2.pdf",
-    pageOrSlide: 17,
+    src: "/content-images/ch2-dry-oasis-hd.webp",
+    alt: "Timimoun oasis in the Algerian desert, with water and dense date palms surrounded by arid terrain",
+    width: 1280,
+    height: 960,
+    caption: "Oasis at Timimoun in the Algerian desert",
+    attribution: {
+      creator: "Taguelmoust",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Oasis_timimoun.png",
+      license: "CC BY-SA 3.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+    },
   },
   "3351e87e-e9ef-44f4-bb9e-25d1b334cdde": {
-    src: "/content-images/ch2-p17-steppe-badlands.png",
-    alt: "Steppe / semi-arid badlands — a layered ochre-and-cream flat-topped butte under a misty grey sky, with scrub and gravel in the foreground",
-    width: 299,
-    height: 168,
-    caption: "Steppe (semiarid climate) — chapter-2.pdf, p17",
-    sourceFile: "chapter-2.pdf",
-    pageOrSlide: 17,
+    src: "/content-images/ch2-dry-steppe-hd.webp",
+    alt: "Treeless Eurasian steppe in Inner Mongolia, with extensive grassland beneath a wide sky",
+    width: 1600,
+    height: 1200,
+    caption: "Eurasian steppe grassland in Inner Mongolia",
+    attribution: {
+      creator: "Shizhao",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Grasslands-menggu.JPG",
+      license: "CC BY-SA 3.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+    },
   },
   "f1012de4-075c-4ab5-a441-1cfb3a871732": {
     src: "/content-images/ch2-p19-deciduous-forest.jpg",

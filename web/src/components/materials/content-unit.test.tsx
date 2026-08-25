@@ -25,4 +25,25 @@ describe("ContentUnit", () => {
     expect(screen.getByRole("heading", { name: "Place" }).closest("article")).toHaveAttribute("data-highlighted", "false");
     window.location.hash = "";
   });
+
+  it("shows accessible attribution for an openly licensed supporting photo", () => {
+    render(
+      <ContentUnit
+        unit={{
+          id: "82c13fdc-c0c5-46d7-9320-d2cf89f273fc",
+          topicId: "topic-1",
+          title: "Summer monsoon",
+          body: "Approved explanation.",
+          contentType: "explanation",
+          citation: { sourceFile: "chapter-2.pdf", chapterLabel: "Chapter 2", pageOrSlide: 14 },
+        }}
+        variant="stack"
+      />,
+    );
+
+    expect(screen.getByRole("img", { name: /heavy summer monsoon clouds/i })).toBeVisible();
+    expect(screen.getByText(/photo: lensnmatter/i)).toBeVisible();
+    expect(screen.getByRole("link", { name: "source" })).toHaveAttribute("href", expect.stringContaining("wikimedia.org"));
+    expect(screen.getByRole("link", { name: "CC BY 2.0" })).toHaveAttribute("href", "https://creativecommons.org/licenses/by/2.0/");
+  });
 });

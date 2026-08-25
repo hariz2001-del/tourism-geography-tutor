@@ -28,6 +28,37 @@ describe("visual maps — asset integrity (offline)", () => {
     expect(missing).toEqual([]);
   });
 
+  /**
+   * Two kinds of image now live in this map: figures extracted from an approved
+   * course PDF, and openly licensed photos that support a unit without coming
+   * from the deck. The type makes every provenance field optional so both fit,
+   * which means nothing but this test stops an entry from carrying neither —
+   * an uncredited photo is a licence breach, and an unsourced "course figure"
+   * is exactly the kind of un-provenanced content this project fixed once.
+   */
+  it("every contentImages entry declares either a course source or a full licence attribution", () => {
+    const unprovenanced = Object.entries(contentImages)
+      .filter(([, image]) => {
+        const fromCourse = Boolean(image.sourceFile) && typeof image.pageOrSlide === "number";
+        const attribution = image.attribution;
+        const licensed = Boolean(attribution?.creator && attribution?.sourceUrl && attribution?.license && attribution?.licenseUrl);
+        return !fromCourse && !licensed;
+      })
+      .map(([unitId, image]) => `${unitId} -> ${image.src}`);
+
+    expect(unprovenanced).toEqual([]);
+  });
+
+  it("every licensed photo is credited in public/content-images/ATTRIBUTION.md", () => {
+    const attributionFile = readFileSync(path.join(publicDirectory, "content-images", "ATTRIBUTION.md"), "utf8");
+    const uncredited = Object.values(contentImages)
+      .filter((image) => image.attribution)
+      .map((image) => path.basename(image.src))
+      .filter((filename) => !attributionFile.includes(filename));
+
+    expect(uncredited).toEqual([]);
+  });
+
   it("every topicDiagrams src exists in public/", () => {
     const missing = Object.entries(topicDiagrams)
       .filter(([, diagram]) => !existsSync(path.join(publicDirectory, diagram.src)))

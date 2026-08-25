@@ -41,12 +41,26 @@ function UnitImage({ unitId }: { unitId: string }) {
   const image = contentImages[unitId];
   if (!image) return null;
   return (
-    <div className="mb-3 overflow-hidden rounded-card border border-graticule bg-white">
+    <figure className="mb-3 overflow-hidden rounded-card border border-graticule bg-white">
       <Image src={image.src} alt={image.alt} width={image.width} height={image.height} className="h-auto w-full" />
-      {image.caption ? (
-        <p className="border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem] text-ink-muted">{image.caption}</p>
+      {image.caption || image.attribution ? (
+        <figcaption className="space-y-0.5 border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem]/[1.45] text-ink-muted">
+          {image.caption ? <span className="block">{image.caption}</span> : null}
+          {image.attribution ? (
+            <span className="block text-[0.6875rem]">
+              Photo: {image.attribution.creator} ·{" "}
+              <a className="underline decoration-graticule underline-offset-2 hover:text-ink" href={image.attribution.sourceUrl} target="_blank" rel="noreferrer">
+                source
+              </a>{" "}
+              ·{" "}
+              <a className="underline decoration-graticule underline-offset-2 hover:text-ink" href={image.attribution.licenseUrl} target="_blank" rel="noreferrer">
+                {image.attribution.license}
+              </a>
+            </span>
+          ) : null}
+        </figcaption>
       ) : null}
-    </div>
+    </figure>
   );
 }
 
