@@ -136,8 +136,26 @@ air moving off the land; the owner ruled otherwise, and it now carries a dry-sea
 photo that works because it sits directly under the summer-monsoon image — the pair is the lesson,
 not either photo alone.
 
-**One thing left on this:** whether the deck's own p20 Push-Pull figure should return as a
-unit-level figure now that the native table has replaced it. Nothing else is outstanding.
+**Second pass the same day, also deployed:** the three remaining CH2 climate topics — Middle
+latitude, High latitude, Highland — got the same treatment. Twelve HD photographs (nine
+replacements, three units that never had an image), and the **Mid-Latitude Climates table is now a
+native table**: cells parsed out of the stored unit body, axes transposed so attributes are rows
+and the two climates are columns, and the deck's own column headings. It had been rendering twice,
+as the topic diagram and as the unit image; both raster bindings are gone.
+
+That table also moved. Models now declare a **placement** — *leading* models replace a topic
+(Push-Pull, Forms of tourism), *trailing* models consolidate a topic already read. The comparison
+was arriving before two of the sub-types it compares and before the vegetation terms its rows use;
+as a trailing model the section reads intro, sub-types, vegetation vocabulary, comparison. Fixing
+the order this way needed **no database write**, which matters while the service-role key is off
+disk.
+
+**Two things left open for the client:**
+1. Whether the deck's own p20 Push-Pull figure should return as a unit-level figure now that the
+   native table has replaced it.
+2. The Subarctic unit's old image was a low-resolution *map* of the Canadian subarctic, not a
+   photo. Its HD replacement shows what the climate looks like but not where it is — if the
+   distribution matters, it should come back as its own figure.
 
 Still open from the review: topic-level elaboration prompts (~23, to lift germane load — 73% of
 units are bare definitions), which need a UI slot first; and the quiz-bank review of all 208

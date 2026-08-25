@@ -249,3 +249,49 @@ picked up, re-verified independently and committed on `agent/native-learning-mod
 - [ ] **Open for the client: should the deck's own p20 Push-Pull figure come back?** The native
   table carries the same labels, but the slide's figure is currently shown nowhere. It would return
   as a unit-level figure on `c403af77`, not as the topic diagram.
+
+## 2026-08-26 (second pass) — the last three CH2 climate topics
+
+Client-directed continuation of the same day's work: HD imagery for Middle latitude, High
+latitude and Highland, plus the mid-latitude comparison table merged into the interface and the
+section resequenced. Commits `5840eb8`, `0cc4215`.
+
+- [x] **The Mid-Latitude Climates table is now a native table, and it comes last.** The deck ships
+  it as a dark, blurred screenshot — two sub-types by four attributes — and the app was rendering
+  it **twice**: once as the topic diagram (`diagrams.ts`) and again as the unit's own image. Both
+  bindings are gone.
+  - **Cells are parsed out of the stored unit body**, not retyped, so the table cannot drift from
+    the transcription it renders; the test drives the parser with the exact string the database
+    serves, and an unparseable body falls back to prose rather than a broken table.
+  - **Axes transposed against the source**: attributes as rows, the two climates as columns.
+    Down a column is one climate's profile; across a row is the contrast the table exists to make.
+    Column headings are the deck's own ("Latitude Range", "World Location", "Vegetation",
+    "Seasons/Rainfall").
+  - **Placement was the other half.** The table arrived third in the topic — before Marine west
+    coast and Humid continental, the two sub-types it compares, and before the three vegetation
+    terms its Vegetation row uses. Models now have a placement: *leading* ones replace a topic
+    (Push-Pull, Forms of tourism), *trailing* ones consolidate a topic already read. This one is
+    trailing, so the section reads: intro, four sub-types, vegetation vocabulary, comparison.
+    **No database write was needed** — pulling the table unit out of the ordinary flow fixed the
+    order by itself, which matters because the service-role key is not on disk.
+- [x] **Twelve HD photographs across the three topics.** Nine deck crops (170px-525px wide)
+  replaced at 1600px; three units that never had an image — **Humid subtropical**, **Mixed
+  forest**, **Highland examples** — now have one.
+  - Chosen for what each shows, per the vendored `dual-coding-designer` rule that a visual must
+    add what words cannot: deciduous shows broad leaves actually turning, evergreen shows needled
+    crowns over bare trunks, mixed is shot straight down so both canopies appear at once, tundra is
+    treeless where the taiga card above it is not, and highland shows the tree line **as a line**,
+    forest below and bare rock above — the one thing that unit's body describes and no previous
+    image showed.
+  - Two are US public-domain works (Forest Service, NPS), so `licenseUrl` became optional; the
+    figure renders the licence as plain text when there is no deed to link to, and the provenance
+    test demands the link only for CC licences. `ATTRIBUTION.md` is regenerated from
+    `content-images.ts` and now covers 18 images.
+- [ ] **Client note: the Subarctic unit lost a map, not just a photo.** Its old image was a
+  low-resolution scan of a *distribution map* of the Canadian subarctic. The Siberian taiga photo
+  replacing it shows what the climate looks like but not where it is. If the lecturer wants the
+  distribution back it should return as its own figure, not as this unit's only image.
+- [x] **Verified before committing:** 97/97 tests including the live Supabase referential half,
+  typecheck, lint, production build; all three topics fetched at 1440px and 390px with no console
+  errors, no failed requests and no horizontal overflow. The native table stays inside its own
+  scroll container at 390px and remains legible.
