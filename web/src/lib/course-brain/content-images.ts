@@ -201,6 +201,19 @@ export const contentImages: Record<string, ContentImage> = {
       licenseUrl: "https://creativecommons.org/licenses/by/2.0/",
     },
   },
+  "c31bc5c9-c35d-4686-af03-166c4ff45227": {
+    src: "/content-images/ch2-winter-monsoon-hd.webp",
+    alt: "Northern Thai valley in the dry season: the Nan River reduced to a narrow stream across a wide gravel bed, with harvested paddy terraces and haze over the hills",
+    width: 1600,
+    height: 1000,
+    caption: "Dry-season conditions in Nan Province, Thailand, photographed in December — the Nan River near its source, barely more than a stream",
+    attribution: {
+      creator: "Takeaway",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:2013_Chaloem_Phra_Kiat_District_Nan.jpg",
+      license: "CC BY-SA 3.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+    },
+  },
   "5991f254-816b-4035-ab43-1f911804a967": {
     src: "/content-images/ch2-tropical-savanna-hd.webp",
     alt: "Open Serengeti grassland dotted with flat-topped acacia trees beneath a broad blue sky",
