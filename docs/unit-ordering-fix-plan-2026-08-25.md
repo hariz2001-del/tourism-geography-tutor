@@ -1,8 +1,23 @@
-# Deterministic ordering for the 18 tied units — ready to apply
+# Deterministic ordering for the 18 tied units — APPLIED
 
-**Status: not applied.** This is a production database write and it was not executed. The
-plan below is complete, the unit ids are real and verified live, and the order is decided.
-It needs the service-role key and the owner's go-ahead.
+**Status: APPLIED and verified, 2026-08-25.** All 18 rows were written in the order below and
+verified twice — once by re-reading each topic through PostgREST in the exact order the app
+uses, and once against the deployed site.
+
+Verification results:
+- 18 rows patched, each write guarded on the old timestamp and asserted to affect exactly one row.
+- Every topic re-read in `order=created_at` matches the intended sequence.
+- **Zero units anywhere in the course still share a `created_at` with a topic-mate** (was 18).
+- Production spot-check: CH4's chapter-opening topic now leads with *Nature-based tourism and
+  natural resources*, ahead of *Recognition makes a natural feature a tourism resource*. It
+  renders in the large-type intro slot with no `<h3>`, which is `group-units.ts` behaving as
+  designed — `takeU0` promotes it because its title is five words long.
+
+One implementation note for anyone repeating this: the `+00:00` in a PostgREST
+`created_at=eq.` filter must be percent-encoded. Left raw it arrives as a space and Postgres
+rejects it with `22007 invalid input syntax for type timestamp with time zone`.
+
+The original plan follows, unchanged.
 
 Source: Finding 4 of `docs/pedagogy-review-content-units-2026-08-25.md`.
 

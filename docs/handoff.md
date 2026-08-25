@@ -80,10 +80,15 @@ can only be flagged; the scaffolding around it can be proposed. First report:
 `docs/pedagogy-review-content-units-2026-08-25.md`.
 
 Landed: seven flattened-table units got their source tables back as figures (no prose changed),
-bodies now keep line breaks, and a test makes the visual maps fail loud instead of silently
-dropping images. Ready but not applied: `docs/unit-ordering-fix-plan-2026-08-25.md` — 18 units
-share one timestamp and sort non-deterministically, and CH4's opening sentence is currently
-arbitrary. Needs the service-role key.
+bodies now keep line breaks, a test makes the visual maps fail loud instead of silently dropping
+images, and **the 18 tie-ordered units now have a deterministic sequence** — course-wide ties went
+18 to 0, verified against production, and CH4's chapter-opening sentence is no longer arbitrary
+(`docs/unit-ordering-fix-plan-2026-08-25.md`).
+
+Still open from the review, both needing a decision rather than a key: splitting CH4's 20-unit
+*Water environments* topic (three of its units are land topics filed under water), and a
+constructed 2x2 diagram for CH1 *Forms of tourism* — which would be the first diagram in this
+project not extracted from a source page, so it sets a precedent.
 
 **Ask the client for a machine-readable DTM10333 syllabus.** It unblocks a coverage audit — the
 one check that would tell us whether the app covers what the course promises — and it would settle
