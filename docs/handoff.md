@@ -96,12 +96,11 @@ land units moved back to *Natural landscapes and landforms*; and **CH1 *Forms of
 project's first constructed diagram**, a 2x2 matrix of the four definitions on p25. Every quoted
 label in it is verbatim and its caption states that it is drawn rather than extracted.
 
-### Uncommitted-to-live gap right now: `agent/native-learning-models` *(2026-08-26)*
+### Deployed 2026-08-26: native study models (CH1) and licensed HD photography (CH2)
 
-**Two client-directed changes are committed on `agent/native-learning-models` and are NOT
-deployed.** They are code, so learners see nothing until the branch is merged to `main` and Vercel
-rebuilds. Started by Codex, which stopped mid browser-verification; the work was re-verified
-independently and committed in two chunks (`f4637ca`, `614a4a6`) plus this doc update.
+**Two client-directed changes, merged to `main` and live at `793dcaa`.** Started by Codex, whose
+session ended mid browser-verification; the work was re-verified independently, committed in
+chunks, and deployed the same day — no repeat of the four-day invisible-work gap.
 
 1. **The two CH1 diagrams became native components.** *Push and pull factors* and *Forms of
    tourism* no longer render a flat image with the same definitions repeated in cards below it.
@@ -121,7 +120,16 @@ independently and committed in two chunks (`f4637ca`, `614a4a6`) plus this doc u
 
 Verified before committing, not self-reported: 94/94 tests (including the live Supabase half),
 typecheck, lint, production build, and both CH2 topics fetched at 1440px and 390px with no failed
-requests and no horizontal overflow.
+requests and no horizontal overflow. Verified again **against production** after the deploy: all
+six new images return 200 and the four replaced deck crops plus `ch1-push-pull-model.jpg` now 404;
+the push-pull table serves all 17 factors with its `pages/slides 17-20` provenance line, the Forms
+matrix serves its empty fourth cell, and both monsoon figures serve with their creator and licence
+links intact.
+
+**One known warning, not fixed:** Next flags the first climate photo on each topic as the LCP
+element and asks for `loading="eager"`. `UnitImage` has no notion of which unit is above the fold,
+so doing it properly means passing position down from the section — worth a small follow-up now
+that these files are 1600px rather than 300px crops.
 
 *Winter monsoon* was initially left image-less on the argument that a still landscape cannot show
 air moving off the land; the owner ruled otherwise, and it now carries a dry-season Nan Province

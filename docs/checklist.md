@@ -236,6 +236,16 @@ picked up, re-verified independently and committed on `agent/native-learning-mod
     suggests `loading="eager"`. It is a real hint now that these are 1600px files, but `UnitImage`
     has no notion of which unit sits above the fold, so fixing it properly means passing position
     down from the section. Not done; noted.
-- [ ] **Not deployed.** This is code, so learners see none of it until `agent/native-learning-models`
-  is merged to `main` and Vercel rebuilds — the same asymmetry that stranded work for four days on
-  2026-08-21. Left for the owner to approve.
+- [x] **Deployed the same day.** Owner approved; `main` fast-forwarded to `793dcaa` and pushed,
+  Vercel rebuilt. Verified against production, not assumed: all six new images 200, the four
+  replaced deck crops and `ch1-push-pull-model.jpg` now 404, both native models serve their full
+  content (17 push/pull factors, the deliberately empty fourth matrix cell), and every licensed
+  figure serves its creator and licence links. No repeat of the 2026-08-21 four-day gap between
+  finished code and visible code.
+- [ ] **Follow-up worth doing: the LCP warning.** Next asks for `loading="eager"` on the first
+  climate photo of each topic. `UnitImage` cannot know which unit is above the fold, so the fix is
+  to pass position down from `ContentSection`. Left undone; it matters more now that these files
+  are 1600px rather than 300px crops.
+- [ ] **Open for the client: should the deck's own p20 Push-Pull figure come back?** The native
+  table carries the same labels, but the slide's figure is currently shown nowhere. It would return
+  as a unit-level figure on `c403af77`, not as the topic diagram.
