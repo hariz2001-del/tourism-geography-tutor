@@ -96,6 +96,38 @@ land units moved back to *Natural landscapes and landforms*; and **CH1 *Forms of
 project's first constructed diagram**, a 2x2 matrix of the four definitions on p25. Every quoted
 label in it is verbatim and its caption states that it is drawn rather than extracted.
 
+### Uncommitted-to-live gap right now: `agent/native-learning-models` *(2026-08-26)*
+
+**Two client-directed changes are committed on `agent/native-learning-models` and are NOT
+deployed.** They are code, so learners see nothing until the branch is merged to `main` and Vercel
+rebuilds. Started by Codex, which stopped mid browser-verification; the work was re-verified
+independently and committed in two chunks (`f4637ca`, `614a4a6`) plus this doc update.
+
+1. **The two CH1 diagrams became native components.** *Push and pull factors* and *Forms of
+   tourism* no longer render a flat image with the same definitions repeated in cards below it.
+   `web/src/components/materials/topic-learning-model.tsx` builds both models out of the published
+   units: no wording changed, the push/pull factor lists are parsed out of `c403af77`'s stored body
+   rather than retyped, every unit keeps its anchor, bookmark and citation, and each model states
+   the source file and page range it was assembled from. It claims a topic only when every required
+   unit id is present, so a re-imported unit falls back to ordinary cards instead of disappearing.
+   **Deleted:** `ch1-push-pull-model.jpg` (the deck's own p20 figure) and yesterday's constructed
+   `ch1-forms-of-tourism-matrix.png` with its build script — both recoverable from history.
+2. **Five CH2 climate photos are now high-resolution Wikimedia images**, four replacing
+   low-resolution deck crops and one filling *Summer monsoon*'s empty slot. **This is the first
+   content imagery in the project that does not come from the course deck, and it is
+   client-directed.** Each figure renders creator, source and licence links; `ATTRIBUTION.md`
+   records them; two new tests refuse any `contentImages` entry that has neither a course source
+   nor a complete attribution. The Dry-climate table asset was left untouched, as instructed.
+
+Verified before committing, not self-reported: 94/94 tests (including the live Supabase half),
+typecheck, lint, production build, and both CH2 topics fetched at 1440px and 390px with no failed
+requests and no horizontal overflow.
+
+**Three things left on this:** merge and deploy (owner's call); whether *Winter monsoon* should get
+a dry-season contrast photo, which was deliberately skipped because a still landscape cannot show
+air moving off the land; and whether the deck's p20 Push-Pull figure should return as a unit-level
+figure now that the native table has replaced it.
+
 Still open from the review: topic-level elaboration prompts (~23, to lift germane load — 73% of
 units are bare definitions), which need a UI slot first; and the quiz-bank review of all 208
 questions, which needs the service-role key and a separate pass.

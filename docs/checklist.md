@@ -179,3 +179,58 @@ From the original mockup (`fyp cb.pdf`, Figures 3.1–3.8), against the actual s
 - [ ] **Still not executed, needs a decision.**
   - **Topic-level elaboration prompts** (~23, not 134) to raise germane load: 73% of units are `definition` and CH2 is 36 definitions out of 42, so the deck asks for recognition rather than schema construction. Needs a UI slot first.
 - [ ] **Client input wanted: the learner reading level.** The review assumed CEFR B1 (FK grade 7-9 comfort band) for DTM10333. CH1 sits at **FK median 15.2 with 52% of units at grade 15+**, is the least illustrated chapter (1 diagram across 9 topics), and comes first. If the real cohort reads at B2+, that finding softens considerably. The actual entry English requirement would settle it.
+
+## 2026-08-26 — Native learning models (CH1) and licensed HD photography (CH2)
+
+Client-directed, both items. Started by Codex, whose session ended mid browser-verification;
+picked up, re-verified independently and committed on `agent/native-learning-models`
+(`f4637ca`, `614a4a6`).
+
+- [x] **The two CH1 diagrams are now native interface components, not images.** *Push and pull
+  factors* and *Forms of tourism* each rendered a flat raster and then repeated the same
+  definitions in separate cards below it — split attention in the textbook sense: the learner
+  holds the picture in mind while reading the prose that explains it. `topic-learning-model.tsx`
+  replaces both with one component per topic, assembled **from the published units themselves**.
+  - **No unit wording changed.** The push/pull factor lists are *parsed out of* `c403af77`'s body
+    (`Push factors: … Pull factors: …`) rather than retyped, so they cannot drift from the stored
+    text; all 17 factors render. Every source unit keeps its `unit-<id>` anchor, its bookmark
+    control and its citation, and each model footer prints the source file and page range it was
+    assembled from.
+  - **Fails safe.** `integratedTopicUnitIds` claims a topic only when *every* required unit id is
+    present, and the chapter page filters exactly those ids out of the ordinary sections. A
+    re-imported unit with a new UUID therefore falls back to normal cards rather than vanishing —
+    the same silent-drop failure mode the visual-map tests were written for. A test covers it.
+  - **Two assets were deleted:** `ch1-push-pull-model.jpg` (extracted from p20) and the constructed
+    `ch1-forms-of-tourism-matrix.png` with its build script, added only the day before. Both are
+    recoverable from history. **Worth a client note:** the deck's own p20 Push-Pull figure is no
+    longer shown anywhere; the native table carries the same labels, but if the lecturer wants the
+    slide's figure visible it has to come back as a separate unit-level figure.
+  - Added `[id^="unit-"]:target` to the locate animation so deep links into a model highlight the
+    right block, as they already did for ordinary cards.
+- [x] **Five CH2 climate photographs: four upgraded, one gap filled.** Replaces the low-resolution
+  crops taken from the deck (276-414px wide) with 1280-1600px concept-bearing scenes: primary
+  rainforest at Khao Sok, Serengeti savanna, the Timimoun oasis, Inner Mongolian steppe. *Summer
+  monsoon* gains its first image. **The Dry-climate table asset was left untouched, as instructed.**
+  - **This is the first content imagery in the project that does not come from the course deck**,
+    and it is client-directed, not an agent decision. `ContentImage` gained an `attribution` block
+    and the figure now renders creator, source link and licence link under the caption — a CC BY /
+    BY-SA obligation, not a nicety. `public/content-images/ATTRIBUTION.md` records the same table.
+  - **The type change opened a hole, so it is now tested.** Making `sourceFile`/`pageOrSlide`
+    optional to admit non-deck images also permitted an entry with *no* provenance at all. Two new
+    tests in `visual-maps.test.ts` require every entry to declare either a course source or a
+    complete attribution, and every attributed file to appear in `ATTRIBUTION.md`.
+  - **Winter monsoon (`c31bc5c9`) deliberately has no image.** A still landscape cannot show air
+    moving off the land, so a photo there would decorate rather than teach (Mayer's coherence
+    principle — the same reasoning that left p7's waterfall alone). **Open for the client** if they
+    would rather have a dry-season contrast image beside the summer-monsoon one.
+- [x] **Verified independently, not self-reported.** 94/94 tests (including the live Supabase
+  referential half — every image key resolves to a published unit), typecheck, lint and the Next
+  production build all clean. Both CH2 climate topics fetched at 1440px and 390px: all five images
+  200, no failed requests, no horizontal overflow, definitions still visible.
+  - **One warning left standing:** Next reports the first climate photo as the LCP element and
+    suggests `loading="eager"`. It is a real hint now that these are 1600px files, but `UnitImage`
+    has no notion of which unit sits above the fold, so fixing it properly means passing position
+    down from the section. Not done; noted.
+- [ ] **Not deployed.** This is code, so learners see none of it until `agent/native-learning-models`
+  is merged to `main` and Vercel rebuilds — the same asymmetry that stranded work for four days on
+  2026-08-21. Left for the owner to approve.

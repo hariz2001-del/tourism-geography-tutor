@@ -22,3 +22,6 @@ __pycache__/
 .vscode/
 .idea/
 .worktrees/
+
+# Verification screenshots (regenerate as needed)
+/artifacts/
