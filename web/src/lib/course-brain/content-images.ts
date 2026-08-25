@@ -448,4 +448,73 @@ export const contentImages: Record<string, ContentImage> = {
     sourceFile: "chapter-1-candidate-a.pdf",
     pageOrSlide: 19,
   },
+  // --- Source tables and reference maps ------------------------------------
+  // Added 2026-08-25 from docs/pedagogy-review-content-units-2026-08-25.md
+  // Finding 1. These seven units each transcribe a source *table* into a single
+  // run-on sentence — the worst is 71 words with no full stop until the end.
+  // The table is the form the source itself used, and it carries rank ordering
+  // and per-row values the prose dropped. Restoring it changes no stored prose.
+  "10376fc0-3ac2-4747-9972-c64ab1e089d4": {
+    src: "/content-images/ch4-p15-highest-mountains-table.png",
+    alt: "Ranked table of the world's six highest mountains, with height in metres and feet, range and coordinates. 1 Mount Everest / Sagarmatha / Chomolungma, 8,848 m (29,029 ft), Mahalangur Himalaya. 2 K2 / Qogir / Godwin Austen, 8,611 m (28,251 ft), Baltoro Karakoram. 3 Kangchenjunga, 8,586 m (28,169 ft), Kangchenjunga Himalaya. 4 Lhotse, 8,516 m (27,940 ft), Mahalangur Himalaya. 5 Makalu, 8,485 m (27,838 ft), Mahalangur Himalaya. 6 Cho Oyu, 8,201 m (26,864 ft), Mahalangur Himalaya.",
+    width: 1387,
+    height: 837,
+    caption: "List of highest mountains in the world — chapter-4.pdf, p15",
+    sourceFile: "chapter-4.pdf",
+    pageOrSlide: 15,
+  },
+  "c91a07a5-dd5b-4db2-9f5d-3d4e8b56d8ad": {
+    src: "/content-images/ch4-p16-mountain-ranges-map.jpg",
+    alt: "World relief map titled Mountain Ranges of the World, with coloured markers keyed to ranges grouped by continent. North America: Alaska Range, Appalachian Mountains, Brooks Range, Coastal Mountains, Rocky Mountains, Sierra Madre. South America: Andes. Europe: Alps, Caucasus Mountains, Kjolen Mountains, Pyrenees, Taurus Mountains, Thian Mountains, Ural Mountains. Africa: Atlas Mountains, Crystal Mountains, Drakensberg Mountains, Mitumba Mountains. Asia: Altay Mountains, Himalayan Mountains, Tian Shan, Zagros Mountains. Oceania: Great Dividing Range, Southern Alps.",
+    width: 1337,
+    height: 925,
+    caption: "Mountain ranges of the world — chapter-4.pdf, p16",
+    sourceFile: "chapter-4.pdf",
+    pageOrSlide: 16,
+  },
+  "0e758a6f-0982-4546-a408-12056d168c5b": {
+    src: "/content-images/ch4-p18-largest-deserts-table.png",
+    alt: "Ranked table titled The largest deserts, giving area in square kilometres and square miles. 1 Antarctic Desert (Antarctica), 13,829,430 km2. 2 Sahara (Africa), 9,100,000+ km2. 3 Arabian Desert (Middle East), 2,330,000 km2. 4 Gobi Desert (Asia), 1,300,000 km2. 5 Kalahari Desert (Africa), 900,000 km2. 6 Patagonian Desert (South America), 670,000 km2. 7 Great Victoria Desert (Australia), 647,000 km2. 8 Syrian Desert (Middle East), 520,000 km2. 9 Great Basin Desert (North America), 492,000 km2.",
+    width: 1225,
+    height: 547,
+    caption: "The largest deserts — chapter-4.pdf, p18",
+    sourceFile: "chapter-4.pdf",
+    pageOrSlide: 18,
+  },
+  "dbdbc094-1f0b-4804-a65a-7f118991f5f1": {
+    src: "/content-images/ch4-p19-continental-landmasses-table.png",
+    alt: "Ranked table titled Continental landmasses, giving each land mass's highest point and the country containing it. 1 Afro-Eurasia, Mount Everest, 8,848 m (29,029 ft), Nepal and China. 2 Americas, Aconcagua, 6,962 m (22,841 ft), Argentina. 3 Antarctica, Vinson Massif, 4,892 m (16,050 ft), no country. 4 Australia, Mount Kosciuszko, 2,228 m (7,310 ft), Australia.",
+    width: 860,
+    height: 208,
+    caption: "Continental landmasses — chapter-4.pdf, p19",
+    sourceFile: "chapter-4.pdf",
+    pageOrSlide: 19,
+  },
+  "647e35d5-2d4c-4a48-a26c-ae943eb83085": {
+    src: "/content-images/ch4-p19-highest-island-peaks-table.png",
+    alt: "Ranked table titled All highest points over 2,000 m, listing islands by their highest peak. 1 New Guinea, Puncak Jaya, 4,884 m (16,024 ft), Indonesia, island shared with Papua New Guinea. 2 Hawaii, Mauna Kea, 4,205 m (13,796 ft), United States. 3 Borneo, Mount Kinabalu, 4,095 m (13,435 ft), Malaysia, island shared with Brunei and Indonesia. 4 Taiwan, Jade Mountain (Yu Shan), 3,952 m (12,966 ft), Republic of China (Taiwan). 5 Sumatra, Mount Kerinci, 3,805 m (12,484 ft), Indonesia.",
+    width: 1255,
+    height: 368,
+    caption: "All highest points over 2,000 m — chapter-4.pdf, p19",
+    sourceFile: "chapter-4.pdf",
+    pageOrSlide: 19,
+  },
+  "0b0aa4a1-67fa-484f-9dce-f385fdf71e91": {
+    src: "/content-images/ch4-p20-largest-bodies-of-water-table.png",
+    alt: "Ranked table of the ten largest bodies of water by area, in square miles and square kilometres. 1 Pacific Ocean, 64,196,000 sq mi. 2 Atlantic Ocean, 33,400,000. 3 Indian Ocean, 28,400,000. 4 Arctic Ocean, 5,100,000. 5 Arabian Sea, 1,491,000. 6 South China Sea, 1,148,000. 7 Caribbean Sea, 971,000. 8 Mediterranean Sea, 969,000. 9 Bering Sea, 873,000. 10 Bay of Bengal, 838,612.",
+    width: 775,
+    height: 875,
+    caption: "Largest bodies of water by area — chapter-4.pdf, p20",
+    sourceFile: "chapter-4.pdf",
+    pageOrSlide: 20,
+  },
+  "d18c0a11-7b3e-4c6f-9a52-8f1d4e2b7c30": {
+    src: "/content-images/ch2-p18-mid-latitude-climates-table.png",
+    alt: "Mid-Latitude Climates comparison table with columns for latitude range, world location, vegetation and seasons or rainfall. Humid Continental: 30 to 55 N and S, to 60 N in Europe; north central North America, north central Asia (China), Korea, Japan, central and eastern Europe; mixed coniferous and deciduous forest; warm summer, cold winters, moderate rainfall throughout the year. Marine-West Coast: 30 to 60 N and S; west coast of N. America, west coast of southern Chile, and northwestern Europe; mixed coniferous and deciduous forests; cool summers, mild winters, high rainfall year round.",
+    width: 2148,
+    height: 1045,
+    caption: "Mid-Latitude Climates — chapter-2.pdf, p18",
+    sourceFile: "chapter-2.pdf",
+    pageOrSlide: 18,
+  },
 };
