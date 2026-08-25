@@ -1,5 +1,42 @@
 # Tourism Geography Tutor — Project Instructions
 
+## Start here, whatever tool you are using
+
+**Read `docs/handoff.md` first, every session.** Its "Right now" section is kept current and is
+the fastest route into the state of the work. `docs/checklist.md` holds the dated history.
+
+Two rule files are **not** loaded automatically outside Claude Code. Read them yourself:
+
+- **`.claude/skills/course-content/SKILL.md`** — binding rules for `content_units`: one entity per
+  unit, mandatory citations, insert-before-delete when replacing a unit, and the visual-scan
+  extraction process. Read before adding, editing, splitting or auditing any content.
+- **`.claude/agents/course-pedagogy-reviewer.md`** — the pedagogical-quality workstream and its
+  **Layer 1 / Layer 2 split**: source-derived prose may only be *flagged*, never rewritten, while
+  the scaffolding around it (ordering, topic boundaries, figure pairing, question design, marking
+  schemes, summaries) is open to change.
+
+## The source-fidelity rule, and why it is not negotiable
+
+Course content comes only from the approved PDFs in `data/course-materials/`. Apparent errors in
+the source — typos, "nine planet", "Artic" — are transcribed faithfully and flagged separately in
+`docs/checklist.md`. They are never silently corrected, and gaps the deck promises but never fills
+are never filled in with invented content.
+
+This is not stylistic caution. In August 2026 an enrichment pass rewrote 41 unit bodies from a
+*secondary summary document* whose quotations turned out to be paraphrases. Three of the four
+chapters needed remediation, and one contaminated body reached the quiz bank as a marking
+criterion that would have failed a learner for giving the source-correct answer. **Never copy a
+quotation out of a secondary document — re-read the PDF page.**
+
+## Two operational facts that have caused real confusion
+
+- **Database writes are live to learners immediately.** Content is served from Supabase at
+  runtime, so a `content_units` change needs no deploy. **Code changes are not live until `main`
+  is pushed and Vercel rebuilds.** A citation fix once sat invisible for four days because of this
+  asymmetry.
+- **Build and test from the local checkout, not the Google Drive copy.** Drive's file provider
+  fails to materialise `node_modules` — measured: 13,022 zero-byte `.js` files out of 28,115.
+
 ## Product purpose
 Build a course-grounded Tourism Geography learning platform. The product is a learning platform first; its persistent side-panel tutor is an assistant across materials, topics, and quizzes.
 

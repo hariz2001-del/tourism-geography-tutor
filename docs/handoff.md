@@ -142,11 +142,19 @@ chapter to ~140 KB/page JPEGs in seconds, which is what makes the OCR path cheap
 text layer: **CH1 4/33, CH2 6/23, CH3 6/11, CH4 10/27** — CH3 and CH4 are the most
 vision-dependent, and both CH4 fabrications were on text-layer-less pages.
 
-### Git state
+### Git state *(2026-08-25)*
 
-Branch **`agent/content-fidelity-remediation`**, off `main` at `6bd5d64`. Nine commits, one per
-chunk, working tree clean, **nothing pushed**. The first commit is unrelated pre-existing
-2026-08-20 doc work found uncommitted in the tree and preserved separately.
+**`main` is at `031cfd8`, pushed, deployed, working tree clean.** The remediation branch was
+fast-forwarded into `main` and everything it carried is live. `agent/content-fidelity-remediation`
+still points at `159740b` and can be deleted; it holds nothing `main` does not.
+
+**`agent/learner-accounts` (`80afd05`) is NOT merged** and was deliberately left alone. Separate
+feature branch, already pushed to origin, unrelated to the remediation.
+
+Remember the asymmetry that has already caused confusion once: **database writes are live to
+learners the moment they commit** (content is served from Supabase at runtime), while **code
+changes are not live until `main` is pushed and Vercel rebuilds.** A p24-to-p25 citation fix made
+on the 21st sat invisible for four days because of exactly this.
 
 **Build and test from `C:\Users\User\dev\tourism-geography-tutor`,** not the Google Drive
 checkout — see the working-directory note further down.
@@ -157,10 +165,12 @@ anon key, and the DeepSeek key.
 
 ### Older open items, still valid but lower priority than the remediation
 
-1. **Investigate the GitHub to Vercel production hook.** Merging PR #6 to `main` produced no
-   Production deployment after ten minutes; only the branch push produced a Preview. Worked around
-   with `npx vercel promote <preview-url>`. **If a future merge looks like it failed to build, run
-   `npx vercel ls` before assuming anything broke.**
+1. **The GitHub to Vercel production hook works.** Previously open: merging PR #6 to `main`
+   produced no Production deployment after ten minutes, and it had to be worked around with
+   `npx vercel promote <preview-url>`. **Resolved 2026-08-25** — a direct `git push origin main`
+   auto-deployed Production within a couple of minutes and served the new assets. So the hook is
+   healthy for direct pushes; whether the original PR-merge case is still broken is untested.
+   **If a future deploy looks like it failed, run `npx vercel ls` before assuming anything broke.**
 2. **Phase 2, not started: the AI PDF-to-questions importer for lecturers.** Needs a Node-side PDF
    text extractor — `unpdf` is the serverless-friendly pick; the repo's Python/`pymupdf` tooling
    will not run on Vercel. Extracted questions must land as `draft` and be given a topic and a
@@ -355,39 +365,80 @@ dispatching a big subagent for it.
 
 ## Next step
 
-**Superseded 2026-08-21.** This section previously read "the content-depth/photo audit
-build-and-review pass is closed" and pointed at feature work. That is no longer true: the pass it
-called closed is the one that introduced the fabrications described in "Right now". Do the
-remediation before any new product work.
+*(rewritten 2026-08-25 — the remediation is finished and deployed; the previous list is done)*
 
 In order:
 
-1. **Finish the Chapter 2 re-scan** (dispatched, may need re-dispatching), then **Chapter 3**.
-   Same method: two Sonnet scanners, main-thread comparison re-verified against the raw text
-   layer, then an independent Opus verifier. Do not skip the Opus pass — it has already caught
-   findings the main thread missed on both chapters it has run against.
-2. **Get the project owner's ruling on the silent-correction policy**, then apply it uniformly
-   across all four chapters in one batch. This is Phase 3/4 of the plan and it blocks nothing
-   else, so it can wait on the owner while scanning continues.
-3. **Re-audit the 208 draft quiz questions against the corrected bodies.** One of the four
-   Chapter 1 questions checked so far was contaminated by a fabricated body, and its marking
-   criterion could fail a learner for the source-correct answer. The other 204 have not been
-   checked. Do this **after** the chapter re-scans, so the questions are checked against final
-   text rather than text that is about to change again.
-4. **Update `.claude/skills/course-content/SKILL.md`** with the two lessons from this incident:
-   never copy a quotation from a secondary document into the database (re-read the PDF page), and
-   the corrected tooling note — `pymupdf` in `.venv` renders slides to JPEG, contradicting the
-   skill's current claim that no rasterizer is available.
-5. Only then return to feature work, with quiz approval the highest-value open MVP item.
+1. **Get the project owner's ruling on the silent-correction policy.** The one thing blocking
+   settled work. The database currently handles source typos *both ways* across all four chapters,
+   and CH3 alone accounts for seven items — see "Blocked on the project owner" above. One ruling,
+   then apply it uniformly in a single batch (Phase 3/4 of the remediation plan). Nothing else
+   depends on it, so it can sit with the owner while other work proceeds.
+
+2. **Re-audit the 208 draft quiz questions.** The highest-value unstarted work. Only four have
+   ever been checked, and **one of those four was contaminated** by a fabricated body — its
+   marking criterion could fail a learner who gave the source-correct answer. The other 204 are
+   unexamined. Unit bodies are final now, so this is the right moment.
+   - Needs `SUPABASE_SERVICE_ROLE_KEY`: `quiz_questions` returns `42501` to the anon key.
+   - `.claude/skills/pedagogy/assessment-validity-checker/SKILL.md` and
+     `feedback-quality-analyser/SKILL.md` are the right instruments; the second targets exactly
+     the marking-scheme failure above.
+   - Expect a recall skew: 73% of content units are bare `definition` type, so questions drafted
+     from them likely test recognition rather than understanding. Coverage across the 134 units is
+     the specific thing to measure.
+
+3. **Update `.claude/skills/course-content/SKILL.md`** with the two lessons from this incident:
+   never copy a quotation out of a secondary document into the database (re-read the PDF page),
+   and the corrected tooling note — `pymupdf` in `.venv` renders slides to JPEG, contradicting the
+   skill's current claim that no rasterizer exists.
+
+4. **Ask the client for two things.** Both unblock work that cannot otherwise start:
+   - A **machine-readable DTM10333 syllabus / course learning outcomes.**
+     `data/course-materials/fyp cb.pdf` is a single image-only page with no text layer. Without
+     this, nothing verifies that the app covers what the course actually promises — the most
+     valuable audit still unavailable.
+   - The **actual entry English requirement.** The pedagogy review assumed CEFR B1; its Chapter 1
+     finding (FK median 15.2, 52% of units at grade 15+, least illustrated, and it comes first)
+     weakens considerably if the cohort reads at B2+.
+
+5. **Remaining pedagogy item:** topic-level elaboration prompts — roughly 23, not one per unit —
+   to lift germane load. Needs a UI slot built first. Findings 5 and 8 of
+   `docs/pedagogy-review-content-units-2026-08-25.md` argue the dormant summary columns and this
+   prompt slot should be designed together rather than separately.
+
+6. Only then return to feature work, with quiz approval the highest-value open MVP item.
 
 Standing constraints that still apply:
 
 - Do NOT invent content for "STRUCTURAL GAP" items — Chapter 4's "valley" (p18) and "beach" (p19)
-  headings that the deck never delivers content for, and now also p7's third classification
-  bullet, which has no category label unlike the other three. These stay flagged in
-  `docs/checklist.md`, not fixed, per the source-fidelity rule.
+  headings that the deck never delivers content for, and p7's third classification bullet, which
+  has no category label unlike the other three. These stay flagged in `docs/checklist.md`, not
+  fixed, per the source-fidelity rule.
 - AI-drafted questions remain `draft` until explicitly approved, and must be grounded in a
   published, cited source unit.
+
+## Continuing in a different tool (Codex, or anything that is not Claude Code)
+
+This doc is deliberately tool-agnostic, but three things will not follow you automatically:
+
+1. **`AGENTS.md` in the repo root is read by Codex; the `.claude/` directory is not.** The
+   project's binding content rules live in **`.claude/skills/course-content/SKILL.md`** — one
+   entity per unit, citation requirements, insert-before-delete ordering, the visual-scan
+   extraction process. **Read that file yourself before touching `content_units`.** It is plain
+   markdown and needs no Claude-specific tooling.
+
+2. **The pedagogy workstream's rules live in `.claude/agents/course-pedagogy-reviewer.md`** and
+   its nine vendored skills under `.claude/skills/pedagogy/`. The load-bearing idea is the
+   **Layer 1 / Layer 2 split**: source-derived prose may only be *flagged*, never rewritten, while
+   the scaffolding around it — ordering, topic boundaries, which figure pairs with which unit,
+   question design, marking schemes, summaries — is open to change. Keep that distinction whatever
+   tool you are in. It is what stops "improving the pedagogy" from becoming a second route to
+   rewriting the slides, which is how this project got into a four-chapter remediation. Those
+   skills are CC BY-SA 4.0; see `ATTRIBUTION.md` in that directory before adapting them.
+
+3. **Python tooling lives in `.venv`** (`pymupdf`, for rendering slides and extracting embedded
+   images). Node tooling is under `web/`. Both are on local disk; neither works from the Google
+   Drive checkout.
 
 ## Standing workflow (established and requested by the project owner)
 
@@ -440,6 +491,18 @@ No credentials are stored in this repo or in any doc, by design. If you need the
   persistent on this machine either; ask the project owner directly if a DB write or
   Vercel API call needs elevated access beyond what the anon key allows. **Never write
   any of these values into a committed file, including this one.**
+
+**What the anon key can and cannot do** — established 2026-08-25 by testing, not assumed.
+`content_units`, `topics`, `chapters` and `source_references` are all readable with it.
+`quiz_questions` is not: PostgREST returns `42501`. All writes need the service-role key.
+
+**Gotcha when writing through PostgREST:** the `+00:00` in a `created_at=eq.` filter must be
+percent-encoded. Left raw it arrives as a space and Postgres rejects it with
+`22007 invalid input syntax for type timestamp with time zone`.
+
+**Action for the owner:** the service-role key was pasted into a chat session on 2026-08-25 so
+the ordering fix could be applied. That transcript is stored on disk, so the key is no longer
+ephemeral. **Rotate it in the Supabase dashboard.**
 
 ## Other open items (lower priority than the current audit/fix pass)
 
