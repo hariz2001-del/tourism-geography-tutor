@@ -80,6 +80,7 @@ body::before {
   100% { background-color: transparent; }
 }
 [data-highlighted="true"] { animation: unit-locate 1.4s ease-out 1; }
+[id^="unit-"]:target { animation: unit-locate 1.4s ease-out 1; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

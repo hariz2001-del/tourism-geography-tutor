@@ -2,6 +2,7 @@ import ChapterNav from "@/components/materials/chapter-nav";
 import Link from "next/link";
 import ContentSection from "@/components/materials/content-section";
 import TopicDiagramFigure from "@/components/materials/topic-diagram";
+import TopicLearningModel, { integratedTopicUnitIds } from "@/components/materials/topic-learning-model";
 import TopicList from "@/components/materials/topic-list";
 import QuizCard from "@/components/quiz/quiz-card";
 import TutorPanel from "@/components/tutor/tutor-panel";
@@ -32,7 +33,8 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
     return <EmptyState chapterCode={chapterCode} chapters={chapters} />;
   }
   const diagram = topicDiagrams[chapter.topic.id];
-  const sections = buildSections(chapter.units);
+  const integratedUnitIds = integratedTopicUnitIds(chapter.topic.id, chapter.units);
+  const sections = buildSections(chapter.units.filter((unit) => !integratedUnitIds.has(unit.id)));
   const showLabels = shouldShowLabels(sections);
   const profile = await getProfile();
   const isStudent = profile?.role === "student";
@@ -53,7 +55,13 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
             <Link className="inline-flex min-h-11 items-center text-meridian underline underline-offset-4 lg:hidden" href="#tutor">Ask tutor</Link>
           </div>
         </div>
-        {diagram ? <TopicDiagramFigure diagram={diagram} /> : null}
+        {integratedUnitIds.size > 0 ? (
+          <TopicLearningModel
+            topicId={chapter.topic.id}
+            units={chapter.units}
+            bookmarkedUnitIds={isStudent ? bookmarkedUnitIds : undefined}
+          />
+        ) : diagram ? <TopicDiagramFigure diagram={diagram} /> : null}
         {sections.length
           ? sections.map((section, i) => (
               <ContentSection
@@ -64,7 +72,7 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
                 bookmarkedUnitIds={isStudent ? bookmarkedUnitIds : undefined}
               />
             ))
-          : <p role="status" className="rounded-card border border-graticule bg-surface p-4 text-ink">This topic does not have any learning notes yet.</p>}
+          : integratedUnitIds.size === 0 ? <p role="status" className="rounded-card border border-graticule bg-surface p-4 text-ink">This topic does not have any learning notes yet.</p> : null}
         {chapter.quiz ? <QuizCard question={chapter.quiz} /> : null}
       </section>
       <aside className="lg:sticky lg:top-6 lg:self-start"><TutorPanel topicTitle={chapter.topic.name} /></aside>

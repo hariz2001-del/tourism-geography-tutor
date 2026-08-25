@@ -12,13 +12,6 @@ export type TopicDiagram = {
  * same source pages already cited by that topic's content.
  */
 export const topicDiagrams: Record<string, TopicDiagram> = {
-  "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426": {
-    src: "/diagrams/ch1-push-pull-model.jpg",
-    alt: "Push-Pull Model diagram: push factors (escape, self-discovery, rest and relaxation, prestige, challenge, adventure, excitement, family togetherness, health and fitness) pointing away from the tourist, and pull factors (scenic beauty, historical areas, cultural attractions and events, sporting events, beaches, parks, recreation facilities, shopping) pointing toward the destination.",
-    caption: "The Push-Pull Model",
-    sourceFile: "chapter-1-candidate-a.pdf",
-    pageOrSlide: 20,
-  },
   "68393419-9a3c-4502-b0c9-96ca3977b86e": {
     src: "/diagrams/ch2-seven-continents.jpg",
     alt: "World map labelling the seven continents: North America, South America, Europe, Africa, Asia, Australia/Oceania, and Antarctica.",
@@ -74,17 +67,5 @@ export const topicDiagrams: Record<string, TopicDiagram> = {
     caption: "Mid-latitude climates compared",
     sourceFile: "chapter-2.pdf",
     pageOrSlide: 18,
-  },
-  // The one constructed diagram in this map. Every other entry is extracted from a
-  // source page; this one is drawn, by scripts/build_ch1_forms_of_tourism_diagram.py.
-  // Its quoted labels are verbatim from the four unit bodies in this topic, all of
-  // which cite chapter-1-candidate-a.pdf p25 — it contributes arrangement, not content.
-  // The caption says so, because the figcaption otherwise reads as provenance.
-  "254db3b5-6355-49b0-8435-fc4ab3dcd4ba": {
-    src: "/diagrams/ch1-forms-of-tourism-matrix.png",
-    alt: "Two-by-two matrix of the four forms of tourism, defined relative to a reference country called Country A. Rows are residents of Country A and residents of other countries; columns are travelling inside Country A and travelling outside Country A. Residents travelling inside is DOMESTIC TOURISM, \"those travelling within their own country\". Residents travelling outside is OUTBOUND TOURISM, \"residents of a particular country travelling abroad to other countries\". Non-residents travelling inside is INBOUND TOURISM, \"non-residents travelling in a given country\". Non-residents travelling outside has no term, because Country A is not part of that trip. The outbound and inbound cells are shaded to mark INTERNATIONAL TOURISM, \"those who travel to a country other than the one in which they normally live, using another currency and often encountering a different language\" — inbound and outbound are the same border crossing, and which term applies depends only on which country you are standing in.",
-    caption: "Forms of tourism: a matrix drawn from the four definitions given on this page",
-    sourceFile: "chapter-1-candidate-a.pdf",
-    pageOrSlide: 25,
   },
 };
