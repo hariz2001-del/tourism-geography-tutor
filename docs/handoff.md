@@ -16,7 +16,8 @@ first.
 
 **A content-fidelity incident has been remediated across all four chapters (last updated
 2026-08-25). The re-scan is complete; one policy ruling is still blocked on the project owner,
-and the branch is unpushed. A second workstream — pedagogical quality — is now running.**
+and `main` is deployed through 2026-08-25. A second workstream — pedagogical quality — is now
+running.**
 
 **Read these three files before touching anything:**
 - `docs/remediation-progress-2026-08-21.md` — **the live resume point.** Per-unit DONE state,
@@ -66,10 +67,14 @@ it dropped one unsourced editorial phrase and a wrong `diagrams.ts` alt-text cla
 because no CH3 body had been written since 2026-08-08, *before the contaminated audit document
 existed* — the cleanest evidence yet that the document, not the extraction process, caused this.
 
-Nothing in the re-scan is outstanding. What remains is the **policy ruling** below, and pushing
-the branch: `agent/content-fidelity-remediation` is unpushed, so the code-side fixes on it —
-the p24→p25 photo captions and the CH3 diagram alt text — are **not live**, even though every
-database fix is (content is served from Supabase at runtime).
+Nothing in the re-scan is outstanding, and **everything is deployed** — `main` was fast-forwarded
+to `159740b` and pushed on 2026-08-25, so the code-side fixes that had been stranded on the branch
+(the p24→p25 photo captions, the CH3 diagram alt text) are live and verified. What remains is the
+**policy ruling** below.
+
+Worth keeping in mind for anything that follows: database fixes are live the moment they commit,
+because content is served from Supabase at runtime; code fixes are not live until `main` is pushed
+and Vercel rebuilds. That asymmetry is what let finished work sit invisible for four days.
 
 ### A second workstream now exists: pedagogical quality *(started 2026-08-25)*
 
