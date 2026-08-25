@@ -14,8 +14,9 @@ first.
 
 ## Right now
 
-**A content-fidelity incident is being remediated (state as of 2026-08-21). Work is partly done,
-partly in flight, and several decisions are blocked on the project owner.**
+**A content-fidelity incident has been remediated across all four chapters (last updated
+2026-08-25). The re-scan is complete; one policy ruling is still blocked on the project owner,
+and the branch is unpushed. A second workstream — pedagogical quality — is now running.**
 
 **Read these three files before touching anything:**
 - `docs/remediation-progress-2026-08-21.md` — **the live resume point.** Per-unit DONE state,
@@ -57,12 +58,36 @@ conflated them.
 Every fix was verified **against production**, not self-reported. Content is served from Supabase
 at runtime, so database writes are live immediately with no deploy.
 
-### In flight
+### The re-scan is finished — all four chapters *(updated 2026-08-23)*
 
-**Chapter 2 re-scan.** Two scanners (PDF + database, two passes each) were dispatched 2026-08-21.
-If they are gone, re-dispatch them; the rendered inputs may still be in the scratchpad
-(`ch2_pages/`, `ch2_text.json`) and are cheap to regenerate — see the tooling note below.
-**Chapter 3 has not been started.**
+**Chapter 2** — one fabrication, three unsupported insertions and one wrong-citation pair fixed
+(commit `de67722`). **Chapter 3 — zero fabrications, the only clean chapter** (commit `adbde9a`);
+it dropped one unsourced editorial phrase and a wrong `diagrams.ts` alt-text claim. CH3 is clean
+because no CH3 body had been written since 2026-08-08, *before the contaminated audit document
+existed* — the cleanest evidence yet that the document, not the extraction process, caused this.
+
+Nothing in the re-scan is outstanding. What remains is the **policy ruling** below, and pushing
+the branch: `agent/content-fidelity-remediation` is unpushed, so the code-side fixes on it —
+the p24→p25 photo captions and the CH3 diagram alt text — are **not live**, even though every
+database fix is (content is served from Supabase at runtime).
+
+### A second workstream now exists: pedagogical quality *(started 2026-08-25)*
+
+Separate lens, separate agent, no overlap with accuracy. `.claude/agents/course-pedagogy-reviewer.md`
+(Opus, read-only) reviews whether the content *teaches*, using nine evidence-based skills vendored
+at `.claude/skills/pedagogy/`. Its governing rule is the **Layer 1 / Layer 2 split** — source prose
+can only be flagged; the scaffolding around it can be proposed. First report:
+`docs/pedagogy-review-content-units-2026-08-25.md`.
+
+Landed: seven flattened-table units got their source tables back as figures (no prose changed),
+bodies now keep line breaks, and a test makes the visual maps fail loud instead of silently
+dropping images. Ready but not applied: `docs/unit-ordering-fix-plan-2026-08-25.md` — 18 units
+share one timestamp and sort non-deterministically, and CH4's opening sentence is currently
+arbitrary. Needs the service-role key.
+
+**Ask the client for a machine-readable DTM10333 syllabus.** It unblocks a coverage audit — the
+one check that would tell us whether the app covers what the course promises — and it would settle
+the learner reading-level assumption the review's Chapter 1 finding rests on.
 
 ### Blocked on the project owner — do not guess these
 
