@@ -85,10 +85,15 @@ images, and **the 18 tie-ordered units now have a deterministic sequence** — c
 18 to 0, verified against production, and CH4's chapter-opening sentence is no longer arbitrary
 (`docs/unit-ordering-fix-plan-2026-08-25.md`).
 
-Still open from the review, both needing a decision rather than a key: splitting CH4's 20-unit
-*Water environments* topic (three of its units are land topics filed under water), and a
-constructed 2x2 diagram for CH1 *Forms of tourism* — which would be the first diagram in this
-project not extracted from a source page, so it sets a precedent.
+Also landed 2026-08-25: **CH4's 20-unit *Water environments* scroll is now three topics**
+(Seas and oceans / Islands and coastal features / Inland and glacial water), with three misfiled
+land units moved back to *Natural landscapes and landforms*; and **CH1 *Forms of tourism* has the
+project's first constructed diagram**, a 2x2 matrix of the four definitions on p25. Every quoted
+label in it is verbatim and its caption states that it is drawn rather than extracted.
+
+Still open from the review: topic-level elaboration prompts (~23, to lift germane load — 73% of
+units are bare definitions), which need a UI slot first; and the quiz-bank review of all 208
+questions, which needs the service-role key and a separate pass.
 
 **Ask the client for a machine-readable DTM10333 syllabus.** It unblocks a coverage audit — the
 one check that would tell us whether the app covers what the course promises — and it would settle
