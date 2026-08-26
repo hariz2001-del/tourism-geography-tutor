@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
+import { componentAssets } from "./component-assets";
 import { contentImages } from "./content-images";
 import { topicDiagrams } from "./diagrams";
 
@@ -50,6 +51,20 @@ describe("visual maps — asset integrity (offline)", () => {
       .map(([unitId, image]) => `${unitId} -> ${image.src}`);
 
     expect(unprovenanced).toEqual([]);
+  });
+
+  /**
+   * A component asset is not keyed on a database row, so nothing else would notice it
+   * disappearing — and the time-zone map's bands are positioned against its exact extent.
+   */
+  it("every component asset exists on disk and is credited", () => {
+    const attributionFile = readFileSync(path.join(publicDirectory, "content-images", "ATTRIBUTION.md"), "utf8");
+    for (const asset of componentAssets) {
+      expect(existsSync(path.join(publicDirectory, asset.src))).toBe(true);
+      expect(attributionFile).toContain(asset.src);
+      expect(asset.creator).not.toBe("");
+      expect(asset.sourceUrl).toMatch(/^https:\/\//);
+    }
   });
 
   it("every licensed photo is credited in public/content-images/ATTRIBUTION.md", () => {
