@@ -1,4 +1,7 @@
+import Image from "next/image";
 import BookmarkToggle from "./bookmark-toggle";
+import TimeZoneExplorer from "./time-zone-explorer";
+import { contentImages } from "@/lib/course-brain/content-images";
 import type { PublishedContentUnit } from "@/lib/course-brain/types";
 
 const PUSH_PULL_TOPIC_ID = "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426";
@@ -19,6 +22,8 @@ const FORMS_OF_TOURISM_UNIT_IDS = {
 } as const;
 
 const MIDDLE_LATITUDE_TOPIC_ID = "343da11d-e89d-485c-9024-c8bba3d5f042";
+const LATITUDE_LONGITUDE_TOPIC_ID = "a457ad66-58e3-41cb-922c-1c9966c9a988";
+const TIME_ZONES_UNIT_ID = "a6943945-1c7c-4ea8-a5b2-2552428119bc";
 const MID_LATITUDE_TABLE_UNIT_ID = "d18c0a11-7b3e-4c6f-9a52-8f1d4e2b7c30";
 
 /**
@@ -34,6 +39,7 @@ const LEADING_MODEL_UNIT_IDS: Record<string, readonly string[]> = {
 
 const TRAILING_MODEL_UNIT_IDS: Record<string, readonly string[]> = {
   [MIDDLE_LATITUDE_TOPIC_ID]: [MID_LATITUDE_TABLE_UNIT_ID],
+  [LATITUDE_LONGITUDE_TOPIC_ID]: [TIME_ZONES_UNIT_ID],
 };
 
 export type ModelPlacement = "leading" | "trailing";
@@ -91,6 +97,12 @@ export default function TopicLearningModel({
         bookmarkedUnitIds={bookmarkedUnitIds}
       />
     );
+  }
+
+  if (topicId === LATITUDE_LONGITUDE_TOPIC_ID) {
+    const timeZones = byId.get(TIME_ZONES_UNIT_ID);
+    if (!timeZones) return null;
+    return <TimeZoneModel unit={timeZones} bookmarkedUnitIds={bookmarkedUnitIds} />;
   }
 
   if (topicId === MIDDLE_LATITUDE_TOPIC_ID) {
@@ -274,6 +286,63 @@ const MID_LATITUDE_ATTRIBUTES = [
 
 type MidLatitudeRow = { latitude: string; location: string; vegetation: string; seasons: string };
 type MidLatitudeTable = { introduction: string; humidContinental: MidLatitudeRow; marineWestCoast: MidLatitudeRow };
+
+/**
+ * The deck's own time-zone figure is a flat raster: colour bands, a row of clock faces, and
+ * type too small to read on a phone. Everything it shows is a *relationship* — which zone a
+ * place sits in, how far that is from Greenwich, what time it makes there — and a picture can
+ * only assert those, never let a learner test one. This replaces it with the same map made
+ * interactive, plus a converter, which is the exercise the unit implies but the slide cannot set.
+ *
+ * The unit's own words are untouched and render above the tool. The cities and offsets inside
+ * it are reference data, not course content, and the interface says so — see the header note in
+ * `time-zones.ts`.
+ */
+function TimeZoneModel({
+  unit,
+  bookmarkedUnitIds,
+}: {
+  unit: PublishedContentUnit;
+  bookmarkedUnitIds?: Set<string>;
+}) {
+  // The deck's own figure carries two things the tool does not — the clock faces and the
+  // Sunday/Monday labels either side of the Date Line — and learners may be assessed on the
+  // slide itself, so it stays one click away rather than being deleted.
+  const sourceFigure = contentImages[unit.id];
+
+  return (
+    <section aria-labelledby="time-zone-explorer" className="overflow-hidden rounded-card border border-graticule bg-surface">
+      <UnitAnchor unit={unit} bookmarkedUnitIds={bookmarkedUnitIds} className="p-5 sm:p-6">
+        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-meridian">Explore the model</p>
+        <h2 id="time-zone-explorer" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">{unit.title}</h2>
+        <p className="mt-3 max-w-[68ch] whitespace-pre-wrap text-[1.0625rem]/[1.65] text-ink">{unit.body}</p>
+      </UnitAnchor>
+
+      <TimeZoneExplorer />
+
+      {sourceFigure ? (
+        <details className="border-t border-graticule px-5 py-3 sm:px-6">
+          <summary className="cursor-pointer font-mono text-[0.75rem] uppercase tracking-[0.1em] text-ink-muted hover:text-ink">
+            The slide&apos;s own diagram
+          </summary>
+          <figure className="mt-3 overflow-hidden rounded-card border border-graticule bg-white">
+            <Image alt={sourceFigure.alt} className="h-auto w-full" height={sourceFigure.height} src={sourceFigure.src} width={sourceFigure.width} />
+            {sourceFigure.caption ? (
+              <figcaption className="border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem] text-ink-muted">
+                {sourceFigure.caption}
+              </figcaption>
+            ) : null}
+          </figure>
+        </details>
+      ) : null}
+
+      <p className="border-t border-graticule bg-chart px-5 py-2.5 font-mono text-[0.75rem]/[1.5] text-ink-muted sm:px-6">
+        Interactive study tool · the model is from {unit.citation.sourceFile}, page/slide {unit.citation.pageOrSlide} · city
+        and offset data is general reference, not course content · base map CC0
+      </p>
+    </section>
+  );
+}
 
 function MidLatitudeComparison({
   table,
