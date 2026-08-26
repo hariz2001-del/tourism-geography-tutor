@@ -312,3 +312,44 @@ section resequenced. Commits `5840eb8`, `0cc4215`.
     come from outside the deck, prose may not — because that file is what Codex reads and the
     existing "do not scrape external knowledge" line would otherwise contradict what shipped.
   - Git state, the merge/verify workflow, and the pre-merge gate are current as of `07da1d2`.
+
+## 2026-08-26 (third pass) — the CH3 time-zone map becomes interactive
+
+Client-requested. The deck's time-zone figure is a flat raster; everything on it is a
+*relationship* a picture can only assert. It is now a tool a learner can interrogate.
+
+- [x] **`TimeZoneExplorer`, a trailing model on CH3 *Latitude and longitude*.** Hover or focus any
+  of the 25 bands and it highlights, naming its GMT offset, its longitude range and three cities
+  with countries, plus the tie back to the rule the unit teaches — "8 hours ahead of Greenwich —
+  120° of longitude at 15° per hour". A converter above the map reads city A → Greenwich → city B
+  and says which way the difference runs, including when the answer lands on the previous or next
+  day, which is the part learners get wrong.
+  - **The base map's extent is load-bearing.** Bands are positioned by `(longitude + 180) / 360`,
+    which is only correct on a cylindrical projection spanning exactly -180° to 180°. The CC0 map
+    was verified before use: the 0° line falls through the United Kingdom and Ghana, the equator
+    through the mouth of the Amazon and Sumatra. `component-assets.ts` records that, and a test
+    now asserts the file exists and is credited — nothing else would notice it going missing,
+    because it is not keyed to a database row.
+  - **Every band is a real button**, so the map works by keyboard and by touch, not only by hover.
+  - **The deck's own figure is one click away** under "the slide's own diagram". It carries the
+    clock faces and the Sunday/Monday labels the tool does not, and learners may be assessed on
+    the slide itself. This is deliberately *not* the p20 Push-Pull situation.
+- [x] **Independently fact-checked before deploying, and it caught two real errors.** A subagent
+  checked all 71 cities against IANA tzdata 2026c; both findings were re-verified against the
+  provincial governments' own pages before acting, per the standing rule about agent reports.
+  - **Vancouver was at GMT-8 and British Columbia has permanent UTC-7** — 8 March 2026 was its
+    last clock change. **Calgary was at GMT-7 and Alberta Time is permanent UTC-6** from November
+    2026. Both replaced rather than re-filed: a place that has abolished standard time is a poor
+    example in a tool whose premise is standard time. Seattle and Hermosillo took their places.
+  - Also acted on: Santiago left GMT-4 (Chile is on UTC-3 for ~7 months a year, so the
+    standard-time-only tool would have been wrong more often than right); Midway Atoll left GMT-11
+    (uninhabited, contradicting the GMT-12 note's own "no permanent population" line); South
+    Georgia gained its full territory name; dependent territories are labelled consistently.
+  - **The lesson worth keeping: this data has no test that can catch staleness.** Offsets change
+    by legislation. `time-zones.ts` carries the verification date in its header — re-check it
+    whenever a country changes its clock.
+- [ ] **Client note: this is the first non-deck *factual* data in the app.** Images from outside
+  the deck were approved on 2026-08-26; city names and UTC offsets are a step further. They are
+  labelled in the interface as reference data rather than course content, and no unit body was
+  written from them. Flagging because the standing rule is that course content comes only from the
+  PDFs — this is a tool built around the deck's model, not an extension of it.

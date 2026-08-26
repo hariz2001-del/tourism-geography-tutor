@@ -171,12 +171,31 @@ as a trailing model the section reads intro, sub-types, vegetation vocabulary, c
 the order this way needed **no database write**, which matters while the service-role key is off
 disk.
 
-**Two things left open for the client:**
+**Third pass, also 2026-08-26:** CH3's time-zone raster became **`TimeZoneExplorer`**, a trailing
+model on *Latitude and longitude*. Hovering or focusing any of the 25 bands names its offset,
+longitude range and three cities; a converter reads city A → Greenwich → city B and handles the
+day rollover. The deck's own figure stays one click away, because it carries the clock faces and
+Sunday/Monday labels the tool does not.
+
+Two things about it that a resuming session must not undo:
+1. **The base map's extent is load-bearing.** Bands are positioned by `(longitude + 180) / 360`,
+   correct only on a cylindrical projection spanning exactly -180° to 180°. Verified before use;
+   `component-assets.ts` says so. Do not swap the file without re-checking.
+2. **`time-zones.ts` is reference data with no test that can catch staleness.** Offsets change by
+   legislation — the independent check found Vancouver and Calgary already wrong, because British
+   Columbia and Alberta abolished standard time in 2026. The file header carries the verification
+   date. Re-check it whenever a country changes its clock; nothing will fail if you do not.
+
+**Three things left open for the client:**
 1. Whether the deck's own p20 Push-Pull figure should return as a unit-level figure now that the
    native table has replaced it.
 2. The Subarctic unit's old image was a low-resolution *map* of the Canadian subarctic, not a
    photo. Its HD replacement shows what the climate looks like but not where it is — if the
    distribution matters, it should come back as its own figure.
+3. **The time-zone tool is the first non-deck *factual* data in the app.** External imagery was
+   approved on 2026-08-26; city names and UTC offsets go a step further. They are labelled in the
+   interface as reference data, not course content, and no unit body was written from them — but
+   the owner should know it is there.
 
 Still open from the review: topic-level elaboration prompts (~23, to lift germane load — 73% of
 units are bare definitions), which need a UI slot first; and the quiz-bank review of all 208
