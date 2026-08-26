@@ -353,3 +353,20 @@ Client-requested. The deck's time-zone figure is a flat raster; everything on it
   labelled in the interface as reference data rather than course content, and no unit body was
   written from them. Flagging because the standing rule is that course content comes only from the
   PDFs — this is a tool built around the deck's model, not an extension of it.
+
+- [x] **Session saved for a hand-over to another machine (2026-08-26).** `main` is at `5785999`,
+  pushed, working tree clean, no untracked files, and the three agent branches from today are
+  merged and deleted.
+  - **Found while checking reproducibility: `scripts/commons_images.py` needed Pillow, which was
+    not a project dependency.** It only worked on this machine because whatever `python` resolves
+    to on PATH happened to have it — the project's own `uv`-managed `.venv` did not. Added
+    `pillow` to `pyproject.toml`, ran `uv sync`, and re-ran both scripts on
+    `./.venv/Scripts/python.exe` to confirm. On a fresh clone the image pipeline would have failed
+    with `ModuleNotFoundError: No module named 'PIL'`.
+  - **`SETUP.md` in the Drive package gained the two missing environment steps** — the Python venv
+    (`uv sync`, and a warning to call the venv interpreter explicitly) and Playwright's per-machine
+    browser binaries (`npx playwright install chromium`) — plus an explicit list of what does not
+    travel between machines: `.env.local`, the source PDFs, `.venv`, `node_modules`, Playwright
+    browsers, the Claude Code plugin/MCP config, and `~/.claude` memory.
+  - **`docs/handoff.md` now points at `SETUP.md` by full path**, because a fresh clone has no way
+    to know the Drive package exists.

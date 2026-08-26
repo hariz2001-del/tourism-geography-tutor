@@ -6,6 +6,8 @@ requires-python = ">=3.11"
 dependencies = [
   "psycopg[binary]>=3.1,<4",
   "pymupdf>=1.24,<2",
+  # scripts/commons_images.py resizes and re-encodes sourced photography
+  "pillow>=10,<13",
 ]
 
 [build-system]

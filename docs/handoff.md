@@ -38,6 +38,14 @@ Three workstreams exist, in the order they were started:
 **The single highest-value unstarted job is the quiz-bank audit** (208 draft questions, four ever
 checked, one of those four contaminated). It needs the service-role key, which is not on disk.
 
+**Continuing on a different machine?** Everything durable is in git — `main` is pushed and the
+working tree is clean. What git does *not* carry is listed, with the values and commands to
+recreate each piece, in **`SETUP.md`** inside the Drive package
+(`G:\My Drive\Vibecode\Tourism Geography Tutor - handoff\SETUP.md`): `web/.env.local`, the
+source PDFs, the `uv`-managed `.venv`, `web/node_modules`, Playwright's browsers, and the Claude
+Code plugin/MCP config. Do that first, then come back here. Note that `~/.claude` memory does not
+travel and is not worth migrating — this file and `docs/checklist.md` are the durable record.
+
 **Read before touching anything, depending on what you are about to do:**
 - **`content_units` (any database write)** → `.claude/skills/course-content/SKILL.md`, then
   `docs/content-fidelity-remediation-plan-2026-08-21.md` for why the rules are what they are.
