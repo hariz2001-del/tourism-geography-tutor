@@ -13,9 +13,17 @@
  * target; the component says so beneath the map.
  *
  * Zones whose legal offset does not match their longitude are the point rather than a
- * defect: a country sets its own clock, so Madrid keeps Paris time and all of China runs
- * on Beijing's. The idealised bands are what the deck teaches; the mismatch is worth
- * seeing.
+ * defect: a country sets its own clock. The clearest examples in this data are Reykjavik
+ * at about 22 degrees west keeping GMT, and Petropavlovsk-Kamchatsky at about 159 degrees
+ * east keeping GMT+12 - each roughly one and a half bands from its own meridian. Kuala
+ * Lumpur and Singapore are the locally relevant pair, both sitting in the GMT+7 band on
+ * GMT+8 clocks. The idealised bands are what the deck teaches; the mismatch is worth seeing.
+ *
+ * Verified against IANA tzdata 2026c on 2026-08-26 by an independent checking pass. It found
+ * two real errors, both from provinces that abolished standard time outright: British
+ * Columbia moved to permanent UTC-7 (last clock change 2026-03-08) and Alberta to permanent
+ * UTC-6 from November 2026, so Vancouver and Calgary were replaced rather than re-filed.
+ * Re-check this file whenever a country changes its offset - it will not fail a test.
  */
 export type TimeZoneCity = {
   city: string;
@@ -43,13 +51,12 @@ export type TimeZoneBand = {
 export const timeZoneBands: TimeZoneBand[] = [
   { offset: -12, label: "GMT-12", from: -180, to: -172.5, note: "No permanent population — Baker and Howland Islands (United States).", cities: [] },
   { offset: -11, label: "GMT-11", from: -172.5, to: -157.5, cities: [
-    { city: "Pago Pago", country: "American Samoa" },
+    { city: "Pago Pago", country: "American Samoa (United States)" },
     { city: "Alofi", country: "Niue" },
-    { city: "Midway Atoll", country: "United States" },
   ] },
   { offset: -10, label: "GMT-10", from: -157.5, to: -142.5, cities: [
     { city: "Honolulu", country: "United States" },
-    { city: "Papeete", country: "French Polynesia" },
+    { city: "Papeete", country: "French Polynesia (France)" },
     { city: "Avarua", country: "Cook Islands" },
   ] },
   { offset: -9, label: "GMT-9", from: -142.5, to: -127.5, cities: [
@@ -59,13 +66,13 @@ export const timeZoneBands: TimeZoneBand[] = [
   ] },
   { offset: -8, label: "GMT-8", from: -127.5, to: -112.5, cities: [
     { city: "Los Angeles", country: "United States" },
-    { city: "Vancouver", country: "Canada" },
+    { city: "Seattle", country: "United States" },
     { city: "Tijuana", country: "Mexico" },
   ] },
   { offset: -7, label: "GMT-7", from: -112.5, to: -97.5, cities: [
     { city: "Phoenix", country: "United States" },
     { city: "Denver", country: "United States" },
-    { city: "Calgary", country: "Canada" },
+    { city: "Hermosillo", country: "Mexico" },
   ] },
   { offset: -6, label: "GMT-6", from: -97.5, to: -82.5, cities: [
     { city: "Mexico City", country: "Mexico" },
@@ -78,7 +85,7 @@ export const timeZoneBands: TimeZoneBand[] = [
     { city: "Bogotá", country: "Colombia" },
   ] },
   { offset: -4, label: "GMT-4", from: -67.5, to: -52.5, cities: [
-    { city: "Santiago", country: "Chile" },
+    { city: "Santo Domingo", country: "Dominican Republic" },
     { city: "Caracas", country: "Venezuela" },
     { city: "La Paz", country: "Bolivia" },
   ] },
@@ -88,8 +95,8 @@ export const timeZoneBands: TimeZoneBand[] = [
     { city: "Montevideo", country: "Uruguay" },
   ] },
   { offset: -2, label: "GMT-2", from: -37.5, to: -22.5, cities: [
-    { city: "Fernando de Noronha", country: "Brazil" },
-    { city: "King Edward Point", country: "South Georgia (United Kingdom)" },
+    { city: "Vila dos Remédios", country: "Fernando de Noronha, Brazil" },
+    { city: "King Edward Point", country: "South Georgia and the South Sandwich Islands" },
   ] },
   { offset: -1, label: "GMT-1", from: -22.5, to: -7.5, cities: [
     { city: "Praia", country: "Cabo Verde" },
@@ -152,7 +159,7 @@ export const timeZoneBands: TimeZoneBand[] = [
     { city: "Port Moresby", country: "Papua New Guinea" },
   ] },
   { offset: 11, label: "GMT+11", from: 157.5, to: 172.5, cities: [
-    { city: "Nouméa", country: "New Caledonia" },
+    { city: "Nouméa", country: "New Caledonia (France)" },
     { city: "Honiara", country: "Solomon Islands" },
     { city: "Magadan", country: "Russia" },
   ] },

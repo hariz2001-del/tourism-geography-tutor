@@ -220,7 +220,9 @@ export default function TimeZoneExplorer() {
         <p className="mt-3 text-[0.8125rem]/[1.55] text-ink-muted">
           * Standard time only — this tool does not account for daylight saving, which several countries
           apply for part of the year. The bands are the idealised 15° zones the course describes; real
-          boundaries bend to follow national borders, and a few countries use half-hour offsets.
+          boundaries bend to follow national borders, and a few countries use half-hour offsets. That is
+          why a city can sit outside its own band: Reykjavík lies at about 22°W but keeps GMT, and
+          Kuala Lumpur at about 102°E keeps GMT+8.
         </p>
       </div>
     </div>
