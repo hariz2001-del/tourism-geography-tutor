@@ -14,16 +14,37 @@ first.
 
 ## Right now
 
-**A content-fidelity incident has been remediated across all four chapters (last updated
-2026-08-25). The re-scan is complete; one policy ruling is still blocked on the project owner,
-and `main` is deployed through 2026-08-25. A second workstream — pedagogical quality — is now
-running.**
+*(state of play last refreshed 2026-08-26, after the deploy described below)*
 
-**Read these three files before touching anything:**
-- `docs/remediation-progress-2026-08-21.md` — **the live resume point.** Per-unit DONE state,
-  rollback pointers, and what is mid-flight. Read this first if a session died.
-- `docs/content-fidelity-remediation-plan-2026-08-21.md` — the six-phase plan and its sequencing.
-- `docs/ch1-pdf-vs-db-discrepancies-2026-08-21.md` — the Chapter 1 findings in full.
+**Nothing is mid-flight. The working tree is clean, `main` is pushed, and everything written so
+far is live to learners.** A resuming session can pick any item from "Next step" without first
+untangling someone else's half-finished pass.
+
+Three workstreams exist, in the order they were started:
+
+1. **Content fidelity — finished and deployed.** All four chapters were re-scanned against their
+   PDFs after a 2026-08-11 pass wrote 41 bodies from a contaminated secondary document instead of
+   the source slides. Nothing outstanding except **one policy ruling from the owner** (silent
+   corrections — see "Blocked on the project owner").
+2. **Pedagogical quality — running.** Read-only reviewer agent plus nine vendored skills. Its
+   governing rule, the **Layer 1 / Layer 2 split**, is what keeps this workstream from becoming a
+   second route to rewriting slides: source prose may only be *flagged*; the scaffolding around it
+   is open to change. Remaining item: topic-level elaboration prompts (needs a UI slot).
+3. **The visual layer — two passes done 2026-08-26, both deployed.** CH1's two diagrams became
+   native components; every CH2 climate topic now carries HD licensed photography; the
+   mid-latitude comparison table became a real table. See "How the visual layer works" below
+   before adding or replacing any image — the rules there are load-bearing and partly legal.
+
+**The single highest-value unstarted job is the quiz-bank audit** (208 draft questions, four ever
+checked, one of those four contaminated). It needs the service-role key, which is not on disk.
+
+**Read before touching anything, depending on what you are about to do:**
+- **`content_units` (any database write)** → `.claude/skills/course-content/SKILL.md`, then
+  `docs/content-fidelity-remediation-plan-2026-08-21.md` for why the rules are what they are.
+- **Images, diagrams or a topic's layout** → "How the visual layer works" below.
+- **Anything to do with teaching quality** → `docs/pedagogy-review-content-units-2026-08-25.md`.
+- **A session that died mid-remediation** → `docs/remediation-progress-2026-08-21.md` holds the
+  per-unit DONE state and rollback pointers. It is history now, not a live resume point.
 
 ### What went wrong
 
@@ -165,6 +186,69 @@ questions, which needs the service-role key and a separate pass.
 one check that would tell us whether the app covers what the course promises — and it would settle
 the learner reading-level assumption the review's Chapter 1 finding rests on.
 
+### How the visual layer works *(written 2026-08-26 — read before touching any image)*
+
+Three separate mechanisms decide what a learner sees above and around the prose. Confusing them
+is how figures get orphaned, so they are spelled out here.
+
+| Mechanism | File | Scope | Renders |
+| --- | --- | --- | --- |
+| `contentImages` | `web/src/lib/course-brain/content-images.ts` | one image per **content unit**, keyed by unit UUID | inside that unit's card |
+| `topicDiagrams` | `web/src/lib/course-brain/diagrams.ts` | one figure per **topic**, keyed by topic UUID | above the topic's cards |
+| Native models | `web/src/components/materials/topic-learning-model.tsx` | a whole topic, or one unit inside it | in place of the raster it replaced |
+
+**Both maps are hardcoded literals keyed on database UUIDs, and the lookup fails silent.** A
+re-imported unit gets a new UUID — which is exactly what the insert-then-delete split procedure
+produces — and its image vanishes with no error. `web/src/lib/course-brain/visual-maps.test.ts`
+turns that silent failure loud: every key must resolve to a live published row, every `src` must
+exist on disk, every entry must declare **either** a course source **or** a complete attribution,
+and every attributed file must appear in `ATTRIBUTION.md`. Run it after any change here.
+
+**Provenance is not optional, and it is partly a legal obligation.** Images extracted from the
+approved PDFs record `sourceFile` and `pageOrSlide`. Images from anywhere else record `creator`,
+`sourceUrl`, `license` and (for CC licences) `licenseUrl`, which the figure renders under the
+caption. Public-domain works omit `licenseUrl` — there is no deed to link to — and the test knows
+that. Non-deck imagery exists **because the owner asked for it** ("you may scrape the internet for
+images", 2026-08-26); it is a standing permission for *illustration only*. **Unit prose still may
+never come from anywhere but the source PDFs.**
+
+**To add or replace an image**, use the committed tooling rather than hand-copying credits:
+
+```
+python scripts/commons_images.py search "arctic tundra autumn"
+python scripts/commons_images.py make "File:Some file.jpg" web/public/content-images/name-hd.webp
+python scripts/build_image_attribution.py     # regenerates ATTRIBUTION.md
+npx vitest run src/lib/course-brain/visual-maps.test.ts
+```
+
+`make` prints the exact `attribution` block to paste in. Two gotchas are already handled in it:
+Wikimedia returns **HTTP 429 within a handful of requests** for full-size originals (use the
+standard thumbnail widths, which the script does), and licence/creator fields must be read from
+the file page's metadata, never from a search snippet or from memory.
+
+**Choosing an image is a pedagogical decision, not a decorative one.** The rule taken from
+`.claude/skills/pedagogy/dual-coding-designer/SKILL.md`: the visual must show what the words
+cannot. A photo that merely decorates *increases* load (Mayer's coherence principle). That is why
+the deciduous card shows leaves actually turning, the mixed-forest card is shot straight down so
+both canopies appear at once, and the highland card shows the tree line as a line. It is also why
+CH4 p7's waterfall photo was deliberately left unused.
+
+**Native models replace a raster when the picture and the prose were saying the same thing
+twice.** A model is assembled from the published units themselves and never retypes their text —
+the push/pull factor lists and the mid-latitude table cells are *parsed out of* the stored bodies,
+so they cannot drift, and an unparseable body falls back to prose rather than rendering a broken
+table. Each model claims a topic only when **every** required unit id is present; a re-imported
+unit therefore falls back to ordinary cards instead of disappearing.
+
+Models declare a **placement**, which is also the cheapest way to fix a section's order:
+- **leading** — replaces the topic, renders first (CH1 *Push and pull factors*, *Forms of tourism*)
+- **trailing** — consolidates a topic already read, renders after the cards (CH2 *Mid-latitude
+  climates compared*)
+
+Pulling a unit into a trailing model reorders the section **without a database write**, which
+matters whenever the service-role key is not on disk. Ordering otherwise lives in `created_at`
+(see `docs/unit-ordering-fix-plan-2026-08-25.md`) and needs a write.
+
 ### Blocked on the project owner — do not guess these
 
 1. **The silent-correction policy.** The database currently handles source typos *both ways*.
@@ -203,11 +287,18 @@ chapter to ~140 KB/page JPEGs in seconds, which is what makes the OCR path cheap
 text layer: **CH1 4/33, CH2 6/23, CH3 6/11, CH4 10/27** — CH3 and CH4 are the most
 vision-dependent, and both CH4 fabrications were on text-layer-less pages.
 
-### Git state *(2026-08-25)*
+### Git state *(2026-08-26)*
 
-**`main` is at `031cfd8`, pushed, deployed, working tree clean.** The remediation branch was
-fast-forwarded into `main` and everything it carried is live. `agent/content-fidelity-remediation`
-still points at `159740b` and can be deleted; it holds nothing `main` does not.
+**`main` is at `07da1d2`, pushed, deployed, working tree clean.** Two branches were merged into it
+today, both fast-forward, both deleted afterwards: `agent/native-learning-models` (CH1 native
+models, CH2 tropical/dry photography) and `agent/ch2-climate-visuals` (the remaining three climate
+topics and the native mid-latitude table). `agent/content-fidelity-remediation` still points at
+`159740b` and can be deleted; it holds nothing `main` does not.
+
+**The working pattern, if you are picking this up:** branch `agent/<topic>`, commit in small
+chunks with the reasoning in the message, `git checkout main && git merge --ff-only`, push, then
+**verify against production** — not against your own summary. `curl` the deployed page and grep
+for the strings you expect, and confirm the assets you retired now return 404.
 
 **`agent/learner-accounts` (`80afd05`) is NOT merged** and was deliberately left alone. Separate
 feature branch, already pushed to origin, unrelated to the remediation.
@@ -428,7 +519,20 @@ dispatching a big subagent for it.
 
 *(rewritten 2026-08-25 — the remediation is finished and deployed; the previous list is done)*
 
+*(refreshed 2026-08-26: the visual-layer passes are done and deployed; two small client
+questions came out of them and are listed as item 0, since they cost the owner a sentence each and
+unblock tidy-up work.)*
+
 In order:
+
+0. **Two quick client answers, both from the 2026-08-26 visual work.**
+   - **Should the deck's own p20 Push-Pull figure come back?** The native table carries the same
+     labels, so nothing is lost factually, but the slide's own figure is now shown nowhere. If it
+     should return, it returns as a unit-level figure on `c403af77`, not as the topic diagram.
+   - **The Subarctic unit lost a map, not just a photo.** Its old image was a low-resolution scan
+     of a *distribution map* of the Canadian subarctic; the taiga photograph replacing it shows
+     what the climate looks like, not where it is. If the distribution matters, it should return as
+     its own figure.
 
 1. **Get the project owner's ruling on the silent-correction policy.** The one thing blocking
    settled work. The database currently handles source typos *both ways* across all four chapters,
@@ -498,8 +602,17 @@ This doc is deliberately tool-agnostic, but three things will not follow you aut
    skills are CC BY-SA 4.0; see `ATTRIBUTION.md` in that directory before adapting them.
 
 3. **Python tooling lives in `.venv`** (`pymupdf`, for rendering slides and extracting embedded
-   images). Node tooling is under `web/`. Both are on local disk; neither works from the Google
-   Drive checkout.
+   images; `Pillow`, for the image pipeline). Node tooling is under `web/`. Both are on local disk;
+   neither works from the Google Drive checkout. The reusable scripts are
+   `scripts/commons_images.py` (search / metadata / download-and-convert for openly licensed
+   photography) and `scripts/build_image_attribution.py` (regenerates the credit file); both carry
+   their rules in their docstrings.
+
+4. **The gate before any merge is the same in every tool:** `npm run typecheck`, `npx vitest run`,
+   `npm run lint`, `npm run build` from `web/`, then the pages themselves in a browser at 1440px
+   and 390px. The vitest run includes a live Supabase half that needs `web/.env.local`; it skips
+   cleanly without credentials, which means a green run in an environment without them has
+   verified less than you think.
 
 ## Standing workflow (established and requested by the project owner)
 

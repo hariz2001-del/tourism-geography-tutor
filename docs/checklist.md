@@ -295,3 +295,20 @@ section resequenced. Commits `5840eb8`, `0cc4215`.
   typecheck, lint, production build; all three topics fetched at 1440px and 390px with no console
   errors, no failed requests and no horizontal overflow. The native table stays inside its own
   scroll container at 390px and remains legible.
+
+- [x] **Handoff refreshed for a cold start (2026-08-26).** `docs/handoff.md`'s "Right now" was
+  still describing 2026-08-25 and pointing a resuming agent at the remediation resume-point as if
+  it were live. It now opens with the three workstreams and their true state, says plainly that
+  nothing is mid-flight, and routes by *what you are about to do* rather than by chronology.
+  - **New section: "How the visual layer works."** The three mechanisms (`contentImages`,
+    `topicDiagrams`, native models) are easy to confuse and confusing them orphans figures, so the
+    table, the fail-loud tests, the attribution obligation, the leading/trailing placement rule and
+    the "trailing placement reorders a section without a database write" trick are all written down.
+  - **The image tooling is committed rather than left in a scratch directory:**
+    `scripts/commons_images.py` (search / metadata / download-and-convert, with the HTTP 429 and
+    read-the-real-metadata lessons baked in) and `scripts/build_image_attribution.py`. ATTRIBUTION.md
+    is now generated from `content-images.ts`, not maintained beside it.
+  - **`AGENTS.md` gained the exact boundary of the owner's image permission** — illustration may
+    come from outside the deck, prose may not — because that file is what Codex reads and the
+    existing "do not scrape external knowledge" line would otherwise contradict what shipped.
+  - Git state, the merge/verify workflow, and the pre-merge gate are current as of `07da1d2`.
