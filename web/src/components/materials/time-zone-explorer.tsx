@@ -67,7 +67,7 @@ export default function TimeZoneExplorer() {
             <div className="mt-1 flex flex-wrap gap-2">
               <input
                 aria-label="Time in the first city"
-                className="w-[8.75rem] shrink-0 rounded-card border border-graticule bg-surface px-2 py-2 font-mono text-[0.9375rem] text-ink-strong"
+                className="w-[10rem] shrink-0 rounded-card border border-graticule bg-surface px-2 py-2 font-mono text-[0.9375rem] text-ink-strong"
                 onChange={(event) => setClock(event.target.value)}
                 type="time"
                 value={clock}
@@ -102,7 +102,7 @@ export default function TimeZoneExplorer() {
             <div className="mt-1 flex flex-wrap gap-2">
               <output
                 aria-live="polite"
-                className="w-[8.75rem] shrink-0 rounded-card border border-meridian/40 bg-meridian/8 px-2 py-2 font-mono text-[0.9375rem] font-semibold text-meridian"
+                className="w-[10rem] shrink-0 rounded-card border border-meridian/40 bg-meridian/8 px-2 py-2 font-mono text-[0.9375rem] font-semibold text-meridian"
               >
                 {conversion ? formatClock(conversion.destination.minutes) : "--:--"}
               </output>
@@ -254,7 +254,10 @@ function ZoneBand({
       </span>
       <span
         aria-hidden="true"
-        className={`pointer-events-none absolute inset-x-0 top-1 mx-auto w-fit rounded-sm px-1 font-mono text-[0.5rem] leading-tight text-white transition-opacity sm:text-[0.625rem] ${
+        className={`pointer-events-none absolute top-1 w-fit whitespace-nowrap rounded-sm px-1 font-mono text-[0.5rem] leading-tight text-white transition-opacity sm:text-[0.625rem] ${
+          // the ±12 zones are half-width, so a centred label would be clipped at the map edge
+          band.offset === 12 ? "right-0" : band.offset === -12 ? "left-0" : "inset-x-0 mx-auto"
+        } ${
           isActive ? "bg-meridian opacity-100" : "bg-ink-strong/70 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100"
         }`}
       >
