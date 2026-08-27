@@ -194,13 +194,30 @@ Two things about it that a resuming session must not undo:
    Columbia and Alberta abolished standard time in 2026. The file header carries the verification
    date. Re-check it whenever a country changes its clock; nothing will fail if you do not.
 
-**Three things left open for the client:**
+**Fourth pass, 2026-08-27:** CH2's seven-continents raster became **`ContinentExplorer`**, a
+trailing model on *The seven continents*. Pointing at a continent shows its own sentence, size and
+ranking, and highlights its real coastline; seven buttons below the map do the same by keyboard and
+on touch. The highlight uses no polygon data — `scripts/build_continent_regions.py` flood-fills the
+CC0 base map into one hit-test index image and seven masks, 64 KB in total, regenerable. Read that
+script before changing the regions: the cuts at Suez, Panama and the Ural/Caucasus line, and the
+override that keeps Sulawesi with Asia, are judgements the deck does not make.
+
+The pattern is now established enough to name: **a deck figure that asserts a relationship becomes
+a model that lets the learner test it, the units keep their own words, anything parsed comes out of
+the stored body, and the slide's own figure stays one click away inside the model.** Three of these
+exist (CH1 push-pull and forms of tourism, CH2 mid-latitude table and continents, CH3 time zones).
+
+**Four things left open for the client:**
 1. Whether the deck's own p20 Push-Pull figure should return as a unit-level figure now that the
    native table has replaced it.
 2. The Subarctic unit's old image was a low-resolution *map* of the Canadian subarctic, not a
    photo. Its HD replacement shows what the climate looks like but not where it is — if the
    distribution matters, it should come back as its own figure.
-3. **The time-zone tool is the first non-deck *factual* data in the app.** External imagery was
+3. **The deck sizes only five of its seven continents.** Areas are given for Asia, Africa, North
+   America, Europe and Australia; Europe is ranked "sixth-largest"; South America and Antarctica
+   are never sized or ranked. The continent map now says "not given on this slide" for those two.
+   Filling them in needs figures from the lecturer.
+4. **The time-zone tool is the first non-deck *factual* data in the app.** External imagery was
    approved on 2026-08-26; city names and UTC offsets go a step further. They are labelled in the
    interface as reference data, not course content, and no unit body was written from them — but
    the owner should know it is there.

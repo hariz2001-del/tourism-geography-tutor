@@ -370,3 +370,43 @@ Client-requested. The deck's time-zone figure is a flat raster; everything on it
     browsers, the Claude Code plugin/MCP config, and `~/.claude` memory.
   - **`docs/handoff.md` now points at `SETUP.md` by full path**, because a fresh clone has no way
     to know the Drive package exists.
+
+## 2026-08-27 — the CH2 seven-continents map becomes interactive
+
+Client-requested, and the same shape of problem as the CH3 time-zone raster: the deck names the
+seven continents on one slide, gives each a sentence over the next three, and puts a flat map
+alongside. Read as cards, the map and the sentences never meet — nothing tells a learner which
+shape "the third-largest, 24.71 million km²" belongs to.
+
+- [x] **`ContinentExplorer`, a trailing model on CH2 *The seven continents*.** Point at a
+  continent and its own sentence, size and ranking appear; the shape highlights along its real
+  coastline. Seven buttons below the map drive the same state, so it works by keyboard and on
+  touch where hover does not exist.
+  - **Not a word is written.** Size and rank are parsed out of the stored bodies. Where a slide
+    gives no area the panel says **"not given on this slide"** rather than supplying one — **South
+    America and Antarctica are both in that position**, and the deck ranks Europe "sixth-largest"
+    while never ranking the two it does not size. That gap is now visible to a learner instead of
+    being quietly filled from general knowledge, which is exactly what caused this project's
+    four-chapter remediation.
+  - **The highlight needs no polygon data.** `scripts/build_continent_regions.py` flood-fills land
+    from a seed inside each continent on the CC0 base map, emitting one index image (flat colour
+    per continent, used for pixel hit-testing on a canvas) and seven masks (used as CSS masks).
+    64 KB for all eight assets, and regenerable.
+  - **Two judgements are encoded in that script, both documented in it.** The conventional cuts at
+    Suez, Panama and the Ural/Caspian/Caucasus/Bosphorus line, without which the fills leak
+    between continents — the deck defines none of these. And the assignment of 424 island groups
+    to their nearest continent, with an explicit override so Sulawesi, the Moluccas and the Lesser
+    Sundas stay with Asia while New Guinea stays with the continent the deck also calls Oceania.
+    The interface never states an island's continent in words, so the consequence is limited to
+    which shape lights up.
+  - **Every consumed unit keeps its anchor** on the button that stands for it, so existing
+    bookmarks and deep links still land, and the panel keeps the bookmark control for signed-in
+    learners. The deck's own map moved inside the model under "the slide's own map" — the page no
+    longer renders it twice, via a new `modelClaimsTopicDiagram` check.
+- [x] **Verified before committing:** 128/128 tests, typecheck, lint, production build; hit-testing
+  resolves Africa, South America, Europe and Australia correctly from their coordinates at 1440px;
+  a tap selects on mobile; no overflow and no console errors at 390px or 1440px.
+- [ ] **Worth the client's attention: the deck sizes only five of its seven continents.** It gives
+  areas for Asia, Africa, North America, Europe and Australia, ranks Europe "sixth-largest", and
+  says nothing about the size of South America or Antarctica. If the lecturer wants those two
+  filled in, the figures need to come from them — this project does not invent course content.
