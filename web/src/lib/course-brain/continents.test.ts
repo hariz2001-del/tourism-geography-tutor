@@ -66,15 +66,44 @@ describe("continent facts", () => {
    * learner as a gap; inventing a figure from general knowledge is what this project spent
    * a four-chapter remediation undoing.
    */
-  it("leaves the two continents the deck never sizes empty", () => {
+  it("keeps the deck's silence separate from the figures added to fill it", () => {
     const byKey = Object.fromEntries(toContinents(units).map((continent) => [continent.key, continent]));
 
+    // the deck states nothing for these two, and that stays true of `area`/`rank`...
     expect(byKey["south-america"].area).toBeNull();
     expect(byKey["south-america"].rank).toBeNull();
     expect(byKey.antarctica.area).toBeNull();
     expect(byKey.antarctica.rank).toBeNull();
-    expect(rankSentence(byKey.antarctica)).toBeNull();
-    expect(rankSentence(byKey.asia)).toBe("Asia is the largest of the seven.");
+    // ...while the added figures live in their own fields, so the interface can tag them
+    expect(byKey["south-america"].addedArea).toBe("17.81 million km²");
+    expect(byKey["south-america"].addedRank).toBe("fourth-largest");
+    expect(byKey.antarctica.addedArea).toBe("14.2 million km²");
+    expect(byKey.antarctica.addedRank).toBe("fifth-largest");
+    expect(rankSentence(byKey.antarctica)).toBe("Antarctica is the fifth-largest of the seven.");
+  });
+
+  it("never overwrites a figure the deck does give", () => {
+    for (const continent of toContinents(units)) {
+      if (continent.area) expect(continent.addedArea).toBeNull();
+      if (continent.rank) expect(continent.addedRank).toBeNull();
+    }
+    const asia = toContinents(units).find((continent) => continent.key === "asia")!;
+    expect(asia.area).toBe("44.58 million km²");
+    expect(asia.addedArea).toBeNull();
+    expect(rankSentence(asia)).toBe("Asia is the largest of the seven.");
+  });
+
+  it("completes the ranking of all seven once the added figures are counted", () => {
+    const ranks = toContinents(units).map((continent) => continent.rank ?? continent.addedRank);
+    expect(ranks).toEqual([
+      "largest",
+      "second-largest",
+      "third-largest",
+      "fourth-largest",
+      "sixth-largest",
+      "fifth-largest",
+      "smallest",
+    ]);
   });
 
   it("returns nothing at all when a unit is missing, so the model can fall back", () => {

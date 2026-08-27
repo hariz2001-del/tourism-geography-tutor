@@ -44,6 +44,23 @@ export const CONTINENT_INDEX_COLOURS: Record<ContinentKey, [number, number, numb
   australia: [255, 128, 0],
 };
 
+/**
+ * Figures the deck never gives, added at the owner's request (2026-08-28) so the map is
+ * complete. These are NOT course content and the interface says so on every one of them:
+ * each is tagged in the panel and the source is named beneath it. The deck's own figures
+ * always win — a continent the slides size is never overwritten from here.
+ *
+ * Source: Encyclopædia Britannica's continental areas, as tabulated in Wikipedia's
+ * "Continent" article, retrieved 2026-08-28. One series, so the seven remain comparable;
+ * if the lecturer prefers another authority this table is the only thing to change.
+ */
+export const SUPPLEMENTARY_AREAS: Partial<Record<ContinentKey, { area: string; rank: string }>> = {
+  "south-america": { area: "17.81 million km²", rank: "fourth-largest" },
+  antarctica: { area: "14.2 million km²", rank: "fifth-largest" },
+};
+
+export const SUPPLEMENTARY_SOURCE = "Encyclopædia Britannica, via Wikipedia's Continent article";
+
 export type Continent = {
   key: ContinentKey;
   unitId: string;
@@ -53,6 +70,9 @@ export type Continent = {
   area: string | null;
   /** As the deck states it, e.g. "largest", "second-largest" — absent where the deck gives none. */
   rank: string | null;
+  /** Filled in from SUPPLEMENTARY_AREAS only where the deck is silent, and labelled as added. */
+  addedArea: string | null;
+  addedRank: string | null;
   pageOrSlide: number;
 };
 
@@ -62,13 +82,19 @@ const RANK = /is the (largest|smallest|[a-z]+-largest) continent/i;
 export function toContinent(unit: PublishedContentUnit): Continent | null {
   const key = CONTINENT_TITLES[unit.title];
   if (!key) return null;
+  const area = AREA.exec(unit.body)?.[1] ?? null;
+  const rank = RANK.exec(unit.body)?.[1]?.toLowerCase() ?? null;
+  const supplement = SUPPLEMENTARY_AREAS[key];
   return {
     key,
     unitId: unit.id,
     name: unit.title,
     body: unit.body,
-    area: AREA.exec(unit.body)?.[1] ?? null,
-    rank: RANK.exec(unit.body)?.[1]?.toLowerCase() ?? null,
+    area,
+    rank,
+    // only ever fills a gap; a figure the deck states is never replaced
+    addedArea: area ? null : supplement?.area ?? null,
+    addedRank: rank ? null : supplement?.rank ?? null,
     pageOrSlide: unit.citation.pageOrSlide,
   };
 }
@@ -95,8 +121,9 @@ export function toContinents(units: PublishedContentUnit[]): Continent[] {
 
 /** Reads as "Asia is the largest of the seven." Null where the deck ranks nothing. */
 export function rankSentence(continent: Continent): string | null {
-  if (!continent.rank) return null;
-  return `${continent.name} is the ${continent.rank} of the seven.`;
+  const rank = continent.rank ?? continent.addedRank;
+  if (!rank) return null;
+  return `${continent.name} is the ${rank} of the seven.`;
 }
 
 export function continentIndexColour(key: ContinentKey): string {
