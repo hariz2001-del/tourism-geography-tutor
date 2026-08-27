@@ -466,3 +466,43 @@ same for the oceans map, and put the climate topic's two maps in one tabbed wind
   contain are now shown to learners, tagged and sourced. The alternative was to keep showing "not
   given on this slide". If any of these should instead come from the lecturer's own figures, the
   two tables (`continents.ts`, `oceans.ts`) are the only places to change.
+
+## 2026-08-28 (second pass) — a real climate map, and the chapter page stops re-fetching itself
+
+- [x] **The five-climate-types map is now built from data instead of the deck's raster.** The owner
+  rejected the previous tab, and it was weak for a structural reason: it showed the p12 slide,
+  whose legend mixes the five types with a nine-part vegetation key the deck never reconciles, so
+  nothing on it could be attributed to a type without guessing.
+  - `scripts/build_climate_regions.py` regroups Beck et al.'s Köppen-Geiger map (CC BY 4.0) into
+    the course's five: A to tropical, B to dry, C and warm-summer D to middle latitude,
+    cold-summer D and polar E to high latitude.
+  - **Highland is the judgement call, and it is documented in the script and in the interface.**
+    Köppen has no highland class. The course defines highland by elevation — "changing toward the
+    treeline" — and a treeless polar climate near the equator is exactly that, so E classes
+    equatorward of 55° become highland: the Andes, Tibet, the Rockies. A first attempt also swept
+    in cold-summer D and mislabelled subarctic Mongolia and eastern Siberia as highland; that was
+    visible in the preview render and fixed before shipping.
+  - **The source figure had to be aligned by measurement, not assumption**: it carries a legend and
+    black margins, so the map area was found by maximising land overlap with our base map — IoU
+    0.857 at top=134, height=944 on a 1920-wide render. Those numbers are recorded for whoever
+    replaces the figure.
+  - The panel shows each type's Köppen grouping and its share of world land (both tagged `added`)
+    and links to that type's own topic. The share is **cosine-weighted by latitude**, because an
+    unweighted pixel count on this projection would have made the polar share look twice its size.
+- [x] **The chapter page now loads once and switches instantly.** Every topic in the sidebar used
+  to be a route change, and every route change re-ran the whole page server-side: chapters, topics,
+  units, quiz, session, bookmarks — five or six database round trips before anything painted.
+  - All of a chapter's units now come back in **one** query (`getPublishedChapterContent`), quizzes
+    in parallel, and every topic is rendered and hidden with the `hidden` attribute. Choosing a
+    topic is a state change.
+  - **Measured in Chrome DevTools, not assumed:** zero document or data requests per switch, INP
+    58 ms, no console errors. Hidden panels stay out of the accessibility tree and their lazy
+    images are not fetched — 12 images load on first paint, not the whole chapter's worth.
+  - The URL still leads: a deep link renders its topic server-side (only that panel comes back
+    without `hidden`), switching pushes `?topic=` via `history.pushState`, and back/forward move
+    between topics without a fetch. Sidebar entries remain real links, so copy-link and
+    open-in-new-tab still work; only unmodified left clicks are intercepted.
+  - Reading history follows what is **on screen**, not what was fetched — otherwise pre-rendering
+    the chapter would have marked all eight topics as read at once.
+  - **A waste the trace surfaced:** the maps declared no `sizes`, so `next/image` assumed 100vw and
+    served a 1920px file into a 620px column, about 1.2 MB of it. They now request 750px.

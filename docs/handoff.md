@@ -224,6 +224,16 @@ never reconciles and making it clickable would mean inventing the mapping.
 if it starts and ends inside land. Three leaks were closed during that build and every one was a
 line that stopped short of a coast or dangled in open water.
 
+**Also 2026-08-28:** the five-climate-types map was rebuilt from a published Köppen-Geiger map
+(the deck's own raster could not be made clickable — its legend mixes two systems), and **the
+chapter page stopped re-fetching itself**. It now loads every topic once and hides all but one, so
+switching topic is a state change rather than five or six database round trips. Measured in Chrome
+DevTools: zero requests per switch, INP 58 ms. If you touch that page, the invariants are that the
+URL still leads (deep links render server-side, switching uses `history.pushState`), the sidebar
+entries stay real links, hidden panels use the `hidden` attribute so they leave the accessibility
+tree and skip their images, and reading history follows what is on screen rather than what was
+fetched.
+
 **Five things left open for the client:**
 1. Whether the deck's own p20 Push-Pull figure should return as a unit-level figure now that the
    native table has replaced it.
