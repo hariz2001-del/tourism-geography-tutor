@@ -1,8 +1,12 @@
 import Image from "next/image";
 import BookmarkToggle from "./bookmark-toggle";
 import TimeZoneExplorer from "./time-zone-explorer";
+import ContinentExplorer from "./continent-explorer";
+import { toContinents } from "@/lib/course-brain/continents";
+import { topicDiagrams } from "@/lib/course-brain/diagrams";
 import { contentImages } from "@/lib/course-brain/content-images";
 import type { PublishedContentUnit } from "@/lib/course-brain/types";
+import type { Continent } from "@/lib/course-brain/continents";
 
 const PUSH_PULL_TOPIC_ID = "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426";
 const FORMS_OF_TOURISM_TOPIC_ID = "254db3b5-6355-49b0-8435-fc4ab3dcd4ba";
@@ -23,6 +27,16 @@ const FORMS_OF_TOURISM_UNIT_IDS = {
 
 const MIDDLE_LATITUDE_TOPIC_ID = "343da11d-e89d-485c-9024-c8bba3d5f042";
 const LATITUDE_LONGITUDE_TOPIC_ID = "a457ad66-58e3-41cb-922c-1c9966c9a988";
+const SEVEN_CONTINENTS_TOPIC_ID = "68393419-9a3c-4502-b0c9-96ca3977b86e";
+const SEVEN_CONTINENT_UNIT_IDS = [
+  "0ddca5b3-8e97-4559-9975-17cdffd9cc5f", // Asia
+  "b5c0b7d5-c392-4809-9937-552328ebe7a8", // Africa
+  "023fe353-c974-4892-831f-284e589f0abc", // North America
+  "8327f8a6-26ff-4000-9092-087e912e610a", // South America
+  "9522cf38-b327-4391-acd2-5d9cfe0d8bc6", // Europe
+  "57d9d29e-91ec-424c-b0f0-b6ba84ddf31d", // Antarctica
+  "8c116a1f-28a3-4d2c-a4ad-4a71e6a0de78", // Australia
+] as const;
 const TIME_ZONES_UNIT_ID = "a6943945-1c7c-4ea8-a5b2-2552428119bc";
 const MID_LATITUDE_TABLE_UNIT_ID = "d18c0a11-7b3e-4c6f-9a52-8f1d4e2b7c30";
 
@@ -40,7 +54,18 @@ const LEADING_MODEL_UNIT_IDS: Record<string, readonly string[]> = {
 const TRAILING_MODEL_UNIT_IDS: Record<string, readonly string[]> = {
   [MIDDLE_LATITUDE_TOPIC_ID]: [MID_LATITUDE_TABLE_UNIT_ID],
   [LATITUDE_LONGITUDE_TOPIC_ID]: [TIME_ZONES_UNIT_ID],
+  [SEVEN_CONTINENTS_TOPIC_ID]: SEVEN_CONTINENT_UNIT_IDS,
 };
+
+/**
+ * Topics whose model absorbs the deck's own figure. The page must then not render it
+ * again above the cards — the model shows it, one click away, inside itself.
+ */
+const MODELS_CLAIMING_THE_TOPIC_DIAGRAM: ReadonlySet<string> = new Set([SEVEN_CONTINENTS_TOPIC_ID]);
+
+export function modelClaimsTopicDiagram(topicId: string): boolean {
+  return MODELS_CLAIMING_THE_TOPIC_DIAGRAM.has(topicId);
+}
 
 export type ModelPlacement = "leading" | "trailing";
 
@@ -97,6 +122,12 @@ export default function TopicLearningModel({
         bookmarkedUnitIds={bookmarkedUnitIds}
       />
     );
+  }
+
+  if (topicId === SEVEN_CONTINENTS_TOPIC_ID) {
+    const continents = toContinents(units);
+    if (continents.length !== SEVEN_CONTINENT_UNIT_IDS.length) return null;
+    return <SevenContinentsModel continents={continents} topicId={topicId} bookmarkedUnitIds={bookmarkedUnitIds} />;
   }
 
   if (topicId === LATITUDE_LONGITUDE_TOPIC_ID) {
@@ -298,6 +329,66 @@ type MidLatitudeTable = { introduction: string; humidContinental: MidLatitudeRow
  * it are reference data, not course content, and the interface says so — see the header note in
  * `time-zones.ts`.
  */
+/**
+ * The deck names the seven continents on one slide and gives each a sentence on the next
+ * three, with a flat world map alongside. Read as cards, the map and the sentences never
+ * meet: nothing tells a learner which shape "the third-largest, 24.71 million km²" refers
+ * to. Here the map answers that directly — point at a continent and its own sentence,
+ * size and ranking appear.
+ *
+ * Not one word is written here. The size and ranking are parsed out of the stored bodies,
+ * and the two continents whose slides give no area say so rather than borrowing a figure
+ * from anywhere else.
+ */
+function SevenContinentsModel({
+  continents,
+  topicId,
+  bookmarkedUnitIds,
+}: {
+  continents: Continent[];
+  topicId: string;
+  bookmarkedUnitIds?: Set<string>;
+}) {
+  const sourceDiagram = topicDiagrams[topicId];
+  const pages = [...new Set(continents.map((continent) => continent.pageOrSlide))].sort((a, b) => a - b);
+
+  return (
+    <section aria-labelledby="seven-continents-model" className="overflow-hidden rounded-card border border-graticule bg-surface">
+      <div className="p-5 sm:p-6">
+        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-meridian">Explore the map</p>
+        <h2 id="seven-continents-model" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">
+          The seven continents on the map
+        </h2>
+        <p className="mt-2 max-w-[62ch] text-[1rem]/[1.6] text-ink-muted">
+          Point at a continent — or pick one below the map — to read what the course says about it.
+        </p>
+      </div>
+
+      <ContinentExplorer continents={continents} bookmarkedUnitIds={bookmarkedUnitIds} />
+
+      {sourceDiagram ? (
+        <details className="border-t border-graticule px-5 py-3 sm:px-6">
+          <summary className="cursor-pointer font-mono text-[0.75rem] uppercase tracking-[0.1em] text-ink-muted hover:text-ink">
+            The slide&apos;s own map
+          </summary>
+          <figure className="mt-3 overflow-hidden rounded-card border border-graticule bg-white">
+            <Image alt={sourceDiagram.alt} className="h-auto w-full" height={520} src={sourceDiagram.src} width={900} />
+            {sourceDiagram.caption ? (
+              <figcaption className="border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem] text-ink-muted">
+                {sourceDiagram.caption} — {sourceDiagram.sourceFile}, p{sourceDiagram.pageOrSlide}
+              </figcaption>
+            ) : null}
+          </figure>
+        </details>
+      ) : null}
+
+      <p className="border-t border-graticule bg-chart px-5 py-2.5 font-mono text-[0.75rem]/[1.5] text-ink-muted sm:px-6">
+        Interactive study tool built from the published learning notes · chapter-2.pdf, pages/slides {pages[0]}–{pages.at(-1)} · base map CC0
+      </p>
+    </section>
+  );
+}
+
 function TimeZoneModel({
   unit,
   bookmarkedUnitIds,

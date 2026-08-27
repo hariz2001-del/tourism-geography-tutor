@@ -2,7 +2,7 @@ import ChapterNav from "@/components/materials/chapter-nav";
 import Link from "next/link";
 import ContentSection from "@/components/materials/content-section";
 import TopicDiagramFigure from "@/components/materials/topic-diagram";
-import TopicLearningModel, { integratedTopicUnitIds, topicModelUnitIds } from "@/components/materials/topic-learning-model";
+import TopicLearningModel, { integratedTopicUnitIds, modelClaimsTopicDiagram, topicModelUnitIds } from "@/components/materials/topic-learning-model";
 import TopicList from "@/components/materials/topic-list";
 import QuizCard from "@/components/quiz/quiz-card";
 import TutorPanel from "@/components/tutor/tutor-panel";
@@ -63,7 +63,7 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
             units={chapter.units}
             bookmarkedUnitIds={isStudent ? bookmarkedUnitIds : undefined}
           />
-        ) : diagram ? <TopicDiagramFigure diagram={diagram} /> : null}
+        ) : diagram && !modelClaimsTopicDiagram(chapter.topic.id) ? <TopicDiagramFigure diagram={diagram} /> : null}
         {sections.length
           ? sections.map((section, i) => (
               <ContentSection
