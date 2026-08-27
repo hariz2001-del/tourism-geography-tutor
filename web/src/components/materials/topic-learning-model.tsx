@@ -2,11 +2,15 @@ import Image from "next/image";
 import BookmarkToggle from "./bookmark-toggle";
 import TimeZoneExplorer from "./time-zone-explorer";
 import ContinentExplorer from "./continent-explorer";
+import OceanExplorer from "./ocean-explorer";
+import ClimateMapTabs from "./climate-map-tabs";
 import { toContinents } from "@/lib/course-brain/continents";
+import { toOceans } from "@/lib/course-brain/oceans";
 import { topicDiagrams } from "@/lib/course-brain/diagrams";
 import { contentImages } from "@/lib/course-brain/content-images";
 import type { PublishedContentUnit } from "@/lib/course-brain/types";
 import type { Continent } from "@/lib/course-brain/continents";
+import type { Ocean } from "@/lib/course-brain/oceans";
 
 const PUSH_PULL_TOPIC_ID = "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426";
 const FORMS_OF_TOURISM_TOPIC_ID = "254db3b5-6355-49b0-8435-fc4ab3dcd4ba";
@@ -28,6 +32,17 @@ const FORMS_OF_TOURISM_UNIT_IDS = {
 const MIDDLE_LATITUDE_TOPIC_ID = "343da11d-e89d-485c-9024-c8bba3d5f042";
 const LATITUDE_LONGITUDE_TOPIC_ID = "a457ad66-58e3-41cb-922c-1c9966c9a988";
 const SEVEN_CONTINENTS_TOPIC_ID = "68393419-9a3c-4502-b0c9-96ca3977b86e";
+const MAJOR_OCEANS_TOPIC_ID = "f066f2b3-0b04-4b25-b361-a6778088b21b";
+const CLIMATE_CLASSIFICATION_TOPIC_ID = "dbb97956-1265-459d-9a60-b0b324d28855";
+const CLIMATE_TYPES_UNIT_ID = "b7d73dcb-1993-41bc-830e-47714203f344"; // p12, with the deck's map
+const CLIMATE_BANDS_UNIT_ID = "0e07433e-b0f7-442f-a49a-0e2515a3f401"; // p13, the latitude bands
+const MAJOR_OCEAN_UNIT_IDS = [
+  "c36b6047-aee5-495b-8680-36b0cac6440f", // Pacific
+  "101d077c-9874-4b17-ac49-4cd36d5a200d", // Atlantic
+  "1bba0e1f-4cdb-4632-b456-43baeea40fe8", // Indian
+  "bdd6f07c-7806-47b0-beb1-87b4e9802c49", // Southern
+  "86f2cfbc-bed9-436f-bdb3-8bb384f1cf82", // Arctic
+] as const;
 const SEVEN_CONTINENT_UNIT_IDS = [
   "0ddca5b3-8e97-4559-9975-17cdffd9cc5f", // Asia
   "b5c0b7d5-c392-4809-9937-552328ebe7a8", // Africa
@@ -49,19 +64,25 @@ const MID_LATITUDE_TABLE_UNIT_ID = "d18c0a11-7b3e-4c6f-9a52-8f1d4e2b7c30";
 const LEADING_MODEL_UNIT_IDS: Record<string, readonly string[]> = {
   [PUSH_PULL_TOPIC_ID]: Object.values(PUSH_PULL_UNIT_IDS),
   [FORMS_OF_TOURISM_TOPIC_ID]: Object.values(FORMS_OF_TOURISM_UNIT_IDS),
+  [CLIMATE_CLASSIFICATION_TOPIC_ID]: [CLIMATE_TYPES_UNIT_ID, CLIMATE_BANDS_UNIT_ID],
 };
 
 const TRAILING_MODEL_UNIT_IDS: Record<string, readonly string[]> = {
   [MIDDLE_LATITUDE_TOPIC_ID]: [MID_LATITUDE_TABLE_UNIT_ID],
   [LATITUDE_LONGITUDE_TOPIC_ID]: [TIME_ZONES_UNIT_ID],
   [SEVEN_CONTINENTS_TOPIC_ID]: SEVEN_CONTINENT_UNIT_IDS,
+  [MAJOR_OCEANS_TOPIC_ID]: MAJOR_OCEAN_UNIT_IDS,
 };
 
 /**
  * Topics whose model absorbs the deck's own figure. The page must then not render it
  * again above the cards — the model shows it, one click away, inside itself.
  */
-const MODELS_CLAIMING_THE_TOPIC_DIAGRAM: ReadonlySet<string> = new Set([SEVEN_CONTINENTS_TOPIC_ID]);
+const MODELS_CLAIMING_THE_TOPIC_DIAGRAM: ReadonlySet<string> = new Set([
+  SEVEN_CONTINENTS_TOPIC_ID,
+  MAJOR_OCEANS_TOPIC_ID,
+  CLIMATE_CLASSIFICATION_TOPIC_ID,
+]);
 
 export function modelClaimsTopicDiagram(topicId: string): boolean {
   return MODELS_CLAIMING_THE_TOPIC_DIAGRAM.has(topicId);
@@ -128,6 +149,19 @@ export default function TopicLearningModel({
     const continents = toContinents(units);
     if (continents.length !== SEVEN_CONTINENT_UNIT_IDS.length) return null;
     return <SevenContinentsModel continents={continents} topicId={topicId} bookmarkedUnitIds={bookmarkedUnitIds} />;
+  }
+
+  if (topicId === CLIMATE_CLASSIFICATION_TOPIC_ID) {
+    const types = byId.get(CLIMATE_TYPES_UNIT_ID);
+    const bands = byId.get(CLIMATE_BANDS_UNIT_ID);
+    if (!types || !bands) return null;
+    return <ClimateClassificationModel bands={bands} types={types} topicId={topicId} bookmarkedUnitIds={bookmarkedUnitIds} />;
+  }
+
+  if (topicId === MAJOR_OCEANS_TOPIC_ID) {
+    const oceans = toOceans(units);
+    if (oceans.length !== MAJOR_OCEAN_UNIT_IDS.length) return null;
+    return <MajorOceansModel oceans={oceans} topicId={topicId} bookmarkedUnitIds={bookmarkedUnitIds} />;
   }
 
   if (topicId === LATITUDE_LONGITUDE_TOPIC_ID) {
@@ -340,6 +374,121 @@ type MidLatitudeTable = { introduction: string; humidContinental: MidLatitudeRow
  * and the two continents whose slides give no area say so rather than borrowing a figure
  * from anywhere else.
  */
+/**
+ * The oceans slide is the continents slide's twin — five names, a sentence each, one flat
+ * map — and it has the same problem: the map cannot tell you which water it is talking
+ * about. Same treatment, with one difference worth knowing. Continents are separated by
+ * land, so their outlines are facts; oceans are one body of water, so every boundary here
+ * is a convention drawn across it. The footnote says which conventions.
+ */
+/**
+ * This topic carries two maps that answer different questions — the deck's climate-and-
+ * vegetation map on p12 and its latitude-band map on p13 — and as separate cards they read
+ * as two unrelated pictures. They share one window here, with tabs, so a learner compares
+ * them instead of scrolling between them.
+ *
+ * Only the latitude tab is made interactive, and that asymmetry is deliberate: the bands are
+ * defined by latitude, which is knowable, while the p12 map's legend mixes the five climate
+ * types with a nine-part vegetation key the deck never reconciles. Making that one clickable
+ * would mean inventing which colour belongs to which type.
+ */
+function ClimateClassificationModel({
+  bands,
+  types,
+  topicId,
+  bookmarkedUnitIds,
+}: {
+  bands: PublishedContentUnit;
+  types: PublishedContentUnit;
+  topicId: string;
+  bookmarkedUnitIds?: Set<string>;
+}) {
+  const sourceDiagram = topicDiagrams[topicId];
+  const bandsImage = contentImages[bands.id];
+
+  return (
+    <section aria-labelledby="climate-classification-model" className="overflow-hidden rounded-card border border-graticule bg-surface">
+      <UnitAnchor unit={types} bookmarkedUnitIds={bookmarkedUnitIds} className="p-5 sm:p-6">
+        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-meridian">Explore the maps</p>
+        <h2 id="climate-classification-model" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">
+          World climate classification
+        </h2>
+        <p className="mt-2 max-w-[62ch] text-[1rem]/[1.6] text-ink-muted">
+          Two maps, one window: the zones the world is divided into by latitude, and the deck&apos;s own climate and
+          vegetation map. Switch between them with the tabs.
+        </p>
+      </UnitAnchor>
+
+      <span className="sr-only" id={`unit-${bands.id}`} />
+
+      <ClimateMapTabs
+        bandsUnit={{ id: bands.id, body: bands.body, pageOrSlide: bands.citation.pageOrSlide }}
+        typesUnit={{ id: types.id, body: types.body, pageOrSlide: types.citation.pageOrSlide }}
+        sourceMap={{
+          src: sourceDiagram?.src ?? bandsImage?.src ?? "",
+          alt: sourceDiagram?.alt ?? bandsImage?.alt ?? "",
+          caption: sourceDiagram?.caption,
+          pageOrSlide: sourceDiagram?.pageOrSlide ?? types.citation.pageOrSlide,
+        }}
+      />
+
+      <p className="border-t border-graticule bg-chart px-5 py-2.5 font-mono text-[0.75rem]/[1.5] text-ink-muted sm:px-6">
+        Interactive study tool built from the published learning notes · chapter-2.pdf, pages/slides{" "}
+        {types.citation.pageOrSlide}–{bands.citation.pageOrSlide} · base map CC0
+      </p>
+    </section>
+  );
+}
+
+function MajorOceansModel({
+  oceans,
+  topicId,
+  bookmarkedUnitIds,
+}: {
+  oceans: Ocean[];
+  topicId: string;
+  bookmarkedUnitIds?: Set<string>;
+}) {
+  const sourceDiagram = topicDiagrams[topicId];
+  const pages = [...new Set(oceans.map((ocean) => ocean.pageOrSlide))].sort((a, b) => a - b);
+
+  return (
+    <section aria-labelledby="major-oceans-model" className="overflow-hidden rounded-card border border-graticule bg-surface">
+      <div className="p-5 sm:p-6">
+        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-meridian">Explore the map</p>
+        <h2 id="major-oceans-model" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">
+          The five major oceans on the map
+        </h2>
+        <p className="mt-2 max-w-[62ch] text-[1rem]/[1.6] text-ink-muted">
+          Point at an ocean — or pick one below the map — to read what the course says about it.
+        </p>
+      </div>
+
+      <OceanExplorer oceans={oceans} bookmarkedUnitIds={bookmarkedUnitIds} />
+
+      {sourceDiagram ? (
+        <details className="border-t border-graticule px-5 py-3 sm:px-6">
+          <summary className="cursor-pointer font-mono text-[0.75rem] uppercase tracking-[0.1em] text-ink-muted hover:text-ink">
+            The slide&apos;s own map
+          </summary>
+          <figure className="mt-3 overflow-hidden rounded-card border border-graticule bg-white">
+            <Image alt={sourceDiagram.alt} className="h-auto w-full" height={520} src={sourceDiagram.src} width={900} />
+            {sourceDiagram.caption ? (
+              <figcaption className="border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem] text-ink-muted">
+                {sourceDiagram.caption} — {sourceDiagram.sourceFile}, p{sourceDiagram.pageOrSlide}
+              </figcaption>
+            ) : null}
+          </figure>
+        </details>
+      ) : null}
+
+      <p className="border-t border-graticule bg-chart px-5 py-2.5 font-mono text-[0.75rem]/[1.5] text-ink-muted sm:px-6">
+        Interactive study tool built from the published learning notes · chapter-2.pdf, pages/slides {pages[0]}–{pages.at(-1)} · base map CC0
+      </p>
+    </section>
+  );
+}
+
 function SevenContinentsModel({
   continents,
   topicId,
