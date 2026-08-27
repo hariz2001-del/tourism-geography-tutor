@@ -410,3 +410,59 @@ shape "the third-largest, 24.71 million km²" belongs to.
   areas for Asia, Africa, North America, Europe and Australia, ranks Europe "sixth-largest", and
   says nothing about the size of South America or Antarctica. If the lecturer wants those two
   filled in, the figures need to come from them — this project does not invent course content.
+
+## 2026-08-28 — the rest of the Chapter 2 maps, and the first supplied figures
+
+Client-directed on all three counts: fill the continents map's gaps with real data, do the
+same for the oceans map, and put the climate topic's two maps in one tabbed window.
+
+- [x] **The continents map's two gaps are filled, and every added figure is tagged.** The deck
+  sizes five of its seven continents; South America and Antarctica now carry areas and ranks from
+  **Encyclopædia Britannica's series — the same one the deck's own figures follow**, so the seven
+  stay comparable and the ranking runs 1 to 7 with no holes.
+  - **The added values live in their own fields** (`addedArea`, `addedRank`) rather than being
+    written into the deck's. The deck's silence stays visible in the data, the interface can tag
+    what it supplied, and a figure the slides *do* state is never overwritten — a test asserts
+    that directly, because getting it wrong would quietly credit an outside number to the course.
+  - In the panel, an added value carries a small **`added`** tag and the footnote names the source.
+    Course figures are shown plainly. **This is the first time the app displays factual content the
+    deck does not contain** — the time-zone tool was reference data for a tool; this is a figure
+    a learner could repeat in an exam.
+- [x] **The major-oceans map now works like the continents map.** Point at an ocean for its own
+  sentence, size, rank and deepest point. The deck sizes only the Indian Ocean and names the
+  Challenger Deep without a depth, so most figures are added and tagged: areas from one series so
+  the five stay comparable, each deepest point from that ocean's own article.
+  - **Carving the regions was materially harder than the continents, for a reason worth
+    recording.** Land separates continents for you; the sea is one connected body, so every ocean
+    boundary is a convention drawn across open water and each has to be cut by hand. Three leaks
+    had to be closed and all three taught the same rule — **a cut only works if it starts and ends
+    inside land**: the Drake Passage cut began at Cape Horn's latitude and the Pacific walked round
+    it to the north; the Arafura Sea was left open so the Pacific rounded the top of Australia into
+    the Indian Ocean; and the Torres Strait cut ended in the Coral Sea instead of in Cape York.
+  - **One real bug, caught by looking at the rendered tags rather than the tests.** The ranking
+    regex required the word "ocean" to follow, but the deck writes "the third-largest and the
+    warmest of the major oceans" and "the smallest, least accessible" — so the Indian and Arctic
+    rankings, *which are the deck's own*, were being tagged as added. A test now pins all four
+    rankings the deck states. (A stray escape also wrote a literal backspace into that regex, which
+    is why it silently matched nothing until the raw bytes were checked with `cat -A`.)
+- [x] **The world-climate topic's two maps share one window, behind tabs.** They answer different
+  questions and, as separate cards, read as two unrelated pictures.
+  - **Tab one, "Zones by latitude", is interactive:** five bands, each showing the seasons the deck
+    gives it, parsed out of the p13 body. North and south share a description because the deck's
+    own sentence does. The boundaries (23.5° and 66.5°) are the standard ones, stated as such —
+    the slide draws its bands without numbering them.
+  - **Tab two, "Climate and vegetation", is deliberately not clickable.** Its legend mixes the five
+    climate types the course teaches with a nine-part vegetation key the deck never reconciles
+    (already flagged in the 2026-08-23 CH2 entry), so making it clickable would mean inventing
+    which colour belongs to which type. The slide's map is shown as it is, with the five types
+    listed beneath as links to their own topics.
+- [x] **The explorer is now one shared component.** Continents and oceans differ only in data, so
+  `region-map-explorer.tsx` holds the map, the chooser, the panel and the tagging; each map is a
+  thin adapter. The continents tests passed unchanged through the refactor, which is the evidence
+  behaviour was preserved.
+- [x] **Verified:** 145/145 tests, typecheck, lint, production build; every continent, ocean and
+  band resolved correctly by pointer at 1440px; no overflow, no console errors.
+- [ ] **For the client — this is a policy line worth confirming.** Figures the deck does not
+  contain are now shown to learners, tagged and sourced. The alternative was to keep showing "not
+  given on this slide". If any of these should instead come from the lecturer's own figures, the
+  two tables (`continents.ts`, `oceans.ts`) are the only places to change.

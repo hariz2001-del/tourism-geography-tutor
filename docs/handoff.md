@@ -207,7 +207,24 @@ a model that lets the learner test it, the units keep their own words, anything 
 the stored body, and the slide's own figure stays one click away inside the model.** Three of these
 exist (CH1 push-pull and forms of tourism, CH2 mid-latitude table and continents, CH3 time zones).
 
-**Four things left open for the client:**
+**Fifth pass, 2026-08-28 — and it crosses a line the earlier passes did not.** At the owner's
+request the maps now show figures the deck does not contain: the two continents it never sizes,
+and the ocean areas, ranks and depths it mostly omits. **Every such value is tagged `added` in the
+panel and its source is named**, the deck's own figures are shown plainly and are never
+overwritten, and the added values live in separate fields (`addedArea`, `addedRank`) so the deck's
+silence stays visible in the data. Both tables — `continents.ts` and `oceans.ts` — are single
+files, so swapping in the lecturer's own figures is a one-file change.
+
+The oceans map joins the continents map (one shared `region-map-explorer.tsx`), and the
+world-climate topic's two maps now share one window behind tabs — the latitude bands interactive,
+the deck's climate-and-vegetation map shown as it is, because its legend mixes two systems the deck
+never reconciles and making it clickable would mean inventing the mapping.
+
+**One rule to carry forward if you touch `scripts/build_ocean_regions.py`:** a cut line only works
+if it starts and ends inside land. Three leaks were closed during that build and every one was a
+line that stopped short of a coast or dangled in open water.
+
+**Five things left open for the client:**
 1. Whether the deck's own p20 Push-Pull figure should return as a unit-level figure now that the
    native table has replaced it.
 2. The Subarctic unit's old image was a low-resolution *map* of the Canadian subarctic, not a
@@ -217,7 +234,11 @@ exist (CH1 push-pull and forms of tourism, CH2 mid-latitude table and continents
    America, Europe and Australia; Europe is ranked "sixth-largest"; South America and Antarctica
    are never sized or ranked. The continent map now says "not given on this slide" for those two.
    Filling them in needs figures from the lecturer.
-4. **The time-zone tool is the first non-deck *factual* data in the app.** External imagery was
+4. **Supplied figures are now shown to learners** (2026-08-28, at the owner's request): the two
+   continent areas the deck omits, and most of the ocean figures. All are tagged `added` with the
+   source named. If any should instead be the lecturer's own numbers, say which and it is a
+   one-file change.
+5. **The time-zone tool is the first non-deck *factual* data in the app.** External imagery was
    approved on 2026-08-26; city names and UTC offsets go a step further. They are labelled in the
    interface as reference data, not course content, and no unit body was written from them — but
    the owner should know it is there.
