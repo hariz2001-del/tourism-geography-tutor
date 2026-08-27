@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useId, useState } from "react";
+import ClimateTypeMap from "./climate-type-map";
+import { toClimateTypes } from "@/lib/course-brain/climate-types";
 import {
   CLIMATE_BANDS,
   bandHeight,
@@ -13,15 +14,6 @@ import {
   type ClimateBandKey,
 } from "@/lib/course-brain/climate-bands";
 import { worldBaseMap } from "@/lib/course-brain/component-assets";
-
-/** The chapter's own climate topics, so the second map's list can lead somewhere. */
-const CLIMATE_TOPIC_IDS: Record<string, string> = {
-  tropical: "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
-  dry: "aa696007-8761-4226-9322-0a5d3a41d0c5",
-  "middle latitude": "343da11d-e89d-485c-9024-c8bba3d5f042",
-  "high latitude": "e467b464-a88c-4ef1-9e40-19903e8cc192",
-  highland: "51c17acf-c393-4d5d-8e5a-802d3b4ca68e",
-};
 
 type Tab = "bands" | "zones";
 
@@ -40,6 +32,7 @@ export default function ClimateMapTabs({
 
   const text = parseClimateBands(bandsUnit.body);
   const types = parseClimateTypes(typesUnit.body);
+  const climateTypes = toClimateTypes(types);
   const band = CLIMATE_BANDS.find((candidate) => candidate.key === activeBand) ?? CLIMATE_BANDS[2];
 
   return (
@@ -120,44 +113,24 @@ export default function ClimateMapTabs({
         <div aria-labelledby={`${tabsId}-zones-tab`} className="px-5 py-4 sm:px-6" id={`${tabsId}-zones`} role="tabpanel">
           <p className="max-w-[68ch] text-[1rem]/[1.65] text-ink">{typesUnit.body}</p>
 
-          <figure className="mt-3 overflow-hidden rounded-card border border-graticule bg-white">
-            <Image alt={sourceMap.alt} className="h-auto w-full" height={520} src={sourceMap.src} width={900} />
-            <figcaption className="border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem] text-ink-muted">
-              {sourceMap.caption ?? "World climate and vegetation zones"} — chapter-2.pdf, p{sourceMap.pageOrSlide}
-            </figcaption>
-          </figure>
+          {climateTypes.length > 0 ? <ClimateTypeMap types={climateTypes} /> : null}
 
-          {types.length > 0 ? (
-            <>
-              <p className="mt-4 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-muted">
-                Each type has its own topic
-              </p>
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                {types.map((type) => {
-                  const topicId = CLIMATE_TOPIC_IDS[type.toLowerCase()];
-                  const label = `${type.charAt(0).toUpperCase()}${type.slice(1)} climate`;
-                  return topicId ? (
-                    <Link
-                      className="min-h-11 rounded-full border border-graticule bg-surface px-3 py-1.5 text-[0.875rem] text-ink transition-colors hover:border-meridian hover:text-meridian"
-                      href={`/chapters/CH2?topic=${topicId}`}
-                      key={type}
-                    >
-                      {label}
-                    </Link>
-                  ) : (
-                    <span className="min-h-11 rounded-full border border-graticule bg-chart px-3 py-1.5 text-[0.875rem] text-ink-muted" key={type}>
-                      {label}
-                    </span>
-                  );
-                })}
-              </div>
-            </>
-          ) : null}
+          <details className="mt-4">
+            <summary className="cursor-pointer font-mono text-[0.75rem] uppercase tracking-[0.1em] text-ink-muted hover:text-ink">
+              The slide&apos;s own map
+            </summary>
+            <figure className="mt-3 overflow-hidden rounded-card border border-graticule bg-white">
+              <Image alt={sourceMap.alt} className="h-auto w-full" height={520} src={sourceMap.src} width={900} />
+              <figcaption className="border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem] text-ink-muted">
+                {sourceMap.caption ?? "World climate and vegetation zones"} — chapter-2.pdf, p{sourceMap.pageOrSlide}
+              </figcaption>
+            </figure>
+          </details>
 
           <p className="mt-3 text-[0.8125rem]/[1.55] text-ink-muted">
-            * This is the slide&apos;s own map, shown as it is. Its legend mixes two systems — the five climate types
-            the course teaches and a nine-part vegetation key — which is why it is presented rather than made
-            clickable: the deck never says which coloured area belongs to which of its five types.
+            The slide&apos;s own map is kept above for reference. It is not the one made clickable because its legend
+            mixes two systems — the five climate types and a nine-part vegetation key — so no colour on it can be
+            attributed to a type without guessing.
           </p>
         </div>
       )}
