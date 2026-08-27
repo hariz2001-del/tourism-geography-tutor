@@ -144,10 +144,10 @@ export default function TimeZoneExplorer() {
         </p>
         <div className="relative overflow-hidden rounded-card border border-graticule">
           <Image
+            sizes="(min-width: 1024px) 720px, 100vw"
             alt="Blank world map in equirectangular projection, used as the base for the time-zone bands"
             className="block h-auto w-full select-none"
             height={worldBaseMap.height}
-            priority
             src={worldBaseMap.src}
             width={worldBaseMap.width}
           />

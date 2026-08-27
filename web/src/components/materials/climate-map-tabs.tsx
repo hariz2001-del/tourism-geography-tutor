@@ -55,6 +55,7 @@ export default function ClimateMapTabs({
             <>
               <div className="relative mt-3 overflow-hidden rounded-card border border-graticule">
                 <Image
+            sizes="(min-width: 1024px) 720px, 100vw"
                   alt="Blank world map. Each latitude band can be selected to read the seasons the course gives it."
                   className="block h-auto w-full select-none"
                   height={worldBaseMap.height}
@@ -120,7 +121,8 @@ export default function ClimateMapTabs({
               The slide&apos;s own map
             </summary>
             <figure className="mt-3 overflow-hidden rounded-card border border-graticule bg-white">
-              <Image alt={sourceMap.alt} className="h-auto w-full" height={520} src={sourceMap.src} width={900} />
+              <Image
+            sizes="(min-width: 1024px) 720px, 100vw" alt={sourceMap.alt} className="h-auto w-full" height={520} src={sourceMap.src} width={900} />
               <figcaption className="border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem] text-ink-muted">
                 {sourceMap.caption ?? "World climate and vegetation zones"} — chapter-2.pdf, p{sourceMap.pageOrSlide}
               </figcaption>

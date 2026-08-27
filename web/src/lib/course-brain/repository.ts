@@ -99,6 +99,22 @@ export function createCourseBrainRepository(client: SupabaseQueryAdapter) {
       }));
     },
 
+    /**
+     * Every published unit in one chapter, in one round trip. The chapter page renders all
+     * of its topics at once so that switching between them costs nothing, and doing that
+     * with one query per topic would have traded a slow click for a slow first load.
+     */
+    async getPublishedChapterContent(chapterCode: string): Promise<PublishedContentUnit[]> {
+      const result = await execute(client.from("content_units")
+        .select("id, topic_id, title, body, content_type, source_references(source_file, chapter_label, page_or_slide), topics!inner(chapters!inner(code))")
+        .eq("topics.chapters.code", chapterCode)
+        .eq("status", "published")
+        .order("created_at"));
+      return rows(requireData(result)).map((row) => ({
+        id: String(row.id), topicId: String(row.topic_id), title: String(row.title), body: String(row.body), contentType: String(row.content_type), citation: citationFrom(row),
+      }));
+    },
+
     async getAllPublishedContent(): Promise<PublishedContentUnit[]> {
       const result = await execute(client.from("content_units")
         .select("id, topic_id, title, body, content_type, source_references(source_file, chapter_label, page_or_slide), topics(chapter_id, chapters(code))")

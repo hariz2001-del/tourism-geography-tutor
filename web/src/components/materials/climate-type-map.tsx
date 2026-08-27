@@ -72,6 +72,7 @@ export default function ClimateTypeMap({ types }: { types: ClimateType[] }) {
         onPointerMove={handlePointer}
       >
         <Image
+            sizes="(min-width: 1024px) 720px, 100vw"
           alt=""
           className="block h-auto w-full select-none"
           height={worldBaseMap.height}
@@ -80,6 +81,7 @@ export default function ClimateTypeMap({ types }: { types: ClimateType[] }) {
         />
         {/* the five classes, dimmed, so the global pattern still reads behind the selection */}
         <Image
+            sizes="(min-width: 1024px) 720px, 100vw"
           alt="World map coloured by the five climate types the course names."
           className="pointer-events-none absolute inset-0 h-full w-full select-none opacity-35"
           height={worldBaseMap.height}
@@ -90,6 +92,7 @@ export default function ClimateTypeMap({ types }: { types: ClimateType[] }) {
             than a tint: the classes already carry meaning in their colour, so covering them
             would hide what the map is saying. */}
         <Image
+            sizes="(min-width: 1024px) 720px, 100vw"
           alt=""
           className="pointer-events-none absolute inset-0 h-full w-full select-none"
           height={worldBaseMap.height}

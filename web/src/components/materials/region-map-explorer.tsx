@@ -107,10 +107,10 @@ export default function RegionMapExplorer({
           onPointerMove={handlePointer}
         >
           <Image
+            sizes="(min-width: 1024px) 720px, 100vw"
             alt={mapAlt}
             className="block h-auto w-full select-none"
             height={worldBaseMap.height}
-            priority
             src={worldBaseMap.src}
             width={worldBaseMap.width}
           />
