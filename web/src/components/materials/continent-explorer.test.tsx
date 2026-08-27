@@ -12,6 +12,8 @@ const continents: Continent[] = [
     body: "Asia is the largest continent, with an area of 44.58 million km², and is home to Mount Everest, the world's highest peak.",
     area: "44.58 million km²",
     rank: "largest",
+    addedArea: null,
+    addedRank: null,
     pageOrSlide: 4,
   },
   {
@@ -21,6 +23,8 @@ const continents: Continent[] = [
     body: "South America is connected to North America by the Isthmus of Panama and contains the Andes, the world's longest continental mountain range.",
     area: null,
     rank: null,
+    addedArea: "17.81 million km²",
+    addedRank: "fourth-largest",
     pageOrSlide: 5,
   },
 ];
@@ -47,14 +51,20 @@ describe("ContinentExplorer", () => {
     expect(screen.getByText(/Isthmus of Panama/)).toBeVisible();
   });
 
-  it("says the deck gives no size rather than supplying one", async () => {
+  it("marks a figure the deck does not give as added, and leaves the deck's own untagged", async () => {
     const user = userEvent.setup();
-    render(<ContinentExplorer continents={continents} />);
+    const { container } = render(<ContinentExplorer continents={continents} />);
+    // the footnote explains the tag and so contains the word too — only the figures count
+    const tagsInFigures = () => within(container.querySelector("dl")!).queryAllByText("added");
+
+    expect(tagsInFigures()).toHaveLength(0); // Asia's figures are the deck's own
 
     await user.click(screen.getByRole("button", { name: "South America" }));
 
-    expect(screen.getAllByText("not given on this slide")).toHaveLength(2);
-    expect(screen.queryByText(/17\.8|million km² *$/)).not.toBeInTheDocument();
+    expect(screen.getByText("17.81 million km²")).toBeVisible();
+    expect(screen.getByText("the fourth-largest")).toBeVisible();
+    expect(tagsInFigures()).toHaveLength(2);
+    expect(screen.getByText(/Britannica/)).toBeVisible();
   });
 
   it("keeps an anchor for every unit the model consumed, so bookmarks still land", () => {
