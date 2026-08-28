@@ -543,3 +543,33 @@ same for the oceans map, and put the climate topic's two maps in one tabbed wind
   shows a different stretch of the line, with Rome, Istanbul and Beijing engraved instead. Swapping
   it would leave the text describing something the image no longer shows. Replacing it means either
   accepting that mismatch or having the lecturer reword the unit.
+
+## 2026-08-28 (fourth pass) — Chapter 4's tables become tables, and two photos are replaced
+
+- [x] **All five Chapter 4 "tables" were screenshots of Wikipedia. They are now real tables.**
+  Blue links, sort icons and footnote markers were pasted straight into the deck; as pictures they
+  could not be read on a phone, searched, selected or read aloud.
+  - Rows are parsed from the unit body that already transcribes each table, so the table and the
+    sentence beside it cannot disagree; every parser fails closed, rendering the prose instead of a
+    half-built table.
+  - **Columns the transcription dropped are restored from the slide itself, and the caption says
+    so:** the deserts' regions and square miles, the landmasses' ranking and heights in feet, and
+    eight of the ten areas in the bodies-of-water table. That last one closes the "possible
+    information loss" flagged on 2026-08-21 — the note summarised ten rows as "ranging from the
+    Pacific's … down to the Bay of Bengal's".
+  - **Each links to the article it came from, labelled as the source *as the slide captured it*.**
+    Wikipedia has moved on: it now gives Everest as 8,849 m where the slide says 8,848, and its
+    desert list has gained entries. The deck's figures stay the deck's.
+  - **The bodies-of-water table links to nothing, deliberately.** Unlike the other four it carries
+    no links or Wikipedia furniture and its figures match no current article, so claiming a source
+    would have been inventing provenance.
+  - **A bug worth remembering:** the regex that swapped the image call for the new figure component
+    also rewrote the call *inside* that component, so it rendered itself forever. It surfaced as a
+    vitest worker dying with no failing assertion — a stack overflow, not a test failure. If a
+    worker exits unexpectedly and the counts read "35 passed (36)", look for recursion.
+- [x] **The Greenwich meridian photo is replaced** (500px → 1600px, CC BY-SA 4.0, credited). The
+  engraved city longitudes are legible now. The caption names the cities actually in frame, because
+  the learning note cites a different set from the same plaque — both describe the same monument,
+  and the caption stops a learner hunting the picture for names engraved further along it.
+- [ ] **In progress: the 14 low-resolution Chapter 4 photographs** (295–550px). Maps and mind maps
+  are deliberately out of scope for this pass, per the owner.

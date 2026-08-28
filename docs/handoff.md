@@ -240,6 +240,12 @@ five principal lines. Pointing at it reads the position and gives that meridian'
 the time-zone explorer lower down the same topic. A topic can now carry both a leading and a
 trailing model, which is what that arrangement needs.
 
+**Also 2026-08-28:** Chapter 4's five figures that were **screenshots of Wikipedia are now real
+tables**, parsed from the unit bodies, with the columns the transcriptions dropped restored from
+the slides and each linked to its source article as the slide captured it. The Greenwich meridian
+photo is replaced with a legible one. The chapter's 14 low-resolution photographs are the work in
+flight; maps and mind maps are deliberately out of scope for that pass.
+
 **Six things left open for the client:**
 1. Whether the deck's own p20 Push-Pull figure should return as a unit-level figure now that the
    native table has replaced it.
