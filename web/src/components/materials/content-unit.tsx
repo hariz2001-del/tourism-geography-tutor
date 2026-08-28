@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { contentImages } from "@/lib/course-brain/content-images";
+import { unitTableFor } from "@/lib/course-brain/unit-tables";
+import UnitTableFigure from "./unit-table";
 import type { SectionKind } from "@/lib/course-brain/group-units";
 import type { PublishedContentUnit } from "@/lib/course-brain/types";
 
@@ -35,6 +37,16 @@ function stackKindOf(variant: Variant, contentType: string): "overview" | "examp
   if (contentType === "example" || contentType === "case_study") return "example";
   if (contentType === "learning_note") return "note";
   return "overview";
+}
+
+/**
+ * A unit's figure. Five Chapter 4 units carry a table the deck pasted in as a screenshot of
+ * Wikipedia; those are rebuilt as real tables instead, from the same body the card prints.
+ */
+function UnitFigure({ unit }: { unit: PublishedContentUnit }) {
+  const table = unitTableFor(unit);
+  if (table) return <UnitTableFigure caption={`${unit.title} — ${unit.citation.sourceFile}, p${unit.citation.pageOrSlide}`} table={table} />;
+  return <UnitImage unitId={unit.id} />;
 }
 
 function UnitImage({ unitId }: { unitId: string }) {
@@ -115,7 +127,7 @@ export default function ContentUnit({
         data-highlighted={isHighlighted}
         className={`scroll-mt-8 space-y-2 border-l-2 border-l-meridian pb-2 pl-5 ${highlightRing}`}
       >
-        <UnitImage unitId={unit.id} />
+        <UnitFigure unit={unit} />
         <div className="flex items-start justify-between gap-3">
           <h2 className="font-display text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h2>
           {bookmark}
@@ -132,7 +144,7 @@ export default function ContentUnit({
         data-highlighted={isHighlighted}
         className={`scroll-mt-8 rounded-card border border-graticule border-l-2 border-l-deep bg-deep/6 p-5 ${highlightRing}`}
       >
-        <UnitImage unitId={unit.id} />
+        <UnitFigure unit={unit} />
         <div className="flex items-start justify-between gap-3">
           <h3 className="font-display text-[1.1875rem]/[1.35] font-semibold text-deep">{unit.title}</h3>
           {bookmark}
@@ -155,7 +167,7 @@ export default function ContentUnit({
             {String(index).padStart(2, "0")}
           </span>
         ) : null}
-        <UnitImage unitId={unit.id} />
+        <UnitFigure unit={unit} />
         <h3 className="pr-8 font-display text-[1.0625rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
         <p className="mt-1.5 whitespace-pre-wrap text-[0.9375rem]/[1.6] text-ink">{unit.body}</p>
         {bookmark ? <div className="mt-3 flex justify-end">{bookmark}</div> : null}
@@ -170,7 +182,7 @@ export default function ContentUnit({
         data-highlighted={isHighlighted}
         className={`scroll-mt-8 space-y-2 rounded-card border border-lowland/30 bg-lowland/8 p-5 ${highlightRing}`}
       >
-        <UnitImage unitId={unit.id} />
+        <UnitFigure unit={unit} />
         {showBadge ? (
           <span className="block font-mono text-[0.6875rem]/[1.2] font-medium uppercase tracking-[0.14em] text-lowland">KEY TAKEAWAY</span>
         ) : null}
@@ -193,7 +205,7 @@ export default function ContentUnit({
       data-highlighted={isHighlighted}
       className={`scroll-mt-8 space-y-3 rounded-card border border-graticule border-l-2 p-5 transition-colors duration-150 ${accentBorder} ${surfaceFill} ${highlightRing}`}
     >
-      <UnitImage unitId={unit.id} />
+      <UnitFigure unit={unit} />
       {showBadge && label ? (
         <span className={`font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] ${badgeAccent}`}>{label}</span>
       ) : null}
