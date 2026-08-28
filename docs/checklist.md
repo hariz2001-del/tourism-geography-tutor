@@ -521,10 +521,19 @@ same for the oceans map, and put the climate topic's two maps in one tabbed wind
   - **Deck versus added:** the five names and their order are parsed from the p3 body; the 15° rule
     is p4's. The latitudes are *not* in the deck — it names the principal lines without numbering
     them — so 66.5° and 23.5° are tagged as added.
-  - **Land had to be re-projectable**, so `scripts/build_land_dots.py` samples the base map into a
-    coarse point grid (a raster cannot be turned). First render bunched the dots into arcs near the
-    poles; the fix is in the generator — the longitude step widens by 1/cos(latitude) — not in the
-    drawing code.
+  - **Land had to be re-projectable**, since a raster cannot be turned. The first attempt sampled
+    the base map into a point grid; **the owner reported it read as noise, and they were right**, so
+    the globe now re-projects the map itself — each pixel inside the sphere is unprojected to a
+    longitude and latitude and sampled, giving continuous coastlines. 17 ms a frame while dragging,
+    a steady 60fps. The point grid and its generator are deleted.
+  - **A crash on spinning, reported from use and worth remembering.** The drag handler read the
+    mutable `drag` ref from *inside* a React state updater. Updaters run later than the call — after
+    a pointerup may have nulled the ref, and twice over in development — so it dereferenced null and
+    took the component down. Deltas are now computed before the updater is called. Two neighbouring
+    faults were fixed with it: `releasePointerCapture` throws when the browser has already dropped
+    the capture (what a cancelled touch does), and there was no `pointercancel` handler, so an
+    interrupted touch drag left the globe stuck mid-drag. Redraws are also coalesced to one per
+    animation frame.
   - A topic can now carry both a leading and a trailing model, which this one needs: the globe
     opens it, the time-zone explorer closes it.
 - [x] **The Greenwich clock photo is now high-resolution** (220px → 1600px, CC BY-SA 3.0, credited).
