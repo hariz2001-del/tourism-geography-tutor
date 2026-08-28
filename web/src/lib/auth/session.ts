@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { redirect } from "next/navigation";
 import { createUserScopedClient } from "@/lib/supabase/server";
 import type { AppRole, Profile } from "./types";
@@ -17,10 +18,14 @@ export const dashboardPathForRole: Record<AppRole, string> = {
   student: "/dashboard/student",
 };
 
+// Deduplicated per request with React's `cache`: the layout and the page both ask who is
+// signed in, and each call is two round trips (the session, then the profile row). Without
+// this every page pays for four.
+//
 // The Data Access Layer check. Next's own authentication guide is explicit that
 // a proxy check is optimistic only, so every page and route handler that reads
 // learner data calls this rather than trusting the proxy.
-export async function getProfile(): Promise<Profile | null> {
+export const getProfile = cache(async function getProfile(): Promise<Profile | null> {
   let client;
   try {
     client = await createUserScopedClient();
@@ -46,7 +51,7 @@ export async function getProfile(): Promise<Profile | null> {
     displayName: String(data.display_name),
     role: data.role as AppRole,
   };
-}
+});
 
 export async function requireProfile(role?: AppRole): Promise<Profile> {
   const profile = await getProfile();

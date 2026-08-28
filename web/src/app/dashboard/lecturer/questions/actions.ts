@@ -1,12 +1,15 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireProfile } from "@/lib/auth/session";
 import { createUserScopedClient } from "@/lib/supabase/server";
 import type { QuestionActionState } from "./action-state";
 
 function refreshQuestionViews(questionId?: string) {
+  // Chapter pages serve their questions from a cross-request cache, so approving one has to
+  // clear that too — otherwise a lecturer's change is invisible to learners for five minutes.
+  updateTag("course-content");
   revalidatePath("/dashboard/lecturer");
   revalidatePath("/dashboard/lecturer/questions");
   revalidatePath("/dashboard/lecturer/review");

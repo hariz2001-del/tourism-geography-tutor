@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import ChapterNav from "@/components/materials/chapter-nav";
 import Link from "next/link";
 import ContentSection from "@/components/materials/content-section";
@@ -22,25 +23,61 @@ type ChapterData = {
 } | null;
 
 /**
+ * Everything in a chapter that is the same for every reader, in one cached call.
+ *
+ * The queries behind this run as the anonymous role and depend on nothing about who is
+ * asking, so the answer is identical for every visitor and there is no reason to ask the
+ * database again on each page view. Published course content changes when a lecturer
+ * publishes something, which is what the `course-content` tag is for — those actions
+ * revalidate it, so an edit still appears at once.
+ *
+ * Quiz options are deliberately re-shuffled below rather than here: a cached shuffle would
+ * hand every learner the same running order for the life of the cache entry.
+ */
+const loadChapterContent = unstable_cache(
+  async (chapterCode: string) => {
+    const repository = createServerCourseBrainRepository();
+    const [chapters, topics] = await Promise.all([
+      repository.listChapters(),
+      repository.listChapterTopics(chapterCode),
+    ]);
+    if (topics.length === 0) return { chapters, topics, units: [], quizzes: [] };
+
+    const [units, quizzes] = await Promise.all([
+      repository.getPublishedChapterContent(chapterCode),
+      Promise.all(topics.map((topic) => repository.getApprovedTopicQuiz(topic.id))),
+    ]);
+    return { chapters, topics, units, quizzes };
+  },
+  ["chapter-content"],
+  { revalidate: 300, tags: ["course-content"] },
+);
+
+/** A fresh order for every reader, so answer positions cannot be memorised. */
+function reshuffled(quiz: QuizQuestion | null): QuizQuestion | null {
+  if (!quiz) return null;
+  const options = [...quiz.options];
+  for (let index = options.length - 1; index > 0; index -= 1) {
+    const swap = Math.floor(Math.random() * (index + 1));
+    [options[index], options[swap]] = [options[swap], options[index]];
+  }
+  return { ...quiz, options };
+}
+
+/**
  * Loads the whole chapter rather than the one topic being viewed: all of its units in a
  * single query, and its quizzes in parallel. The page then renders every topic and hides all
  * but one, so moving between them is a state change instead of another five round trips to
  * the database.
  */
 async function loadChapter(chapterCode: string, selectedTopicId?: string): Promise<ChapterData> {
-  const repository = createServerCourseBrainRepository();
-  const [chapters, topics] = await Promise.all([repository.listChapters(), repository.listChapterTopics(chapterCode)]);
+  const { chapters, topics, units, quizzes } = await loadChapterContent(chapterCode);
   const topic = topics.find((candidate) => candidate.id === selectedTopicId) ?? topics[0];
   if (!topic) return null;
 
-  const [units, quizzes] = await Promise.all([
-    repository.getPublishedChapterContent(chapterCode),
-    Promise.all(topics.map((candidate) => repository.getApprovedTopicQuiz(candidate.id))),
-  ]);
-
   const unitsByTopic = new Map<string, PublishedContentUnit[]>(topics.map((candidate) => [candidate.id, []]));
   for (const unit of units) unitsByTopic.get(unit.topicId)?.push(unit);
-  const quizByTopic = new Map(topics.map((candidate, index) => [candidate.id, quizzes[index]]));
+  const quizByTopic = new Map(topics.map((candidate, index) => [candidate.id, reshuffled(quizzes[index])]));
 
   return { chapters, topics, topic, unitsByTopic, quizByTopic };
 }
