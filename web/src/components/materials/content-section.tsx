@@ -2,6 +2,7 @@ import type { ContentSectionModel, SectionKind } from "@/lib/course-brain/group-
 import type { PublishedContentUnit } from "@/lib/course-brain/types";
 import BookmarkToggle from "./bookmark-toggle";
 import ContentUnit from "./content-unit";
+import { contentImages } from "@/lib/course-brain/content-images";
 
 const HEADER_ACCENT: Record<SectionKind, string> = {
   intro: "text-ink-muted",
@@ -85,8 +86,12 @@ function renderBody(section: ContentSectionModel, bookmarkFor: BookmarkFor) {
   }
 
   if (section.layout === "grid") {
+    // Three across is right for short text and wrong for photographs: at three columns a
+    // card's picture came out 180px wide. A section that carries images gets two.
+    const hasImages = section.units.some((unit) => contentImages[unit.id]);
+    const wide = section.columns === 3 && !hasImages;
     return (
-      <div className={`grid gap-3 sm:grid-cols-2 ${section.columns === 3 ? "xl:grid-cols-3" : ""}`}>
+      <div className={`grid gap-3 sm:grid-cols-2 ${wide ? "xl:grid-cols-3" : ""}`}>
         {section.units.map((unit, i) => (
           <ContentUnit key={unit.id} unit={unit} variant="entry" index={i + 1} kind={section.kind} bookmark={bookmarkFor(unit)} />
         ))}

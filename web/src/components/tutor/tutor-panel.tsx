@@ -12,6 +12,8 @@ type TutorResponse = {
 
 type Props = {
   topicTitle: string;
+  /** "dock" drops the outer card and heading: the dock draws its own frame around this. */
+  variant?: "panel" | "dock";
 };
 
 // Thrown only when the API responded but the response itself carries an
@@ -20,7 +22,8 @@ type Props = {
 // etc.) is not an ApiError and always falls back to a friendly string.
 class TutorApiError extends Error {}
 
-export default function TutorPanel({ topicTitle }: Props) {
+export default function TutorPanel({ topicTitle, variant = "panel" }: Props) {
+  const isDock = variant === "dock";
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState<TutorResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -51,9 +54,17 @@ export default function TutorPanel({ topicTitle }: Props) {
   }
 
   return (
-    <section id="tutor" tabIndex={-1} className="scroll-mt-6 rounded-card border border-graticule bg-surface p-5" aria-labelledby="tutor-heading">
-      <h2 id="tutor-heading" className="font-display text-[1.375rem] font-semibold text-ink-strong">Tutor</h2>
-      <p className="mt-1 text-[0.9375rem]/[1.6] text-ink-muted">Ask any Tourism Geography question, not just about &ldquo;{topicTitle}&rdquo;. Helpful answers include a related reference.</p>
+    <section
+      tabIndex={-1}
+      className={isDock ? "p-4" : "scroll-mt-6 rounded-card border border-graticule bg-surface p-5"}
+      aria-labelledby={isDock ? undefined : "tutor-heading"}
+      aria-label={isDock ? "Tutor" : undefined}
+      id={isDock ? undefined : "tutor"}
+    >
+      {isDock ? null : (
+        <h2 id="tutor-heading" className="font-display text-[1.375rem] font-semibold text-ink-strong">Tutor</h2>
+      )}
+      <p className={`text-[0.9375rem]/[1.6] text-ink-muted ${isDock ? "" : "mt-1"}`}>Ask any Tourism Geography question, not just about &ldquo;{topicTitle}&rdquo;. Helpful answers include a related reference.</p>
       <form className="mt-4 space-y-3" onSubmit={submit}>
         <label className="block font-medium text-ink-strong" htmlFor="tutor-question">Question</label>
         <textarea id="tutor-question" aria-label="Ask the tutor" value={question} onChange={(event) => setQuestion(event.target.value)} required maxLength={500} className="min-h-24 w-full rounded-card border border-graticule bg-surface p-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian" />

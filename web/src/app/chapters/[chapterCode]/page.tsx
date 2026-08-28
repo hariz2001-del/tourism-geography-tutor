@@ -106,7 +106,7 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
       <main className="mx-auto flex min-h-screen max-w-[86rem] flex-col gap-8 px-6 py-8">
         {isStudent ? <ActiveTopicRecorder /> : null}
         <ChapterNav chapters={chapter.chapters} activeChapterCode={chapterCode} />
-        <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)_21rem]">
+        <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)]">
           <aside className="lg:sticky lg:top-8 lg:self-start">
             <TopicList chapterCode={chapterCode} topics={chapter.topics} />
           </aside>
@@ -125,10 +125,8 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
               </TopicPanel>
             ))}
           </section>
-          <aside className="lg:sticky lg:top-6 lg:self-start">
-            <ActiveTutorPanel names={topicNames} />
-          </aside>
         </div>
+        <ActiveTutorPanel names={topicNames} />
       </main>
     </ChapterTopicsProvider>
   );
