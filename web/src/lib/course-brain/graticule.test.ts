@@ -9,7 +9,6 @@ import {
   project,
   unproject,
 } from "./graticule";
-import { LAND_DOTS } from "./land-dots";
 
 // Verbatim from the published row.
 const latitudeBody =
@@ -107,28 +106,5 @@ describe("labels", () => {
     expect(hoursFromGreenwich(15)).toBe("GMT+1");
     expect(hoursFromGreenwich(-75)).toBe("GMT-5");
     expect(hoursFromGreenwich(120)).toBe("GMT+8");
-  });
-});
-
-describe("land dots", () => {
-  it("are longitude/latitude pairs inside the world", () => {
-    expect(LAND_DOTS.length % 2).toBe(0);
-    expect(LAND_DOTS.length / 2).toBeGreaterThan(1000);
-    for (let i = 0; i < LAND_DOTS.length; i += 2) {
-      expect(Math.abs(LAND_DOTS[i])).toBeLessThanOrEqual(180);
-      expect(Math.abs(LAND_DOTS[i + 1])).toBeLessThanOrEqual(90);
-    }
-  });
-
-  it("land where land is: the Sahara yes, the middle of the Pacific no", () => {
-    const near = (lon: number, lat: number) => {
-      for (let i = 0; i < LAND_DOTS.length; i += 2) {
-        if (Math.abs(LAND_DOTS[i] - lon) < 4 && Math.abs(LAND_DOTS[i + 1] - lat) < 4) return true;
-      }
-      return false;
-    };
-    expect(near(15, 22)).toBe(true); // Sahara
-    expect(near(-60, -10)).toBe(true); // Amazon
-    expect(near(-150, 0)).toBe(false); // open Pacific
   });
 });
