@@ -234,7 +234,13 @@ entries stay real links, hidden panels use the `hidden` attribute so they leave 
 tree and skip their images, and reading history follows what is on screen rather than what was
 fetched.
 
-**Five things left open for the client:**
+**Also 2026-08-28:** CH3's two flat globe pictures became **one globe you can turn** — an
+orthographic projection drawn on a canvas, with buttons to isolate parallels, meridians, or the
+five principal lines. Pointing at it reads the position and gives that meridian's hour, tying it to
+the time-zone explorer lower down the same topic. A topic can now carry both a leading and a
+trailing model, which is what that arrangement needs.
+
+**Six things left open for the client:**
 1. Whether the deck's own p20 Push-Pull figure should return as a unit-level figure now that the
    native table has replaced it.
 2. The Subarctic unit's old image was a low-resolution *map* of the Canadian subarctic, not a
@@ -248,7 +254,11 @@ fetched.
    continent areas the deck omits, and most of the ocean figures. All are tagged `added` with the
    source named. If any should instead be the lecturer's own numbers, say which and it is a
    one-file change.
-5. **The time-zone tool is the first non-deck *factual* data in the app.** External imagery was
+5. **The second Greenwich photo (CH3 p7) was not replaced.** Its unit reads the plaques in that
+   exact picture — Bogota, Quito, Kuala Lumpur, Singapore — and every HD alternative shows a
+   different stretch of the line, engraved with Rome, Istanbul and Beijing. Replacing it means
+   accepting that mismatch or rewording the unit; both are the lecturer's call.
+6. **The time-zone tool is the first non-deck *factual* data in the app.** External imagery was
    approved on 2026-08-26; city names and UTC offsets go a step further. They are labelled in the
    interface as reference data, not course content, and no unit body was written from them — but
    the owner should know it is there.

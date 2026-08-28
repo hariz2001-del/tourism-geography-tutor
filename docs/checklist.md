@@ -506,3 +506,31 @@ same for the oceans map, and put the climate topic's two maps in one tabbed wind
     the chapter would have marked all eight topics as read at once.
   - **A waste the trace surfaced:** the maps declared no `sizes`, so `next/image` assumed 100vw and
     served a 1920px file into a 620px column, about 1.2 MB of it. They now request 750px.
+
+## 2026-08-28 (third pass) — the Chapter 3 globe
+
+- [x] **The two flat pictures of a globe became one you can turn.** p3 rules a globe with
+  parallels, p4 with meridians, and between them they assert what neither can show: parallels stay
+  parallel and shrink toward the poles while meridians converge there. `globe-explorer.tsx` draws
+  an orthographic projection on a canvas and lets the learner drag it.
+  - **Buttons isolate one layer at a time** — Latitude, Longitude, Principal lines, All — which is
+    how the topic is taught and what the owner asked for.
+  - Pointing anywhere reads the position back, names the principal line if you are on one, and
+    gives that meridian's hour, which is the deck's own 15°-per-hour arithmetic and the same rule
+    the time-zone explorer at the foot of this topic runs on.
+  - **Deck versus added:** the five names and their order are parsed from the p3 body; the 15° rule
+    is p4's. The latitudes are *not* in the deck — it names the principal lines without numbering
+    them — so 66.5° and 23.5° are tagged as added.
+  - **Land had to be re-projectable**, so `scripts/build_land_dots.py` samples the base map into a
+    coarse point grid (a raster cannot be turned). First render bunched the dots into arcs near the
+    poles; the fix is in the generator — the longitude step widens by 1/cos(latitude) — not in the
+    drawing code.
+  - A topic can now carry both a leading and a trailing model, which this one needs: the globe
+    opens it, the time-zone explorer closes it.
+- [x] **The Greenwich clock photo is now high-resolution** (220px → 1600px, CC BY-SA 3.0, credited).
+- [ ] **The second Greenwich photo was deliberately left alone — the owner may want to rule on it.**
+  Its unit reads the plaques in that specific picture ("Bogota 74°05' W and Quito 78°35' W to the
+  west, Kuala Lumpur and Singapore 103° to the east"). Every high-resolution alternative on Commons
+  shows a different stretch of the line, with Rome, Istanbul and Beijing engraved instead. Swapping
+  it would leave the text describing something the image no longer shows. Replacing it means either
+  accepting that mismatch or having the lecturer reword the unit.
