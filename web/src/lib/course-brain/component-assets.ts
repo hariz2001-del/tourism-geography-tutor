@@ -37,4 +37,20 @@ export const worldBaseMap: ComponentAsset = {
   licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/",
 };
 
-export const componentAssets: ComponentAsset[] = [worldBaseMap, ...countryFlags];
+/**
+ * NASA's global elevation model, tinted and hillshaded by `scripts/build_relief_texture.py`.
+ *
+ * Same extent as the base map above, which is what lets the mountain-range map stencil it to a
+ * range drawn in degrees. The colours are a function of NASA's published elevations and nothing
+ * else; the file that ships is a rendering of that data, not a different map.
+ */
+export const reliefTexture: ComponentAsset = {
+  src: "/diagrams/world-hypsometric.webp",
+  width: 3840,
+  height: 1920,
+  creator: "Reto Stockli, NASA Earth Observatory, colourised for this app",
+  sourceUrl: "https://commons.wikimedia.org/wiki/File:Srtm_ramp2.world.21600x10800.jpg",
+  license: "Public domain",
+};
+
+export const componentAssets: ComponentAsset[] = [worldBaseMap, reliefTexture, ...countryFlags];

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ExpandableImage from "./image-lightbox";
+import MountainRangeExplorer from "./mountain-range-explorer";
 import BookmarkToggle from "./bookmark-toggle";
 import TimeZoneExplorer from "./time-zone-explorer";
 import ContinentExplorer from "./continent-explorer";
@@ -59,6 +60,8 @@ const TIME_ZONES_UNIT_ID = "a6943945-1c7c-4ea8-a5b2-2552428119bc";
 const LATITUDE_UNIT_ID = "ab312ce7-5f79-4740-a227-ac4c0e3bc6ef";  // p3, the principal parallels
 const LONGITUDE_UNIT_ID = "04c61a82-dd00-40f8-a954-3bce4182d47c"; // p4, the meridians
 const MID_LATITUDE_TABLE_UNIT_ID = "d18c0a11-7b3e-4c6f-9a52-8f1d4e2b7c30";
+const MOUNTAIN_RANGES_TOPIC_ID = "85c5385c-86ff-4ec1-930c-c94910db0ce8";
+const MOUNTAIN_RANGES_UNIT_ID = "c91a07a5-dd5b-4db2-9f5d-3d4e8b56d8ad";
 
 /**
  * A leading model replaces the whole topic: it is the first thing on the page and
@@ -78,6 +81,7 @@ const TRAILING_MODEL_UNIT_IDS: Record<string, readonly string[]> = {
   [LATITUDE_LONGITUDE_TOPIC_ID]: [TIME_ZONES_UNIT_ID],
   [SEVEN_CONTINENTS_TOPIC_ID]: SEVEN_CONTINENT_UNIT_IDS,
   [MAJOR_OCEANS_TOPIC_ID]: MAJOR_OCEAN_UNIT_IDS,
+  [MOUNTAIN_RANGES_TOPIC_ID]: [MOUNTAIN_RANGES_UNIT_ID],
 };
 
 /**
@@ -89,6 +93,7 @@ const MODELS_CLAIMING_THE_TOPIC_DIAGRAM: ReadonlySet<string> = new Set([
   MAJOR_OCEANS_TOPIC_ID,
   CLIMATE_CLASSIFICATION_TOPIC_ID,
   LATITUDE_LONGITUDE_TOPIC_ID,
+  MOUNTAIN_RANGES_TOPIC_ID,
 ]);
 
 export function modelClaimsTopicDiagram(topicId: string): boolean {
@@ -186,6 +191,12 @@ export default function TopicLearningModel({
     return <TimeZoneModel unit={timeZones} bookmarkedUnitIds={bookmarkedUnitIds} />;
   }
 
+  if (topicId === MOUNTAIN_RANGES_TOPIC_ID) {
+    const ranges = byId.get(MOUNTAIN_RANGES_UNIT_ID);
+    if (!ranges) return null;
+    return <MountainRangesModel unit={ranges} topicId={topicId} bookmarkedUnitIds={bookmarkedUnitIds} />;
+  }
+
   if (topicId === MIDDLE_LATITUDE_TOPIC_ID) {
     const table = byId.get(MID_LATITUDE_TABLE_UNIT_ID);
     if (!table) return null;
@@ -210,6 +221,63 @@ export default function TopicLearningModel({
   }
 
   return null;
+}
+
+function MountainRangesModel({
+  unit,
+  topicId,
+  bookmarkedUnitIds,
+}: {
+  unit: PublishedContentUnit;
+  topicId: string;
+  bookmarkedUnitIds?: Set<string>;
+}) {
+  const sourceDiagram = topicDiagrams[topicId];
+
+  return (
+    <section aria-labelledby="mountain-ranges-model" className="overflow-hidden rounded-card border border-graticule bg-surface">
+      <UnitAnchor unit={unit} bookmarkedUnitIds={bookmarkedUnitIds} className="p-5 sm:p-6">
+        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-meridian">Explore the map</p>
+        <h2 id="mountain-ranges-model" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">
+          {unit.title}
+        </h2>
+        <p className="mt-2 max-w-[68ch] whitespace-pre-wrap text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
+        <p className="mt-2 max-w-[68ch] text-[1rem]/[1.6] text-ink-muted">
+          The learning note names six ranges; the slide&apos;s map legend names twenty-four. All
+          twenty-four are here. Pick one, or point at the map, to see where it runs and what it
+          looks like on the ground.
+        </p>
+      </UnitAnchor>
+
+      <MountainRangeExplorer />
+
+      <p className="border-t border-graticule px-5 py-3 text-[0.8125rem]/[1.55] text-ink-muted sm:px-6">
+        Each range is drawn along its published extent, close enough to place it on a world map
+        and no finer. The topography inside it is NASA&apos;s elevation data, tinted and shaded;
+        the countries beside each name are the slide&apos;s own words, and where the slide places
+        a range in the wrong country the panel says so rather than correcting it silently.
+      </p>
+
+      {sourceDiagram ? (
+        <details className="border-t border-graticule px-5 py-3 sm:px-6">
+          <summary className="cursor-pointer font-mono text-[0.75rem] uppercase tracking-[0.1em] text-ink-muted hover:text-ink">
+            The slide&apos;s own map
+          </summary>
+          <figure className="mt-3 overflow-hidden rounded-card border border-graticule bg-white">
+            <ExpandableImage
+              image={{ src: sourceDiagram.src, alt: sourceDiagram.alt, width: 900, height: 520 }}
+              label={sourceDiagram.caption ?? sourceDiagram.alt}
+              padded
+              sizes="(min-width: 1024px) 720px, 100vw"
+            />
+            <figcaption className="border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem] text-ink-muted">
+              {sourceDiagram.caption} — {sourceDiagram.sourceFile}, p{sourceDiagram.pageOrSlide}
+            </figcaption>
+          </figure>
+        </details>
+      ) : null}
+    </section>
+  );
 }
 
 function PushPullModel({
