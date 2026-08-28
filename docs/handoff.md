@@ -14,7 +14,7 @@ first.
 
 ## Right now
 
-*(state of play last refreshed 2026-08-26, after the deploy described below)*
+*(state of play last refreshed 2026-08-28, after the deploy described below)*
 
 **Nothing is mid-flight. The working tree is clean, `main` is pushed, and everything written so
 far is live to learners.** A resuming session can pick any item from "Next step" without first
@@ -276,6 +276,53 @@ questions, which needs the service-role key and a separate pass.
 **Ask the client for a machine-readable DTM10333 syllabus.** It unblocks a coverage audit — the
 one check that would tell us whether the app covers what the course promises — and it would settle
 the learner reading-level assumption the review's Chapter 1 finding rests on.
+
+### Deployed 2026-08-28: figures you can interact with, and the last of the image gaps
+
+Four things the owner asked for, all live and verified against production.
+
+**Every figure opens full screen.** The dialog the topic diagrams already had moved into
+`web/src/components/materials/image-lightbox.tsx`, and now serves unit photographs, the "slide's
+own map/diagram" figures, and the table previews below. Click the picture inside the dialog to
+switch between fitting the screen and full size; Escape or the backdrop closes it. The
+interactive canvases (globe, time zones, region maps) are deliberately *not* wrapped — they
+answer to the pointer already.
+
+**Country flags in the Chapter 4 tables**, the way the Wikipedia tables the deck screenshotted
+do. Ten public-domain SVGs in `web/public/flags/`, declared in
+`web/src/lib/course-brain/flags.ts` and credited in `ATTRIBUTION.md` by the same generator as
+everything else. A column opts in with `country: true`; a cell may name two countries
+("Nepal/China") or none — Antarctica's highest point belongs to "no country", which stays as the
+slide has it, flagless. A test walks all five tables and fails if a country is ever named
+without a flag to print.
+
+**Hover previews on the place names.** 23 photographs in `web/public/place-previews/`, declared
+in `web/src/lib/course-brain/place-previews.ts`, shown when a reader hovers a mountain or a
+desert (`place: true` on the column). Three things worth knowing before touching it:
+
+- The card is `position: fixed`, not absolute. The table scrolls sideways inside its own
+  container and `overflow-x: auto` forces `overflow-y` to match, so anything absolute is clipped.
+- Only one card exists at a time, keyed by `useId()`. Hover alone would guarantee that; focus
+  does not, and a reader tabbing while the pointer rests elsewhere opened two. **This was found
+  by driving the live page, not by reading the code** — the test that meant to check keyboard
+  focus failed because two cards answered to it.
+- The bodies-of-water table has no previews on purpose. A photograph of open water does not tell
+  a reader which sea it is, and the location maps that would are drawn in five different styles.
+  If the owner wants them anyway, that is the decision to reverse.
+
+**Sixteen units that had no example image now have one** — CH4's two plateaus, hill, gulf, sea,
+lagoon, spring and glacier; CH2's tropical, dry and high-latitude overviews; CH1's four market
+types. Deliberately left bare, and worth re-deciding only with the owner:
+
+- **The mid-latitude overview.** All seven subtype cards below it already carry a photograph; an
+  eighth temperate scene would repeat them.
+- **The definitional cards** — "Working definition of geography", the three "tourism resource"
+  principles, and similar. A stock photograph there decorates rather than teaches.
+
+Every image was chosen off a **contact sheet**, and that step earned its keep again: the first
+pass returned a collage, a signboard, a watermarked satellite tile, a portrait of a man in front
+of a lake, and a concrete water tank. None of them show what the card is about. The rule from the
+Chapter 4 photo pass still holds — **fetch, then look, then wire**, never fetch-and-wire.
 
 ### How the visual layer works *(written 2026-08-26 — read before touching any image)*
 
