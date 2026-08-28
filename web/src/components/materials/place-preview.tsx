@@ -8,6 +8,15 @@ import { ImageLightbox } from "./image-lightbox";
 const CARD_WIDTH = 248;
 
 /**
+ * Only one preview card is ever on screen.
+ *
+ * Hover alone would guarantee that, but focus does not: a reader tabbing through the table
+ * while the pointer rests on another name would leave two cards floating at once. Whoever
+ * opens a card closes the one before it.
+ */
+let openCard: { id: string; close: () => void } | null = null;
+
+/**
  * A place named in a table, with its photograph a hover away.
  *
  * The card is positioned `fixed` rather than absolutely: the table scrolls sideways inside its
@@ -25,9 +34,16 @@ export default function PlacePreview({ value }: { value: string }) {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const cardId = useId();
 
+  const hide = useCallback(() => {
+    setAnchor(null);
+    if (openCard?.id === cardId) openCard = null;
+  }, [cardId]);
+
   const place = useCallback(() => {
     const element = buttonRef.current;
     if (!element) return;
+    if (openCard && openCard.id !== cardId) openCard.close();
+    openCard = { id: cardId, close: () => setAnchor(null) };
     const rect = element.getBoundingClientRect();
     const cardHeight = CARD_WIDTH * 0.75 + 86;
     const flip = rect.bottom + cardHeight > window.innerHeight && rect.top > cardHeight;
@@ -36,18 +52,25 @@ export default function PlacePreview({ value }: { value: string }) {
       top: flip ? rect.top - 8 : rect.bottom + 8,
       flip,
     });
-  }, []);
+  }, [cardId]);
 
   useEffect(() => {
     if (!anchor) return;
-    const hide = () => setAnchor(null);
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") hide();
+    }
     window.addEventListener("scroll", hide, true);
     window.addEventListener("resize", hide);
+    document.addEventListener("keydown", onKeyDown);
     return () => {
       window.removeEventListener("scroll", hide, true);
       window.removeEventListener("resize", hide);
+      document.removeEventListener("keydown", onKeyDown);
     };
-  }, [anchor]);
+  }, [anchor, hide]);
+
+  // A card must not outlive the row it belongs to.
+  useEffect(() => () => { if (openCard?.id === cardId) openCard = null; }, [cardId]);
 
   if (!preview) return <>{value}</>;
 
@@ -56,11 +79,11 @@ export default function PlacePreview({ value }: { value: string }) {
       <button
         aria-describedby={anchor ? cardId : undefined}
         className="cursor-zoom-in text-left underline decoration-dotted decoration-graticule underline-offset-4 hover:decoration-meridian focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
-        onBlur={() => setAnchor(null)}
+        onBlur={hide}
         onClick={() => setIsOpen(true)}
         onFocus={place}
         onMouseEnter={place}
-        onMouseLeave={() => setAnchor(null)}
+        onMouseLeave={hide}
         ref={buttonRef}
         type="button"
       >
