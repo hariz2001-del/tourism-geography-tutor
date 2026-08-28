@@ -126,7 +126,7 @@ function TopicContent({
         </div>
       </div>
       {hasLeadingModel ? (
-        <TopicLearningModel topicId={topic.id} units={units} bookmarkedUnitIds={bookmarkedUnitIds} />
+        <TopicLearningModel placement="leading" topicId={topic.id} units={units} bookmarkedUnitIds={bookmarkedUnitIds} />
       ) : diagram && !modelClaimsTopicDiagram(topic.id) ? <TopicDiagramFigure diagram={diagram} /> : null}
       {sections.length
         ? sections.map((section, i) => (
@@ -140,7 +140,7 @@ function TopicContent({
           ))
         : integratedUnitIds.size === 0 ? <p role="status" className="rounded-card border border-graticule bg-surface p-4 text-ink">This topic does not have any learning notes yet.</p> : null}
       {hasTrailingModel ? (
-        <TopicLearningModel topicId={topic.id} units={units} bookmarkedUnitIds={bookmarkedUnitIds} />
+        <TopicLearningModel placement="trailing" topicId={topic.id} units={units} bookmarkedUnitIds={bookmarkedUnitIds} />
       ) : null}
       {quiz ? <QuizCard question={quiz} /> : null}
     </>

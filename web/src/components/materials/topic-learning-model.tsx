@@ -4,6 +4,8 @@ import TimeZoneExplorer from "./time-zone-explorer";
 import ContinentExplorer from "./continent-explorer";
 import OceanExplorer from "./ocean-explorer";
 import ClimateMapTabs from "./climate-map-tabs";
+import GlobeExplorer from "./globe-explorer";
+import { principalNamesFrom } from "@/lib/course-brain/graticule";
 import { toContinents } from "@/lib/course-brain/continents";
 import { toOceans } from "@/lib/course-brain/oceans";
 import { topicDiagrams } from "@/lib/course-brain/diagrams";
@@ -53,6 +55,8 @@ const SEVEN_CONTINENT_UNIT_IDS = [
   "8c116a1f-28a3-4d2c-a4ad-4a71e6a0de78", // Australia
 ] as const;
 const TIME_ZONES_UNIT_ID = "a6943945-1c7c-4ea8-a5b2-2552428119bc";
+const LATITUDE_UNIT_ID = "ab312ce7-5f79-4740-a227-ac4c0e3bc6ef";  // p3, the principal parallels
+const LONGITUDE_UNIT_ID = "04c61a82-dd00-40f8-a954-3bce4182d47c"; // p4, the meridians
 const MID_LATITUDE_TABLE_UNIT_ID = "d18c0a11-7b3e-4c6f-9a52-8f1d4e2b7c30";
 
 /**
@@ -65,6 +69,7 @@ const LEADING_MODEL_UNIT_IDS: Record<string, readonly string[]> = {
   [PUSH_PULL_TOPIC_ID]: Object.values(PUSH_PULL_UNIT_IDS),
   [FORMS_OF_TOURISM_TOPIC_ID]: Object.values(FORMS_OF_TOURISM_UNIT_IDS),
   [CLIMATE_CLASSIFICATION_TOPIC_ID]: [CLIMATE_TYPES_UNIT_ID, CLIMATE_BANDS_UNIT_ID],
+  [LATITUDE_LONGITUDE_TOPIC_ID]: [LATITUDE_UNIT_ID, LONGITUDE_UNIT_ID],
 };
 
 const TRAILING_MODEL_UNIT_IDS: Record<string, readonly string[]> = {
@@ -82,6 +87,7 @@ const MODELS_CLAIMING_THE_TOPIC_DIAGRAM: ReadonlySet<string> = new Set([
   SEVEN_CONTINENTS_TOPIC_ID,
   MAJOR_OCEANS_TOPIC_ID,
   CLIMATE_CLASSIFICATION_TOPIC_ID,
+  LATITUDE_LONGITUDE_TOPIC_ID,
 ]);
 
 export function modelClaimsTopicDiagram(topicId: string): boolean {
@@ -121,10 +127,13 @@ export default function TopicLearningModel({
   topicId,
   units,
   bookmarkedUnitIds,
+  placement = "leading",
 }: {
   topicId: string;
   units: PublishedContentUnit[];
   bookmarkedUnitIds?: Set<string>;
+  /** A topic may have both a leading and a trailing model; this says which one to render. */
+  placement?: ModelPlacement;
 }) {
   const byId = new Map(units.map((unit) => [unit.id, unit]));
 
@@ -165,6 +174,12 @@ export default function TopicLearningModel({
   }
 
   if (topicId === LATITUDE_LONGITUDE_TOPIC_ID) {
+    if (placement === "leading") {
+      const latitude = byId.get(LATITUDE_UNIT_ID);
+      const longitude = byId.get(LONGITUDE_UNIT_ID);
+      if (!latitude || !longitude) return null;
+      return <GlobeModel latitude={latitude} longitude={longitude} topicId={topicId} bookmarkedUnitIds={bookmarkedUnitIds} />;
+    }
     const timeZones = byId.get(TIME_ZONES_UNIT_ID);
     if (!timeZones) return null;
     return <TimeZoneModel unit={timeZones} bookmarkedUnitIds={bookmarkedUnitIds} />;
@@ -533,6 +548,70 @@ function SevenContinentsModel({
 
       <p className="border-t border-graticule bg-chart px-5 py-2.5 font-mono text-[0.75rem]/[1.5] text-ink-muted sm:px-6">
         Interactive study tool built from the published learning notes · chapter-2.pdf, pages/slides {pages[0]}–{pages.at(-1)} · base map CC0
+      </p>
+    </section>
+  );
+}
+
+/**
+ * The globe, in place of the two flat pictures of one. Both units keep their own words above
+ * it — the parallels and their five principal lines, and the meridians with the deck's
+ * 15-degrees-an-hour arithmetic — because the globe illustrates them rather than replacing
+ * them.
+ */
+function GlobeModel({
+  latitude,
+  longitude,
+  topicId,
+  bookmarkedUnitIds,
+}: {
+  latitude: PublishedContentUnit;
+  longitude: PublishedContentUnit;
+  topicId: string;
+  bookmarkedUnitIds?: Set<string>;
+}) {
+  const sourceDiagram = topicDiagrams[topicId];
+
+  return (
+    <section aria-labelledby="globe-model" className="overflow-hidden rounded-card border border-graticule bg-surface">
+      <div className="p-5 sm:p-6">
+        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-meridian">Turn the globe</p>
+        <h2 id="globe-model" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">
+          Latitude and longitude
+        </h2>
+      </div>
+
+      <UnitAnchor unit={latitude} bookmarkedUnitIds={bookmarkedUnitIds} className="border-t border-graticule px-5 pb-4 sm:px-6">
+        <h3 className="font-display text-[1.125rem]/[1.3] font-semibold text-ink-strong">{latitude.title}</h3>
+        <p className="mt-2 max-w-[68ch] whitespace-pre-wrap text-[1rem]/[1.65] text-ink">{latitude.body}</p>
+      </UnitAnchor>
+
+      <UnitAnchor unit={longitude} bookmarkedUnitIds={bookmarkedUnitIds} className="px-5 pb-4 sm:px-6">
+        <h3 className="font-display text-[1.125rem]/[1.3] font-semibold text-ink-strong">{longitude.title}</h3>
+        <p className="mt-2 max-w-[68ch] whitespace-pre-wrap text-[1rem]/[1.65] text-ink">{longitude.body}</p>
+      </UnitAnchor>
+
+      <GlobeExplorer principalNames={principalNamesFrom(latitude.body)} />
+
+      {sourceDiagram ? (
+        <details className="border-t border-graticule px-5 py-3 sm:px-6">
+          <summary className="cursor-pointer font-mono text-[0.75rem] uppercase tracking-[0.1em] text-ink-muted hover:text-ink">
+            The slide&apos;s own diagram
+          </summary>
+          <figure className="mt-3 overflow-hidden rounded-card border border-graticule bg-white">
+            <Image alt={sourceDiagram.alt} className="h-auto w-full" height={520} sizes="(min-width: 1024px) 720px, 100vw" src={sourceDiagram.src} width={900} />
+            {sourceDiagram.caption ? (
+              <figcaption className="border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem] text-ink-muted">
+                {sourceDiagram.caption} — {sourceDiagram.sourceFile}, p{sourceDiagram.pageOrSlide}
+              </figcaption>
+            ) : null}
+          </figure>
+        </details>
+      ) : null}
+
+      <p className="border-t border-graticule bg-chart px-5 py-2.5 font-mono text-[0.75rem]/[1.5] text-ink-muted sm:px-6">
+        Interactive study tool built from the published learning notes · {latitude.citation.sourceFile}, pages/slides{" "}
+        {latitude.citation.pageOrSlide}–{longitude.citation.pageOrSlide}
       </p>
     </section>
   );
