@@ -1,4 +1,6 @@
-import type { UnitTable } from "@/lib/course-brain/unit-tables";
+import Image from "next/image";
+import { flagFor, splitCountries } from "@/lib/course-brain/flags";
+import type { TableColumn, UnitTable } from "@/lib/course-brain/unit-tables";
 
 /**
  * A table the deck pasted in as a screenshot, rebuilt as a table.
@@ -6,6 +8,46 @@ import type { UnitTable } from "@/lib/course-brain/unit-tables";
  * Wide content scrolls inside its own container rather than pushing the page sideways, and
  * the ranked column is a row header so a screen reader announces which row it is reading.
  */
+/**
+ * A country cell, printed with its flag the way the Wikipedia table the slide screenshotted does.
+ *
+ * The cell may name more than one country ("Nepal/China"), and may name none at all — the slide
+ * gives Antarctica's highest point as belonging to "no country", which renders as just that.
+ * The flag is decorative: the country's name is already right beside it, so it is hidden from
+ * screen readers rather than read out twice.
+ */
+function CountryCell({ value }: { value: string }) {
+  const parts = splitCountries(value).map((country) => ({ country, flag: flagFor(country) }));
+  if (!parts.some((part) => part.flag)) return <>{value}</>;
+
+  return (
+    <span className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
+      {parts.map((part, index) => (
+        <span className="inline-flex items-center gap-1.5 whitespace-nowrap" key={part.country}>
+          {index > 0 ? <span className="text-ink-muted">/</span> : null}
+          {part.flag ? (
+            <Image
+              aria-hidden="true"
+              alt=""
+              className="h-3 w-auto shrink-0 rounded-[1px] ring-1 ring-graticule"
+              height={part.flag.height}
+              src={part.flag.src}
+              unoptimized
+              width={part.flag.width}
+            />
+          ) : null}
+          {part.country}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function Cell({ column, value }: { column: TableColumn; value: string }) {
+  if (column.country && value) return <CountryCell value={value} />;
+  return <>{value}</>;
+}
+
 export default function UnitTableFigure({ table, caption }: { table: UnitTable; caption: string }) {
   const [first, ...rest] = table.columns;
 
@@ -47,7 +89,7 @@ export default function UnitTableFigure({ table, caption }: { table: UnitTable; 
                     }`}
                     key={column.key}
                   >
-                    {row[column.key]}
+                    <Cell column={column} value={row[column.key]} />
                   </td>
                 ))}
               </tr>

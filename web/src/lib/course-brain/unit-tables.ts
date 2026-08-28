@@ -16,7 +16,15 @@ import type { PublishedContentUnit } from "./types";
  * Every parser fails closed: an unparseable body renders the prose and the original figure
  * instead of a half-built table.
  */
-export type TableColumn = { key: string; label: string; numeric?: boolean };
+export type TableColumn = {
+  key: string;
+  label: string;
+  numeric?: boolean;
+  /** Cells hold country names, which the table prints with the country's flag. */
+  country?: boolean;
+  /** Cells name a place that has a photograph to preview. */
+  place?: boolean;
+};
 export type TableRow = Record<string, string>;
 
 export type UnitTable = {
@@ -62,7 +70,7 @@ function highestMountains(body: string): UnitTable | null {
   }
   if (rows.length < 2) return null;
   return {
-    columns: [RANK, { key: "mountain", label: "Mountain" }, { key: "metres", label: "Height (m)", numeric: true }, { key: "feet", label: "Height (ft)", numeric: true }, { key: "range", label: "Range" }],
+    columns: [RANK, { key: "mountain", label: "Mountain", place: true }, { key: "metres", label: "Height (m)", numeric: true }, { key: "feet", label: "Height (ft)", numeric: true }, { key: "range", label: "Range" }],
     rows,
     source: { label: "List of highest mountains on Earth", url: "https://en.wikipedia.org/wiki/List_of_highest_mountains_on_Earth" },
   };
@@ -90,11 +98,11 @@ function islandPeaks(body: string): UnitTable | null {
     columns: [
       RANK,
       { key: "island", label: "Island" },
-      { key: "peak", label: "Highest point" },
+      { key: "peak", label: "Highest point", place: true },
       { key: "metres", label: "Height (m)", numeric: true },
       { key: "feet", label: "Height (ft)", numeric: true },
-      { key: "country", label: "Country holding the peak" },
-      { key: "others", label: "Others on the island" },
+      { key: "country", label: "Country holding the peak", country: true },
+      { key: "others", label: "Others on the island", country: true },
     ],
     rows,
     source: { label: "List of islands by highest point", url: "https://en.wikipedia.org/wiki/List_of_islands_by_highest_point" },
@@ -129,10 +137,10 @@ function continentalLandmasses(body: string): UnitTable | null {
     columns: [
       RANK,
       { key: "landmass", label: "Continental land mass" },
-      { key: "point", label: "Highest point" },
+      { key: "point", label: "Highest point", place: true },
       { key: "metres", label: "Height (m)", numeric: true },
       { key: "feet", label: "Height (ft)", numeric: true },
-      { key: "country", label: "Country" },
+      { key: "country", label: "Country", country: true },
     ],
     rows,
     note: "Heights in feet come from the slide's own table; the learning note gives only metres.",
@@ -174,7 +182,7 @@ function largestDeserts(body: string): UnitTable | null {
   return {
     columns: [
       RANK,
-      { key: "desert", label: "Desert" },
+      { key: "desert", label: "Desert", place: true },
       { key: "region", label: "Region" },
       { key: "area", label: "Area (km²)", numeric: true },
       { key: "squareMiles", label: "Area (mi²)", numeric: true },
@@ -214,7 +222,7 @@ function largestBodiesOfWater(body: string): UnitTable | null {
     .filter(Boolean);
   if (names.length < 2 || names.some((name) => !BODIES_OF_WATER_AREAS[name])) return null;
   return {
-    columns: [RANK, { key: "water", label: "Body of water" }, { key: "area", label: "Square miles (square kilometres)", numeric: true }],
+    columns: [RANK, { key: "water", label: "Body of water", place: true }, { key: "area", label: "Square miles (square kilometres)", numeric: true }],
     rows: names.map((name, index) => ({ rank: String(index + 1), water: name, area: BODIES_OF_WATER_AREAS[name] })),
     // No source link here on purpose: unlike the other four, this figure carries no links or
     // Wikipedia furniture, and its numbers match no current article, so nothing can be claimed.

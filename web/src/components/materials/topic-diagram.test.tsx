@@ -21,8 +21,8 @@ describe("TopicDiagramFigure", () => {
   it("expands into a full-screen dialog when the thumbnail is clicked, and closes on Escape", () => {
     render(<TopicDiagramFigure diagram={diagram} />);
 
-    fireEvent.click(screen.getByRole("button", { name: /expand diagram/i }));
-    expect(screen.getByRole("dialog", { name: diagram.caption })).toBeVisible();
+    fireEvent.click(screen.getByRole("button", { name: /expand:/i }));
+    expect(screen.getByRole("dialog", { name: /Example Diagram/ })).toBeVisible();
 
     fireEvent.keyDown(document, { key: "Escape" });
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
@@ -30,7 +30,7 @@ describe("TopicDiagramFigure", () => {
 
   it("toggles zoom when the expanded image is clicked", () => {
     render(<TopicDiagramFigure diagram={diagram} />);
-    fireEvent.click(screen.getByRole("button", { name: /expand diagram/i }));
+    fireEvent.click(screen.getByRole("button", { name: /expand:/i }));
 
     const zoomButton = screen.getByRole("button", { name: "Zoom in" });
     fireEvent.click(zoomButton);

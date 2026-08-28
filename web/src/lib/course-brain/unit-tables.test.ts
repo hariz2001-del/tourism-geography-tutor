@@ -1,4 +1,7 @@
 import { describe, expect, it } from "vitest";
+import { existsSync } from "node:fs";
+import path from "node:path";
+import { countryFlags, flagFor, splitCountries } from "./flags";
 import { TABLE_UNIT_IDS, toNumber, unitTableFor } from "./unit-tables";
 import type { PublishedContentUnit } from "./types";
 
@@ -130,5 +133,41 @@ describe("tables rebuilt from their unit bodies", () => {
     expect(unitTableFor(unit(mountains.id, mountains.title, "The six highest mountains are all in Asia."))).toBeNull();
     expect(unitTableFor(unit(water.id, water.title, "The ten largest bodies of water are listed on the slide."))).toBeNull();
     expect(unitTableFor(unit("not-a-table-unit", "Something else", "Any text at all."))).toBeNull();
+  });
+});
+
+describe("the flags printed beside a country", () => {
+  const tables = [mountains, islands, landmasses, deserts, water].map((row) => unitTableFor(row)!);
+
+  it("covers every country the tables actually name", () => {
+    const named = new Set<string>();
+    for (const table of tables) {
+      for (const column of table.columns.filter((candidate) => candidate.country)) {
+        for (const row of table.rows) {
+          for (const country of splitCountries(row[column.key])) named.add(country);
+        }
+      }
+    }
+
+    // Antarctica's highest point belongs to no one, which the slide says and the table keeps.
+    named.delete("no country");
+    expect(named.size).toBeGreaterThan(0);
+    for (const country of named) {
+      expect(flagFor(country), `no flag for ${country}`).not.toBeNull();
+    }
+  });
+
+  it("ships every flag file it declares, and credits it", () => {
+    for (const flag of countryFlags) {
+      expect(existsSync(path.join(process.cwd(), "public", flag.src))).toBe(true);
+      expect(flag.creator.length).toBeGreaterThan(0);
+      expect(flag.sourceUrl).toContain("commons.wikimedia.org");
+    }
+  });
+
+  it("splits a cell that names more than one country", () => {
+    expect(splitCountries("Nepal/China")).toEqual(["Nepal", "China"]);
+    expect(splitCountries("Brunei/Indonesia")).toEqual(["Brunei", "Indonesia"]);
+    expect(splitCountries("Australia")).toEqual(["Australia"]);
   });
 });

@@ -51,3 +51,22 @@ Declared in `src/lib/course-brain/component-assets.ts` rather than bound to a co
 | Local asset | Creator | Source | Licence |
 | --- | --- | --- | --- |
 | `/diagrams/ch3-world-basemap.webp` | פרוגנתודון | [Blankmap](https://commons.wikimedia.org/wiki/File:Blankmap.svg) | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) |
+
+
+## National flags used in the Chapter 4 tables
+
+Declared in `src/lib/course-brain/flags.ts`. All are in the public domain; the creator each
+Commons file page declares is recorded anyway, because the credit follows the file.
+
+| Local asset | Creator | Source | Licence |
+| --- | --- | --- | --- |
+| `/flags/argentina.svg` | Manuel Belgrano | [Flag of Argentina](https://commons.wikimedia.org/wiki/File:Flag_of_Argentina.svg) | Public domain |
+| `/flags/australia.svg` | Original: Ivor Evans, Leslie John Hawkins, Egbert John Nuttall, Annie Dorrington and William Stevens Vector: Ian Fieggen | [Flag of Australia](https://commons.wikimedia.org/wiki/File:Flag_of_Australia.svg) | Public domain |
+| `/flags/brunei.svg` | Nightstallion | [Flag of Brunei](https://commons.wikimedia.org/wiki/File:Flag_of_Brunei.svg) | Public domain |
+| `/flags/china.svg` | Zeng Liansong | [Flag of the People's Republic of China](https://commons.wikimedia.org/wiki/File:Flag_of_the_People%27s_Republic_of_China.svg) | Public domain |
+| `/flags/indonesia.svg` | Jayakatwang | [Flag of Indonesia](https://commons.wikimedia.org/wiki/File:Flag_of_Indonesia.svg) | Public domain |
+| `/flags/malaysia.svg` | MapGrid (old version SKopp, Zscout370 and Ranking Update) | [Flag of Malaysia](https://commons.wikimedia.org/wiki/File:Flag_of_Malaysia.svg) | Public domain |
+| `/flags/nepal.svg` | Drawn by Pumbaa80, Achim1999 | [Flag of Nepal](https://commons.wikimedia.org/wiki/File:Flag_of_Nepal.svg) | Public domain |
+| `/flags/papua-new-guinea.svg` | User:Nightstallion | [Flag of Papua New Guinea](https://commons.wikimedia.org/wiki/File:Flag_of_Papua_New_Guinea.svg) | Public domain |
+| `/flags/taiwan.svg` | Sun Yat-sen | [Flag of the Republic of China](https://commons.wikimedia.org/wiki/File:Flag_of_the_Republic_of_China.svg) | Public domain |
+| `/flags/united-states.svg` | Uploaded by Dbenbenn; edited by users such as Zscout370, Jacobolus, Indolences, and Technion. | [Flag of the United States](https://commons.wikimedia.org/wiki/File:Flag_of_the_United_States.svg) | Public domain |

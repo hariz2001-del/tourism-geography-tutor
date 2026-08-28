@@ -7,6 +7,8 @@
  * `scripts/build_image_attribution.py` reads this file so they appear in ATTRIBUTION.md
  * alongside the rest.
  */
+import { countryFlags } from "./flags";
+
 export type ComponentAsset = {
   src: string;
   width: number;
@@ -35,4 +37,4 @@ export const worldBaseMap: ComponentAsset = {
   licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/",
 };
 
-export const componentAssets: ComponentAsset[] = [worldBaseMap];
+export const componentAssets: ComponentAsset[] = [worldBaseMap, ...countryFlags];

@@ -16,6 +16,7 @@ import urllib.parse
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "web/src/lib/course-brain/content-images.ts"
 COMPONENT_SOURCE = ROOT / "web/src/lib/course-brain/component-assets.ts"
+FLAG_SOURCE = ROOT / "web/src/lib/course-brain/flags.ts"
 TARGET = ROOT / "web/public/content-images/ATTRIBUTION.md"
 
 HEADER = """# Openly licensed supporting images
@@ -36,6 +37,17 @@ COMPONENT_HEADER = """
 ## Assets belonging to interactive components
 
 Declared in `src/lib/course-brain/component-assets.ts` rather than bound to a content unit.
+
+| Local asset | Creator | Source | Licence |
+| --- | --- | --- | --- |
+"""
+
+FLAG_HEADER = """
+
+## National flags used in the Chapter 4 tables
+
+Declared in `src/lib/course-brain/flags.ts`. All are in the public domain; the creator each
+Commons file page declares is recorded anyway, because the credit follows the file.
 
 | Local asset | Creator | Source | Licence |
 | --- | --- | --- | --- |
@@ -75,11 +87,26 @@ def main():
         cell = f"[{licence.group(1)}]({licence_url.group(1)})" if licence_url else licence.group(1)
         component_rows.append(f"| `{src.group(1)}` | {creator.group(1)} | [{name}]({url.group(1)}) | {cell} |")
 
+    # The flags are one Record of many entries rather than one object per assignment, so
+    # they are read entry by entry rather than by the block regex above.
+    flag_rows = []
+    for entry in re.findall(r'^  "[^"]+": \{\n(.*?)^  \},$', FLAG_SOURCE.read_text(encoding="utf-8"), re.S | re.M):
+        src = re.search(r'src: "([^"]+)"', entry)
+        creator = re.search(r'creator: "([^"]+)"', entry)
+        url = re.search(r'sourceUrl: "([^"]+)"', entry)
+        licence = re.search(r'license: "([^"]+)"', entry)
+        if not (src and creator and url and licence):
+            continue
+        name = urllib.parse.unquote(url.group(1).rsplit("File:", 1)[-1]).rsplit(".", 1)[0].replace("_", " ")
+        flag_rows.append(f"| `{src.group(1)}` | {creator.group(1)} | [{name}]({url.group(1)}) | {licence.group(1)} |")
+
     body = HEADER + "\n".join(rows) + "\n"
     if component_rows:
         body += COMPONENT_HEADER + "\n".join(sorted(component_rows)) + "\n"
+    if flag_rows:
+        body += FLAG_HEADER + "\n".join(sorted(flag_rows)) + "\n"
     TARGET.write_text(body, encoding="utf-8")
-    print(f"{len(rows)} unit images + {len(component_rows)} component assets written to {TARGET.relative_to(ROOT)}")
+    print(f"{len(rows)} unit images + {len(component_rows)} component assets + {len(flag_rows)} flags written to {TARGET.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":
