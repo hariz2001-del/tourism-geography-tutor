@@ -571,5 +571,19 @@ same for the oceans map, and put the climate topic's two maps in one tabbed wind
   engraved city longitudes are legible now. The caption names the cities actually in frame, because
   the learning note cites a different set from the same plaque — both describe the same monument,
   and the caption stops a learner hunting the picture for names engraved further along it.
-- [ ] **In progress: the 14 low-resolution Chapter 4 photographs** (295–550px). Maps and mind maps
-  are deliberately out of scope for this pass, per the owner.
+- [x] **Thirteen low-resolution Chapter 4 photographs replaced** (295–550px → 1536–1600px), openly
+  licensed and credited. Maps and mind maps deliberately untouched, per the owner.
+  - **The review step earned its keep.** Fetching the first plausible candidate per slot returned a
+    *nautical chart* for "atoll", a tidal mudflat for "cays" and a *map of South Africa* for
+    "plateau". All three were caught on a contact sheet before being wired in, and re-sourced:
+    Atafu atoll from the ISS, Michaelmas Cay on the Great Barrier Reef, and flat-topped mesas over
+    the Namibian plain. **Never wire a sourced image in unseen.**
+  - **One replacement was reverted after reading its unit.** "Mount Kinabalu mountain tourism" does
+    not describe a mountain — it describes the deck's own photographic record of the climb, "groups
+    ascending bare granite slopes with the aid of fixed ropes, climbers gathered at the summit". A
+    clean summit photograph would have left the sentence describing something the picture no longer
+    showed, so the slide's own image stays. The same rule kept the Greenwich meridian photo until
+    an equivalent turned up.
+  - Worth knowing for the next pass: a unit whose body describes *the picture* cannot have its
+    picture swapped. Three exist so far — Kinabalu p14, the Greenwich meridian p7, and the CH4 p2
+    nature-tourists photo is worth checking before anyone touches it.
