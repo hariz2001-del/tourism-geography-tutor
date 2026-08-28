@@ -371,6 +371,39 @@ and its caption says exactly that rather than passing itself off as a photograph
 ("WHAT IS HALAL TOURISM?") carrying another company's logo, at 800px. Replaced with the Sultan
 Omar Ali Saifuddien Mosque, Bandar Seri Begawan.
 
+### Deployed 2026-08-28 (third pass): the attraction wheel as an index, and a faster chapter load
+
+**The Chapter 4 attraction wheel is now the chapter's index.** `attraction-wheel.tsx`, data in
+`lib/course-brain/attraction-categories.ts`. The seven categories are parsed out of the unit
+body (fails closed to the deck's figure); which cards belong under which heading is the
+editorial part and lives in one table with its reasoning. Choosing a card jumps to it wherever
+in the chapter it lives, via `useGoToUnit` in `chapter-topics.tsx` — which switches the panel,
+waits two frames for React to paint, then sets the hash with `replaceState` and dispatches
+`hashchange` by hand. Assigning `location.hash` instead would push a second history entry and
+make the back button need two presses to undo one click.
+
+Two gaps the wheel exposes, flagged not filled: **the slide's headings name valleys and
+beaches, and Chapter 4 teaches neither.**
+
+**Chapter loads got faster.** Three things, all in that one commit:
+
+- `getProfile` is deduplicated per request with React's `cache`. The layout and the page both
+  asked who was signed in, and each ask is two round trips — every page was paying for four.
+- The chapter's shared content (chapters, topics, units, quizzes — about ten round trips) is
+  cached across requests under the `course-content` tag. **Every one of those queries runs as
+  the anonymous role**, so the answer is identical for every visitor; there was never a reason
+  to ask again. The lecturer's approve action clears the tag with `updateTag` (Next 16 wants
+  `updateTag` inside a Server Action; `revalidateTag` now takes a second argument).
+- Quiz options are re-shuffled per request *outside* the cache. A cached shuffle would hand
+  every learner the same running order until the entry expired.
+
+Measured on production, in-browser: TTFB **51–61 ms** and DOMContentLoaded **~505–554 ms**,
+against 1.7–3.1 s total before. The first hit after a deploy or an expiry still pays full price.
+
+**The loading screen said "Loading Chapter 1 materials…" whichever chapter you opened.** A
+route-level `loading.tsx` renders before the params resolve, so it cannot know which chapter is
+coming; it is now a skeleton in the page's own grid instead of a wrong sentence.
+
 ### How the visual layer works *(written 2026-08-26 — read before touching any image)*
 
 Three separate mechanisms decide what a learner sees above and around the prose. Confusing them
