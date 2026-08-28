@@ -222,8 +222,11 @@ function largestBodiesOfWater(body: string): UnitTable | null {
     .filter(Boolean);
   if (names.length < 2 || names.some((name) => !BODIES_OF_WATER_AREAS[name])) return null;
   return {
-    columns: [RANK, { key: "water", label: "Body of water", place: true }, { key: "area", label: "Square miles (square kilometres)", numeric: true }],
+    columns: [RANK, { key: "water", label: "Body of water" }, { key: "area", label: "Square miles (square kilometres)", numeric: true }],
     rows: names.map((name, index) => ({ rank: String(index + 1), water: name, area: BODIES_OF_WATER_AREAS[name] })),
+    // No hover previews on this column either: a photograph of open water tells a reader
+    // nothing about *which* water it is, and the location maps that would are drawn in five
+    // different styles. A mountain or a desert looks like itself; a sea does not.
     // No source link here on purpose: unlike the other four, this figure carries no links or
     // Wikipedia furniture, and its numbers match no current article, so nothing can be claimed.
     note: "The learning note gives the first and last areas; the eight between them are read from the slide's own table.",

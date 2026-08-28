@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { countryFlags, flagFor, splitCountries } from "./flags";
+import { placePhotos, previewFor } from "./place-previews";
 import { TABLE_UNIT_IDS, toNumber, unitTableFor } from "./unit-tables";
 import type { PublishedContentUnit } from "./types";
 
@@ -169,5 +170,42 @@ describe("the flags printed beside a country", () => {
     expect(splitCountries("Nepal/China")).toEqual(["Nepal", "China"]);
     expect(splitCountries("Brunei/Indonesia")).toEqual(["Brunei", "Indonesia"]);
     expect(splitCountries("Australia")).toEqual(["Australia"]);
+  });
+});
+
+describe("the photograph behind a place named in a table", () => {
+  const tables = [mountains, islands, landmasses, deserts, water].map((row) => unitTableFor(row)!);
+
+  it("covers every place the tables offer a preview for", () => {
+    const named: string[] = [];
+    for (const table of tables) {
+      for (const column of table.columns.filter((candidate) => candidate.place)) {
+        for (const row of table.rows) named.push(row[column.key]);
+      }
+    }
+
+    expect(named.length).toBe(24);
+    for (const place of named) {
+      expect(previewFor(place), `no photograph for ${place}`).not.toBeNull();
+    }
+  });
+
+  it("looks past the other names a mountain goes by", () => {
+    // The deck gives Everest three names and K2 three; the first is the one it uses elsewhere.
+    expect(previewFor("Mount Everest / Sagarmatha / Chomolungma")?.src).toBe("/place-previews/mount-everest.webp");
+    expect(previewFor("K2 / Qogir / Godwin Austen")?.src).toBe("/place-previews/k2.webp");
+    expect(previewFor("Bay of Bengal")).toBeNull();
+  });
+
+  it("ships every photograph it declares, and credits it", () => {
+    for (const photo of placePhotos) {
+      expect(existsSync(path.join(process.cwd(), "public", photo.src))).toBe(true);
+      expect(photo.creator.length).toBeGreaterThan(0);
+      expect(photo.sourceUrl).toContain("commons.wikimedia.org");
+      // A Creative Commons licence has a deed to link to; a public-domain mark does not.
+      if (photo.license.startsWith("CC ") || photo.license.startsWith("CC-")) {
+        expect(photo.licenseUrl, `${photo.caption} has no licence deed`).toBeTruthy();
+      }
+    }
   });
 });

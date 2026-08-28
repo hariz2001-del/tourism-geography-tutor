@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { flagFor, splitCountries } from "@/lib/course-brain/flags";
+import PlacePreview from "./place-preview";
 import type { TableColumn, UnitTable } from "@/lib/course-brain/unit-tables";
 
 /**
@@ -45,6 +46,7 @@ function CountryCell({ value }: { value: string }) {
 
 function Cell({ column, value }: { column: TableColumn; value: string }) {
   if (column.country && value) return <CountryCell value={value} />;
+  if (column.place && value) return <PlacePreview value={value} />;
   return <>{value}</>;
 }
 
