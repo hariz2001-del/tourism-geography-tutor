@@ -324,6 +324,53 @@ pass returned a collage, a signboard, a watermarked satellite tile, a portrait o
 of a lake, and a concrete water tank. None of them show what the card is about. The rule from the
 Chapter 4 photo pass still holds — **fetch, then look, then wire**, never fetch-and-wire.
 
+### Deployed 2026-08-28 (second pass): the mountain-range map, and a photograph for halal tourism
+
+**The Chapter 4 mountain-range map is now interactive**, in
+`web/src/components/materials/mountain-range-explorer.tsx` with its close-up in
+`range-close-up.tsx` and its data in `lib/course-brain/mountain-ranges.ts`.
+
+The point worth carrying forward: **the deck's raster names twenty-four ranges; the unit's
+learning note names six.** The other eighteen existed only as coloured squares in a legend. All
+twenty-four are now selectable, grouped under the slide's own six regional headings.
+
+How it draws, so nobody has to reverse-engineer it:
+
+- Each range is a **spine** (the line it follows) plus a width in degrees — not a polygon. The
+  map strokes that line, and hit-testing uses `isPointInStroke` on the same `Path2D`, so what
+  the pointer finds and what the eye sees cannot drift apart.
+- The topography is NASA's SRTM elevation model, colourised by `scripts/build_relief_texture.py`
+  from `data/relief-source/srtm-ramp2-grey.webp`. **The hypsometric stops are keyed to metres,
+  not to raw grey values** — keyed to grey, nearly every range on Earth fell in the bottom third
+  of the scale and drew flat green.
+- On the world map the relief is stencilled to the range with `destination-in` compositing.
+  The ring is stroked **before** the stencil; stroked after, it covers the relief entirely.
+- `reliefTexture.width/height` in `component-assets.ts` is the coordinate space the close-up
+  crops from. It must match the file on disk — when the file went from 2560 to 3840 wide and
+  the record did not, every close-up silently framed the wrong place.
+
+**Source fidelity, applied to a figure rather than to prose.** The legend is transcribed exactly
+— "Crystal Mountians", "Columbia" for Colombia, Tibet and Kashmir listed among countries — and
+where the slide's geography is wrong the range is drawn **where it actually is** with the
+slide's claim flagged beside it. Five entries carry a flag: the Caucasus placed in Ukraine, the
+Mitumba in Zambia, the Taurus filed under Europe, and the Tian Shan listed twice — once under
+Europe as the "Thian Mountains" in Eastern Europe and once under Asia. Both duplicate entries
+are kept and both point at the real range. Drawing a range where the slide wrongly puts it would
+make the map assert something untrue about the world; relabelling it silently would hide a
+ruling that belongs to the owner.
+
+**The map used to appear twice** on that topic — once as the topic diagram and once as the
+unit's own figure. The model now claims the topic diagram and consumes the unit, so it appears
+once, with the deck's original one click away under "The slide's own map".
+
+One range has no photograph: **no openly licensed picture of the Mitumba Mountains exists on
+Commons.** An 1881 engraving from Verney Lovett Cameron's account of crossing Africa stands in,
+and its caption says exactly that rather than passing itself off as a photograph.
+
+**Halal tourism (CH1) had no photograph either** — what sat there was a marketing title card
+("WHAT IS HALAL TOURISM?") carrying another company's logo, at 800px. Replaced with the Sultan
+Omar Ali Saifuddien Mosque, Bandar Seri Begawan.
+
 ### How the visual layer works *(written 2026-08-26 — read before touching any image)*
 
 Three separate mechanisms decide what a learner sees above and around the prose. Confusing them
