@@ -102,6 +102,7 @@ export default function PlacePreview({ value }: { value: string }) {
           image={{ src: preview.src, alt: preview.alt, width: preview.width, height: preview.height }}
           label={`${preview.caption} — photo: ${preview.creator}, ${preview.license}`}
           onClose={() => setIsOpen(false)}
+          padded={false}
         />
       ) : null}
     </>

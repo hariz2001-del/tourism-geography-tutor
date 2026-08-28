@@ -24,7 +24,7 @@ function CountryCell({ value }: { value: string }) {
   return (
     <span className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
       {parts.map((part, index) => (
-        <span className="inline-flex items-center gap-1.5 whitespace-nowrap" key={part.country}>
+        <span className="inline-flex items-baseline gap-1.5" key={part.country}>
           {index > 0 ? <span className="text-ink-muted">/</span> : null}
           {part.flag ? (
             <Image
