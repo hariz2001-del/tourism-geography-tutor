@@ -58,6 +58,8 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
   const bookmarkedUnitIds = isStudent ? await listBookmarkedUnitIds(profile.id) : new Set<string>();
   const topicNames = Object.fromEntries(chapter.topics.map((topic) => [topic.id, topic.name]));
 
+  const chapterUnits = chapter.topics.flatMap((topic) => chapter.unitsByTopic.get(topic.id) ?? []);
+
   return (
     <ChapterTopicsProvider
       chapterCode={chapterCode}
@@ -80,6 +82,8 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
                   quiz={chapter.quizByTopic.get(topic.id) ?? null}
                   topic={topic}
                   units={chapter.unitsByTopic.get(topic.id) ?? []}
+                  chapterUnits={chapterUnits}
+                  topicNames={topicNames}
                 />
               </TopicPanel>
             ))}
@@ -99,12 +103,17 @@ function TopicContent({
   quiz,
   topic,
   units,
+  chapterUnits,
+  topicNames,
 }: {
   bookmarkedUnitIds?: Set<string>;
   chapterCode: string;
   quiz: QuizQuestion | null;
   topic: ChapterTopic;
   units: PublishedContentUnit[];
+  /** Every unit in the chapter, for the model that indexes cards in other topics. */
+  chapterUnits: PublishedContentUnit[];
+  topicNames: Record<string, string>;
 }) {
   const diagram = topicDiagrams[topic.id];
   const integratedUnitIds = integratedTopicUnitIds(topic.id, units);
@@ -126,7 +135,7 @@ function TopicContent({
         </div>
       </div>
       {hasLeadingModel ? (
-        <TopicLearningModel placement="leading" topicId={topic.id} units={units} bookmarkedUnitIds={bookmarkedUnitIds} />
+        <TopicLearningModel placement="leading" topicId={topic.id} units={units} bookmarkedUnitIds={bookmarkedUnitIds} chapterUnits={chapterUnits} topicNames={topicNames} />
       ) : diagram && !modelClaimsTopicDiagram(topic.id) ? <TopicDiagramFigure diagram={diagram} /> : null}
       {sections.length
         ? sections.map((section, i) => (
@@ -140,7 +149,7 @@ function TopicContent({
           ))
         : integratedUnitIds.size === 0 ? <p role="status" className="rounded-card border border-graticule bg-surface p-4 text-ink">This topic does not have any learning notes yet.</p> : null}
       {hasTrailingModel ? (
-        <TopicLearningModel placement="trailing" topicId={topic.id} units={units} bookmarkedUnitIds={bookmarkedUnitIds} />
+        <TopicLearningModel placement="trailing" topicId={topic.id} units={units} bookmarkedUnitIds={bookmarkedUnitIds} chapterUnits={chapterUnits} topicNames={topicNames} />
       ) : null}
       {quiz ? <QuizCard question={quiz} /> : null}
     </>

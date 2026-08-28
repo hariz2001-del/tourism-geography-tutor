@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { componentAssets } from "./component-assets";
 import { contentImages } from "./content-images";
+import { ATTRACTION_CATEGORY_UNIT_IDS } from "./attraction-categories";
 import { topicDiagrams } from "./diagrams";
 
 /**
@@ -128,6 +129,20 @@ describeLive("visual maps — referential integrity (needs Supabase credentials)
   it("every contentImages key is a live published content_unit", async () => {
     const published = await liveIds(credentials!, "content_units?select=id&status=eq.published");
     const orphans = Object.keys(contentImages).filter((unitId) => !published.has(unitId));
+
+    expect(orphans).toEqual([]);
+  }, 30_000);
+
+  /**
+   * The attraction wheel files cards by id under the deck's seven headings. A re-imported unit
+   * takes a new id and would drop out of its category with no error — the wheel would simply
+   * show one card fewer, which nobody would notice.
+   */
+  it("every unit filed under an attraction category is a live published unit", async () => {
+    const published = await liveIds(credentials!, "content_units?select=id&status=eq.published");
+    const orphans = Object.entries(ATTRACTION_CATEGORY_UNIT_IDS).flatMap(([category, unitIds]) =>
+      unitIds.filter((unitId) => !published.has(unitId)).map((unitId) => `${category} -> ${unitId}`),
+    );
 
     expect(orphans).toEqual([]);
   }, 30_000);

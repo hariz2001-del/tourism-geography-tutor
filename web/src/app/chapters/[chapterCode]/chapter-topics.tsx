@@ -66,6 +66,36 @@ export function ChapterTopicsProvider({
   return <ChapterTopicsContext.Provider value={value}>{children}</ChapterTopicsContext.Provider>;
 }
 
+/**
+ * Jump to a particular card, wherever in the chapter it lives.
+ *
+ * The attraction wheel indexes cards across five other topics, all of them already rendered
+ * and hidden. Switching the panel is a state change, so the target does not exist in layout
+ * until React has painted — hence the two frames before scrolling.
+ *
+ * The hash is set with `replaceState` rather than by assigning `location.hash`: assigning
+ * would push a second history entry on top of the one the topic switch just pushed, and the
+ * back button would need two presses to undo one click. The `hashchange` event is dispatched
+ * by hand so the card still flashes its highlight.
+ */
+export function useGoToUnit(): (topicId: string, unitId: string) => void {
+  const { activeTopicId, setActiveTopicId } = useChapterTopics();
+  return useCallback(
+    (topicId: string, unitId: string) => {
+      if (topicId !== activeTopicId) setActiveTopicId(topicId);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const anchor = `#unit-${unitId}`;
+          window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}${anchor}`);
+          window.dispatchEvent(new HashChangeEvent("hashchange"));
+          document.getElementById(`unit-${unitId}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+      });
+    },
+    [activeTopicId, setActiveTopicId],
+  );
+}
+
 /** One topic's server-rendered content. Present in the document from the start, shown on demand. */
 export function TopicPanel({ topicId, children }: { topicId: string; children: React.ReactNode }) {
   const { activeTopicId } = useChapterTopics();

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import ExpandableImage from "./image-lightbox";
 import MountainRangeExplorer from "./mountain-range-explorer";
+import AttractionWheel from "./attraction-wheel";
+import { attractionCategories, type AttractionCategory } from "@/lib/course-brain/attraction-categories";
 import BookmarkToggle from "./bookmark-toggle";
 import TimeZoneExplorer from "./time-zone-explorer";
 import ContinentExplorer from "./continent-explorer";
@@ -62,6 +64,8 @@ const LONGITUDE_UNIT_ID = "04c61a82-dd00-40f8-a954-3bce4182d47c"; // p4, the mer
 const MID_LATITUDE_TABLE_UNIT_ID = "d18c0a11-7b3e-4c6f-9a52-8f1d4e2b7c30";
 const MOUNTAIN_RANGES_TOPIC_ID = "85c5385c-86ff-4ec1-930c-c94910db0ce8";
 const MOUNTAIN_RANGES_UNIT_ID = "c91a07a5-dd5b-4db2-9f5d-3d4e8b56d8ad";
+const ATTRACTIONS_TOPIC_ID = "57682698-9d12-499a-a76f-063216c35b7f";
+const ATTRACTION_CATEGORIES_UNIT_ID = "23711d5a-04c4-44e2-98bd-4626331eeb85";
 
 /**
  * A leading model replaces the whole topic: it is the first thing on the page and
@@ -82,6 +86,7 @@ const TRAILING_MODEL_UNIT_IDS: Record<string, readonly string[]> = {
   [SEVEN_CONTINENTS_TOPIC_ID]: SEVEN_CONTINENT_UNIT_IDS,
   [MAJOR_OCEANS_TOPIC_ID]: MAJOR_OCEAN_UNIT_IDS,
   [MOUNTAIN_RANGES_TOPIC_ID]: [MOUNTAIN_RANGES_UNIT_ID],
+  [ATTRACTIONS_TOPIC_ID]: [ATTRACTION_CATEGORIES_UNIT_ID],
 };
 
 /**
@@ -94,6 +99,7 @@ const MODELS_CLAIMING_THE_TOPIC_DIAGRAM: ReadonlySet<string> = new Set([
   CLIMATE_CLASSIFICATION_TOPIC_ID,
   LATITUDE_LONGITUDE_TOPIC_ID,
   MOUNTAIN_RANGES_TOPIC_ID,
+  ATTRACTIONS_TOPIC_ID,
 ]);
 
 export function modelClaimsTopicDiagram(topicId: string): boolean {
@@ -134,10 +140,15 @@ export default function TopicLearningModel({
   units,
   bookmarkedUnitIds,
   placement = "leading",
+  chapterUnits,
+  topicNames,
 }: {
   topicId: string;
   units: PublishedContentUnit[];
   bookmarkedUnitIds?: Set<string>;
+  /** Every unit in the chapter. Only the attraction wheel needs it: it indexes other topics. */
+  chapterUnits?: PublishedContentUnit[];
+  topicNames?: Record<string, string>;
   /** A topic may have both a leading and a trailing model; this says which one to render. */
   placement?: ModelPlacement;
 }) {
@@ -191,6 +202,22 @@ export default function TopicLearningModel({
     return <TimeZoneModel unit={timeZones} bookmarkedUnitIds={bookmarkedUnitIds} />;
   }
 
+  if (topicId === ATTRACTIONS_TOPIC_ID) {
+    const categoriesUnit = byId.get(ATTRACTION_CATEGORIES_UNIT_ID);
+    const categories = categoriesUnit ? attractionCategories(categoriesUnit.body) : null;
+    if (!categoriesUnit || !categories) return null;
+    return (
+      <AttractionWheelModel
+        unit={categoriesUnit}
+        categories={categories}
+        chapterUnits={chapterUnits ?? units}
+        topicNames={topicNames ?? {}}
+        topicId={topicId}
+        bookmarkedUnitIds={bookmarkedUnitIds}
+      />
+    );
+  }
+
   if (topicId === MOUNTAIN_RANGES_TOPIC_ID) {
     const ranges = byId.get(MOUNTAIN_RANGES_UNIT_ID);
     if (!ranges) return null;
@@ -221,6 +248,61 @@ export default function TopicLearningModel({
   }
 
   return null;
+}
+
+function AttractionWheelModel({
+  unit,
+  categories,
+  chapterUnits,
+  topicNames,
+  topicId,
+  bookmarkedUnitIds,
+}: {
+  unit: PublishedContentUnit;
+  categories: AttractionCategory[];
+  chapterUnits: PublishedContentUnit[];
+  topicNames: Record<string, string>;
+  topicId: string;
+  bookmarkedUnitIds?: Set<string>;
+}) {
+  const sourceDiagram = topicDiagrams[topicId];
+
+  return (
+    <section aria-labelledby="attraction-wheel-model" className="overflow-hidden rounded-card border border-graticule bg-surface">
+      <UnitAnchor unit={unit} bookmarkedUnitIds={bookmarkedUnitIds} className="px-5 pt-5 sm:px-6 sm:pt-6">
+        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-meridian">Explore the categories</p>
+        <h2 id="attraction-wheel-model" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">
+          {unit.title}
+        </h2>
+        <p className="mt-2 max-w-[68ch] whitespace-pre-wrap text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
+        <p className="mt-2 max-w-[68ch] text-[1rem]/[1.6] text-ink-muted">
+          Each of the seven is taught elsewhere in this chapter. Choose one to see its cards, and
+          choose a card to jump straight to it.
+        </p>
+      </UnitAnchor>
+
+      <AttractionWheel categories={categories} chapterUnits={chapterUnits} topicNames={topicNames} />
+
+      {sourceDiagram ? (
+        <details className="border-t border-graticule px-5 py-3 sm:px-6">
+          <summary className="cursor-pointer font-mono text-[0.75rem] uppercase tracking-[0.1em] text-ink-muted hover:text-ink">
+            The slide&apos;s own diagram
+          </summary>
+          <figure className="mt-3 overflow-hidden rounded-card border border-graticule bg-white">
+            <ExpandableImage
+              image={{ src: sourceDiagram.src, alt: sourceDiagram.alt, width: 900, height: 520 }}
+              label={sourceDiagram.caption ?? sourceDiagram.alt}
+              padded
+              sizes="(min-width: 1024px) 720px, 100vw"
+            />
+            <figcaption className="border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem] text-ink-muted">
+              {sourceDiagram.caption} — {sourceDiagram.sourceFile}, p{sourceDiagram.pageOrSlide}
+            </figcaption>
+          </figure>
+        </details>
+      ) : null}
+    </section>
+  );
 }
 
 function MountainRangesModel({
