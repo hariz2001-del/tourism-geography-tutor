@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ExpandableImage from "./image-lightbox";
 import BookmarkToggle from "./bookmark-toggle";
 import TimeZoneExplorer from "./time-zone-explorer";
 import ContinentExplorer from "./continent-explorer";
@@ -599,7 +600,12 @@ function GlobeModel({
             The slide&apos;s own diagram
           </summary>
           <figure className="mt-3 overflow-hidden rounded-card border border-graticule bg-white">
-            <Image alt={sourceDiagram.alt} className="h-auto w-full" height={520} sizes="(min-width: 1024px) 720px, 100vw" src={sourceDiagram.src} width={900} />
+            <ExpandableImage
+              image={{ src: sourceDiagram.src, alt: sourceDiagram.alt, width: 900, height: 520 }}
+              label={sourceDiagram.caption ?? sourceDiagram.alt}
+              padded
+              sizes="(min-width: 1024px) 720px, 100vw"
+            />
             {sourceDiagram.caption ? (
               <figcaption className="border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem] text-ink-muted">
                 {sourceDiagram.caption} — {sourceDiagram.sourceFile}, p{sourceDiagram.pageOrSlide}

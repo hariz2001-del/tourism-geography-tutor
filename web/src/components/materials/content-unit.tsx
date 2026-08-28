@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import ExpandableImage from "./image-lightbox";
 import { contentImages } from "@/lib/course-brain/content-images";
 import { unitTableFor } from "@/lib/course-brain/unit-tables";
 import UnitTableFigure from "./unit-table";
@@ -54,7 +54,11 @@ function UnitImage({ unitId }: { unitId: string }) {
   if (!image) return null;
   return (
     <figure className="mb-3 overflow-hidden rounded-card border border-graticule bg-white">
-      <Image src={image.src} alt={image.alt} width={image.width} height={image.height} className="h-auto w-full" />
+      <ExpandableImage
+        image={{ src: image.src, alt: image.alt, width: image.width, height: image.height }}
+        label={image.caption ?? image.alt}
+        sizes="(min-width: 1024px) 640px, 100vw"
+      />
       {image.caption || image.attribution ? (
         <figcaption className="space-y-0.5 border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem]/[1.45] text-ink-muted">
           {image.caption ? <span className="block">{image.caption}</span> : null}

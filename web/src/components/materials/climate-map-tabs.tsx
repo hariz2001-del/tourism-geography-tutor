@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import ExpandableImage from "./image-lightbox";
 import { useId, useState } from "react";
 import ClimateTypeMap from "./climate-type-map";
 import { toClimateTypes } from "@/lib/course-brain/climate-types";
@@ -121,8 +122,12 @@ export default function ClimateMapTabs({
               The slide&apos;s own map
             </summary>
             <figure className="mt-3 overflow-hidden rounded-card border border-graticule bg-white">
-              <Image
-            sizes="(min-width: 1024px) 720px, 100vw" alt={sourceMap.alt} className="h-auto w-full" height={520} src={sourceMap.src} width={900} />
+              <ExpandableImage
+                image={{ src: sourceMap.src, alt: sourceMap.alt, width: 900, height: 520 }}
+                label={sourceMap.caption ?? "World climate and vegetation zones"}
+                padded
+                sizes="(min-width: 1024px) 720px, 100vw"
+              />
               <figcaption className="border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem] text-ink-muted">
                 {sourceMap.caption ?? "World climate and vegetation zones"} — chapter-2.pdf, p{sourceMap.pageOrSlide}
               </figcaption>
