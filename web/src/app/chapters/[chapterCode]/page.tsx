@@ -6,13 +6,15 @@ import TopicDiagramFigure from "@/components/materials/topic-diagram";
 import TopicLearningModel, { integratedTopicUnitIds, modelClaimsTopicDiagram, topicModelUnitIds } from "@/components/materials/topic-learning-model";
 import TopicList from "@/components/materials/topic-list";
 import QuizCard from "@/components/quiz/quiz-card";
+import OpenTutorButton from "@/components/tutor/open-tutor-button";
+import { formatChapterLabel } from "@/lib/course-brain/chapter-label";
 import { buildSections, shouldShowLabels } from "@/lib/course-brain/group-units";
 import { topicDiagrams } from "@/lib/course-brain/diagrams";
 import type { Chapter, ChapterTopic, PublishedContentUnit, QuizQuestion } from "@/lib/course-brain/types";
 import { createServerCourseBrainRepository } from "@/lib/supabase/server";
 import { getProfile } from "@/lib/auth/session";
 import { listBookmarkedUnitIds } from "@/lib/learners/bookmarks";
-import { ActiveTopicRecorder, ActiveTutorPanel, ChapterTopicsProvider, TopicPanel } from "./chapter-topics";
+import { ActiveTopicRecorder, ChapterTopicsProvider, TopicPanel } from "./chapter-topics";
 
 type ChapterData = {
   chapters: Chapter[];
@@ -106,7 +108,7 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
       <main className="mx-auto flex min-h-screen max-w-[86rem] flex-col gap-8 px-6 py-8">
         {isStudent ? <ActiveTopicRecorder /> : null}
         <ChapterNav chapters={chapter.chapters} activeChapterCode={chapterCode} />
-        <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)_21rem]">
+        <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)]">
           <aside className="lg:sticky lg:top-8 lg:self-start">
             <TopicList chapterCode={chapterCode} topics={chapter.topics} />
           </aside>
@@ -125,9 +127,6 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
               </TopicPanel>
             ))}
           </section>
-          <aside className="lg:sticky lg:top-6 lg:self-start">
-            <ActiveTutorPanel names={topicNames} />
-          </aside>
         </div>
       </main>
     </ChapterTopicsProvider>
@@ -162,13 +161,13 @@ function TopicContent({
   return (
     <>
       <div className="space-y-3">
-        <p className="font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-ink-muted">{chapterCode}</p>
+        <p className="font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-ink-muted">{formatChapterLabel(chapterCode)}</p>
         <h1 className="font-display text-[2rem] font-semibold leading-[1.15] tracking-[-0.015em] text-ink-strong md:text-[2.5rem]">{topic.name}</h1>
         <div className="flex flex-wrap gap-x-4 text-sm font-medium">
           <Link className="inline-flex min-h-11 items-center text-meridian underline underline-offset-4" href={`/practice/topic?topic=${encodeURIComponent(topic.id)}`}>Topic quiz</Link>
           <Link className="inline-flex min-h-11 items-center text-meridian underline underline-offset-4" href={`/flashcards?chapter=${encodeURIComponent(chapterCode)}&topic=${encodeURIComponent(topic.id)}`}>Topic flashcards</Link>
           <Link className="inline-flex min-h-11 items-center text-meridian underline underline-offset-4" href={`/practice/chapter?chapter=${encodeURIComponent(chapterCode)}`}>Chapter mini exam</Link>
-          <Link className="inline-flex min-h-11 items-center text-meridian underline underline-offset-4 lg:hidden" href="#tutor">Ask tutor</Link>
+          <OpenTutorButton className="inline-flex min-h-11 items-center text-meridian underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian">Ask tutor</OpenTutorButton>
         </div>
       </div>
       {hasLeadingModel ? (
@@ -197,7 +196,7 @@ function EmptyState({ chapterCode, chapters }: { chapterCode: string; chapters: 
   return <main className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-6 p-6">
     <ChapterNav chapters={chapters} />
     <div className="flex flex-col gap-4">
-      <h1 className="font-display text-[2rem] font-semibold leading-[1.15] tracking-[-0.015em] text-ink-strong md:text-[2.5rem]">{chapterCode} materials</h1>
+      <h1 className="font-display text-[2rem] font-semibold leading-[1.15] tracking-[-0.015em] text-ink-strong md:text-[2.5rem]">{formatChapterLabel(chapterCode)} materials</h1>
       <p className="text-lg text-ink">This chapter does not have any topics yet.</p>
       <p className="text-ink-muted">Choose another chapter to continue learning.</p>
     </div>

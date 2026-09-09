@@ -52,7 +52,7 @@ works" in `docs/handoff.md` before adding or replacing anything visual.
   fails to materialise `node_modules` — measured: 13,022 zero-byte `.js` files out of 28,115.
 
 ## Product purpose
-Build a course-grounded Tourism Geography learning platform. The product is a learning platform first; its persistent side-panel tutor is an assistant across materials, topics, and quizzes.
+Build a course-grounded Tourism Geography learning platform. The product is a learning platform first; its floating tutor chatbot (bottom-right on every page, minimized until asked for) is an assistant across materials, topics, and quizzes.
 
 ## Source of truth and trust boundary
 - The approved Chapter 1–4 course materials are the Course Brain for the MVP.

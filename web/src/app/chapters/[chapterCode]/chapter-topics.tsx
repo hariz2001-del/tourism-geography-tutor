@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import TutorPanel from "@/components/tutor/tutor-panel";
 import { recordTopicView } from "./actions";
 
 /**
@@ -144,12 +143,6 @@ export function TopicLinks({
 export function ActiveTopicName({ names }: { names: Record<string, string> }) {
   const { activeTopicId } = useChapterTopics();
   return <>{names[activeTopicId] ?? ""}</>;
-}
-
-/** The tutor sits outside the panels, so it needs telling which topic is on screen. */
-export function ActiveTutorPanel({ names }: { names: Record<string, string> }) {
-  const { activeTopicId } = useChapterTopics();
-  return <TutorPanel topicTitle={names[activeTopicId] ?? ""} />;
 }
 
 /**

@@ -3,8 +3,8 @@
  *
  * It used to say "Loading Chapter 1 materials…" whichever chapter you opened — a route-level
  * loading file is rendered before the params are resolved, so it cannot know. Rather than name
- * the wrong chapter, it now shows the shape the page is about to take: sidebar, heading, cards,
- * tutor panel. Same layout, so nothing jumps when the content lands.
+ * the wrong chapter, it now shows the shape the page is about to take: sidebar, heading and
+ * cards. Same layout, so nothing jumps when the content lands.
  */
 export default function Loading() {
   return (
@@ -15,7 +15,7 @@ export default function Loading() {
 
       <div className="h-9 w-full max-w-md animate-pulse rounded-card bg-chart" />
 
-      <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)_21rem]">
+      <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)]">
         <aside className="hidden lg:block">
           <div className="space-y-2">
             {[0, 1, 2, 3, 4].map((row) => (
@@ -39,10 +39,6 @@ export default function Loading() {
             </div>
           ))}
         </section>
-
-        <aside className="hidden lg:block">
-          <div className="h-64 animate-pulse rounded-card bg-chart" />
-        </aside>
       </div>
     </main>
   );

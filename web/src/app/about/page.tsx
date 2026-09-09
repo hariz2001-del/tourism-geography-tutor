@@ -15,7 +15,7 @@ const steps = [
   {
     number: "02",
     title: "Ask the tutor",
-    detail: "Ask for a definition, comparison, or explanation. Helpful answers include a reference so you can revisit the related topic.",
+    detail: "Open the tutor from the button in the bottom-right corner of any page, then ask for a definition, comparison, or explanation. Helpful answers include a reference so you can revisit the related topic.",
   },
   {
     number: "03",
