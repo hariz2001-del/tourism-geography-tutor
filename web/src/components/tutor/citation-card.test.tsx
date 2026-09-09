@@ -8,6 +8,7 @@ describe("CitationCard", () => {
 
     const link = screen.getByRole("link", { name: /go to this source/i });
     expect(link).toHaveAttribute("href", "/chapters/CH2?topic=topic-1#unit-unit-1");
+    expect(link).toHaveTextContent("CHAPTER 2, Page/slide 3");
   });
 
   it("renders as a static, non-interactive card when navigation fields are missing", () => {
@@ -15,5 +16,6 @@ describe("CitationCard", () => {
 
     expect(screen.queryByRole("link")).not.toBeInTheDocument();
     expect(screen.getByLabelText(/source citation/i)).toBeVisible();
+    expect(screen.getByLabelText(/source citation/i)).toHaveTextContent("CHAPTER 1, Page/slide 4");
   });
 });

@@ -9,8 +9,8 @@ describe("ChapterNav", () => {
       { code: "CH2", title: "CH2", displayOrder: 2 },
     ]} />);
 
-    expect(screen.getByRole("link", { name: "CH1" })).toHaveAttribute("href", "/chapters/CH1");
-    const active = screen.getByRole("link", { name: "CH2" });
+    expect(screen.getByRole("link", { name: "CHAPTER 1" })).toHaveAttribute("href", "/chapters/CH1");
+    const active = screen.getByRole("link", { name: "CHAPTER 2" });
     expect(active).toHaveAttribute("href", "/chapters/CH2");
     expect(active).toHaveAttribute("aria-current", "page");
   });

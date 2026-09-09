@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useTransition } from "react";
 import CitationCard from "@/components/tutor/citation-card";
+import { formatChapterLabel } from "@/lib/course-brain/chapter-label";
 import { toggleBookmark } from "@/app/bookmark-actions";
 import type { Chapter, Flashcard } from "@/lib/course-brain/types";
 
@@ -121,7 +122,7 @@ export default function FlashcardDeck({
             value={chapterCode}
           >
             <option value="all">All chapters</option>
-            {chapters.map((chapter) => <option key={chapter.code} value={chapter.code}>{chapter.code}: {chapter.title}</option>)}
+            {chapters.map((chapter) => <option key={chapter.code} value={chapter.code}>{formatChapterLabel(chapter.code)}: {chapter.title}</option>)}
           </select>
         </label>
         <label className="space-y-1.5 font-medium text-ink-strong">
@@ -188,7 +189,7 @@ export default function FlashcardDeck({
       ) : current ? (
         <section className="overflow-hidden rounded-card border border-graticule bg-surface shadow-[0_18px_50px_-38px_rgba(6,35,43,0.55)]">
           <div className="flex items-center justify-between gap-3 border-b border-graticule bg-chart px-5 py-3 font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">
-            <span>{current.chapterCode} · {current.topicName}</span>
+            <span>{formatChapterLabel(current.chapterCode)} · {current.topicName}</span>
             <span>Card {currentIndex + 1} of {deck.length}</span>
           </div>
           <div className="min-h-[22rem] p-6 sm:p-10">

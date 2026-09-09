@@ -33,6 +33,13 @@ const cards: Flashcard[] = [
 ];
 
 describe("FlashcardDeck", () => {
+  it("expands chapter codes in learner-facing labels", () => {
+    render(<FlashcardDeck cards={cards} chapters={chapters} />);
+
+    expect(screen.getByRole("option", { name: "CHAPTER 1: Tourism Geography" })).toBeInTheDocument();
+    expect(screen.getByText(/CHAPTER 1 · Tourism foundations/)).toBeVisible();
+  });
+
   it("reveals sourced answers, records self-ratings, and builds a review deck", () => {
     render(<FlashcardDeck cards={cards} chapters={chapters} />);
 

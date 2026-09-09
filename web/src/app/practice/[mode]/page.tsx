@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ExamRunner from "@/components/practice/exam-runner";
+import { formatChapterLabel } from "@/lib/course-brain/chapter-label";
 import { isPracticeMode, practiceModes, scopeForPractice } from "@/lib/practice/config";
 import { createServerCourseBrainRepository } from "@/lib/supabase/server";
 import { getProfile } from "@/lib/auth/session";
@@ -34,7 +35,7 @@ export default async function PracticePage({ params, searchParams }: { params: P
     : mode === "topic" && topicId
       ? `/chapters/${chapterCode}?topic=${encodeURIComponent(topicId)}`
       : `/chapters/${chapterCode}`;
-  const returnLabel = mode === "topic" ? "Return to topic" : mode === "chapter" ? `Return to ${chapterCode}` : "Return to course home";
+  const returnLabel = mode === "topic" ? "Return to topic" : mode === "chapter" ? `Return to ${formatChapterLabel(chapterCode ?? "")}` : "Return to course home";
   const restartHref = mode === "course"
     ? "/practice/course"
     : mode === "topic"

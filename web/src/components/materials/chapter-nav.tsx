@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatChapterLabel } from "@/lib/course-brain/chapter-label";
 import type { Chapter } from "@/lib/course-brain/types";
 
 export default function ChapterNav({ chapters, activeChapterCode }: { chapters: Chapter[]; activeChapterCode?: string }) {
@@ -15,7 +16,7 @@ export default function ChapterNav({ chapters, activeChapterCode }: { chapters: 
           }
           href={`/chapters/${chapter.code}`}
         >
-          {chapter.code}
+          {formatChapterLabel(chapter.code)}
         </Link>
       ))}
     </nav>
