@@ -2,6 +2,7 @@ import Link from "next/link";
 import ExamRunner from "@/components/practice/exam-runner";
 import { formatChapterLabel } from "@/lib/course-brain/chapter-label";
 import { isPracticeMode, practiceModes, scopeForPractice } from "@/lib/practice/config";
+import { drawCoursePaper } from "@/lib/practice/course-paper";
 import { createServerCourseBrainRepository } from "@/lib/supabase/server";
 import { getProfile } from "@/lib/auth/session";
 import type { ExamQuestion } from "@/lib/course-brain/types";
@@ -18,14 +19,18 @@ export default async function PracticePage({ params, searchParams }: { params: P
   try {
     const repository = createServerCourseBrainRepository();
     [mcqQuestions, subjectiveQuestions] = await Promise.all([
-      repository.getPublicExamQuestionBatch(scope, "mcq", counts.mcqCount),
-      repository.getPublicExamQuestionBatch(scope, "subjective", counts.subjectiveCount),
+      mode === "course"
+        ? drawCoursePaper(repository, counts.mcqCount)
+        : repository.getPublicExamQuestionBatch(scope, "mcq", counts.mcqCount),
+      counts.subjectiveCount === 0
+        ? Promise.resolve([])
+        : repository.getPublicExamQuestionBatch(scope, "subjective", counts.subjectiveCount),
     ]);
   } catch {
     return <Unavailable title={practiceModes[mode].label} detail="Approved questions are temporarily unavailable. Please try again shortly." />;
   }
   if (mcqQuestions.length !== counts.mcqCount || subjectiveQuestions.length !== counts.subjectiveCount) {
-    return <Unavailable title={practiceModes[mode].label} detail={`This assessment needs ${counts.mcqCount} multiple-choice and ${counts.subjectiveCount} written questions. There are not enough generated questions in this scope yet.`} />;
+    return <Unavailable title={practiceModes[mode].label} detail={shortfallDetail(counts.mcqCount, counts.subjectiveCount)} />;
   }
   const firstQuestion = mcqQuestions[0] ?? subjectiveQuestions[0];
   const chapterCode = firstQuestion?.citation.chapterCode;
@@ -53,6 +58,15 @@ export default async function PracticePage({ params, searchParams }: { params: P
     scopeValue={scopeValue ?? null}
     isLearner={profile?.role === "student"}
   />;
+}
+
+/** Say only what the paper actually needs; an all-objective exam needs no written questions. */
+function shortfallDetail(mcqCount: number, subjectiveCount: number): string {
+  const parts = [
+    mcqCount > 0 ? `${mcqCount} multiple-choice` : null,
+    subjectiveCount > 0 ? `${subjectiveCount} written` : null,
+  ].filter(Boolean);
+  return `This assessment needs ${parts.join(" and ")} questions. There are not enough generated questions in this scope yet.`;
 }
 
 function Unavailable({ title, detail }: { title: string; detail: string }) {
