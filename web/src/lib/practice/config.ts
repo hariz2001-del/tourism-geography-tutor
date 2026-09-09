@@ -3,7 +3,9 @@ import type { ExamQuestionScope } from "@/lib/course-brain/types";
 export const practiceModes = {
   topic: { label: "Topic quiz", mcqCount: 3, subjectiveCount: 2 },
   chapter: { label: "Chapter mini exam", mcqCount: 5, subjectiveCount: 3 },
-  course: { label: "Full course exam", mcqCount: 10, subjectiveCount: 6 },
+  // The lecturer asked for a 20-question objective paper: no written answers,
+  // and a result a learner can check question by question.
+  course: { label: "Full course exam", mcqCount: 20, subjectiveCount: 0 },
 } as const;
 
 export type PracticeMode = keyof typeof practiceModes;
