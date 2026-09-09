@@ -10,6 +10,17 @@ const student: Profile = { id: "s1", username: "student", displayName: "Student 
 const lecturer: Profile = { id: "l1", username: "lecturer", displayName: "Dr. Lecturer", role: "lecturer" };
 
 describe("SiteHeader", () => {
+  it("places the uppercase guide first in the primary navigation", () => {
+    render(<SiteHeader profile={null} />);
+
+    const primaryNavigation = screen.getByRole("navigation", { name: "Primary" });
+    const firstLink = primaryNavigation.querySelector("a");
+    // The label is rendered twice — a short mobile form and the uppercase
+    // desktop form — so match the link rather than an exact string.
+    expect(firstLink).toHaveAttribute("href", "/about");
+    expect(firstLink?.textContent).toMatch(/guide/i);
+  });
+
   it("links to flashcards and marks that section as current", () => {
     render(<SiteHeader profile={null} />);
 

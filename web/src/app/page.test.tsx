@@ -28,17 +28,19 @@ describe("Home", () => {
 
     render(await Home());
 
-    expect(screen.getByRole("heading", { name: /build your tourism geography knowledge/i })).toBeVisible();
+    expect(screen.getByRole("heading", { name: /learn the world, one place at a time/i })).toBeVisible();
+    expect(screen.getByRole("link", { name: /CHAPTER 1: Chapter 1/i })).toBeVisible();
     expect(screen.getByRole("link", { name: /geography foundations/i })).toHaveAttribute(
       "href",
       "/chapters/CH1?topic=topic-1",
     );
     expect(screen.getByRole("link", { name: /start learning/i })).toHaveAttribute("href", "/chapters/CH1");
-    expect(screen.getByRole("link", { name: /ask the tutor/i })).toHaveAttribute("href", "/chapters/CH1#tutor");
-    expect(screen.getByRole("link", { name: /review flashcards/i })).toHaveAttribute("href", "/flashcards");
-    expect(screen.getAllByRole("link", { name: /chapter flashcards/i }).some(
-      (link) => link.getAttribute("href") === "/flashcards?chapter=CH1",
-    )).toBe(true);
+    expect(screen.getByRole("button", { name: /ask the tutor/i })).toBeVisible();
+    expect(screen.getByRole("link", { name: /try flashcards/i })).toHaveAttribute("href", "/flashcards");
+    expect(screen.getByRole("link", { name: /chapter 1 flashcards/i })).toHaveAttribute(
+      "href",
+      "/flashcards?chapter=CH1",
+    );
     expect(screen.getByText(/this chapter does not have any topics yet/i)).toBeVisible();
   });
 

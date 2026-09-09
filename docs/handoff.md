@@ -14,7 +14,55 @@ first.
 
 ## Right now
 
-*(state of play last refreshed 2026-08-28, after the deploy described below)*
+*(state of play last refreshed 2026-09-09, after the floating-tutor and visual-refresh merge)*
+
+**The Tutor is now a floating chatbot, and a batch of work that had been stranded in the Google
+Drive checkout is finally on `main`.**
+
+The tutor: `TutorPanel` was rebuilt as a multi-turn chat thread and moved into `TutorWidget`
+(`web/src/components/tutor/tutor-widget.tsx`), rendered once in the root layout, so it is
+reachable from every page instead of only from the chapter page's third column. It starts
+minimized as a bottom-right launcher and closes by its ✕, the launcher, or Escape. The panel
+stays mounted while minimized, so a conversation survives minimizing, reopening, and
+client-side navigation between pages; a full reload still clears it. Notes for whoever
+touches it next:
+
+- Focus moves to the composer on open and back to the launcher on close. The launcher is
+  `hidden` while the panel is open so the two never stack on a phone.
+- Any page opens the tutor by dispatching the `tgt:open-tutor` window event — `requestTutor()`
+  in `web/src/lib/tutor/open-event.ts`, wrapped by `OpenTutorButton`. The homepage hero CTA and
+  the chapter page's "Ask tutor" action use it; the old `#tutor` anchor is gone.
+- Only the newest reply carries `role="status"`, so a screen reader is not re-read the whole
+  thread as it grows. Enter sends, Shift+Enter adds a line.
+- `ActiveTutorPanel` was deleted from `chapter-topics.tsx`: the tutor no longer sits outside
+  the topic panels, so it no longer needs telling which topic is on screen. The chapter page
+  and its loading skeleton are both two columns now.
+
+Also landed in the same merge, all of it previously uncommitted in the Drive checkout:
+
+- `CHAPTER 1`–`CHAPTER 4` label expansion via `chapter-label.ts`, now applied on chapter nav,
+  the chapter page eyebrow and empty state, flashcards, citations, and assessment return
+  links. Database codes, routes, query parameters and citation keys still use `CH1`.
+- A header restyle that puts GUIDE first as pill navigation, and a warmer homepage with
+  colour-coded chapter cards.
+- A manual light/dark `ThemeToggle` in the header, persisted in `localStorage` under
+  `tgt-theme` and applied before paint by an inline script in the layout. It reads the applied
+  theme through `useSyncExternalStore`, not a mount effect — `react-hooks/set-state-in-effect`
+  rejects the latter.
+
+**Provenance warning for the next session.** That Drive checkout (`7a9beeb`) is 80 commits
+behind this repository and its `node_modules` is corrupt (zero-byte files, so test commands
+there exit 0 having run nothing). Its `web/src/app/dashboard/`, `web/src/app/login/`,
+`web/src/lib/auth/`, `web/src/proxy.ts` and its `supabase/server.ts` edits are an **older
+variant** of the accounts work this repository already has committed — do not port them.
+Everything worth taking from it has now been taken.
+
+Verified on the merge branch before pushing: Vitest 217/217 passed, `tsc --noEmit` passed,
+ESLint passed, `next build` passed with 24 routes, and a `next start` pass returned 200 for
+`/`, `/about`, `/flashcards`, `/chapters/CH1`, `/practice/course` and `/login` with the
+launcher rendering minimized and chapter labels expanded.
+
+### Earlier — 2026-08-28
 
 **Nothing is mid-flight. The working tree is clean, `main` is pushed, and everything written so
 far is live to learners.** A resuming session can pick any item from "Next step" without first
