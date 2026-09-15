@@ -14,7 +14,53 @@ first.
 
 ## Right now
 
-*(state of play last refreshed 2026-09-09, after the floating-tutor and visual-refresh merge)*
+*(state of play last refreshed 2026-09-15, after the reconciliation and globe-pins deploys below)*
+
+### 2026-09-15: production had drifted from `main` — reconciled, then globe pins and the logo
+
+**Production can differ from `main`. Before pushing `main`, run `npx vercel ls
+tourism-geography-tutor`, inspect the current production deployment and look at the live pages.
+Never deploy from the Google Drive checkout.**
+
+The 2026-09-09 notes below say that work "is finally on `main`". It was not: the merge they
+describe never reached `origin/main`. What actually happened:
+
+- On 2026-09-09 production was deployed with the Vercel CLI from the **Drive checkout**
+  (`7a9beeb` plus uncommitted edits). It gained the floating tutor, CHAPTER labels, GUIDE-first
+  header and theme toggle — and silently lost the late-August features (attraction wheel,
+  mountain-range map, rebuilt tables), because that checkout predates them.
+- The same work was pushed to `agent/floating-tutor-and-visual-refresh`, and the 20-question
+  objective exam to `agent/full-exam-twenty-objective` (preview only). Neither was merged.
+- On 2026-09-15 a push of `main` replaced that production UI with `main`'s older one, and the
+  owner noticed. Reconciled on `agent/reconcile-live` → `main` `3d6be59`: the refresh, the
+  20-question exam, two-across photo grids, and the Drive checkout's checklist notes.
+  `390a792`'s own floating tutor duplicated `TutorWidget` and was dropped (merged `-s ours`).
+  Verified live: all 25 topics, no errors, no failed requests.
+
+Then, on `agent/globe-pins-and-logo`:
+
+- **Globe pins (Chapter 3).** Tap to pin; type a latitude and longitude to pin it and turn the
+  globe to face it; the seven continents written on the globe under the lithosphere card's
+  names. The pin reports its continent (read off the Chapter 2 continents index, which was cut
+  from the same base map), hemispheres, GMT offset and any nearby principal line. Helpers and
+  tests: `faceTowards`, `parseCoordinate`, `hemispheresOf` in `graticule.ts`.
+- **The client's badge on the sign-in page** — `web/public/brand/geotourism-learning-badge.png`,
+  extracted from `G:\My Drive\Aztech Digital\Tourism Chatbot\logo.pdf` and cropped to its circle.
+
+Still open from the lecturer's 2026-09-15 list:
+
+- **More colour** — partly done by the 2026-09-09 refresh; no full colour pass yet.
+- **A description for each Chapter 3 line** — the slides describe only the Equator; describing
+  the others would be added material and needs the owner's ruling first.
+- **Sign in before anything** — needs confirmation: every learner would need an account first.
+- **The interactive hydrosphere/lithosphere floor plan** — not started. Its label 13 reads
+  "River" but is drawn as a lake: flag it, do not correct it.
+
+The quiz-bank audit lives uncommitted on `audit/quiz-bank-2026-09-03` in the C:\ repo and
+belongs to another session: 190 of 208 reviewed, 140 adjudicated (123 revise, 12 pass,
+3 reject, 2 needing a lecturer ruling). Leave its files alone.
+
+### 2026-09-09: the floating tutor and the visual refresh
 
 **The Tutor is now a floating chatbot, and a batch of work that had been stranded in the Google
 Drive checkout is finally on `main`.**
