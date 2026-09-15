@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import LoginForm from "./login-form";
 
@@ -10,6 +11,15 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   return (
     <main className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-[28rem] flex-col justify-center gap-6 px-6 py-12">
       <div className="space-y-2">
+        {/* The client's badge. A circle with its corners cleared, so it sits on either theme. */}
+        <Image
+          alt="Geotourism Learning — an interactive educational platform"
+          className="mb-4 h-28 w-28"
+          height={512}
+          priority
+          src="/brand/geotourism-learning-badge.png"
+          width={512}
+        />
         <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-meridian">
           Tourism Geography Tutor
         </p>

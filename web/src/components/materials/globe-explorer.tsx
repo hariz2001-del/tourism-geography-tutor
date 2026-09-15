@@ -3,13 +3,17 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   PRINCIPAL_PARALLELS,
+  faceTowards,
   formatLatitude,
   formatLongitude,
+  hemispheresOf,
   hoursFromGreenwich,
+  parseCoordinate,
   project,
   unproject,
 } from "@/lib/course-brain/graticule";
 import { worldBaseMap } from "@/lib/course-brain/component-assets";
+import { keyForPixel, type ContinentKey } from "@/lib/course-brain/continents";
 
 /**
  * A globe you can turn, in place of the two flat pictures of one.
@@ -22,6 +26,11 @@ import { worldBaseMap } from "@/lib/course-brain/component-assets";
  * longitude and latitude and sampled from the flat base map, so coastlines are continuous and
  * the continents look like themselves — an earlier version scattered land as dots and read as
  * noise. The same projection maths draws the lines on top, so the two cannot disagree.
+ *
+ * A tap drops a pin, and so does typing a latitude and longitude — which also turns the globe to
+ * face it. A tap and a drag are told apart by how far the pointer moved, so turning the globe
+ * never drops a pin by accident. The pin reads its continent off the Chapter 2 continents index,
+ * which was cut from this same base map and so lines up with it pixel for pixel.
  */
 type View = "latitude" | "longitude" | "principals" | "all";
 
@@ -35,44 +44,98 @@ const VIEWS: { key: View; label: string; hint: string }[] = [
 const SIZE = 460;
 const RADIUS = 196;
 const OCEAN: [number, number, number] = [206, 227, 240];
+/** A press that moves less than this, in CSS pixels, is a tap rather than a turn. */
+const TAP_TOLERANCE = 5;
+
+const CONTINENT_INDEX = { src: "/diagrams/ch2-continents-index.png", width: 1920, height: 960 };
+
+/**
+ * The seven continents by the names Chapter 3's own lithosphere card gives them. The positions
+ * are only where each label is written on the globe — a point well inside the landmass — not a
+ * claim about a continent's centre.
+ */
+const CONTINENT_LABELS: { key: ContinentKey; name: string; longitude: number; latitude: number }[] = [
+  { key: "north-america", name: "North America", longitude: -102, latitude: 46 },
+  { key: "south-america", name: "South America", longitude: -60, latitude: -14 },
+  { key: "europe", name: "Europe", longitude: 16, latitude: 51 },
+  { key: "asia", name: "Asia", longitude: 90, latitude: 46 },
+  { key: "africa", name: "Africa", longitude: 20, latitude: 6 },
+  { key: "australia", name: "Oceania/Australia", longitude: 134, latitude: -25 },
+  { key: "antarctica", name: "Antarctica", longitude: 45, latitude: -78 },
+];
+const CONTINENT_NAMES = new Map(CONTINENT_LABELS.map((label) => [label.key, label.name]));
+
+type Place = { longitude: number; latitude: number };
+/**
+ * A pin carries the continent it landed on, looked up once when it is dropped: reading the index
+ * during render would reach into a ref. `undefined` means the index had not loaded yet, which is
+ * not the same as the sea (`null`) and is never reported as if it were.
+ */
+type Pin = Place & { continent: string | null | undefined };
 
 export default function GlobeExplorer({ principalNames }: { principalNames: string[] }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const sphereRef = useRef<HTMLCanvasElement | null>(null);
   const mapPixels = useRef<Uint8ClampedArray | null>(null);
+  const continentPixels = useRef<Uint8ClampedArray | null>(null);
   const frame = useRef<number | null>(null);
   const drag = useRef<{ x: number; y: number; pointerId: number } | null>(null);
+  const pressStart = useRef<{ x: number; y: number } | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
 
   const [view, setView] = useState<View>("latitude");
   const [rotation, setRotation] = useState(-10);
   const [tilt, setTilt] = useState(18);
-  const [reading, setReading] = useState<{ longitude: number; latitude: number } | null>(null);
+  const [reading, setReading] = useState<Place | null>(null);
+  const [pin, setPin] = useState<Pin | null>(null);
+  const [latitudeText, setLatitudeText] = useState("");
+  const [longitudeText, setLongitudeText] = useState("");
+  const [inputError, setInputError] = useState<string | null>(null);
 
   const names = principalNames.length === PRINCIPAL_PARALLELS.length ? principalNames : PRINCIPAL_PARALLELS.map((line) => line.name);
   const showParallels = view === "latitude" || view === "all";
   const showMeridians = view === "longitude" || view === "all";
   const showPrincipals = view === "principals" || view === "all" || view === "latitude";
 
-  // The flat map is read into memory once; every frame samples it rather than decoding it again.
+  // Both flat maps are read into memory once; every frame samples them rather than decoding again.
   useEffect(() => {
     let cancelled = false;
-    const image = new window.Image();
-    image.src = worldBaseMap.src;
-    image.onload = () => {
-      if (cancelled) return;
-      const canvas = document.createElement("canvas");
-      canvas.width = image.naturalWidth;
-      canvas.height = image.naturalHeight;
-      const context = canvas.getContext("2d", { willReadFrequently: true });
-      if (!context) return;
-      context.drawImage(image, 0, 0);
-      mapPixels.current = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    function readPixels(src: string, onRead: (pixels: Uint8ClampedArray) => void) {
+      const image = new window.Image();
+      image.src = src;
+      image.onload = () => {
+        if (cancelled) return;
+        const canvas = document.createElement("canvas");
+        canvas.width = image.naturalWidth;
+        canvas.height = image.naturalHeight;
+        const context = canvas.getContext("2d", { willReadFrequently: true });
+        if (!context) return;
+        context.drawImage(image, 0, 0);
+        onRead(context.getImageData(0, 0, canvas.width, canvas.height).data);
+      };
+    }
+    readPixels(worldBaseMap.src, (pixels) => {
+      mapPixels.current = pixels;
       setMapLoaded(true);
-    };
+    });
+    readPixels(CONTINENT_INDEX.src, (pixels) => {
+      continentPixels.current = pixels;
+    });
     return () => {
       cancelled = true;
     };
+  }, []);
+
+  /** Which continent a point is on; null for the sea, undefined while the index is still loading. */
+  const continentAt = useCallback((place: Place): string | null | undefined => {
+    const pixels = continentPixels.current;
+    if (!pixels) return undefined;
+    const wrapped = ((((place.longitude + 180) % 360) + 360) % 360) / 360;
+    const x = Math.min(CONTINENT_INDEX.width - 1, Math.floor(wrapped * CONTINENT_INDEX.width));
+    const y = Math.min(CONTINENT_INDEX.height - 1, Math.max(0, Math.floor(((90 - place.latitude) / 180) * CONTINENT_INDEX.height)));
+    const index = (y * CONTINENT_INDEX.width + x) * 4;
+    const key = keyForPixel(pixels[index], pixels[index + 1], pixels[index + 2], pixels[index + 3]);
+    return key ? CONTINENT_NAMES.get(key) ?? null : null;
   }, []);
 
   const draw = useCallback(() => {
@@ -209,8 +272,45 @@ export default function GlobeExplorer({ principalNames }: { principalNames: stri
       }
     }
 
+    // --- continent names, written on the near side only, and not so close to the rim that
+    //     the curve would cut them off ---
+    context.font = "600 12px system-ui, -apple-system, 'Segoe UI', sans-serif";
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.lineJoin = "round";
+    for (const label of CONTINENT_LABELS) {
+      const point = project(label.longitude, label.latitude, rotation, tilt, RADIUS);
+      if (!point.visible || Math.hypot(point.x, point.y) > RADIUS * 0.9) continue;
+      context.lineWidth = 3.5;
+      context.strokeStyle = "rgba(255,255,255,0.92)";
+      context.strokeText(label.name, point.x, point.y);
+      context.fillStyle = "#0b3d4f";
+      context.fillText(label.name, point.x, point.y);
+    }
+
+    // --- the pin ---
+    if (pin) {
+      const point = project(pin.longitude, pin.latitude, rotation, tilt, RADIUS);
+      if (point.visible) {
+        context.beginPath();
+        context.moveTo(point.x, point.y);
+        context.lineTo(point.x - 6, point.y - 14);
+        context.arc(point.x, point.y - 18, 7.2, Math.PI * 0.78, Math.PI * 0.22);
+        context.closePath();
+        context.fillStyle = "#dc2626";
+        context.fill();
+        context.lineWidth = 2;
+        context.strokeStyle = "#ffffff";
+        context.stroke();
+        context.beginPath();
+        context.arc(point.x, point.y - 18, 2.6, 0, Math.PI * 2);
+        context.fillStyle = "#ffffff";
+        context.fill();
+      }
+    }
+
     context.restore();
-  }, [rotation, showMeridians, showParallels, showPrincipals, tilt]);
+  }, [pin, rotation, showMeridians, showParallels, showPrincipals, tilt]);
 
   // One draw per animation frame, however many pointer events arrive in between.
   useEffect(() => {
@@ -225,6 +325,14 @@ export default function GlobeExplorer({ principalNames }: { principalNames: stri
     };
   }, [draw, mapLoaded]);
 
+  function placeUnder(event: React.PointerEvent<HTMLCanvasElement>): Place | null {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const scale = SIZE / bounds.width;
+    const x = (event.clientX - bounds.left) * scale - SIZE / 2;
+    const y = (event.clientY - bounds.top) * scale - SIZE / 2;
+    return unproject(x, y, rotation, tilt, RADIUS);
+  }
+
   function endDrag(event: React.PointerEvent<HTMLCanvasElement>) {
     // Releasing a capture the browser has already dropped — a cancelled touch, for one — throws.
     try {
@@ -235,6 +343,17 @@ export default function GlobeExplorer({ principalNames }: { principalNames: stri
       // the capture is gone either way; nothing to undo
     }
     drag.current = null;
+  }
+
+  function onPointerUp(event: React.PointerEvent<HTMLCanvasElement>) {
+    const start = pressStart.current;
+    pressStart.current = null;
+    endDrag(event);
+    if (!start || Math.hypot(event.clientX - start.x, event.clientY - start.y) > TAP_TOLERANCE) return;
+    const place = placeUnder(event);
+    if (!place) return;
+    setPin({ ...place, continent: continentAt(place) });
+    setInputError(null);
   }
 
   function onPointerMove(event: React.PointerEvent<HTMLCanvasElement>) {
@@ -252,19 +371,38 @@ export default function GlobeExplorer({ principalNames }: { principalNames: stri
       setTilt((current) => Math.max(-80, Math.min(80, current + deltaY * -0.3)));
       return;
     }
-
-    const bounds = event.currentTarget.getBoundingClientRect();
-    const scale = SIZE / bounds.width;
-    const x = (event.clientX - bounds.left) * scale - SIZE / 2;
-    const y = (event.clientY - bounds.top) * scale - SIZE / 2;
-    setReading(unproject(x, y, rotation, tilt, RADIUS));
+    setReading(placeUnder(event));
   }
 
-  const nearestPrincipal = reading
-    ? PRINCIPAL_PARALLELS.map((line, index) => ({ line, name: names[index] ?? line.name })).find(
-        ({ line }) => Math.abs(line.latitude - reading.latitude) < 4,
-      )
-    : undefined;
+  function pinFromInput(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const latitude = parseCoordinate(latitudeText, "latitude");
+    const longitude = parseCoordinate(longitudeText, "longitude");
+    if (latitude === null || longitude === null) {
+      setInputError(
+        latitude === null
+          ? "Latitude must be between 90°S and 90°N — for example 3.1, -33.9 or 33.9 S."
+          : "Longitude must be between 180°W and 180°E — for example 101.7, -74.1 or 74.1 W.",
+      );
+      return;
+    }
+    const place = { latitude, longitude };
+    const facing = faceTowards(longitude, latitude);
+    setPin({ ...place, continent: continentAt(place) });
+    setRotation(facing.rotation);
+    setTilt(facing.tilt);
+    setInputError(null);
+  }
+
+  function principalNear(place: Place) {
+    return PRINCIPAL_PARALLELS.map((line, index) => ({ line, name: names[index] ?? line.name })).find(
+      ({ line }) => Math.abs(line.latitude - place.latitude) < 4,
+    );
+  }
+
+  const nearestPrincipal = reading ? principalNear(reading) : undefined;
+  const pinPrincipal = pin ? principalNear(pin) : undefined;
+  const pinOnFarSide = pin ? !project(pin.longitude, pin.latitude, rotation, tilt, RADIUS).visible : false;
 
   return (
     <div className="border-t border-graticule px-5 py-4 sm:px-6">
@@ -287,12 +425,56 @@ export default function GlobeExplorer({ principalNames }: { principalNames: stri
         ))}
       </div>
 
+      <form
+        aria-label="Pin a place by its coordinates"
+        className="mt-3 flex flex-wrap items-end gap-2 rounded-card border border-graticule bg-chart/60 p-3"
+        onSubmit={pinFromInput}
+      >
+        <label className="flex flex-col gap-1 text-[0.8125rem] font-medium text-ink-strong">
+          Latitude
+          <input
+            className="w-36 rounded-card border border-graticule bg-surface px-2.5 py-1.5 font-mono text-[0.875rem] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
+            inputMode="decimal"
+            onChange={(event) => setLatitudeText(event.target.value)}
+            placeholder="3.1 or 3.1 N"
+            value={latitudeText}
+          />
+        </label>
+        <label className="flex flex-col gap-1 text-[0.8125rem] font-medium text-ink-strong">
+          Longitude
+          <input
+            className="w-36 rounded-card border border-graticule bg-surface px-2.5 py-1.5 font-mono text-[0.875rem] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
+            inputMode="decimal"
+            onChange={(event) => setLongitudeText(event.target.value)}
+            placeholder="101.7 or 101.7 E"
+            value={longitudeText}
+          />
+        </label>
+        <button
+          className="min-h-9 rounded-card bg-meridian px-4 py-1.5 text-[0.875rem] font-semibold text-white transition-colors hover:bg-ink-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
+          type="submit"
+        >
+          Pin it
+        </button>
+        <p className="w-full text-[0.75rem]/[1.45] text-ink-muted">
+          Or tap anywhere on the globe. A minus sign means south or west.
+        </p>
+        {inputError ? (
+          <p className="w-full text-[0.8125rem] text-danger" role="alert">
+            {inputError}
+          </p>
+        ) : null}
+      </form>
+
       <div className="mt-3 flex flex-col items-center gap-3 sm:flex-row sm:items-start">
         <canvas
-          aria-label="A globe showing lines of latitude and longitude. Drag to turn it."
+          aria-label="A globe showing the continents and lines of latitude and longitude. Drag to turn it; tap to drop a pin."
           className="w-full max-w-[460px] cursor-grab touch-none select-none rounded-full active:cursor-grabbing"
           height={SIZE}
-          onPointerCancel={endDrag}
+          onPointerCancel={(event) => {
+            pressStart.current = null;
+            endDrag(event);
+          }}
           onPointerDown={(event) => {
             try {
               event.currentTarget.setPointerCapture(event.pointerId);
@@ -300,10 +482,11 @@ export default function GlobeExplorer({ principalNames }: { principalNames: stri
               // capture is an optimisation; the drag still works without it
             }
             drag.current = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
+            pressStart.current = { x: event.clientX, y: event.clientY };
           }}
           onPointerLeave={() => setReading(null)}
           onPointerMove={onPointerMove}
-          onPointerUp={endDrag}
+          onPointerUp={onPointerUp}
           ref={canvasRef}
           role="img"
           style={{ aspectRatio: "1 / 1" }}
@@ -311,6 +494,48 @@ export default function GlobeExplorer({ principalNames }: { principalNames: stri
         />
 
         <div className="w-full flex-1 space-y-3">
+          {pin ? (
+            <div aria-live="polite" className="rounded-card border border-danger/40 bg-surface p-4">
+              <div className="flex items-start justify-between gap-3">
+                <p className="font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-danger">Pinned</p>
+                <button
+                  className="rounded-card border border-graticule px-2 py-0.5 text-[0.75rem] text-ink-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
+                  onClick={() => setPin(null)}
+                  type="button"
+                >
+                  Clear pin
+                </button>
+              </div>
+              <p className="mt-1 font-display text-[1.25rem]/[1.25] font-semibold text-ink-strong">
+                {formatLatitude(pin.latitude, true)}, {formatLongitude(pin.longitude)}
+              </p>
+              <p className="mt-2 text-[0.9375rem]/[1.5] text-ink">
+                {pin.continent ? (
+                  <>
+                    In <span className="font-semibold">{pin.continent}</span>
+                    {" · "}
+                  </>
+                ) : pin.continent === null ? (
+                  "In the sea, not on a continent · "
+                ) : null}
+                {hemispheresOf(pin.longitude, pin.latitude)}
+              </p>
+              {pinPrincipal ? (
+                <p className="mt-1 text-[0.9375rem]/[1.5] text-ink">
+                  Close to <span className="font-semibold">{pinPrincipal.name}</span>
+                </p>
+              ) : null}
+              <p className="mt-2 text-[0.875rem]/[1.5] text-ink-muted">
+                Its meridian keeps {hoursFromGreenwich(pin.longitude)} — 15° of longitude for every hour.
+              </p>
+              {pinOnFarSide ? (
+                <p className="mt-2 text-[0.8125rem]/[1.5] text-ink-muted">
+                  The pin is on the far side of the globe. Turn it round to see it.
+                </p>
+              ) : null}
+            </div>
+          ) : null}
+
           <div aria-live="polite" className="rounded-card border border-graticule bg-surface p-4">
             {reading ? (
               <>
@@ -332,7 +557,7 @@ export default function GlobeExplorer({ principalNames }: { principalNames: stri
                 <p className="font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-muted">Turn the globe</p>
                 <p className="mt-1 text-[0.9375rem]/[1.55] text-ink">
                   Drag it. Watch the parallels stay parallel and shrink toward the poles, while every meridian runs
-                  pole to pole and meets the others there.
+                  pole to pole and meets the others there. Tap to drop a pin.
                 </p>
               </>
             )}
@@ -359,8 +584,9 @@ export default function GlobeExplorer({ principalNames }: { principalNames: stri
 
       <p className="mt-3 text-[0.8125rem]/[1.55] text-ink-muted">
         * The five names, their order and the 15°-per-hour rule are the course&apos;s own. The slide names the
-        principal lines without numbering them, so their latitudes are added. The globe is drawn by re-projecting
-        the flat map rather than photographed, which is why it can be turned.
+        principal lines without numbering them, so their latitudes are added. The continent names are the ones the
+        course&apos;s lithosphere card uses; where each is written on the globe is only a label position. The globe is
+        drawn by re-projecting the flat map rather than photographed, which is why it can be turned.
       </p>
     </div>
   );

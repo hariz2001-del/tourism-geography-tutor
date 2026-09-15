@@ -117,3 +117,54 @@ export function hoursFromGreenwich(longitude: number): string {
   if (hours === 0) return "GMT";
   return `GMT${hours > 0 ? "+" : ""}${hours}`;
 }
+
+/**
+ * The rotation and tilt that bring a point to the middle of the globe's face.
+ *
+ * `project` puts a point dead centre when its longitude plus the rotation is zero, and when the
+ * tilt equals its latitude — so those are the settings. Tilt is held to ±80°, the same limit a
+ * drag has, so a pin at a pole leans the globe right over without flipping it.
+ */
+export function faceTowards(longitude: number, latitude: number): { rotation: number; tilt: number } {
+  return { rotation: -normaliseLongitude(longitude), tilt: Math.max(-80, Math.min(80, latitude)) };
+}
+
+/**
+ * What a learner types into the pin box: "3.1", "-101.7", "3.1 N", "101.7E" or "66.5°S".
+ *
+ * A letter sets the hemisphere, so it must be the right kind for the axis (N or S for latitude,
+ * E or W for longitude) and the number in front of it must not also carry a minus sign — "5 S"
+ * or "-5" is fine, "-5 S" says south twice and could mean either. Anything out of range comes
+ * back null rather than being wrapped or clamped into a place the learner did not ask for.
+ */
+export function parseCoordinate(text: string, axis: "latitude" | "longitude"): number | null {
+  const match = /^\s*([+-]?\d+(?:\.\d+)?)\s*°?\s*([NSEWnsew])?\s*$/.exec(text);
+  if (!match) return null;
+  let value = Number(match[1]);
+  const hemisphere = match[2]?.toUpperCase();
+  if (hemisphere) {
+    const allowed = axis === "latitude" ? "NS" : "EW";
+    if (!allowed.includes(hemisphere) || match[1].startsWith("-")) return null;
+    if (hemisphere === "S" || hemisphere === "W") value = -value;
+  }
+  const limit = axis === "latitude" ? 90 : 180;
+  return Math.abs(value) <= limit ? value : null;
+}
+
+/**
+ * The hemispheres a place is in: "Northern and Eastern hemispheres". A place exactly on a
+ * dividing line is in neither half of that pair, so the line is named instead — "Northern
+ * hemisphere, on the Prime Meridian", or "on the Equator and the 180° meridian".
+ */
+export function hemispheresOf(longitude: number, latitude: number): string {
+  const lat = Math.round(latitude * 10) / 10;
+  const lon = Math.round(normaliseLongitude(longitude) * 10) / 10;
+  const meridianLine = lon === 0 ? "the Prime Meridian" : Math.abs(lon) === 180 ? "the 180° meridian" : null;
+  const northSouth = lat > 0 ? "Northern" : "Southern";
+  const eastWest = lon > 0 ? "Eastern" : "Western";
+
+  if (lat === 0 && meridianLine) return `on the Equator and ${meridianLine}`;
+  if (lat === 0) return `${eastWest} hemisphere, on the Equator`;
+  if (meridianLine) return `${northSouth} hemisphere, on ${meridianLine}`;
+  return `${northSouth} and ${eastWest} hemispheres`;
+}
