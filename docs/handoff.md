@@ -16,6 +16,24 @@ first.
 
 *(state of play last refreshed 2026-09-15, after the image, principal-lines and badge deploys below)*
 
+### 2026-09-15 (latest): the tutor docks on the right again, and collapses
+
+The owner preferred the tutor beside the chapter text, as it was before, but collapsible.
+
+- **One `TutorWidget`, two positions** (`web/src/components/tutor/tutor-widget.tsx`). On a
+  chapter page on a wide screen (≥1024px) it is docked down the right; everywhere else, and on
+  phones, it is the floating chat. It is the same element restyled — never unmounted — so a
+  conversation survives moving between a chapter and any other page.
+- **Collapse** shrinks it to a slim "Tutor" tab on the right edge; the choice is stored in
+  `localStorage` under `tgt-tutor-dock`, with an in-memory fallback for private browsing.
+- **The page makes room for it** through `data-tutor-dock` on `<html>` ("open" / "collapsed" /
+  "none"), which `globals.css` turns into right padding on `.tutor-dock-space` (the chapter page
+  and its loading skeleton). The layout's inline script sets it before first paint, so nothing
+  jumps. The padding is computed against the centred 86rem page, so very wide screens waste no
+  space. The dock follows the header's bottom edge as it scrolls away (`--tutor-dock-top`).
+- **Standalone photos fill the reading column again**, held to 28rem tall — the narrower
+  left-aligned version left an empty gap the owner disliked. Card photos keep the 3:2 frame.
+
 ### 2026-09-15 (later): one shape for card photos, the principal lines explained, the badge in the header
 
 Live on `main` `688f9b0`, verified on production (all 25 topics, no errors).
