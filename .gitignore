@@ -25,3 +25,4 @@ __pycache__/
 
 # Verification screenshots (regenerate as needed)
 /artifacts/
+.vercel

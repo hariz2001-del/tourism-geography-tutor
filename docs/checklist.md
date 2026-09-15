@@ -116,6 +116,85 @@ From the original mockup (`fyp cb.pdf`, Figures 3.1–3.8), against the actual s
 
 - [x] **Refreshed the handoff doc's "Right now" section for a tool handoff.** No code or content changed. Verified the starting state before writing it: `main` clean and in sync with `origin/main` at `6bd5d64`, `agent/learner-accounts` merged with no unpushed work, and production returning 200 on `/`, `/login`, and `/flashcards`. The section now states plainly that nothing is in flight, names the read-first order for a new agent (`docs/handoff.md` → `docs/checklist.md` → `AGENTS.md` → `.claude/skills/course-content/SKILL.md`), restates the two rules that cause the most damage when missed (never invent course content; insert-then-delete on `content_units`), records that `SUPABASE_SERVICE_ROLE_KEY` is never stored on this machine, and lists the five open items in priority order with the Vercel production-hook investigation first. The 2026-08-18 release notes were kept and demoted below it.
 
+### 2026-08-20 — client feedback recorded (ported from the Drive checkout, 2026-09-15)
+
+- [ ] **Allow the Tutor AI to answer beyond the supplied notes.** Client feedback: “Chatbot tu kalau boleh dia nak AI pula ... kalau tanya dia boleh jawab selain dalam nota.” The current Tutor already falls back to DeepSeek when local grounding misses, but its product contract is still course-grounded and citation-led. Before changing it, decide whether general-knowledge answers are allowed, how they are visibly labelled as outside the notes, whether course citations must be omitted or replaced for those answers, and whether live web knowledge is in scope. Never present an out-of-notes answer as though it came from the lecturer's material.
+- [ ] **Support learning videos supplied as links and/or embedded players.** Confirm the intended providers (for example YouTube or Google Drive), whether a link is sufficient or inline playback is required, and where videos attach (chapter, topic, or content unit). Inline embeds need an allowlist, responsive presentation, accessible titles/captions, privacy-conscious loading, and a normal link fallback.
+- [x] **Change the visible `CH 1` label to `CHAPTER 1`.** Implemented 2026-08-21 as a centralized display-only formatter: navigation, homepage chapter cards, chapter headings and empty states, flashcard filters/cards, assessment return labels, and citations now expand `CH1`–`CH4` to `CHAPTER 1`–`CHAPTER 4`. Internal database codes, URLs, and API scopes remain unchanged. Added focused tests; an isolated `main` + label-patch verification passed all 71 tests, TypeScript, and ESLint. The complete local working tree still has a separate account-prototype `SiteHeader` test error unrelated to this change.
+- [ ] **Replace poor crops with client-supplied HD images.** Client says HD originals can be provided and does not want the cropping to be obvious. Request the original files plus a clear chapter/topic/content-unit mapping. Preserve meaningful content when setting aspect ratios and focal points; do not upscale small slide extractions and call them HD. Review desktop and mobile crops independently and retain source attribution/alt text.
+- [ ] **Add a self-practice area for supplied question PDFs.** Clarify the desired level: (A) open/embed/download the original PDF so learners answer separately, or (B) import/parse its questions into an interactive response flow. Option B requires question extraction and review, answer-format rules, answer keys/marking policy, citations, storage/access decisions, and an explicit check that the client has permission to publish the PDF. Keep supplied-paper questions distinct from the existing generated assessment bank unless the owner explicitly approves merging them.
+
+**Status (2026-08-20):** feedback recorded only; no implementation or deployment has been claimed. Resolve the questions above and split approved work into reviewable batches before coding.
+
+#### Additional prior feedback — content completeness and discrepancy report
+
+- [ ] **Re-audit the complete course against the slide PDFs and publish a shareable discrepancy report.** Client feedback: “Based on the slides, there are still a lot of gaps in the contents. Start with that, use a Luna model subagent on high to scrape and loop the contents, then make a website link or something to show the discrepancies in contents between the site and the PDFs.” This is a new re-audit request, not proof that the 2026-08-09 audit never happened. That audit covered all four chapters and the 2026-08-11/12 notes record its remediation against an older database state. Preserve it as historical evidence, but re-observe every result against the current PDFs, database, production site, commit, and deployment.
+
+**Status (2026-08-20):** open. A Luna/high subagent performed a read-only planning inspection for this checklist entry only. It did not run the content audit, change course content, build the report page, or deploy anything.
+
+##### 1. Freeze and identify the comparison inputs
+
+- [ ] Confirm the canonical CH1–CH4 PDF versions with the content owner; record filename, page count, SHA-256 hash, date/version, and approval status.
+- [ ] Create an explicit source-file alias manifest. The available PDFs are in the workspace sibling `course-materials/`, the repo's `data/course-materials/` contains only `.gitkeep`, and historical citations/inventory may use older names such as `chapter-1-candidate-a.pdf`; do not assume differently named files are identical.
+- [ ] Define whether “the site” means production, the current local checkout, or both. Record the production URL, Git commit, deployment timestamp, and database snapshot timestamp used for the comparison.
+- [ ] Export a read-only baseline of published chapters, topics, content units, bodies, content types, source references, diagrams, and content-image mappings. Exclude private answer keys, unpublished records, learner data, and credentials.
+
+##### 2. Extract and repeatedly compare every page
+
+- [ ] Run `scripts/extract_course_materials.py` for a provenance-preserving text-layer JSONL baseline.
+- [ ] Treat every `needs_ocr` page as unresolved, not empty. The existing extractor cannot by itself read facts inside screenshots, tables, diagrams, or image-only slides.
+- [ ] Use the requested Luna/high pass chapter-by-chapter and page-by-page to inspect text, headings, named entities, definitions, examples, lists, figures, values, tables, diagrams, labels, and meaningful images. Model output is a review proposal, never the source of truth.
+- [ ] Loop the comparison until resolved: extract every page → map each source claim/entity to current site content → record unresolved/low-confidence mappings → run a focused second pass → obtain human/content-owner review.
+- [ ] Preserve the exact source file, chapter, page/slide, evidence, confidence, matched content-unit ID, and learner-facing URL for every result.
+- [ ] Compare meaning and provenance rather than exact wording: a faithful paraphrase may be covered, while dropped qualifiers, examples, named entities, list members, table rows, or numbers are discrepancies.
+- [ ] Check both directions: PDF material absent from the site and site material without matching approved PDF evidence.
+- [ ] Check every published unit for wrong citations, wrong/conflicting facts, shallow coverage, merged distinct entities, duplicates, missing examples, incomplete tables/diagrams/images, and learner pages that do not render or expose the cited material.
+- [ ] Classify every result as `covered`, `partial_or_shallow`, `missing_from_site`, `site_only_or_unsupported`, `wrong_citation`, `wrong_or_conflicting_fact`, `merged_entities`, `duplicate_or_redundant`, `missing_example`, `missing_table_or_diagram`, `missing_photo`, `source_defect`, `structural_gap`, or `needs_human_review`.
+
+##### 3. Produce reproducible evidence
+
+- [ ] Save a machine-readable reviewed result, for example `data/audits/content-discrepancy-audit-2026-08-20.json`.
+- [ ] Save a human-readable report, for example `docs/content-discrepancy-audit-2026-08-20.md`.
+- [ ] Include source hashes; site/database/deployment snapshot identifiers; totals by chapter/category/severity; a page-by-page coverage matrix; exact PDF and site references; evidence; confidence; recommended action; unresolved items; source defects; and explicit covered/partial/missing/unsupported/pending counts.
+- [ ] Link findings to the exact learner-facing topic/content unit. If source PDFs cannot legally be public, cite the controlled filename/page without embedding or redistributing copyrighted pages.
+
+##### 4. Create the shareable discrepancy link
+
+- [ ] Decide whether the report is public read-only, lecturer/client-only behind authentication, or available through a restricted/expiring review link.
+- [ ] Build a read-only route such as `/review/content-discrepancies` only after the access and copyright decision.
+- [ ] Prefer generating the page from reviewed/versioned audit JSON. Do not automatically expose raw AI findings or make an unreviewed live database comparison public.
+- [ ] Show summary counts and filters for chapter, category, severity, review status, and confidence; show PDF evidence versus current site coverage; and link to the corresponding learner-facing content.
+- [ ] Clearly label it as an audit/review artifact, not learner course content, and show generated-at, source-version, database-snapshot, deployment, and last-reviewed information.
+- [ ] Do not expose unrestricted source PDFs, unpublished course content, assessment answers, private learner data, internal prompts, or credentials.
+- [ ] Add responsive, accessibility, keyboard, loading, empty-state, access-control, and broken-link verification.
+
+##### 5. Review and remediate the verified gaps
+
+- [ ] Obtain lecturer/content-owner approval before changing published facts or adding source-derived material.
+- [ ] Prepare separate reviewed import/remediation batches per chapter, preserving one distinct named entity per content unit and an exact source reference for every unit.
+- [ ] Do not invent content for source defects or structural gaps. Keep known cases such as Chapter 4's `valley` and `beach` headings explicitly flagged for owner resolution.
+- [ ] Keep source-fidelity corrections separate from optional enrichment, and record any approved correction or omission of a slide typo.
+- [ ] Re-run the discrepancy comparison after each remediation batch and update statuses without deleting the original evidence.
+- [ ] Independently review the deployed course pages and every discrepancy-report link after release.
+- [ ] Update `docs/handoff.md`, this checklist, content ingestion/model documentation, and the course-content skill with final counts and unresolved findings.
+
+##### Acceptance criteria
+
+- [ ] Every page of the canonical CH1–CH4 PDFs has a recorded comparison result.
+- [ ] Every published content unit has a verified source mapping or an explicitly approved exception.
+- [ ] Every PDF-only finding is remediated, accepted as a source defect/structural gap, or assigned for human review.
+- [ ] No AI-generated finding or content change is published without human/content-owner review.
+- [ ] The report's counts, filters, evidence, and links are reproducible from its recorded PDF/site/database snapshots.
+- [ ] Copyright, privacy, security, and access controls are reviewed before sharing the report link.
+- [ ] A second reviewer verifies the final report and the actual production result.
+
+This re-audit/report remains separate from the other open 2026-08-20 requests for out-of-notes Tutor answers, videos, the full `CHAPTER 1` wording/meaning, HD images, and supplied question-PDF practice.
+
+### 2026-08-21 — Chapter 1 Terra cross-check
+
+- [x] **Visually cross-check all 33 available Chapter 1 PDF pages against the current live database.** A Terra/high subagent rendered every page, including image-heavy slides, and compared it with a fresh read-only Supabase snapshot. Current CH1 state: 9 topics, 40 published units, and 40/40 cited. No wholly missing topic/unit, merged named entity, or orphaned citation was found. See `docs/audits/chapter-1-content-crosscheck-2026-08-21.md`.
+- [ ] **Resolve the Chapter 1 canonical-source mismatch and finish the final body review.** The only available `chapter-1.pdf` (SHA-256 `75245043DF20C996724586B0DF502BE88748D843677B15C98EEFA64901895E25`) materially disagrees on page 29 with both the live `chapter-1-candidate-a.pdf`-cited unit and the earlier candidate-A visual audit. Obtain/hash the actual candidate A or explicitly approve the local file as a replacement, then adjudicate the three potentially shallow units on pages 21/31 and the conflicting page-29 unit. No DB write was made because changing rows before that provenance decision would risk replacing valid canonical content with a different deck version.
+
 ### 2026-08-21
 
 - [x] **Re-audited Chapter 1 against the source PDF and found a content-fidelity incident.** Two independent scanners (one reading all 33 rendered slides plus the text layer, one reading the live database, two passes each), a main-thread comparison re-verified against the raw text layer, and an independent Opus verification pass that confirmed all nine findings and caught a third fabrication. Findings: `docs/ch1-pdf-vs-db-discrepancies-2026-08-21.md`. Plan: `docs/content-fidelity-remediation-plan-2026-08-21.md`. Live resume point: `docs/remediation-progress-2026-08-21.md`.
