@@ -105,7 +105,7 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
       initialTopicId={chapter.topic.id}
       topicIds={chapter.topics.map((topic) => topic.id)}
     >
-      <main className="mx-auto flex min-h-screen max-w-[86rem] flex-col gap-8 px-6 py-8">
+      <main className="tutor-dock-space mx-auto flex min-h-screen max-w-[86rem] flex-col gap-8 px-6 py-8">
         {isStudent ? <ActiveTopicRecorder /> : null}
         <ChapterNav chapters={chapter.chapters} activeChapterCode={chapterCode} />
         <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)]">

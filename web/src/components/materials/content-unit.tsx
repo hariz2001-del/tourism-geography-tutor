@@ -54,10 +54,10 @@ function UnitFigure({ unit, placement }: { unit: PublishedContentUnit; placement
  *
  * Every photograph is shown in the same 3:2 frame, so a row of cards lines up whatever shape
  * each original happens to be — a portrait photo beside a landscape one used to make one card
- * twice the height of its neighbour. A standalone figure is also held to about the width of the
- * text beside it rather than the whole column; at full width a single photo came out a thousand
- * pixels wide and, for the one portrait original, fifteen hundred tall. Clicking still opens the
- * whole uncropped picture.
+ * twice the height of its neighbour. A standalone figure fills the reading column but is held to
+ * 28rem tall, so at full width it becomes a wide banner rather than a thousand-pixel square — and
+ * it leaves no empty gap beside it, which a narrower, left-aligned photo did. Clicking still opens
+ * the whole uncropped picture.
  */
 type FigurePlacement = "card" | "standalone";
 
@@ -68,13 +68,13 @@ function UnitImage({ unitId, placement }: { unitId: string; placement: FigurePla
   // fitted inside it instead, because its edges can carry the labels the card is about.
   const fit = image.sourceFile ? "object-contain" : "object-cover";
   return (
-    <figure className={`mb-3 overflow-hidden rounded-card border border-graticule bg-white ${placement === "standalone" ? "max-w-2xl" : ""}`}>
+    <figure className="mb-3 overflow-hidden rounded-card border border-graticule bg-white">
       <ExpandableImage
         image={{ src: image.src, alt: image.alt, width: image.width, height: image.height }}
         label={image.caption ?? image.alt}
-        className={`aspect-[3/2] h-auto w-full ${fit}`}
+        className={`aspect-[3/2] h-auto w-full ${placement === "standalone" ? "max-h-[28rem]" : ""} ${fit}`}
         style={image.focus ? { objectPosition: image.focus } : undefined}
-        sizes={placement === "card" ? "(min-width: 1024px) 480px, 100vw" : "(min-width: 768px) 672px, 100vw"}
+        sizes={placement === "card" ? "(min-width: 1024px) 480px, 100vw" : "(min-width: 1024px) 1040px, 100vw"}
       />
       {image.caption || image.attribution ? (
         <figcaption className="space-y-0.5 border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem]/[1.45] text-ink-muted">

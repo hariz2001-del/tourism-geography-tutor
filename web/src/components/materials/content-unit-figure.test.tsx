@@ -25,15 +25,17 @@ describe("a unit's photograph", () => {
 
     expect(image.className).toContain("aspect-[3/2]");
     expect(image.className).toContain("object-cover");
-    // a card already has its column's width; it is not capped again
-    expect(image.closest("figure")?.className).not.toContain("max-w-2xl");
+    // a card is sized by its grid column; only a standalone photo needs a height cap
+    expect(image.className).not.toContain("max-h-[28rem]");
   });
 
-  it("is held to about the width of the text when it stands on its own", () => {
+  it("fills the column but is held to a height when it stands on its own", () => {
     render(<ContentUnit unit={unit(photoId)} variant="stack" />);
     const image = screen.getByRole("img", { name: photo.alt });
 
-    expect(image.closest("figure")?.className).toContain("max-w-2xl");
+    expect(image.className).toContain("max-h-[28rem]");
+    // no width cap, so the photo leaves no empty gap beside it
+    expect(image.closest("figure")?.className).not.toContain("max-w-2xl");
   });
 
   it("fits a figure taken from the slides inside the frame rather than cropping it", () => {

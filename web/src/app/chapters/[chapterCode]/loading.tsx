@@ -8,7 +8,7 @@
  */
 export default function Loading() {
   return (
-    <main aria-busy="true" className="mx-auto flex min-h-screen max-w-[86rem] flex-col gap-8 px-6 py-8">
+    <main aria-busy="true" className="tutor-dock-space mx-auto flex min-h-screen max-w-[86rem] flex-col gap-8 px-6 py-8">
       <span className="sr-only" role="status">
         Loading chapter materials
       </span>

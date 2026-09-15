@@ -79,6 +79,21 @@
 
 html { scroll-behavior: smooth; }
 
+/*
+ * Room for the docked tutor on wide chapter pages. TutorWidget sets data-tutor-dock on <html>
+ * (and the layout's inline script sets it before first paint). The padding is worked out
+ * against the centred 86rem page, so on a very wide screen — where the page already stops short
+ * of the dock — it shrinks to the page's normal gutter instead of wasting the space.
+ */
+@media (min-width: 1024px) {
+  :root[data-tutor-dock="open"] .tutor-dock-space {
+    padding-right: max(1.5rem, calc(22rem + 2.5rem - (100vw - 86rem) / 2));
+  }
+  :root[data-tutor-dock="collapsed"] .tutor-dock-space {
+    padding-right: max(1.5rem, calc(2.75rem + 1.5rem - (100vw - 86rem) / 2));
+  }
+}
+
 * { box-sizing: border-box; }
 
 body {

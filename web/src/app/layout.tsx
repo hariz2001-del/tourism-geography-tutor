@@ -33,7 +33,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" suppressHydrationWarning className={`${sourceSans.variable} ${sourceSerif.variable} ${plexMono.variable}`}>
       <Script id="theme-preference" strategy="beforeInteractive">
-        {`try{var t=localStorage.getItem("tgt-theme");document.documentElement.dataset.theme=t==="light"||t==="dark"?t:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch(e){document.documentElement.dataset.theme="light"}`}
+        {`try{var t=localStorage.getItem("tgt-theme");document.documentElement.dataset.theme=t==="light"||t==="dark"?t:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch(e){document.documentElement.dataset.theme="light"}try{document.documentElement.dataset.tutorDock=location.pathname.indexOf("/chapters/")===0?(localStorage.getItem("tgt-tutor-dock")==="collapsed"?"collapsed":"open"):"none"}catch(e){document.documentElement.dataset.tutorDock=location.pathname.indexOf("/chapters/")===0?"open":"none"}`}
       </Script>
       <body>
         <a

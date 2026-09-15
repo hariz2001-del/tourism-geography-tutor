@@ -3,6 +3,9 @@ import { describe, expect, it, vi } from "vitest";
 import TutorWidget from "./tutor-widget";
 import { requestTutor } from "@/lib/tutor/open-event";
 
+// Off a chapter page the tutor is always the floating chat.
+vi.mock("next/navigation", () => ({ usePathname: () => "/" }));
+
 function answerOnce(text: string) {
   vi.stubGlobal("fetch", vi.fn(async () => ({
     ok: true,
