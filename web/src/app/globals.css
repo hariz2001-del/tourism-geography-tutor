@@ -2,18 +2,18 @@
 
 @theme {
   /* surfaces & ink */
-  --color-chart:       #F4F8FC;
+  --color-chart:       #F5F8FC;
   --color-surface:     #FFFFFF;
-  --color-graticule:   #C9D9E5;
-  --color-ink:         #12333B;
-  --color-ink-strong:  #06232B;
-  --color-ink-muted:   #4A6B72;
+  --color-graticule:   #D0DCE9;
+  --color-ink:         #15304A;
+  --color-ink-strong:  #0A1D33;
+  --color-ink-muted:   #4B6178;
 
-  /* brand + semantic accents */
-  --color-meridian:    #087E8B;
-  --color-deep:        #315A9B;
-  --color-relief:      #C26D28;
-  --color-lowland:     #2F855A;
+  /* brand + semantic accents — navy, sky blue and green taken from the Geotourism Learning badge */
+  --color-meridian:    #1F5A9E;
+  --color-deep:        #2F77C0;
+  --color-relief:      #C2682A;
+  --color-lowland:     #2E7D3A;
   --color-danger:      #9B2226;
 
   /* type */
@@ -27,16 +27,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-chart:      #0A1417;
-    --color-surface:    #12242B;
-    --color-graticule:  #22424B;
-    --color-ink:        #DDEAE8;
-    --color-ink-strong: #F2FAF8;
-    --color-ink-muted:  #8FAFB4;
-    --color-meridian:   #4FC3C7;
-    --color-deep:       #7FA9D4;
+    --color-chart:      #0A1320;
+    --color-surface:    #13233A;
+    --color-graticule:  #26405E;
+    --color-ink:        #DCE6F2;
+    --color-ink-strong: #F4F8FD;
+    --color-ink-muted:  #95AAC2;
+    --color-meridian:   #7DB4F0;
+    --color-deep:       #9CC6F5;
     --color-relief:     #D9A94A;
-    --color-lowland:    #6FC08D;
+    --color-lowland:    #7CCB8A;
     --color-danger:     #F1A0A2;
   }
 }
@@ -45,31 +45,31 @@
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --color-chart:       #F4F8FC;
+  --color-chart:       #F5F8FC;
   --color-surface:     #FFFFFF;
-  --color-graticule:   #C9D9E5;
-  --color-ink:         #12333B;
-  --color-ink-strong:  #06232B;
-  --color-ink-muted:   #4A6B72;
-  --color-meridian:    #087E8B;
-  --color-deep:        #315A9B;
-  --color-relief:      #C26D28;
-  --color-lowland:     #2F855A;
+  --color-graticule:   #D0DCE9;
+  --color-ink:         #15304A;
+  --color-ink-strong:  #0A1D33;
+  --color-ink-muted:   #4B6178;
+  --color-meridian:    #1F5A9E;
+  --color-deep:        #2F77C0;
+  --color-relief:      #C2682A;
+  --color-lowland:     #2E7D3A;
   --color-danger:      #9B2226;
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --color-chart:      #0A1417;
-  --color-surface:    #12242B;
-  --color-graticule:  #22424B;
-  --color-ink:        #DDEAE8;
-  --color-ink-strong: #F2FAF8;
-  --color-ink-muted:  #8FAFB4;
-  --color-meridian:   #4FC3C7;
-  --color-deep:       #7FA9D4;
+  --color-chart:      #0A1320;
+  --color-surface:    #13233A;
+  --color-graticule:  #26405E;
+  --color-ink:        #DCE6F2;
+  --color-ink-strong: #F4F8FD;
+  --color-ink-muted:  #95AAC2;
+  --color-meridian:   #7DB4F0;
+  --color-deep:       #9CC6F5;
   --color-relief:     #D9A94A;
-  --color-lowland:    #6FC08D;
+  --color-lowland:    #7CCB8A;
   --color-danger:     #F1A0A2;
 }
 

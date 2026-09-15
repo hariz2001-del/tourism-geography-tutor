@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "@/app/login/actions";
@@ -34,12 +35,24 @@ export default function SiteHeader({ profile }: { profile: Profile | null }) {
     : navigation;
 
   return (
-    <header className="border-b border-graticule bg-chart/90 shadow-[0_3px_16px_rgb(28_63_91_/_4%)] backdrop-blur">
+    <header className="border-b border-graticule bg-surface/92 shadow-[0_3px_16px_rgb(28_63_91_/_5%)] backdrop-blur">
+      {/* A thin stripe in the badge's own navy, sky blue and green, so the header and the logo read as one. */}
+      <div aria-hidden="true" className="h-1 bg-[linear-gradient(90deg,#1f4e8c,#2f77c0_48%,#3a8a3a)]" />
       <div className="mx-auto flex min-h-16 w-full max-w-[86rem] flex-wrap items-center justify-between gap-x-2 px-4 py-2 sm:flex-nowrap sm:gap-3 sm:px-6">
         <Link
-          className="whitespace-nowrap font-display text-[1.0625rem] font-semibold text-ink-strong transition-colors hover:text-meridian focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
+          className="flex items-center gap-2.5 whitespace-nowrap font-display text-[1.0625rem] font-semibold text-ink-strong transition-colors hover:text-meridian focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
           href="/"
         >
+          {/* The link's own words already name the site, so the badge is not read out twice. */}
+          <Image
+            alt=""
+            aria-hidden="true"
+            className="h-10 w-10 shrink-0 drop-shadow-sm"
+            height={512}
+            priority
+            src="/brand/geotourism-learning-badge.png"
+            width={512}
+          />
           <span className="sm:hidden">TG Tutor</span>
           <span className="hidden sm:inline">Tourism Geography Tutor</span>
         </Link>
