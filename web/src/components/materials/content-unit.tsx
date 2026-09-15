@@ -155,7 +155,7 @@ export default function ContentUnit({
           <h2 className="font-display text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h2>
           {bookmark}
         </div>
-        <p className="max-w-[62ch] whitespace-pre-wrap text-[1.25rem]/[1.55] text-ink">{unit.body}</p>
+        <p className="whitespace-pre-wrap text-[1.25rem]/[1.55] text-ink">{unit.body}</p>
       </article>
     );
   }
@@ -236,7 +236,7 @@ export default function ContentUnit({
         <h3 className="font-display text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
         {bookmark}
       </div>
-      <p className="max-w-[68ch] whitespace-pre-wrap text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
+      <p className="whitespace-pre-wrap text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
     </article>
   );
 }

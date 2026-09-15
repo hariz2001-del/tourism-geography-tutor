@@ -50,7 +50,7 @@ export default function ClimateMapTabs({
 
       {tab === "bands" ? (
         <div aria-labelledby={`${tabsId}-bands-tab`} className="px-5 py-4 sm:px-6" id={`${tabsId}-bands`} role="tabpanel">
-          <p className="max-w-[68ch] text-[1rem]/[1.65] text-ink">{text ? text.introduction : bandsUnit.body}</p>
+          <p className="text-[1rem]/[1.65] text-ink">{text ? text.introduction : bandsUnit.body}</p>
 
           {text ? (
             <>
@@ -101,7 +101,7 @@ export default function ClimateMapTabs({
                     {formatLatitude(band.from)} to {formatLatitude(band.to)}
                   </p>
                 </div>
-                <p className="mt-2 max-w-[68ch] text-[1rem]/[1.65] text-ink">{text[band.zone]}</p>
+                <p className="mt-2 text-[1rem]/[1.65] text-ink">{text[band.zone]}</p>
               </article>
 
               <p className="mt-3 text-[0.8125rem]/[1.55] text-ink-muted">
@@ -113,7 +113,7 @@ export default function ClimateMapTabs({
         </div>
       ) : (
         <div aria-labelledby={`${tabsId}-zones-tab`} className="px-5 py-4 sm:px-6" id={`${tabsId}-zones`} role="tabpanel">
-          <p className="max-w-[68ch] text-[1rem]/[1.65] text-ink">{typesUnit.body}</p>
+          <p className="text-[1rem]/[1.65] text-ink">{typesUnit.body}</p>
 
           {climateTypes.length > 0 ? <ClimateTypeMap types={climateTypes} /> : null}
 

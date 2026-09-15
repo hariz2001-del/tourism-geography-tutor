@@ -167,7 +167,7 @@ export default function RegionMapExplorer({
                 ))}
               </dl>
 
-              <p className="mt-3 max-w-[68ch] whitespace-pre-wrap text-[1rem]/[1.65] text-ink">{active.body}</p>
+              <p className="mt-3 whitespace-pre-wrap text-[1rem]/[1.65] text-ink">{active.body}</p>
             </div>
             {bookmarkedUnitIds ? (
               <BookmarkToggle

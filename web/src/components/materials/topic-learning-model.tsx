@@ -277,8 +277,8 @@ function AttractionWheelModel({
         <h2 id="attraction-wheel-model" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">
           {unit.title}
         </h2>
-        <p className="mt-2 max-w-[68ch] whitespace-pre-wrap text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
-        <p className="mt-2 max-w-[68ch] text-[1rem]/[1.6] text-ink-muted">
+        <p className="mt-2 whitespace-pre-wrap text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
+        <p className="mt-2 text-[1rem]/[1.6] text-ink-muted">
           Each of the seven is taught elsewhere in this chapter. Choose one to see its cards, and
           choose a card to jump straight to it.
         </p>
@@ -326,8 +326,8 @@ function MountainRangesModel({
         <h2 id="mountain-ranges-model" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">
           {unit.title}
         </h2>
-        <p className="mt-2 max-w-[68ch] whitespace-pre-wrap text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
-        <p className="mt-2 max-w-[68ch] text-[1rem]/[1.6] text-ink-muted">
+        <p className="mt-2 whitespace-pre-wrap text-[1.0625rem]/[1.7] text-ink">{unit.body}</p>
+        <p className="mt-2 text-[1rem]/[1.6] text-ink-muted">
           The learning note names six ranges; the slide&apos;s map legend names twenty-four. All
           twenty-four are here. Pick one, or point at the map, to see where it runs and what it
           looks like on the ground.
@@ -387,7 +387,7 @@ function PushPullModel({
         <h2 id="push-pull-learning-model" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">
           Push starts the journey. Pull shapes the destination choice.
         </h2>
-        <p className="mt-3 max-w-[68ch] whitespace-pre-wrap text-[1.0625rem]/[1.65] text-ink">{relationship.body}</p>
+        <p className="mt-3 whitespace-pre-wrap text-[1.0625rem]/[1.65] text-ink">{relationship.body}</p>
       </UnitAnchor>
 
       <div className="grid items-stretch gap-0 lg:grid-cols-[1fr_5rem_1fr]">
@@ -412,7 +412,7 @@ function PushPullModel({
       <UnitAnchor unit={model} bookmarkedUnitIds={bookmarkedUnitIds} className="border-t border-graticule p-5 sm:p-6">
         <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-ink-muted">Compare the factors</p>
         <h3 className="mt-1 font-display text-[1.25rem]/[1.3] font-semibold text-ink-strong">{model.title}</h3>
-        <p className="mt-2 max-w-[68ch] text-[1rem]/[1.65] text-ink">{factors.introduction}</p>
+        <p className="mt-2 text-[1rem]/[1.65] text-ink">{factors.introduction}</p>
         <div className="mt-4 overflow-hidden rounded-card border border-graticule">
           <table className="w-full table-fixed border-collapse text-left">
             <caption className="sr-only">Push factors compared with pull factors</caption>
@@ -459,7 +459,7 @@ function FormsOfTourismModel({
       <div className="border-b border-graticule p-5 sm:p-6">
         <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-meridian">Study model</p>
         <h2 id="forms-learning-model" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">Forms of tourism from one country&apos;s viewpoint</h2>
-        <p className="mt-2 max-w-[62ch] text-[1rem]/[1.6] text-ink-muted">Use Country A as the reference point, then compare who travels and whether the trip stays inside or crosses its border.</p>
+        <p className="mt-2 text-[1rem]/[1.6] text-ink-muted">Use Country A as the reference point, then compare who travels and whether the trip stays inside or crosses its border.</p>
       </div>
 
       <UnitAnchor unit={international} bookmarkedUnitIds={bookmarkedUnitIds} className="border-b border-graticule bg-deep/6 p-5 sm:p-6">
@@ -469,7 +469,7 @@ function FormsOfTourismModel({
             <h3 className="mt-1 font-display text-[1.25rem]/[1.3] font-semibold text-deep">{international.title}</h3>
           </div>
         </div>
-        <p className="mt-2 max-w-[68ch] whitespace-pre-wrap text-[1rem]/[1.65] text-ink">{international.body}</p>
+        <p className="mt-2 whitespace-pre-wrap text-[1rem]/[1.65] text-ink">{international.body}</p>
       </UnitAnchor>
 
       <div className="grid sm:grid-cols-[8.5rem_minmax(0,1fr)_minmax(0,1fr)]" aria-describedby="forms-matrix-note">
@@ -582,7 +582,7 @@ function ClimateClassificationModel({
         <h2 id="climate-classification-model" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">
           World climate classification
         </h2>
-        <p className="mt-2 max-w-[62ch] text-[1rem]/[1.6] text-ink-muted">
+        <p className="mt-2 text-[1rem]/[1.6] text-ink-muted">
           Two maps, one window: the zones the world is divided into by latitude, and the deck&apos;s own climate and
           vegetation map. Switch between them with the tabs.
         </p>
@@ -628,7 +628,7 @@ function MajorOceansModel({
         <h2 id="major-oceans-model" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">
           The five major oceans on the map
         </h2>
-        <p className="mt-2 max-w-[62ch] text-[1rem]/[1.6] text-ink-muted">
+        <p className="mt-2 text-[1rem]/[1.6] text-ink-muted">
           Point at an ocean — or pick one below the map — to read what the course says about it.
         </p>
       </div>
@@ -677,7 +677,7 @@ function SevenContinentsModel({
         <h2 id="seven-continents-model" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">
           The seven continents on the map
         </h2>
-        <p className="mt-2 max-w-[62ch] text-[1rem]/[1.6] text-ink-muted">
+        <p className="mt-2 text-[1rem]/[1.6] text-ink-muted">
           Point at a continent — or pick one below the map — to read what the course says about it.
         </p>
       </div>
@@ -739,12 +739,12 @@ function GlobeModel({
 
       <UnitAnchor unit={latitude} bookmarkedUnitIds={bookmarkedUnitIds} className="border-t border-graticule px-5 pb-4 sm:px-6">
         <h3 className="font-display text-[1.125rem]/[1.3] font-semibold text-ink-strong">{latitude.title}</h3>
-        <p className="mt-2 max-w-[68ch] whitespace-pre-wrap text-[1rem]/[1.65] text-ink">{latitude.body}</p>
+        <p className="mt-2 whitespace-pre-wrap text-[1rem]/[1.65] text-ink">{latitude.body}</p>
       </UnitAnchor>
 
       <UnitAnchor unit={longitude} bookmarkedUnitIds={bookmarkedUnitIds} className="px-5 pb-4 sm:px-6">
         <h3 className="font-display text-[1.125rem]/[1.3] font-semibold text-ink-strong">{longitude.title}</h3>
-        <p className="mt-2 max-w-[68ch] whitespace-pre-wrap text-[1rem]/[1.65] text-ink">{longitude.body}</p>
+        <p className="mt-2 whitespace-pre-wrap text-[1rem]/[1.65] text-ink">{longitude.body}</p>
       </UnitAnchor>
 
       <GlobeExplorer principalNames={principalNamesFrom(latitude.body)} equatorFromCourse={equator?.body} />
@@ -795,7 +795,7 @@ function TimeZoneModel({
       <UnitAnchor unit={unit} bookmarkedUnitIds={bookmarkedUnitIds} className="p-5 sm:p-6">
         <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-meridian">Explore the model</p>
         <h2 id="time-zone-explorer" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">{unit.title}</h2>
-        <p className="mt-3 max-w-[68ch] whitespace-pre-wrap text-[1.0625rem]/[1.65] text-ink">{unit.body}</p>
+        <p className="mt-3 whitespace-pre-wrap text-[1.0625rem]/[1.65] text-ink">{unit.body}</p>
       </UnitAnchor>
 
       <TimeZoneExplorer />
@@ -838,7 +838,7 @@ function MidLatitudeComparison({
       <UnitAnchor unit={table} bookmarkedUnitIds={bookmarkedUnitIds} className="border-b border-graticule p-5 sm:p-6">
         <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-meridian">Compare the sub-types</p>
         <h2 id="mid-latitude-comparison" className="mt-1 font-display text-[1.5rem]/[1.2] font-semibold text-ink-strong">{table.title}</h2>
-        <p className="mt-2 max-w-[68ch] whitespace-pre-wrap text-[1rem]/[1.65] text-ink">{parsed ? parsed.introduction : table.body}</p>
+        <p className="mt-2 whitespace-pre-wrap text-[1rem]/[1.65] text-ink">{parsed ? parsed.introduction : table.body}</p>
       </UnitAnchor>
 
       {parsed ? (

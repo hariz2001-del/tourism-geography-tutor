@@ -38,6 +38,12 @@ describe("a unit's photograph", () => {
     expect(image.closest("figure")?.className).not.toContain("max-w-2xl");
   });
 
+  it("lets the text beside it run the full width of the box, not hug the left", () => {
+    render(<ContentUnit unit={unit(photoId)} variant="stack" />);
+
+    expect(screen.getByText("Its body.").className).not.toMatch(/max-w-\[\d+ch\]/);
+  });
+
   it("fits a figure taken from the slides inside the frame rather than cropping it", () => {
     render(<ContentUnit unit={unit(figureId)} variant="entry" />);
     const image = screen.getByRole("img", { name: figure.alt });
