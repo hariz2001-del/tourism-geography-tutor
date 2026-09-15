@@ -57,7 +57,7 @@ function UnitImage({ unitId }: { unitId: string }) {
       <ExpandableImage
         image={{ src: image.src, alt: image.alt, width: image.width, height: image.height }}
         label={image.caption ?? image.alt}
-        sizes="(min-width: 1024px) 640px, 100vw"
+        sizes="(min-width: 1280px) 520px, (min-width: 1024px) 46vw, 100vw"
       />
       {image.caption || image.attribution ? (
         <figcaption className="space-y-0.5 border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem]/[1.45] text-ink-muted">
