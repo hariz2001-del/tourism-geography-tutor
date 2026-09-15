@@ -43,21 +43,38 @@ function stackKindOf(variant: Variant, contentType: string): "overview" | "examp
  * A unit's figure. Five Chapter 4 units carry a table the deck pasted in as a screenshot of
  * Wikipedia; those are rebuilt as real tables instead, from the same body the card prints.
  */
-function UnitFigure({ unit }: { unit: PublishedContentUnit }) {
+function UnitFigure({ unit, placement }: { unit: PublishedContentUnit; placement: FigurePlacement }) {
   const table = unitTableFor(unit);
   if (table) return <UnitTableFigure caption={`${unit.title} — ${unit.citation.sourceFile}, p${unit.citation.pageOrSlide}`} table={table} />;
-  return <UnitImage unitId={unit.id} />;
+  return <UnitImage unitId={unit.id} placement={placement} />;
 }
 
-function UnitImage({ unitId }: { unitId: string }) {
+/**
+ * Where a figure sits: in a grid of cards, or on its own above a card's text.
+ *
+ * Every photograph is shown in the same 3:2 frame, so a row of cards lines up whatever shape
+ * each original happens to be — a portrait photo beside a landscape one used to make one card
+ * twice the height of its neighbour. A standalone figure is also held to about the width of the
+ * text beside it rather than the whole column; at full width a single photo came out a thousand
+ * pixels wide and, for the one portrait original, fifteen hundred tall. Clicking still opens the
+ * whole uncropped picture.
+ */
+type FigurePlacement = "card" | "standalone";
+
+function UnitImage({ unitId, placement }: { unitId: string; placement: FigurePlacement }) {
   const image = contentImages[unitId];
   if (!image) return null;
+  // A photograph fills the frame and may lose its edges; a figure taken from the slides is
+  // fitted inside it instead, because its edges can carry the labels the card is about.
+  const fit = image.sourceFile ? "object-contain" : "object-cover";
   return (
-    <figure className="mb-3 overflow-hidden rounded-card border border-graticule bg-white">
+    <figure className={`mb-3 overflow-hidden rounded-card border border-graticule bg-white ${placement === "standalone" ? "max-w-2xl" : ""}`}>
       <ExpandableImage
         image={{ src: image.src, alt: image.alt, width: image.width, height: image.height }}
         label={image.caption ?? image.alt}
-        sizes="(min-width: 1280px) 520px, (min-width: 1024px) 46vw, 100vw"
+        className={`aspect-[3/2] h-auto w-full ${fit}`}
+        style={image.focus ? { objectPosition: image.focus } : undefined}
+        sizes={placement === "card" ? "(min-width: 1024px) 480px, 100vw" : "(min-width: 768px) 672px, 100vw"}
       />
       {image.caption || image.attribution ? (
         <figcaption className="space-y-0.5 border-t border-graticule bg-chart px-3 py-1.5 font-mono text-[0.75rem]/[1.45] text-ink-muted">
@@ -123,6 +140,8 @@ export default function ContentUnit({
   }, [anchorId]);
 
   const highlightRing = isHighlighted ? "ring-2 ring-meridian" : "";
+  // Decided once, before the branches below narrow `variant`: only a grid card is a card.
+  const figurePlacement: FigurePlacement = variant === "entry" ? "card" : "standalone";
 
   if (variant === "lead") {
     return (
@@ -131,7 +150,7 @@ export default function ContentUnit({
         data-highlighted={isHighlighted}
         className={`scroll-mt-8 space-y-2 border-l-2 border-l-meridian pb-2 pl-5 ${highlightRing}`}
       >
-        <UnitFigure unit={unit} />
+        <UnitFigure unit={unit} placement={figurePlacement} />
         <div className="flex items-start justify-between gap-3">
           <h2 className="font-display text-[1.1875rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h2>
           {bookmark}
@@ -148,7 +167,7 @@ export default function ContentUnit({
         data-highlighted={isHighlighted}
         className={`scroll-mt-8 rounded-card border border-graticule border-l-2 border-l-deep bg-deep/6 p-5 ${highlightRing}`}
       >
-        <UnitFigure unit={unit} />
+        <UnitFigure unit={unit} placement={figurePlacement} />
         <div className="flex items-start justify-between gap-3">
           <h3 className="font-display text-[1.1875rem]/[1.35] font-semibold text-deep">{unit.title}</h3>
           {bookmark}
@@ -171,7 +190,7 @@ export default function ContentUnit({
             {String(index).padStart(2, "0")}
           </span>
         ) : null}
-        <UnitFigure unit={unit} />
+        <UnitFigure unit={unit} placement={figurePlacement} />
         <h3 className="pr-8 font-display text-[1.0625rem]/[1.35] font-semibold text-ink-strong">{unit.title}</h3>
         <p className="mt-1.5 whitespace-pre-wrap text-[0.9375rem]/[1.6] text-ink">{unit.body}</p>
         {bookmark ? <div className="mt-3 flex justify-end">{bookmark}</div> : null}
@@ -186,7 +205,7 @@ export default function ContentUnit({
         data-highlighted={isHighlighted}
         className={`scroll-mt-8 space-y-2 rounded-card border border-lowland/30 bg-lowland/8 p-5 ${highlightRing}`}
       >
-        <UnitFigure unit={unit} />
+        <UnitFigure unit={unit} placement={figurePlacement} />
         {showBadge ? (
           <span className="block font-mono text-[0.6875rem]/[1.2] font-medium uppercase tracking-[0.14em] text-lowland">KEY TAKEAWAY</span>
         ) : null}
@@ -209,7 +228,7 @@ export default function ContentUnit({
       data-highlighted={isHighlighted}
       className={`scroll-mt-8 space-y-3 rounded-card border border-graticule border-l-2 p-5 transition-colors duration-150 ${accentBorder} ${surfaceFill} ${highlightRing}`}
     >
-      <UnitFigure unit={unit} />
+      <UnitFigure unit={unit} placement={figurePlacement} />
       {showBadge && label ? (
         <span className={`font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] ${badgeAccent}`}>{label}</span>
       ) : null}

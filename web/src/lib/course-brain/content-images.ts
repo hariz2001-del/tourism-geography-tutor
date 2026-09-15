@@ -4,6 +4,11 @@ export type ContentImage = {
   width: number;
   height: number;
   caption?: string;
+  /**
+   * CSS object-position for fitting a photograph into the cards' 3:2 frame, when the centre is
+   * the wrong place to crop — "50% 30%" keeps the upper part. Defaults to the centre.
+   */
+  focus?: string;
   sourceFile?: string;
   pageOrSlide?: number;
   attribution?: {
@@ -370,13 +375,17 @@ export const contentImages: Record<string, ContentImage> = {
     },
   },
   "15c93c2f-a904-4d1b-bec5-6275c231cf68": {
-    src: "/content-images/ch4-p2-nature-tourists.jpg",
-    alt: "A group of nature tourists in a sunlit clearing with tripods, spotting scopes, binoculars, and cameras trained into the trees",
-    width: 1460,
-    height: 2189,
-    caption: "Nature-based tourism — chapter-4.pdf, p2",
-    sourceFile: "chapter-4.pdf",
-    pageOrSlide: 2,
+    src: "/content-images/ch4-nature-tourism-hd.webp",
+    alt: "Visitors at the Navajo Point viewpoint looking out over the Grand Canyon, its red and orange walls running to the horizon under a blue sky",
+    width: 1600,
+    height: 1067,
+    caption: "Visitors at Navajo Point, Grand Canyon National Park — enjoying an undisturbed natural environment",
+    attribution: {
+      creator: "Marek Ślusarczyk (Tupungato) Photo portfolio",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:10_Grand_Canyon_Navajo_Point_viewpoint_terrace,_Grand_Canyon_National_Park,_USA_-_American_nature.jpg",
+      license: "CC BY 3.0",
+      licenseUrl: "https://creativecommons.org/licenses/by/3.0/",
+    },
   },
   "0da062ff-1e92-42bb-bfd1-e5617f5764bf": {
     src: "/content-images/ch4-p3-hand-mountain.jpg",
@@ -549,13 +558,17 @@ export const contentImages: Record<string, ContentImage> = {
     pageOrSlide: 6,
   },
   "cb85a578-3658-43ce-a7a4-686c75d8b5a2": {
-    src: "/content-images/ch1-p7-leisure-seaside.jpg",
-    alt: "Woman seen from behind with arms outstretched toward a calm turquoise sea, carrying a straw bag with red flowers",
-    width: 1143,
-    height: 1714,
-    caption: "Leisure — chapter-1.pdf, p7",
-    sourceFile: "chapter-1-candidate-a.pdf",
-    pageOrSlide: 7,
+    src: "/content-images/ch1-leisure-hd.webp",
+    alt: "People relaxing at a beachside café under pine trees, lounge chairs and umbrellas set out on the sand by the sea",
+    width: 1600,
+    height: 1067,
+    caption: "Free time at a beachside café",
+    attribution: {
+      creator: "PattayaPatrol",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:DFC_2137_Beachside_pop-up_café_under_pine_trees_with_people_relaxing_on_lounge_chairs_and_umbrellas_by_the_shore.jpg",
+      license: "CC BY-SA 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+    },
   },
   "95b44f13-a11f-472f-bbcb-d40ed359d0ed": {
     src: "/content-images/ch1-p8-recreation-hikers.jpg",
@@ -851,6 +864,19 @@ export const contentImages: Record<string, ContentImage> = {
       sourceUrl: "https://commons.wikimedia.org/wiki/File:DFC_4016_Sun-drenched_beach_with_umbrellas_and_colorful_inflatable_rings_stacked_ready_for_a_day_of_fun_by_the_sea.jpg",
       license: "CC BY-SA 4.0",
       licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+    },
+  },
+  "eef870d4-aa62-4385-ba4e-ca86e292b9c3": {
+    src: "/content-images/ch1-tourism-hd.webp",
+    alt: "A blue-domed white church and bell tower in Fira, Santorini, above the deep blue caldera with an island beyond",
+    width: 1600,
+    height: 1067,
+    caption: "Fira, Santorini — a destination visitors travel to from outside their usual environment",
+    attribution: {
+      creator: "kuhnmi",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Blue_Dome_in_Santorini_-_Flickr_-_kuhnmi.jpg",
+      license: "CC BY 2.0",
+      licenseUrl: "https://creativecommons.org/licenses/by/2.0/",
     },
   },
 };

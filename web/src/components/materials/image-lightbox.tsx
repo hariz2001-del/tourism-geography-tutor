@@ -105,6 +105,7 @@ export default function ExpandableImage({
   sizes,
   priority,
   className = "h-auto w-full",
+  style,
 }: {
   image: LightboxImage;
   label: string;
@@ -112,6 +113,8 @@ export default function ExpandableImage({
   sizes?: string;
   priority?: boolean;
   className?: string;
+  /** Per-image styling for the thumbnail only — the full-screen view always shows the whole picture. */
+  style?: React.CSSProperties;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -132,6 +135,7 @@ export default function ExpandableImage({
             className={className}
             sizes={sizes}
             priority={priority}
+            style={style}
           />
         </div>
       </button>
