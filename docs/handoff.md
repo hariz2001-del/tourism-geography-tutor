@@ -14,7 +14,27 @@ first.
 
 ## Right now
 
-*(state of play last refreshed 2026-09-15, after the reconciliation and globe-pins deploys below)*
+*(state of play last refreshed 2026-09-15, after the image, principal-lines and badge deploys below)*
+
+### 2026-09-15 (later): one shape for card photos, the principal lines explained, the badge in the header
+
+Live on `main` `688f9b0`, verified on production (all 25 topics, no errors).
+
+- **Every unit photograph sits in one 3:2 frame** (`content-unit.tsx`, `UnitImage`). Photos
+  fill it (`object-cover`); **figures taken from the slides are fitted, never cropped**
+  (`object-contain`, chosen by `image.sourceFile`), because their edges can carry labels.
+  Standalone photos are capped at `max-w-2xl` (about the text's width); grid cards keep their
+  column width. Optional `focus` on a `ContentImage` sets where a crop centres. Clicking still
+  opens the whole picture. Before: 28 standalone photos at ~1000px wide, one 1,524px tall.
+- **Photos replaced for shape**: Leisure (slide portrait → beachside café), Nature-based tourism
+  (slide portrait → visitors at Navajo Point, Grand Canyon), and Tourism got its first photo
+  (Fira, Santorini). Neither replaced card's text described its picture.
+- **The five principal lines are described** on the Chapter 3 globe. Added reference
+  (Encyclopædia Britannica), tagged as added; the Equator's own course card is quoted first.
+- **The Geotourism Learning badge leads the header**, with a navy→sky→green stripe, and is the
+  browser-tab icon. The palette's tokens moved toward the badge: primary `#1F5A9E` (dark
+  `#7DB4F0`), sky blue `deep`, mountain-green `lowland`. Diagram colours are hard-coded in the
+  map/globe components and did not change.
 
 ### 2026-09-15: production had drifted from `main` — reconciled, then globe pins and the logo
 
