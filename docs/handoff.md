@@ -55,6 +55,11 @@ Still open from the lecturer's 2026-09-15 list:
 - **Sign in before anything** — needs confirmation: every learner would need an account first.
 - **The interactive hydrosphere/lithosphere floor plan** — not started. Its label 13 reads
   "River" but is drawn as a lake: flag it, do not correct it.
+- **Which Chapter 1 PDF is canonical** — an owner decision carried over from the Drive
+  checkout's 2026-08-21 notes. The only local `chapter-1.pdf` has different page-29 bullets from
+  the `chapter-1-candidate-a.pdf` that Chapter 1's citations name. Either supply that exact file
+  or approve the local one as the new source; until then, do not edit Chapter 1 rows. Details
+  in the checklist's "Resolve the Chapter 1 canonical-source mismatch" entry.
 
 The quiz-bank audit lives uncommitted on `audit/quiz-bank-2026-09-03` in the C:\ repo and
 belongs to another session: 190 of 208 reviewed, 140 adjudicated (123 revise, 12 pass,
