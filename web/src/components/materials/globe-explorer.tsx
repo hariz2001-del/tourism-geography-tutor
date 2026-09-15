@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  PRINCIPAL_LINE_SOURCE,
   PRINCIPAL_PARALLELS,
   faceTowards,
   formatLatitude,
@@ -73,7 +74,14 @@ type Place = { longitude: number; latitude: number };
  */
 type Pin = Place & { continent: string | null | undefined };
 
-export default function GlobeExplorer({ principalNames }: { principalNames: string[] }) {
+export default function GlobeExplorer({
+  principalNames,
+  equatorFromCourse,
+}: {
+  principalNames: string[];
+  /** The course's own card on the Equator, quoted beside the added description when it exists. */
+  equatorFromCourse?: string;
+}) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const sphereRef = useRef<HTMLCanvasElement | null>(null);
   const mapPixels = useRef<Uint8ClampedArray | null>(null);
@@ -567,13 +575,22 @@ export default function GlobeExplorer({ principalNames }: { principalNames: stri
             <>
               <p className="flex items-baseline justify-between gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-muted">
                 The five principal lines
-                <span className="rounded-sm bg-relief/12 px-1 text-[0.625rem] tracking-[0.08em] text-relief">latitudes added</span>
+                <span className="rounded-sm bg-relief/12 px-1 text-[0.625rem] tracking-[0.08em] text-relief">latitudes and descriptions added</span>
               </p>
               <ul className="grid gap-1.5">
                 {PRINCIPAL_PARALLELS.map((line, index) => (
-                  <li className="flex items-baseline justify-between gap-3 rounded-card bg-chart px-3 py-1.5" key={line.key}>
-                    <span className="text-[0.9375rem] text-ink-strong">{names[index] ?? line.name}</span>
-                    <span className="font-mono text-[0.75rem] text-ink-muted">{formatLatitude(line.latitude)}</span>
+                  <li className="rounded-card bg-chart px-3 py-2" key={line.key}>
+                    <span className="flex items-baseline justify-between gap-3">
+                      <span className="text-[0.9375rem] font-semibold text-ink-strong">{names[index] ?? line.name}</span>
+                      <span className="font-mono text-[0.75rem] text-ink-muted">{formatLatitude(line.latitude)}</span>
+                    </span>
+                    {line.key === "equator" && equatorFromCourse ? (
+                      <span className="mt-1 block text-[0.8125rem]/[1.5] text-ink">
+                        <span className="font-semibold">The course: </span>
+                        {equatorFromCourse}
+                      </span>
+                    ) : null}
+                    <span className="mt-1 block text-[0.8125rem]/[1.5] text-ink-muted">{line.description}</span>
                   </li>
                 ))}
               </ul>
@@ -584,7 +601,7 @@ export default function GlobeExplorer({ principalNames }: { principalNames: stri
 
       <p className="mt-3 text-[0.8125rem]/[1.55] text-ink-muted">
         * The five names, their order and the 15°-per-hour rule are the course&apos;s own. The slide names the
-        principal lines without numbering them, so their latitudes are added. The continent names are the ones the
+        principal lines without numbering or explaining them, so their latitudes and the line descriptions are added (descriptions: {PRINCIPAL_LINE_SOURCE}). The continent names are the ones the
         course&apos;s lithosphere card uses; where each is written on the globe is only a label position. The globe is
         drawn by re-projecting the flat map rather than photographed, which is why it can be turned.
       </p>

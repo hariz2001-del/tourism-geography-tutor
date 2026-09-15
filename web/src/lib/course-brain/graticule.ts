@@ -16,14 +16,58 @@ export type PrincipalLine = {
   latitude: number;
   /** True where the latitude is added rather than stated by the deck. */
   latitudeIsAdded: boolean;
+  /**
+   * What the line marks. Added reference, not the deck's: the slide names the five lines
+   * without explaining any of them, and the only one the course describes elsewhere is the
+   * Equator (its own card in "Earth systems and global divisions"), which the globe quotes
+   * alongside this. Source: `PRINCIPAL_LINE_SOURCE`.
+   */
+  description: string;
 };
 
+export const PRINCIPAL_LINE_SOURCE = "Encyclopædia Britannica";
+
 export const PRINCIPAL_PARALLELS: PrincipalLine[] = [
-  { key: "arctic-circle", name: "Arctic Circle", latitude: 66.5, latitudeIsAdded: true },
-  { key: "tropic-of-cancer", name: "Tropic of Cancer", latitude: 23.5, latitudeIsAdded: true },
-  { key: "equator", name: "Equator", latitude: 0, latitudeIsAdded: true },
-  { key: "tropic-of-capricorn", name: "Tropic of Capricorn", latitude: -23.5, latitudeIsAdded: true },
-  { key: "antarctic-circle", name: "Antarctic Circle", latitude: -66.5, latitudeIsAdded: true },
+  {
+    key: "arctic-circle",
+    name: "Arctic Circle",
+    latitude: 66.5,
+    latitudeIsAdded: true,
+    description:
+      "The southern edge of the Arctic. North of it the Sun stays up for a full 24 hours at least once a year, around the June solstice, and stays down for 24 hours around the December solstice.",
+  },
+  {
+    key: "tropic-of-cancer",
+    name: "Tropic of Cancer",
+    latitude: 23.5,
+    latitudeIsAdded: true,
+    description:
+      "The furthest north the Sun is ever directly overhead at noon, which happens once a year at the June solstice. It marks the northern edge of the tropics.",
+  },
+  {
+    key: "equator",
+    name: "Equator",
+    latitude: 0,
+    latitudeIsAdded: true,
+    description:
+      "The 0° line, halfway between the poles. It divides the Earth into the Northern and Southern Hemispheres, and latitude is measured north and south from it.",
+  },
+  {
+    key: "tropic-of-capricorn",
+    name: "Tropic of Capricorn",
+    latitude: -23.5,
+    latitudeIsAdded: true,
+    description:
+      "The furthest south the Sun is ever directly overhead at noon, which happens once a year at the December solstice. It marks the southern edge of the tropics.",
+  },
+  {
+    key: "antarctic-circle",
+    name: "Antarctic Circle",
+    latitude: -66.5,
+    latitudeIsAdded: true,
+    description:
+      "The northern edge of the Antarctic. South of it the Sun stays up for a full 24 hours at least once a year, around the December solstice, and stays down for 24 hours around the June solstice.",
+  },
 ];
 
 /** The order the deck lists them in, north to south, so a parse can be checked against it. */

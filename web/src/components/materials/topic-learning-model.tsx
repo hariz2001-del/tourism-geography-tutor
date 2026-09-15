@@ -195,7 +195,10 @@ export default function TopicLearningModel({
       const latitude = byId.get(LATITUDE_UNIT_ID);
       const longitude = byId.get(LONGITUDE_UNIT_ID);
       if (!latitude || !longitude) return null;
-      return <GlobeModel latitude={latitude} longitude={longitude} topicId={topicId} bookmarkedUnitIds={bookmarkedUnitIds} />;
+      // The Equator has its own card in the other Chapter 3 topic; the globe quotes it beside the
+      // added description. Found by its title, and simply left out if that card ever changes.
+      const equator = (chapterUnits ?? units).find((unit) => unit.title === "The Equator");
+      return <GlobeModel latitude={latitude} longitude={longitude} equator={equator} topicId={topicId} bookmarkedUnitIds={bookmarkedUnitIds} />;
     }
     const timeZones = byId.get(TIME_ZONES_UNIT_ID);
     if (!timeZones) return null;
@@ -713,11 +716,13 @@ function SevenContinentsModel({
 function GlobeModel({
   latitude,
   longitude,
+  equator,
   topicId,
   bookmarkedUnitIds,
 }: {
   latitude: PublishedContentUnit;
   longitude: PublishedContentUnit;
+  equator?: PublishedContentUnit;
   topicId: string;
   bookmarkedUnitIds?: Set<string>;
 }) {
@@ -742,7 +747,7 @@ function GlobeModel({
         <p className="mt-2 max-w-[68ch] whitespace-pre-wrap text-[1rem]/[1.65] text-ink">{longitude.body}</p>
       </UnitAnchor>
 
-      <GlobeExplorer principalNames={principalNamesFrom(latitude.body)} />
+      <GlobeExplorer principalNames={principalNamesFrom(latitude.body)} equatorFromCourse={equator?.body} />
 
       {sourceDiagram ? (
         <details className="border-t border-graticule px-5 py-3 sm:px-6">

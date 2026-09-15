@@ -1,5 +1,29 @@
 import { describe, expect, it } from "vitest";
-import { faceTowards, hemispheresOf, parseCoordinate, project } from "./graticule";
+import { PRINCIPAL_LINE_SOURCE, PRINCIPAL_PARALLELS, faceTowards, hemispheresOf, parseCoordinate, project } from "./graticule";
+
+describe("the five principal lines", () => {
+  it("each carry a description, and say where the descriptions come from", () => {
+    expect(PRINCIPAL_PARALLELS.map((line) => line.name)).toEqual([
+      "Arctic Circle",
+      "Tropic of Cancer",
+      "Equator",
+      "Tropic of Capricorn",
+      "Antarctic Circle",
+    ]);
+    for (const line of PRINCIPAL_PARALLELS) {
+      expect(line.description.length, `${line.name} has no description`).toBeGreaterThan(40);
+    }
+    expect(PRINCIPAL_LINE_SOURCE.length).toBeGreaterThan(0);
+  });
+
+  it("pair the tropics and the polar circles by the solstice that defines them", () => {
+    const byKey = new Map(PRINCIPAL_PARALLELS.map((line) => [line.key, line.description]));
+    expect(byKey.get("tropic-of-cancer")).toContain("June solstice");
+    expect(byKey.get("tropic-of-capricorn")).toContain("December solstice");
+    expect(byKey.get("arctic-circle")).toContain("around the June solstice");
+    expect(byKey.get("antarctic-circle")).toContain("around the December solstice");
+  });
+});
 
 describe("typing a place to pin", () => {
   it("reads plain signed numbers", () => {
