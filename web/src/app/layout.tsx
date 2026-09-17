@@ -44,7 +44,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </a>
         <SiteHeader profile={profile} />
         <div id="main-content" tabIndex={-1}>{children}</div>
-        <TutorWidget />
+        {/* Nothing to tutor until someone is signed in — the only page they can see is sign-in. */}
+        {profile ? <TutorWidget /> : null}
       </body>
     </html>
   );

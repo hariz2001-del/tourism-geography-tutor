@@ -4,10 +4,11 @@ import { formatChapterLabel } from "@/lib/course-brain/chapter-label";
 import { isPracticeMode, practiceModes, scopeForPractice } from "@/lib/practice/config";
 import { drawCoursePaper } from "@/lib/practice/course-paper";
 import { createServerCourseBrainRepository } from "@/lib/supabase/server";
-import { getProfile } from "@/lib/auth/session";
+import { requireProfile } from "@/lib/auth/session";
 import type { ExamQuestion } from "@/lib/course-brain/types";
 
 export default async function PracticePage({ params, searchParams }: { params: Promise<{ mode: string }>; searchParams: Promise<{ topic?: string; chapter?: string }> }) {
+  const profile = await requireProfile();
   const [{ mode }, query] = await Promise.all([params, searchParams]);
   if (!isPracticeMode(mode)) return <Unavailable title="Practice mode unavailable" detail="Choose a topic quiz, chapter mini exam, or full course exam." />;
   const scopeValue = mode === "topic" ? query.topic : mode === "chapter" ? query.chapter : undefined;
@@ -46,7 +47,6 @@ export default async function PracticePage({ params, searchParams }: { params: P
     : mode === "topic"
       ? `/practice/topic?topic=${encodeURIComponent(scopeValue ?? "")}`
       : `/practice/chapter?chapter=${encodeURIComponent(scopeValue ?? "")}`;
-  const profile = await getProfile();
   return <ExamRunner
     title={practiceModes[mode].label}
     mcqQuestions={mcqQuestions}

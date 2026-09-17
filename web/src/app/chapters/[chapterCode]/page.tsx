@@ -12,7 +12,7 @@ import { buildSections, shouldShowLabels } from "@/lib/course-brain/group-units"
 import { topicDiagrams } from "@/lib/course-brain/diagrams";
 import type { Chapter, ChapterTopic, PublishedContentUnit, QuizQuestion } from "@/lib/course-brain/types";
 import { createServerCourseBrainRepository } from "@/lib/supabase/server";
-import { getProfile } from "@/lib/auth/session";
+import { requireProfile } from "@/lib/auth/session";
 import { listBookmarkedUnitIds } from "@/lib/learners/bookmarks";
 import { ActiveTopicRecorder, ChapterTopicsProvider, TopicPanel } from "./chapter-topics";
 
@@ -92,7 +92,7 @@ export default async function ChapterPage({ params, searchParams }: { params: Pr
     return <EmptyState chapterCode={chapterCode} chapters={chapters} />;
   }
 
-  const profile = await getProfile();
+  const profile = await requireProfile();
   const isStudent = profile?.role === "student";
   const bookmarkedUnitIds = isStudent ? await listBookmarkedUnitIds(profile.id) : new Set<string>();
   const topicNames = Object.fromEntries(chapter.topics.map((topic) => [topic.id, topic.name]));

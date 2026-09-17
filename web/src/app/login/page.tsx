@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import LoginForm from "./login-form";
 
 export const metadata = { title: "Sign in · Tourism Geography Tutor" };
@@ -10,24 +9,21 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
 
   return (
     <main className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-[28rem] flex-col justify-center gap-6 px-6 py-12">
-      <div className="space-y-2">
-        {/* The client's badge. A circle with its corners cleared, so it sits on either theme. */}
+      {/* The badge and the course name together: this is the first page anyone sees. */}
+      <div className="flex flex-col items-center gap-3 text-center">
         <Image
           alt="Geotourism Learning — an interactive educational platform"
-          className="mb-4 h-28 w-28"
+          className="h-32 w-32"
           height={512}
           priority
           src="/brand/geotourism-learning-badge.png"
           width={512}
         />
-        <p className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-meridian">
+        <h1 className="font-display text-[2rem]/[1.15] font-semibold tracking-[-0.015em] text-ink-strong">
           Tourism Geography Tutor
-        </p>
-        <h1 className="font-display text-[2rem] font-semibold leading-[1.15] tracking-[-0.015em] text-ink-strong">
-          Sign in
         </h1>
         <p className="text-ink">
-          Signing in saves your bookmarks, reading history, and assessment results.
+          Sign in to open the course, the flashcards, the tutor, and your results.
         </p>
       </div>
 
@@ -35,16 +31,8 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         <LoginForm next={safeNext} />
       </div>
 
-      <p className="text-ink-muted">
-        The course materials, flashcards, and practice assessments are open without an
-        account.{" "}
-        <Link
-          href="/"
-          className="text-meridian underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
-        >
-          Continue without signing in
-        </Link>
-        .
+      <p className="text-center text-ink-muted">
+        Ask your lecturer if you do not have an account yet.
       </p>
     </main>
   );

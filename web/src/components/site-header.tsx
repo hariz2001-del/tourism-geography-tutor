@@ -57,9 +57,10 @@ export default function SiteHeader({ profile }: { profile: Profile | null }) {
           <span className="hidden sm:inline">Tourism Geography Tutor</span>
         </Link>
 
+        {profile ? (
         <nav
           aria-label="Primary"
-          className={`order-2 grid w-full items-center gap-1 sm:order-none sm:flex sm:w-auto sm:gap-2 ${profile ? "grid-cols-5" : "grid-cols-4"}`}
+          className="order-2 grid w-full grid-cols-5 items-center gap-1 sm:order-none sm:flex sm:w-auto sm:gap-2"
         >
           {items.map((item) => {
             const isCurrent = item.matches(pathname);
@@ -76,6 +77,7 @@ export default function SiteHeader({ profile }: { profile: Profile | null }) {
             );
           })}
         </nav>
+        ) : null}
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
@@ -93,14 +95,7 @@ export default function SiteHeader({ profile }: { profile: Profile | null }) {
                 </button>
               </form>
             </>
-          ) : (
-            <Link
-              className="inline-flex min-h-11 items-center rounded-card border border-graticule bg-surface px-3 text-[0.9375rem] font-medium text-meridian transition-colors hover:border-meridian hover:bg-meridian/6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
-              href="/login"
-            >
-              Sign in
-            </Link>
-          )}
+          ) : null}
         </div>
       </div>
     </header>

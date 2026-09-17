@@ -3,6 +3,7 @@ import { answerWithLlmFallback } from "@/lib/tutor/llm-fallback";
 import { tutorRequestSchema } from "@/lib/tutor/schema";
 import type { CourseBrainRepository } from "@/lib/course-brain/repository";
 import { createServerCourseBrainRepository } from "@/lib/supabase/server";
+import { withSignedIn } from "@/lib/auth/api-guard";
 
 type TutorRepository = Pick<CourseBrainRepository, "getAllPublishedContent">;
 
@@ -29,4 +30,4 @@ export function createTutorRouteHandler(createRepository: () => TutorRepository)
   };
 }
 
-export const POST = createTutorRouteHandler(createServerCourseBrainRepository);
+export const POST = withSignedIn(createTutorRouteHandler(createServerCourseBrainRepository));

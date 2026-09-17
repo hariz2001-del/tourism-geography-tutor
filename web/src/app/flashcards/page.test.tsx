@@ -9,6 +9,12 @@ vi.mock("@/lib/supabase/server", () => ({
   createServerCourseBrainRepository: () => ({ listChapters, listChapterTopics, getAllPublishedContent }),
 }));
 
+// Every page now sits behind the sign-in gate; these tests are the signed-in view.
+vi.mock("@/lib/auth/session", () => ({
+  requireProfile: async () => ({ id: "s1", username: "student", displayName: "Student One", role: "student" }),
+  getProfile: async () => ({ id: "s1", username: "student", displayName: "Student One", role: "student" }),
+}));
+
 describe("FlashcardsPage", () => {
   beforeEach(() => {
     listChapters.mockReset();

@@ -3,7 +3,7 @@ import Link from "next/link";
 import FlashcardDeck from "@/components/flashcards/flashcard-deck";
 import type { Chapter, Flashcard } from "@/lib/course-brain/types";
 import { createServerCourseBrainRepository } from "@/lib/supabase/server";
-import { getProfile } from "@/lib/auth/session";
+import { requireProfile } from "@/lib/auth/session";
 
 export const metadata: Metadata = {
   title: "Flashcards | Tourism Geography Tutor",
@@ -57,7 +57,7 @@ export default async function FlashcardsPage({
 }: {
   searchParams: Promise<{ chapter?: string; topic?: string }>;
 }) {
-  const [{ chapter, topic }, data, profile] = await Promise.all([searchParams, loadFlashcards(), getProfile()]);
+  const [{ chapter, topic }, data, profile] = await Promise.all([searchParams, loadFlashcards(), requireProfile()]);
 
   if (!data || !data.cards.length) {
     return (

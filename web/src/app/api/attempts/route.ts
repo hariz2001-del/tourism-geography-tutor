@@ -13,10 +13,16 @@ import { createServerOnlyCourseBrainRepository } from "@/lib/supabase/server";
  * its own total from per-question responses, which is fine for display but is
  * not something a stored score can be based on. Marks come from the database.
  *
- * Anonymous visitors get marked and receive their results as before; nothing is
- * persisted for them, and the assessment stays open without an account.
+ * Assessments are for signed-in learners only, so an anonymous submission is
+ * refused here rather than marked. A lecturer may sit an assessment too; only a
+ * student's attempt is recorded against their record.
  */
 export async function POST(request: Request): Promise<Response> {
+  const profile = await getProfile();
+  if (!profile) {
+    return Response.json({ error: "Sign in to continue." }, { status: 401 });
+  }
+
   let body: unknown;
   try {
     body = await request.json();
@@ -103,8 +109,7 @@ export async function POST(request: Request): Promise<Response> {
     const awardedMarks = recorded.reduce((sum, answer) => sum + answer.awardedMarks, 0);
     const totalMarks = recorded.reduce((sum, answer) => sum + answer.maxMarks, 0);
 
-    const profile = await getProfile();
-    const attemptId = profile?.role === "student"
+    const attemptId = profile.role === "student"
       ? await recordAttempt({
           studentId: profile.id,
           mode: submission.mode,

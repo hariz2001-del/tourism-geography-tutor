@@ -2,6 +2,7 @@ import { subjectiveQuizRequestSchema } from "@/lib/course-brain/quiz-schema";
 import type { CourseBrainRepository } from "@/lib/course-brain/repository";
 import { gradeSubjectiveAnswer } from "@/lib/quiz/subjective-grader";
 import { createServerOnlyCourseBrainRepository } from "@/lib/supabase/server";
+import { withSignedIn } from "@/lib/auth/api-guard";
 
 type SubjectiveRepository = Pick<CourseBrainRepository, "getSubjectiveQuestionMarkingContext">;
 
@@ -22,4 +23,4 @@ export function createSubjectiveQuizRouteHandler(createRepository: () => Subject
   };
 }
 
-export const POST = createSubjectiveQuizRouteHandler(createServerOnlyCourseBrainRepository);
+export const POST = withSignedIn(createSubjectiveQuizRouteHandler(createServerOnlyCourseBrainRepository));

@@ -2,6 +2,7 @@ import Link from "next/link";
 import OpenTutorButton from "@/components/tutor/open-tutor-button";
 import { formatChapterLabel } from "@/lib/course-brain/chapter-label";
 import { createServerCourseBrainRepository } from "@/lib/supabase/server";
+import { requireProfile } from "@/lib/auth/session";
 import type { Chapter, ChapterTopic } from "@/lib/course-brain/types";
 
 type ChapterWithTopics = { chapter: Chapter; topics: ChapterTopic[] };
@@ -22,6 +23,9 @@ async function loadChaptersWithTopics(): Promise<ChapterWithTopics[] | null> {
 }
 
 export default async function Home() {
+  // The course is for signed-in learners only; the proxy turns anonymous traffic
+  // away first, but a page may never rely on that alone.
+  await requireProfile();
   const chaptersWithTopics = await loadChaptersWithTopics();
   const firstChapterCode = chaptersWithTopics?.[0]?.chapter.code ?? "CH1";
 

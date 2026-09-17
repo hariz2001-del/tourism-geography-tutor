@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { requireProfile } from "@/lib/auth/session";
 
 export const metadata: Metadata = {
   title: "Study guide | Tourism Geography Tutor",
@@ -24,7 +25,9 @@ const steps = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  await requireProfile();
+
   return (
     <main className="mx-auto min-h-[calc(100vh-4rem)] w-full max-w-4xl px-6 py-12 md:py-16">
       <header className="max-w-3xl space-y-4">

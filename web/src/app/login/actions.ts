@@ -51,5 +51,7 @@ export async function signOut(): Promise<void> {
     // Already signed out or unconfigured — fall through to the redirect.
   }
   revalidatePath("/", "layout");
-  redirect("/");
+  // Straight to the sign-in page. Sending them to "/" also ends up here, but only
+  // after a second redirect, which leaves the address bar reading "/".
+  redirect("/login");
 }

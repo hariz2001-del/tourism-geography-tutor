@@ -14,7 +14,41 @@ first.
 
 ## Right now
 
-*(state of play last refreshed 2026-09-15, after the image, principal-lines and badge deploys below)*
+*(state of play last refreshed 2026-09-18, after the sign-in gate below)*
+
+### 2026-09-18 (latest): the site is closed to anyone who is not signed in
+
+The lecturer's open question — "sign-in before anything" — was confirmed by the owner:
+the site opens on the sign-in page, and the course only opens after signing in. This
+reverses the earlier decision that "the course materials, flashcards, and practice
+assessments remain open without an account".
+
+- **The proxy** (`web/src/proxy.ts`) now gates every path except `/login`, rather than only
+  `/dashboard`. An anonymous page request is redirected to `/login?next=<the page>`, so a
+  shared link still lands where it pointed once the learner signs in. An anonymous `/api/*`
+  call gets `401 {"error":"Sign in to continue."}` instead of a redirect, which would have
+  arrived at `fetch()` as a body of HTML. The matcher excludes `_next/*` and every path with
+  a file extension, so the badge, fonts and CSS still load on the sign-in page itself.
+- **Each page checks for itself**, because Next's guidance is that a proxy check is
+  optimistic: the course, study guide, flashcards, practice and chapter pages all call
+  `requireProfile()` (`web/src/lib/auth/session.ts`), which redirects to `/login`.
+- **Each API route checks too**, through `withSignedIn` (`web/src/lib/auth/api-guard.ts`),
+  which wraps the exported `POST` of the tutor, quiz-answer and subjective-quiz routes. The
+  attempts route refuses an anonymous submission outright — assessments are no longer marked
+  for visitors without an account.
+- **Signed out, the header carries only the badge, the name and the theme toggle**: no
+  navigation to pages that cannot be opened, and no "Sign in" link back to the page you are
+  already on. The tutor widget is not mounted at all.
+- **The sign-in page** leads with the badge and "Tourism Geography Tutor", as the owner asked,
+  and no longer offers "Continue without signing in". Signing out returns to `/login`
+  directly (it used to go to `/`, which then redirected, leaving the address bar on `/`).
+- **Sign-out** was already in the header for a signed-in learner and still is.
+- **Checked on production** with the seeded `student` account: anonymous visitors land on the
+  sign-in page, a deep link is remembered, the tutor API returns 401, signing in opens the
+  course with the tutor back, and signing out closes it again. 253 tests pass; tsc, lint and
+  the build are clean.
+- A test (`web/src/proxy.test.ts`) caught the matcher regex losing a backslash, which would
+  have left the gate applying to almost no path at all. It stays as the guard against that.
 
 ### 2026-09-15 (latest): the tutor docks on the right again, and collapses
 
@@ -712,7 +746,9 @@ against the production URL — `BASE_URL=https://tourism-geography-tutor.vercel.
 
 **Previous task: learner accounts, roles, and the two dashboards (2026-08-17).**
 
-Two seeded Supabase accounts, `lecturer`/`lecturer` and `student`/`student`. Supabase Auth
+Two seeded Supabase accounts, `lecturer`/`lecturer` and `student`/`student`.
+(Superseded 2026-09-18: the content is no longer open without an account — see the sign-in
+gate at the top of this file.) Supabase Auth
 needs an email, so the login form maps username to `<username>@tgtutor.local`; learners type
 only the username. Accounts were created directly in `auth.users` (with matching
 `auth.identities` rows) because the service-role key is not persisted on this machine; a

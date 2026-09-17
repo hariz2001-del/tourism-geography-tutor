@@ -11,7 +11,7 @@ const lecturer: Profile = { id: "l1", username: "lecturer", displayName: "Dr. Le
 
 describe("SiteHeader", () => {
   it("places the uppercase guide first in the primary navigation", () => {
-    render(<SiteHeader profile={null} />);
+    render(<SiteHeader profile={student} />);
 
     const primaryNavigation = screen.getByRole("navigation", { name: "Primary" });
     const firstLink = primaryNavigation.querySelector("a");
@@ -22,18 +22,20 @@ describe("SiteHeader", () => {
   });
 
   it("links to flashcards and marks that section as current", () => {
-    render(<SiteHeader profile={null} />);
+    render(<SiteHeader profile={student} />);
 
     expect(screen.getByRole("link", { name: /flashcards/i })).toHaveAttribute("href", "/flashcards");
     expect(screen.getByRole("link", { name: /flashcards/i })).toHaveAttribute("aria-current", "page");
   });
 
-  it("offers sign-in and no dashboard link when signed out", () => {
+  it("offers a signed-out visitor nothing to navigate to, since the site is behind sign-in", () => {
     render(<SiteHeader profile={null} />);
 
-    expect(screen.getByRole("link", { name: /sign in/i })).toHaveAttribute("href", "/login");
+    expect(screen.queryByRole("navigation", { name: "Primary" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /sign out/i })).not.toBeInTheDocument();
-    expect(screen.queryByRole("link", { name: /my learning/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /flashcards/i })).not.toBeInTheDocument();
+    // The course name still identifies the site on the sign-in page.
+    expect(screen.getByRole("link", { name: /tourism geography tutor/i })).toHaveAttribute("href", "/");
   });
 
   it("shows a learner their dashboard and a sign-out control", () => {
