@@ -35,9 +35,9 @@ export default async function Exams() {
       activeHref="/dashboard/lecturer/exams"
     >
       <section className="grid gap-4 sm:grid-cols-3">
-        <StatTile label="Papers" value={String(exams.length)} />
-        <StatTile label="Students can sit" value={String(published)} />
-        <StatTile label="Still drafts" value={String(drafts)} />
+        <StatTile label="Papers" value={String(exams.length)} tone="brand" />
+        <StatTile label="Students can sit" value={String(published)} tone="good" />
+        <StatTile label="Still drafts" value={String(drafts)} tone="waiting" />
       </section>
 
       <section className="space-y-3">

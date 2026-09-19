@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { TopicLinks } from "@/app/chapters/[chapterCode]/chapter-topics";
+import { chapterAccent } from "@/lib/course-brain/chapter-accent";
 import type { ChapterTopic } from "@/lib/course-brain/types";
 
 /**
@@ -11,6 +12,7 @@ import type { ChapterTopic } from "@/lib/course-brain/types";
  */
 export default function TopicList({ chapterCode, topics }: { chapterCode: string; topics: ChapterTopic[] }) {
   const [openOnMobile, setOpenOnMobile] = useState(topics.length <= 4);
+  const accent = chapterAccent(chapterCode);
 
   const links = (
     <TopicLinks
@@ -21,7 +23,7 @@ export default function TopicList({ chapterCode, topics }: { chapterCode: string
             aria-current={isActive ? "page" : undefined}
             className={
               isActive
-                ? "-ml-px flex min-h-11 items-center border-l-2 border-l-meridian bg-meridian/12 px-4 py-2 text-[0.9375rem] font-semibold text-ink-strong transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
+                ? `-ml-px flex min-h-11 items-center border-l-2 px-4 py-2 text-[0.9375rem] font-semibold text-ink-strong transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 ${accent.tint}`
                 : "-ml-px flex min-h-11 items-center border-l-2 border-l-transparent px-4 py-2 text-[0.9375rem] text-ink-muted transition-colors duration-150 hover:border-l-graticule hover:text-ink active:bg-meridian/6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
             }
             href={href}

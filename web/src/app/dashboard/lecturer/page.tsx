@@ -27,7 +27,7 @@ export default async function LecturerOverview() {
       activeHref="/dashboard/lecturer"
     >
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatTile label="Students" value={String(students.length)} detail="in your classroom" />
+        <StatTile label="Students" value={String(students.length)} detail="in your classroom" tone="brand" />
         <StatTile
           label="Class average"
           value={classAverage === null ? "—" : `${classAverage}%`}
@@ -35,6 +35,7 @@ export default async function LecturerOverview() {
         />
         <StatTile label="Questions" value={String(bank.total)} detail={`${bank.mcq} MCQ · ${bank.subjective} written`} />
         <StatTile
+          tone={bank.draft ? "waiting" : "good"}
           label="Awaiting approval"
           value={String(bank.draft)}
           detail={bank.draft ? "drafts not yet reviewed" : "everything reviewed"}

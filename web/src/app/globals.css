@@ -150,14 +150,19 @@ body::before {
   opacity: 0.55;
   pointer-events: none;
 }
-.chapter-card-0 { border-color: color-mix(in oklab, var(--color-meridian) 30%, var(--color-graticule)); }
-.chapter-card-0::after { background: color-mix(in oklab, var(--color-meridian) 18%, transparent); }
-.chapter-card-1 { border-color: color-mix(in oklab, var(--color-deep) 28%, var(--color-graticule)); }
-.chapter-card-1::after { background: color-mix(in oklab, var(--color-deep) 16%, transparent); }
-.chapter-card-2 { border-color: color-mix(in oklab, var(--color-relief) 32%, var(--color-graticule)); }
-.chapter-card-2::after { background: color-mix(in oklab, var(--color-relief) 17%, transparent); }
-.chapter-card-3 { border-color: color-mix(in oklab, var(--color-lowland) 30%, var(--color-graticule)); }
-.chapter-card-3::after { background: color-mix(in oklab, var(--color-lowland) 16%, transparent); }
+/*
+ * Keyed by chapter rather than by position, so a chapter keeps its colour wherever
+ * it appears and a fifth chapter does not steal Chapter 1's. Matches chapterAccent()
+ * in lib/course-brain/chapter-accent.ts — change both together.
+ */
+.chapter-card-ch1 { border-color: color-mix(in oklab, var(--color-meridian) 30%, var(--color-graticule)); }
+.chapter-card-ch1::after { background: color-mix(in oklab, var(--color-meridian) 18%, transparent); }
+.chapter-card-ch2 { border-color: color-mix(in oklab, var(--color-deep) 28%, var(--color-graticule)); }
+.chapter-card-ch2::after { background: color-mix(in oklab, var(--color-deep) 16%, transparent); }
+.chapter-card-ch3 { border-color: color-mix(in oklab, var(--color-lowland) 30%, var(--color-graticule)); }
+.chapter-card-ch3::after { background: color-mix(in oklab, var(--color-lowland) 16%, transparent); }
+.chapter-card-ch4 { border-color: color-mix(in oklab, var(--color-relief) 32%, var(--color-graticule)); }
+.chapter-card-ch4::after { background: color-mix(in oklab, var(--color-relief) 17%, transparent); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

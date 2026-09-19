@@ -32,6 +32,7 @@ export default async function StudentOverview() {
     >
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatTile
+          tone={summary.best ? "good" : "plain"}
           label="Best score"
           value={summary.best ? `${attemptPercentage(summary.best)}%` : "—"}
           detail={summary.best ? summary.best.scopeLabel : "No assessment taken yet"}
@@ -42,6 +43,7 @@ export default async function StudentOverview() {
           detail={summary.latest ? formatDate(summary.latest.submittedAt) : "Take one to start tracking"}
         />
         <StatTile
+          tone="brand"
           label="Topics studied"
           value={`${studied.length} of ${topicIndex.size}`}
           detail={`${Math.round((studied.length / Math.max(topicIndex.size, 1)) * 100)}% of the course visited`}

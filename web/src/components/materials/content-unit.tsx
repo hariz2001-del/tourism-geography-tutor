@@ -6,6 +6,7 @@ import { contentImages } from "@/lib/course-brain/content-images";
 import { unitTableFor } from "@/lib/course-brain/unit-tables";
 import UnitTableFigure from "./unit-table";
 import type { SectionKind } from "@/lib/course-brain/group-units";
+import { chapterAccent } from "@/lib/course-brain/chapter-accent";
 import type { PublishedContentUnit } from "@/lib/course-brain/types";
 
 const CONTENT_TYPE_LABELS: Record<string, string> = {
@@ -140,6 +141,9 @@ export default function ContentUnit({
   }, [anchorId]);
 
   const highlightRing = isHighlighted ? "ring-2 ring-meridian" : "";
+  // The opening unit wears the chapter's own colour, so a blue bar never turns up
+  // in the middle of a green chapter.
+  const leadAccent = chapterAccent(unit.citation.chapterCode).rule;
   // Decided once, before the branches below narrow `variant`: only a grid card is a card.
   const figurePlacement: FigurePlacement = variant === "entry" ? "card" : "standalone";
 
@@ -148,7 +152,7 @@ export default function ContentUnit({
       <article
         id={anchorId}
         data-highlighted={isHighlighted}
-        className={`scroll-mt-8 space-y-2 border-l-2 border-l-meridian pb-2 pl-5 ${highlightRing}`}
+        className={`scroll-mt-8 space-y-2 border-l-2 pb-2 pl-5 ${leadAccent} ${highlightRing}`}
       >
         <UnitFigure unit={unit} placement={figurePlacement} />
         <div className="flex items-start justify-between gap-3">

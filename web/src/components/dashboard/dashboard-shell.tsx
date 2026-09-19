@@ -55,11 +55,38 @@ export default function DashboardShell({
   );
 }
 
-export function StatTile({ label, value, detail }: { label: string; value: string; detail?: string }) {
+/**
+ * A number worth looking at.
+ *
+ * `tone` tints the tile and colours the number, so a row of them reads at a glance
+ * instead of as four identical white boxes: green for what is done, amber for what
+ * is waiting, navy for a plain count.
+ */
+export type StatTone = "plain" | "good" | "waiting" | "brand";
+
+const TONES: Record<StatTone, { box: string; value: string }> = {
+  plain: { box: "border-graticule bg-surface", value: "text-ink-strong" },
+  good: { box: "border-lowland/35 bg-lowland/8", value: "text-lowland" },
+  waiting: { box: "border-relief/35 bg-relief/8", value: "text-relief" },
+  brand: { box: "border-meridian/35 bg-meridian/8", value: "text-meridian" },
+};
+
+export function StatTile({
+  label,
+  value,
+  detail,
+  tone = "plain",
+}: {
+  label: string;
+  value: string;
+  detail?: string;
+  tone?: StatTone;
+}) {
+  const shade = TONES[tone];
   return (
-    <div className="rounded-card border border-graticule bg-surface p-4">
+    <div className={`rounded-card border p-4 ${shade.box}`}>
       <p className="font-mono text-[0.75rem] uppercase tracking-[0.12em] text-ink-muted">{label}</p>
-      <p className="mt-1 font-display text-[1.75rem] font-semibold leading-tight text-ink-strong">{value}</p>
+      <p className={`mt-1 font-display text-[1.75rem] font-semibold leading-tight ${shade.value}`}>{value}</p>
       {detail ? <p className="mt-1 text-[0.9375rem] text-ink-muted">{detail}</p> : null}
     </div>
   );

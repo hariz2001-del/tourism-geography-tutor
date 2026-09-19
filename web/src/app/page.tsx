@@ -1,5 +1,6 @@
 import Link from "next/link";
 import OpenTutorButton from "@/components/tutor/open-tutor-button";
+import { chapterAccent } from "@/lib/course-brain/chapter-accent";
 import { formatChapterLabel } from "@/lib/course-brain/chapter-label";
 import { createServerCourseBrainRepository } from "@/lib/supabase/server";
 import { requireProfile } from "@/lib/auth/session";
@@ -97,8 +98,11 @@ export default async function Home() {
       </section>
 
       <div className="space-y-8">
-        {chaptersWithTopics.map(({ chapter, topics }, index) => (
-          <section key={chapter.code} className={`chapter-card chapter-card-${index % 4} space-y-4 rounded-card border bg-surface/95 p-5 sm:p-6`}>
+        {chaptersWithTopics.map(({ chapter, topics }) => {
+          const accent = chapterAccent(chapter.code);
+          return (
+          <section key={chapter.code} className={`chapter-card chapter-card-${chapter.code.toLowerCase()} space-y-4 overflow-hidden rounded-card border bg-surface/95 p-5 sm:p-6`}>
+            <div aria-hidden="true" className={`-mx-5 -mt-5 mb-1 h-1.5 sm:-mx-6 sm:-mt-6 ${accent.bar}`} />
             <div className="flex items-baseline justify-between gap-4">
               <h2 className="font-display text-[1.5rem] font-semibold text-ink-strong">
                 <Link className="hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian" href={`/chapters/${chapter.code}`}>
@@ -128,11 +132,12 @@ export default async function Home() {
             )}
             <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
               {/* Every card repeats these labels, so each link names its own chapter for screen readers. */}
-              <Link aria-label={`Explore ${formatChapterLabel(chapter.code)}`} className="font-semibold text-meridian underline decoration-meridian/30 underline-offset-4 hover:decoration-meridian" href={`/chapters/${chapter.code}`}>Explore chapter</Link>
+              <Link aria-label={`Explore ${formatChapterLabel(chapter.code)}`} className={`font-semibold underline decoration-current/30 underline-offset-4 hover:decoration-current ${accent.text}`} href={`/chapters/${chapter.code}`}>Explore chapter</Link>
               <Link aria-label={`${formatChapterLabel(chapter.code)} flashcards`} className="font-medium text-deep underline decoration-deep/30 underline-offset-4 hover:decoration-deep" href={`/flashcards?chapter=${encodeURIComponent(chapter.code)}`}>Flashcards</Link>
             </div>
           </section>
-        ))}
+          );
+        })}
       </div>
     </main>
   );

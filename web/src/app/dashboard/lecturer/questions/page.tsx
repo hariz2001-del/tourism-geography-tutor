@@ -57,7 +57,7 @@ export default async function QuestionBank({
     >
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatTile label="Total" value={String(bank.total)} detail={`${bank.mcq} MCQ · ${bank.subjective} written`} />
-        <StatTile label="Approved" value={String(bank.approved)} />
+        <StatTile label="Approved" value={String(bank.approved)} tone="good" />
         <StatTile label="Draft" value={String(bank.draft)} detail="not yet reviewed" />
         <StatTile label="Archived" value={String(bank.archived)} />
       </section>

@@ -7,6 +7,7 @@ import TopicLearningModel, { integratedTopicUnitIds, modelClaimsTopicDiagram, to
 import TopicList from "@/components/materials/topic-list";
 import QuizCard from "@/components/quiz/quiz-card";
 import OpenTutorButton from "@/components/tutor/open-tutor-button";
+import { chapterAccent } from "@/lib/course-brain/chapter-accent";
 import { formatChapterLabel } from "@/lib/course-brain/chapter-label";
 import { buildSections, shouldShowLabels } from "@/lib/course-brain/group-units";
 import { topicDiagrams } from "@/lib/course-brain/diagrams";
@@ -161,7 +162,7 @@ function TopicContent({
   return (
     <>
       <div className="space-y-3">
-        <p className="font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-ink-muted">{formatChapterLabel(chapterCode)}</p>
+        <p className={`font-mono text-[0.8125rem] font-medium uppercase tracking-[0.14em] ${chapterAccent(chapterCode).text}`}>{formatChapterLabel(chapterCode)}</p>
         <h1 className="font-display text-[2rem] font-semibold leading-[1.15] tracking-[-0.015em] text-ink-strong md:text-[2.5rem]">{topic.name}</h1>
         <div className="flex flex-wrap gap-x-4 text-sm font-medium">
           <Link className="inline-flex min-h-11 items-center text-meridian underline underline-offset-4" href={`/practice/topic?topic=${encodeURIComponent(topic.id)}`}>Topic quiz</Link>
