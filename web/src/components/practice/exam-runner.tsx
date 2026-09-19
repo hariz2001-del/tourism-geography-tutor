@@ -13,15 +13,17 @@ function isMcqResult(result: McqResult | SubjectiveResult): result is McqResult 
   return "isCorrect" in result;
 }
 
-export default function ExamRunner({ title, mcqQuestions, subjectiveQuestions, returnHref, returnLabel, restartHref, mode, scopeValue, isLearner = false }: {
+export default function ExamRunner({ title, mcqQuestions, subjectiveQuestions, returnHref, returnLabel, restartHref, mode, scopeValue, examId, isLearner = false }: {
   title: string;
   mcqQuestions: ExamQuestion[];
   subjectiveQuestions: ExamQuestion[];
   returnHref: string;
   returnLabel: string;
   restartHref: string;
-  mode: "topic" | "chapter" | "course";
+  mode: "topic" | "chapter" | "course" | "exam";
   scopeValue: string | null;
+  // Set for a lecturer-built paper, so the server can mark against the paper itself.
+  examId?: string;
   // Only a signed-in learner has a result worth recording.
   isLearner?: boolean;
 }) {
@@ -54,6 +56,7 @@ export default function ExamRunner({ title, mcqQuestions, subjectiveQuestions, r
           mode,
           scopeValue: mode === "course" ? null : scopeValue,
           scopeLabel: title,
+          ...(examId ? { examId } : {}),
           answers: [
             ...mcqQuestions.map((question) => ({ questionId: question.id, questionType: "mcq" as const, optionId: mcqAnswers[question.id] })),
             ...subjectiveQuestions.map((question) => ({ questionId: question.id, questionType: "subjective" as const, answer: subjectiveAnswers[question.id].trim() })),
@@ -93,8 +96,8 @@ export default function ExamRunner({ title, mcqQuestions, subjectiveQuestions, r
         return <section key={question.id} className="space-y-4 rounded-card border border-graticule bg-surface p-5">
           <div><p className="font-mono text-xs text-ink-muted">Question {index + 1}</p><h2 className="mt-1 font-medium text-ink-strong">{question.question}</h2></div>
           <p className="font-semibold text-ink-strong">{result.awardedMarks} / {result.maxMarks} marks</p>
-          {isMcqResult(result) ? <div className="space-y-2"><p className="text-ink">{result.isCorrect ? "Correct." : "Not quite."} {result.explanation}</p><p className="text-sm text-ink-muted">Answer scheme: {result.answerScheme}</p></div> : <div className="space-y-3"><p className="text-ink">Your written answer has been marked against the answer criteria.</p><div className="rounded-card border border-graticule bg-chart p-3"><p className="font-medium text-ink-strong">Answer scheme</p><p className="mt-1 text-ink">{result.answerScheme}</p></div>{result.criteria.map((criterion, criterionIndex) => <div key={criterionIndex} className="rounded-card border border-graticule p-3"><p className="font-medium text-ink-strong">{criterion.awardedMarks} / {criterion.maxMarks} marks</p><p className="mt-1 text-ink">{criterion.feedback}</p>{criterion.citations.map((citation, citationIndex) => <div className="mt-2" key={citationIndex}><CitationCard citation={citation} actionLabel="Review topic" /></div>)}</div>)}</div>}
-          <CitationCard citation={question.citation} actionLabel="Review topic" />
+          {isMcqResult(result) ? <div className="space-y-2"><p className="text-ink">{result.isCorrect ? "Correct." : "Not quite."} {result.explanation}</p><p className="text-sm text-ink-muted">Answer scheme: {result.answerScheme}</p></div> : <div className="space-y-3"><p className="text-ink">Your written answer has been marked against the answer criteria.</p><div className="rounded-card border border-graticule bg-chart p-3"><p className="font-medium text-ink-strong">Answer scheme</p><p className="mt-1 text-ink">{result.answerScheme}</p></div>{result.criteria.map((criterion, criterionIndex) => <div key={criterionIndex} className="rounded-card border border-graticule p-3"><p className="font-medium text-ink-strong">{criterion.awardedMarks} / {criterion.maxMarks} marks</p><p className="mt-1 text-ink">{criterion.feedback}</p>{criterion.citations.map((citation, citationIndex) => <div className="mt-2" key={citationIndex}><CitationCard citation={citation} actionLabel="Where to study this" openInNewTab /></div>)}</div>)}</div>}
+          <CitationCard citation={question.citation} actionLabel="Where to study this" openInNewTab />
         </section>;
       })}</div>
     </main>;

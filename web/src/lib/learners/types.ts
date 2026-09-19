@@ -1,6 +1,6 @@
 import type { Citation } from "@/lib/course-brain/types";
 
-export type AssessmentMode = "topic" | "chapter" | "course";
+export type AssessmentMode = "topic" | "chapter" | "course" | "exam";
 
 export type SavedBookmark = {
   id: string;

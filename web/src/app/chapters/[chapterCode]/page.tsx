@@ -166,7 +166,6 @@ function TopicContent({
         <div className="flex flex-wrap gap-x-4 text-sm font-medium">
           <Link className="inline-flex min-h-11 items-center text-meridian underline underline-offset-4" href={`/practice/topic?topic=${encodeURIComponent(topic.id)}`}>Topic quiz</Link>
           <Link className="inline-flex min-h-11 items-center text-meridian underline underline-offset-4" href={`/flashcards?chapter=${encodeURIComponent(chapterCode)}&topic=${encodeURIComponent(topic.id)}`}>Topic flashcards</Link>
-          <Link className="inline-flex min-h-11 items-center text-meridian underline underline-offset-4" href={`/practice/chapter?chapter=${encodeURIComponent(chapterCode)}`}>Chapter mini exam</Link>
           <OpenTutorButton className="inline-flex min-h-11 items-center text-meridian underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian">Ask tutor</OpenTutorButton>
         </div>
       </div>

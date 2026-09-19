@@ -5,6 +5,7 @@ import { requireProfile } from "@/lib/auth/session";
 import { attemptPercentage } from "@/lib/learners/metrics";
 import { formatDateTime, retakeHref } from "@/lib/learners/navigation";
 import { getAttempt } from "@/lib/learners/student";
+import { getExam } from "@/lib/learners/exams";
 
 export const metadata = { title: "Attempt review · Tourism Geography Tutor" };
 
@@ -15,6 +16,11 @@ export default async function AttemptReview({ params }: { params: Promise<{ atte
   // RLS scopes this to the caller, so an id belonging to someone else is a 404.
   const attempt = await getAttempt(attemptId);
   if (!attempt) notFound();
+
+  // A lecturer can set a paper to withhold its answers. The marks are still the
+  // student's own result, so those are always shown; the answers are not.
+  const exam = attempt.mode === "exam" && attempt.scopeValue ? await getExam(attempt.scopeValue) : null;
+  const showAnswers = exam ? exam.showAnswers : true;
 
   return (
     <main className="mx-auto min-h-[calc(100vh-4rem)] w-full max-w-4xl space-y-8 px-6 py-10">
@@ -44,6 +50,13 @@ export default async function AttemptReview({ params }: { params: Promise<{ atte
         </a>
       </header>
 
+      {showAnswers ? null : (
+        <p role="status" className="rounded-card bg-chart px-4 py-3 text-ink">
+          Your lecturer has kept the answers to this paper hidden. You can see how each question was
+          marked, but not what the right answer was.
+        </p>
+      )}
+
       <div className="space-y-6">
         {attempt.answers.map((answer) => (
           <section key={answer.id} className="space-y-4 rounded-card border border-graticule bg-surface p-5">
@@ -59,7 +72,7 @@ export default async function AttemptReview({ params }: { params: Promise<{ atte
               {answer.awardedMarks} / {answer.maxMarks} marks
             </p>
 
-            {answer.questionType === "mcq" ? (
+            {!showAnswers ? null : answer.questionType === "mcq" ? (
               <div className="space-y-2">
                 {answer.feedback.selectedOptionText ? (
                   <p className="text-ink">
@@ -94,7 +107,7 @@ export default async function AttemptReview({ params }: { params: Promise<{ atte
                     <p className="mt-1 text-ink">{criterion.feedback}</p>
                     {criterion.citations.map((citation, citationIndex) => (
                       <div className="mt-2" key={citationIndex}>
-                        <CitationCard citation={citation} actionLabel="Which to refer" />
+                        <CitationCard citation={citation} actionLabel="Where to study this" openInNewTab />
                       </div>
                     ))}
                   </div>
@@ -102,8 +115,8 @@ export default async function AttemptReview({ params }: { params: Promise<{ atte
               </div>
             )}
 
-            {answer.feedback.citation ? (
-              <CitationCard citation={answer.feedback.citation} actionLabel="Which to refer" />
+            {showAnswers && answer.feedback.citation ? (
+              <CitationCard citation={answer.feedback.citation} actionLabel="Where to study this" openInNewTab />
             ) : null}
           </section>
         ))}

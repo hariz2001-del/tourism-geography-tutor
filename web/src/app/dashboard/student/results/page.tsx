@@ -23,10 +23,10 @@ export default async function StudentResults() {
       {groups.length === 0 ? (
         <EmptyPanel
           title="You have not submitted an assessment yet."
-          detail="Topic quizzes, chapter mini exams, and the full course exam all record a result here."
+          detail="Topic quizzes and the exams your lecturer sets all record a result here."
           action={
-            <Link className="font-medium text-meridian underline underline-offset-4" href="/practice/course">
-              Take the full course exam
+            <Link className="font-medium text-meridian underline underline-offset-4" href="/exams">
+              Sit an exam
             </Link>
           }
         />

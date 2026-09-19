@@ -11,12 +11,15 @@ export const studentTabs: DashboardTab[] = [
 export const lecturerTabs: DashboardTab[] = [
   { href: "/dashboard/lecturer", label: "Overview" },
   { href: "/dashboard/lecturer/students", label: "Students" },
+  { href: "/dashboard/lecturer/exams", label: "Exams" },
   { href: "/dashboard/lecturer/questions", label: "Question bank" },
   { href: "/dashboard/lecturer/review", label: "Approval queue" },
 ];
 
 /** Rebuilds the practice URL an attempt came from, so "retake" lands on the same assessment. */
 export function retakeHref(mode: AssessmentMode, scopeValue: string | null): string {
+  // A built exam is sat at its own address; the scope carries which paper it was.
+  if (mode === "exam") return scopeValue ? `/exams/${scopeValue}` : "/exams";
   if (mode === "course") return "/practice/course";
   if (!scopeValue) return "/practice/course";
   return mode === "topic"

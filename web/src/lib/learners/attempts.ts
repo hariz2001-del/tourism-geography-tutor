@@ -96,11 +96,27 @@ export type RecordedAnswer = {
  * Writes the attempt and its answers. Uses the service role because a learner
  * deliberately has no insert policy on their own results.
  */
+/**
+ * The questions a built paper actually contains.
+ *
+ * Read with the service role, like the rest of the marking path: a student may not
+ * read quiz_questions directly, and the browser's list of what it answered is not
+ * evidence of what the paper asked.
+ */
+export async function loadExamQuestionIds(examId: string): Promise<Set<string>> {
+  const client = createServiceRoleClient();
+  const { data, error } = await client.from("exam_questions").select("question_id").eq("exam_id", examId);
+  if (error || !data) return new Set();
+  return new Set(data.map((row) => String(row.question_id)));
+}
+
 export async function recordAttempt(input: {
   studentId: string;
   mode: AssessmentMode;
   scopeValue: string | null;
   scopeLabel: string;
+  /** Set only for a lecturer-built paper; the table's check constraint insists on the pairing. */
+  examId?: string | null;
   awardedMarks: number;
   totalMarks: number;
   answers: RecordedAnswer[];
@@ -114,6 +130,7 @@ export async function recordAttempt(input: {
       mode: input.mode,
       scope_value: input.scopeValue,
       scope_label: input.scopeLabel,
+      exam_id: input.examId ?? null,
       awarded_marks: input.awardedMarks,
       total_marks: input.totalMarks,
       question_count: input.answers.length,

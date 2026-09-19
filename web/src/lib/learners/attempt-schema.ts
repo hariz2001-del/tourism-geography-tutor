@@ -1,8 +1,11 @@
 import { z } from "zod";
 
 export const attemptSubmissionSchema = z.object({
-  mode: z.enum(["topic", "chapter", "course"]),
+  mode: z.enum(["topic", "chapter", "course", "exam"]),
   scopeValue: z.string().min(1).nullable(),
+  // Present only for a lecturer-built paper. The server re-reads the paper by this
+  // id and marks against it, rather than trusting the questions the browser sent.
+  examId: z.string().uuid("examId must be a UUID").optional(),
   scopeLabel: z.string().trim().min(1).max(120),
   answers: z
     .array(

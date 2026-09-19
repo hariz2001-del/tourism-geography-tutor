@@ -1,6 +1,6 @@
 import { getProfile } from "@/lib/auth/session";
 import { attemptSubmissionSchema } from "@/lib/learners/attempt-schema";
-import { loadOptionTexts, loadQuestionRecords, recordAttempt, type RecordedAnswer } from "@/lib/learners/attempts";
+import { loadExamQuestionIds, loadOptionTexts, loadQuestionRecords, recordAttempt, type RecordedAnswer } from "@/lib/learners/attempts";
 import type { AttemptAnswerFeedback } from "@/lib/learners/types";
 import { gradeSubjectiveAnswer } from "@/lib/quiz/subjective-grader";
 import { createServerOnlyCourseBrainRepository } from "@/lib/supabase/server";
@@ -36,9 +36,27 @@ export async function POST(request: Request): Promise<Response> {
   }
   const submission = parsed.data;
 
+  if ((submission.mode === "exam") !== Boolean(submission.examId)) {
+    return Response.json({ error: "An exam submission must say which paper it is." }, { status: 400 });
+  }
+
   try {
     const repository = createServerOnlyCourseBrainRepository();
     const questionIds = submission.answers.map((answer) => answer.questionId);
+
+    // A built paper is marked against the paper, not against whatever the browser
+    // sent: otherwise a submission could name any question in the bank and still be
+    // recorded as an attempt at this exam.
+    if (submission.examId) {
+      const paper = await loadExamQuestionIds(submission.examId);
+      if (paper.size === 0) {
+        return Response.json({ error: "That paper is no longer available." }, { status: 404 });
+      }
+      const foreign = questionIds.filter((id) => !paper.has(id));
+      if (foreign.length > 0 || questionIds.length !== paper.size) {
+        return Response.json({ error: "Those answers do not match this paper." }, { status: 400 });
+      }
+    }
     const [records, optionTexts] = await Promise.all([
       loadQuestionRecords(questionIds),
       loadOptionTexts(
@@ -113,6 +131,7 @@ export async function POST(request: Request): Promise<Response> {
       ? await recordAttempt({
           studentId: profile.id,
           mode: submission.mode,
+          examId: submission.examId ?? null,
           scopeValue: submission.mode === "course" ? null : submission.scopeValue,
           scopeLabel: submission.scopeLabel,
           awardedMarks,

@@ -86,8 +86,8 @@ export default async function StudentOverview() {
                   : "Take a topic quiz or the full exam and your weakest topics will be listed here."
               }
               action={
-                <Link className="font-medium text-meridian underline underline-offset-4" href="/practice/course">
-                  Take the full course exam
+                <Link className="font-medium text-meridian underline underline-offset-4" href="/exams">
+                  Sit an exam
                 </Link>
               }
             />

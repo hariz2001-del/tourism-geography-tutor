@@ -11,7 +11,7 @@ const navigation = [
   { href: "/about", label: "GUIDE", mobileLabel: "Guide", matches: (path: string) => path === "/about" },
   { href: "/", label: "Course", mobileLabel: "Course", matches: (path: string) => path === "/" || path.startsWith("/chapters/") },
   { href: "/flashcards", label: "Flashcards", mobileLabel: "Cards", matches: (path: string) => path === "/flashcards" },
-  { href: "/practice/course", label: "Full exam", mobileLabel: "Exam", matches: (path: string) => path === "/practice/course" },
+  { href: "/exams", label: "Exams", mobileLabel: "Exams", matches: (path: string) => path.startsWith("/exams") },
 ];
 
 const linkClass = (isCurrent: boolean) =>

@@ -67,6 +67,30 @@ function chapterCodeFrom(row: Record<string, unknown>): string {
   return String((chapter as Record<string, unknown>).code ?? "");
 }
 
+function examQuestionFrom(row: Record<string, unknown>, { shuffleOptions }: { shuffleOptions: boolean }): ExamQuestion {
+  const questionType = String(row.question_type);
+  if (questionType !== "mcq" && questionType !== "subjective") {
+    throw new Error("Course Brain returned an unsupported exam question type.");
+  }
+  const rawOptions = Array.isArray(row.options) ? row.options as Record<string, unknown>[] : [];
+  const options = rawOptions.map((option) => ({ id: String(option.id), text: String(option.text) }));
+  return {
+    id: String(row.id),
+    topicId: String(row.topic_id),
+    sourceContentUnitId: String(row.source_content_unit_id),
+    questionType,
+    question: String(row.question),
+    difficulty: String(row.difficulty) as ExamQuestion["difficulty"],
+    maxMarks: Number(row.max_marks),
+    options: shuffleOptions ? shuffled(options) : options,
+    citation: {
+      sourceFile: String(row.source_file), chapterLabel: String(row.chapter_label),
+      pageOrSlide: Number(row.page_or_slide), chapterCode: String(row.chapter_code),
+      topicId: String(row.topic_id), contentUnitId: String(row.source_content_unit_id),
+    },
+  };
+}
+
 export function createCourseBrainRepository(client: SupabaseQueryAdapter) {
   return {
     async listChapters(): Promise<Chapter[]> {
@@ -151,24 +175,19 @@ export function createCourseBrainRepository(client: SupabaseQueryAdapter) {
         p_limit: limit,
       };
       const result = await client.rpc("get_public_exam_question_batch", parameters);
-      return rows(requireData(result)).map((row) => {
-        const questionType = String(row.question_type);
-        if (questionType !== "mcq" && questionType !== "subjective") {
-          throw new Error("Course Brain returned an unsupported exam question type.");
-        }
-        const options = Array.isArray(row.options) ? row.options as Record<string, unknown>[] : [];
-        return {
-          id: String(row.id),
-          topicId: String(row.topic_id),
-          sourceContentUnitId: String(row.source_content_unit_id),
-          questionType,
-          question: String(row.question),
-          difficulty: String(row.difficulty) as ExamQuestion["difficulty"],
-          maxMarks: Number(row.max_marks),
-          options: shuffled(options.map((option) => ({ id: String(option.id), text: String(option.text) }))),
-          citation: { sourceFile: String(row.source_file), chapterLabel: String(row.chapter_label), pageOrSlide: Number(row.page_or_slide), chapterCode: String(row.chapter_code), topicId: String(row.topic_id), contentUnitId: String(row.source_content_unit_id) },
-        };
-      });
+      return rows(requireData(result)).map((row) => examQuestionFrom(row, { shuffleOptions: true }));
+    },
+
+    /**
+     * One lecturer-built paper, in her order.
+     *
+     * The answers keep her order too. A practice draw shuffles them so the same
+     * question does not always answer "B", but she wrote this paper with a key in
+     * mind, and reordering it would quietly break that.
+     */
+    async getExamQuestions(examId: string): Promise<ExamQuestion[]> {
+      const result = await client.rpc("get_exam_questions", { p_exam_id: examId });
+      return rows(requireData(result)).map((row) => examQuestionFrom(row, { shuffleOptions: false }));
     },
 
     async checkApprovedQuizAnswer(quizId: string, optionId: string): Promise<QuizAnswerFeedback | null> {

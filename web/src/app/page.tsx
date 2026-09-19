@@ -127,10 +127,9 @@ export default async function Home() {
               <p className="text-ink-muted">This chapter does not have any topics yet.</p>
             )}
             <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
-              {/* Every card repeats these three labels, so each link names its own chapter for screen readers. */}
+              {/* Every card repeats these labels, so each link names its own chapter for screen readers. */}
               <Link aria-label={`Explore ${formatChapterLabel(chapter.code)}`} className="font-semibold text-meridian underline decoration-meridian/30 underline-offset-4 hover:decoration-meridian" href={`/chapters/${chapter.code}`}>Explore chapter</Link>
               <Link aria-label={`${formatChapterLabel(chapter.code)} flashcards`} className="font-medium text-deep underline decoration-deep/30 underline-offset-4 hover:decoration-deep" href={`/flashcards?chapter=${encodeURIComponent(chapter.code)}`}>Flashcards</Link>
-              <Link aria-label={`${formatChapterLabel(chapter.code)} mini exam`} className="font-medium text-relief underline decoration-relief/30 underline-offset-4 hover:decoration-relief" href={`/practice/chapter?chapter=${encodeURIComponent(chapter.code)}`}>Mini exam</Link>
             </div>
           </section>
         ))}
