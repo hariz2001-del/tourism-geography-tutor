@@ -14,7 +14,48 @@ first.
 
 ## Right now
 
-*(state of play last refreshed 2026-09-18, after the sign-in gate below)*
+*(state of play last refreshed 2026-09-19, after the exam builder below)*
+
+### 2026-09-19 (latest): the lecturer builds exams, and each chapter has a colour
+
+**Exams are now a list she writes, not a random draw.** `drawCoursePaper` picked 20 questions
+at random every time; nobody had built that paper, and none of the 208 AI drafts had ever been
+approved. The owner asked for lecturer-built sets instead — "Set 1", "Set 2" — that students see
+only once published.
+
+- **Two tables** (`202609190002_lecturer_exams.sql`): `exams` (title, draft/published/archived,
+  `show_answers`, the format targets) and `exam_questions` (which question, what order). RLS
+  follows the learner-accounts pattern: lecturers manage, students select published only.
+  `get_exam_questions(uuid)` returns the paper in her order and carries no answer key; it is
+  granted to `authenticated`, so the page must read it as the signed-in user, not with the anon
+  client (`createUserScopedCourseBrainRepository` in `lib/supabase/server.ts`).
+- **`assessment_attempts` gained `exam_id`** plus the `'exam'` mode (its own migration,
+  `202609190001`, because Postgres will not use a new enum value in the transaction that adds it).
+  `/api/attempts` re-reads the paper by id and refuses answers that do not match it.
+- **The builder** is `/dashboard/lecturer/exams`: create from a preset (20 objective — her
+  format) or custom counts, fill from the bank with search, filters and paging, reorder, publish
+  or archive. **Publishing approves the questions in it** — choosing a question for your own paper
+  is the review, and it is what will finally drain the 208-unapproved-drafts problem.
+- **A lecturer can now write a question end to end.** The form had no fields for MCQ answers or
+  marking points, so a hand-written question could never be approved. It edits both now
+  (`question-payload.ts` holds the rules, mirroring the approval trigger), updating answer rows
+  in place because `attempt_answers.selected_option_id` points at them.
+- **Students** sit papers at `/exams`; results show the marks, and — when `show_answers` is on —
+  what was right, with a "Where to study this" link that opens the source in a new tab.
+- **Retired**: the auto chapter mini exam and full course exam. The per-topic quiz stays: that is
+  for learning while reading, and it answers her "know straight away if it is right".
+- **Colour**: each chapter owns one of the four palette accents (`lib/course-brain/chapter-accent.ts`)
+  and keeps it on its tab, card, heading, topic list and opening unit. Home cards used to be
+  tinted by position, which would have given a fifth chapter Chapter 1's colour; they are keyed
+  by chapter code now. Stat tiles take a tone.
+- **Verified on production** as the seeded lecturer and student: build a paper, reorder it,
+  publish, sit it, marked 3/3, saved to results, study links open in a new tab, no answer key in
+  the page. The test paper, its attempt and the approvals it caused were then deleted.
+
+**Still to do on the exams plan** (see the plan file `serialized-wibbling-giraffe.md`):
+Chapter 5 (the country material her paper assumes, with web citations — needs a migration adding
+`source_url`/`retrieved_on` to `source_references`), the PDF import (storage, parser, batched AI
+answer/topic proposals), and the AI generate/reword helpers.
 
 ### 2026-09-18 (latest): the site is closed to anyone who is not signed in
 
