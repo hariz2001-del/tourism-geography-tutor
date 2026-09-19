@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import ExamRunner from "@/components/practice/exam-runner";
 import { requireProfile } from "@/lib/auth/session";
 import { getExam } from "@/lib/learners/exams";
-import { createServerCourseBrainRepository } from "@/lib/supabase/server";
+import { createUserScopedCourseBrainRepository } from "@/lib/supabase/server";
 
 export const metadata = { title: "Exam · Tourism Geography Tutor" };
 
@@ -31,7 +31,7 @@ export default async function SitExam({ params }: { params: Promise<{ examId: st
 
   if (exam.status !== "published" && profile.role !== "lecturer") notFound();
 
-  const questions = await createServerCourseBrainRepository().getExamQuestions(examId);
+  const questions = await (await createUserScopedCourseBrainRepository()).getExamQuestions(examId);
   if (questions.length === 0) {
     return <Unavailable title="This paper is not ready" detail="It has no questions in it yet. Your lecturer is still building it." />;
   }
@@ -42,9 +42,10 @@ export default async function SitExam({ params }: { params: Promise<{ examId: st
   const subjectiveQuestions = questions.filter((question) => question.questionType === "subjective");
 
   return (
-    <main className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-3xl flex-col gap-6 px-6 py-10">
+    // ExamRunner renders its own <main>, so this wrapper must not add a second one.
+    <>
       {exam.status !== "published" ? (
-        <p role="status" className="rounded-card bg-relief/12 px-4 py-3 text-ink">
+        <p role="status" className="mx-auto mt-6 w-full max-w-3xl rounded-card bg-relief/12 px-4 py-3 text-ink">
           You are previewing a paper students cannot see yet.
         </p>
       ) : null}
@@ -61,6 +62,6 @@ export default async function SitExam({ params }: { params: Promise<{ examId: st
         examId={examId}
         isLearner={profile.role === "student"}
       />
-    </main>
+    </>
   );
 }

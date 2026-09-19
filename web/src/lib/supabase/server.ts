@@ -33,6 +33,19 @@ export function createServerOnlyCourseBrainRepository() {
   );
 }
 
+/**
+ * The Course Brain as the signed-in learner.
+ *
+ * Needed for anything reached through a definer function that asks who is calling —
+ * get_exam_questions lets a lecturer preview her own unpublished paper, and the
+ * anon client has no user to be. It is also the honest client for learner-scoped
+ * reads, since RLS then applies.
+ */
+export async function createUserScopedCourseBrainRepository() {
+  const client = await createUserScopedClient();
+  return createCourseBrainRepository(client as unknown as SupabaseQueryAdapter);
+}
+
 // Raw service-role client, for the one job RLS cannot do: writing an assessment
 // result on a learner's behalf. Learners have no insert policy on their own
 // attempts precisely so a score cannot be self-reported.
