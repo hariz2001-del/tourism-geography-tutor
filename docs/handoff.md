@@ -119,14 +119,21 @@ Then, on `agent/globe-pins-and-logo`:
 - **The client's badge on the sign-in page** — `web/public/brand/geotourism-learning-badge.png`,
   extracted from `G:\My Drive\Aztech Digital\Tourism Chatbot\logo.pdf` and cropped to its circle.
 
-Still open from the lecturer's 2026-09-15 list:
+Still open from the lecturer's 2026-09-15 list (refreshed 2026-09-18):
 
-- **More colour** — partly done by the 2026-09-09 refresh; no full colour pass yet.
-- **A description for each Chapter 3 line** — the slides describe only the Equator; describing
-  the others would be added material and needs the owner's ruling first.
-- **Sign in before anything** — needs confirmation: every learner would need an account first.
+- **More colour** — partly done by the 2026-09-09 refresh and the badge palette; no full colour
+  pass yet.
+- ~~A description for each Chapter 3 line~~ — **done 2026-09-15**, sourced to Britannica and
+  tagged as added material.
+- ~~Sign in before anything~~ — **done 2026-09-18**, confirmed by the owner. See the gate at the
+  top of this file.
 - **The interactive hydrosphere/lithosphere floor plan** — not started. Its label 13 reads
   "River" but is drawn as a lake: flag it, do not correct it.
+- **Chapter 1's low-resolution slide images** — not started.
+- **An anonymous feedback button** — not started.
+- **Real learner accounts** — new, and a consequence of the sign-in gate: everyone currently
+  shares the seeded `student` / `lecturer` demo logins. Nobody can create an account, and there
+  is no password reset. Needed before students use this for real.
 - **Which Chapter 1 PDF is canonical** — an owner decision carried over from the Drive
   checkout's 2026-08-21 notes. The only local `chapter-1.pdf` has different page-29 bullets from
   the `chapter-1-candidate-a.pdf` that Chapter 1's citations name. Either supply that exact file
@@ -1086,8 +1093,8 @@ From `docs/checklist.md`, not part of the active task but tracked there:
   real attempt data), manual mark override on auto-graded written answers, CSV export,
   and a review queue for the source defects `docs/checklist.md` flags but deliberately
   does not fix.
-- No manual dark/light mode toggle exists in the app (only OS-level
-  `prefers-color-scheme` is respected).
+- ~~No manual dark/light mode toggle~~ — out of date: Codex's 2026-09-09 refresh added one
+  (`web/src/components/theme-toggle.tsx`, remembered in `localStorage` under `tgt-theme`).
 - A few source-fidelity issues are flagged-but-not-fixed on purpose (e.g. Chapter 3
   has "nine planets" / ocean-name typos in the source slides themselves — see
   checklist for the full list). Per the source-fidelity rule, these get flagged to the
