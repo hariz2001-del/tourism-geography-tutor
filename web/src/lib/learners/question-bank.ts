@@ -17,6 +17,8 @@ export type MarkingCriterion = {
   displayOrder: number;
   sourceContentUnitId: string;
   sourceTitle: string;
+  /** Wording the grader accepts without asking the model. Carried so editing a question does not erase it. */
+  acceptedConcepts: string[];
 };
 
 export type QuestionDetail = {
@@ -46,7 +48,7 @@ const DETAIL_SELECT = `
   topics!inner(id, name, chapters!inner(code)),
   content_units(id, title, source_references(source_file, page_or_slide)),
   quiz_question_options(id, option_text, display_order, is_correct),
-  quiz_marking_criteria(id, criterion, marks, display_order, source_content_unit_id, content_units(title))
+  quiz_marking_criteria(id, criterion, marks, display_order, source_content_unit_id, accepted_concepts, content_units(title))
 `;
 
 export async function getQuestion(questionId: string): Promise<QuestionDetail | null> {
@@ -81,6 +83,7 @@ export async function getQuestion(questionId: string): Promise<QuestionDetail | 
         displayOrder: Number(criterion.display_order),
         sourceContentUnitId: String(criterion.source_content_unit_id),
         sourceTitle: unit ? String(unit.title) : "Unknown source",
+        acceptedConcepts: Array.isArray(criterion.accepted_concepts) ? criterion.accepted_concepts.map(String) : [],
       };
     })
     .sort((a, b) => a.displayOrder - b.displayOrder);

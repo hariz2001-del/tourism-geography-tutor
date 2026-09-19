@@ -42,52 +42,6 @@ export default async function EditQuestion({ params }: { params: Promise<{ quest
 
       <QuestionForm question={question} topics={topics} sourceUnits={sourceUnits} />
 
-      {question.questionType === "mcq" ? (
-        <section className="space-y-3 rounded-card border border-graticule bg-surface p-5">
-          <h2 className="font-display text-[1.25rem] font-semibold text-ink-strong">Options</h2>
-          {question.options.length ? (
-            <ol className="space-y-1">
-              {question.options.map((option) => (
-                <li
-                  key={option.id}
-                  className={option.isCorrect ? "rounded-card bg-lowland/12 px-3 py-2 font-medium text-ink-strong" : "px-3 py-2 text-ink"}
-                >
-                  {option.text}
-                  {option.isCorrect ? (
-                    <span className="ml-2 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-lowland">correct</span>
-                  ) : null}
-                </li>
-              ))}
-            </ol>
-          ) : (
-            <p role="status" className="text-ink">
-              This question has no options yet, so it cannot be approved.
-            </p>
-          )}
-        </section>
-      ) : (
-        <section className="space-y-3 rounded-card border border-graticule bg-surface p-5">
-          <h2 className="font-display text-[1.25rem] font-semibold text-ink-strong">Marking criteria</h2>
-          {question.criteria.length ? (
-            <ul className="space-y-2">
-              {question.criteria.map((criterion) => (
-                <li key={criterion.id} className="rounded-card border border-graticule p-3">
-                  <p className="font-medium text-ink-strong">
-                    {criterion.marks} {criterion.marks === 1 ? "mark" : "marks"}
-                  </p>
-                  <p className="mt-1 text-ink">{criterion.criterion}</p>
-                  <p className="mt-1 font-mono text-[0.75rem] text-ink-muted">from “{criterion.sourceTitle}”</p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p role="status" className="text-ink">
-              This question has no marking criteria yet, so it cannot be approved.
-            </p>
-          )}
-        </section>
-      )}
-
       <section className="space-y-3 rounded-card border border-danger/30 bg-surface p-5">
         <h2 className="font-display text-[1.25rem] font-semibold text-ink-strong">Delete</h2>
         <p className="text-ink">
