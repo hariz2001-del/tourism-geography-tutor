@@ -1,0 +1,4225 @@
+{
+  "generated_at": "2026-09-03T08:29:24.253031+00:00",
+  "total_questions": 208,
+  "counts": {
+    "by_chapter": {
+      "CH1": 53,
+      "CH2": 75,
+      "CH3": 30,
+      "CH4": 50
+    },
+    "by_type": {
+      "mcq": 128,
+      "subjective": 80
+    },
+    "by_difficulty": {
+      "application": 49,
+      "intermediate": 35,
+      "introductory": 124
+    },
+    "unique_source_units": 115,
+    "questions_per_source_unit": {
+      "1": 45,
+      "2": 55,
+      "3": 9,
+      "4": 4,
+      "5": 2
+    },
+    "by_topic": {
+      "CH1 — Forms of tourism": 5,
+      "CH1 — Geography and the tourism system": 5,
+      "CH1 — Geography foundations and tourism relevance": 5,
+      "CH1 — Leisure, recreation, and tourism": 13,
+      "CH1 — Measuring tourist flows": 5,
+      "CH1 — Push and pull factors": 5,
+      "CH1 — Tourism markets and products": 5,
+      "CH1 — Travel distance": 5,
+      "CH1 — Types of travel arrangement": 5,
+      "CH2 — Dry climate": 6,
+      "CH2 — High latitude climate": 8,
+      "CH2 — Highland climate": 4,
+      "CH2 — Major oceans": 14,
+      "CH2 — Middle latitude climate": 14,
+      "CH2 — The seven continents": 15,
+      "CH2 — Tropical climate": 10,
+      "CH2 — World climate classification": 4,
+      "CH3 — Earth systems and global divisions": 15,
+      "CH3 — Latitude and longitude": 15,
+      "CH4 — Islands and coastal features": 13,
+      "CH4 — Natural landscapes and landforms": 14,
+      "CH4 — Tourism natural resources": 11,
+      "CH4 — Tourist attractions and classification": 12
+    },
+    "issue_codes": {
+      "answer_leakage": 1,
+      "explanation_generic": 181,
+      "source_mismatch": 9
+    }
+  },
+  "exact_duplicate_groups": [],
+  "near_duplicate_pairs": [
+    {
+      "left_id": "26c13c87-400f-49b5-9a6e-2183036a49f0",
+      "right_id": "3db733ef-1914-4fbc-bce4-21823e34c158",
+      "sequence_ratio": 0.807,
+      "token_jaccard": 0.778
+    },
+    {
+      "left_id": "26c13c87-400f-49b5-9a6e-2183036a49f0",
+      "right_id": "988017ab-9b38-4c23-a444-5e285ac16048",
+      "sequence_ratio": 0.862,
+      "token_jaccard": 0.778
+    },
+    {
+      "left_id": "3db733ef-1914-4fbc-bce4-21823e34c158",
+      "right_id": "988017ab-9b38-4c23-a444-5e285ac16048",
+      "sequence_ratio": 0.857,
+      "token_jaccard": 0.778
+    },
+    {
+      "left_id": "40a18bfa-c93e-49e0-9e22-36433c9d1731",
+      "right_id": "5661f086-5743-4e57-b7d4-8e039faf655b",
+      "sequence_ratio": 0.894,
+      "token_jaccard": 0.714
+    },
+    {
+      "left_id": "40a18bfa-c93e-49e0-9e22-36433c9d1731",
+      "right_id": "9bfcb22a-0805-4b09-830b-d03a16915ce6",
+      "sequence_ratio": 0.94,
+      "token_jaccard": 0.714
+    },
+    {
+      "left_id": "55364154-e36a-4955-90db-290d153148ed",
+      "right_id": "9a3979e7-f6a0-47aa-9774-0caa3c6fbb43",
+      "sequence_ratio": 0.866,
+      "token_jaccard": 0.75
+    },
+    {
+      "left_id": "55364154-e36a-4955-90db-290d153148ed",
+      "right_id": "9cec74e2-53eb-435c-bcd8-a2f7defb0389",
+      "sequence_ratio": 0.8,
+      "token_jaccard": 0.75
+    },
+    {
+      "left_id": "55364154-e36a-4955-90db-290d153148ed",
+      "right_id": "fdabb8d5-e57a-48dd-a68c-810ab96e8b27",
+      "sequence_ratio": 0.828,
+      "token_jaccard": 0.75
+    },
+    {
+      "left_id": "5661f086-5743-4e57-b7d4-8e039faf655b",
+      "right_id": "9bfcb22a-0805-4b09-830b-d03a16915ce6",
+      "sequence_ratio": 0.95,
+      "token_jaccard": 0.714
+    },
+    {
+      "left_id": "5661f086-5743-4e57-b7d4-8e039faf655b",
+      "right_id": "ec2034d1-0615-4b47-b7bd-204d138cacb5",
+      "sequence_ratio": 0.93,
+      "token_jaccard": 0.714
+    },
+    {
+      "left_id": "975fa3bf-5e09-4ea3-83b0-2bdf3262145e",
+      "right_id": "b8a42526-43fa-404d-b09b-ec93f39f8615",
+      "sequence_ratio": 0.913,
+      "token_jaccard": 0.778
+    },
+    {
+      "left_id": "975fa3bf-5e09-4ea3-83b0-2bdf3262145e",
+      "right_id": "d69f9730-9598-469d-97ae-cbfb64cbbd6f",
+      "sequence_ratio": 0.904,
+      "token_jaccard": 0.778
+    },
+    {
+      "left_id": "975fa3bf-5e09-4ea3-83b0-2bdf3262145e",
+      "right_id": "e7847fa9-79f0-482c-9e32-22ebeff7c8e2",
+      "sequence_ratio": 0.902,
+      "token_jaccard": 0.778
+    },
+    {
+      "left_id": "9a3979e7-f6a0-47aa-9774-0caa3c6fbb43",
+      "right_id": "9cec74e2-53eb-435c-bcd8-a2f7defb0389",
+      "sequence_ratio": 0.86,
+      "token_jaccard": 0.75
+    },
+    {
+      "left_id": "9a3979e7-f6a0-47aa-9774-0caa3c6fbb43",
+      "right_id": "a175692c-56bd-4ff4-a8f2-1c978d805fbf",
+      "sequence_ratio": 0.899,
+      "token_jaccard": 0.556
+    },
+    {
+      "left_id": "9a3979e7-f6a0-47aa-9774-0caa3c6fbb43",
+      "right_id": "fc93763e-1787-4460-8121-abfb15021476",
+      "sequence_ratio": 0.907,
+      "token_jaccard": 0.444
+    },
+    {
+      "left_id": "9a3979e7-f6a0-47aa-9774-0caa3c6fbb43",
+      "right_id": "fdabb8d5-e57a-48dd-a68c-810ab96e8b27",
+      "sequence_ratio": 0.87,
+      "token_jaccard": 0.75
+    },
+    {
+      "left_id": "9bfcb22a-0805-4b09-830b-d03a16915ce6",
+      "right_id": "ec2034d1-0615-4b47-b7bd-204d138cacb5",
+      "sequence_ratio": 0.905,
+      "token_jaccard": 0.714
+    },
+    {
+      "left_id": "9cec74e2-53eb-435c-bcd8-a2f7defb0389",
+      "right_id": "a175692c-56bd-4ff4-a8f2-1c978d805fbf",
+      "sequence_ratio": 0.913,
+      "token_jaccard": 0.556
+    },
+    {
+      "left_id": "9cec74e2-53eb-435c-bcd8-a2f7defb0389",
+      "right_id": "fdabb8d5-e57a-48dd-a68c-810ab96e8b27",
+      "sequence_ratio": 0.905,
+      "token_jaccard": 0.75
+    },
+    {
+      "left_id": "a175692c-56bd-4ff4-a8f2-1c978d805fbf",
+      "right_id": "fc93763e-1787-4460-8121-abfb15021476",
+      "sequence_ratio": 0.894,
+      "token_jaccard": 0.444
+    },
+    {
+      "left_id": "a175692c-56bd-4ff4-a8f2-1c978d805fbf",
+      "right_id": "fdabb8d5-e57a-48dd-a68c-810ab96e8b27",
+      "sequence_ratio": 0.945,
+      "token_jaccard": 0.556
+    },
+    {
+      "left_id": "a175692c-56bd-4ff4-a8f2-1c978d805fbf",
+      "right_id": "fef31ce4-ec3b-471c-a440-4a9ce1b2b70c",
+      "sequence_ratio": 0.901,
+      "token_jaccard": 0.667
+    },
+    {
+      "left_id": "b8a42526-43fa-404d-b09b-ec93f39f8615",
+      "right_id": "d69f9730-9598-469d-97ae-cbfb64cbbd6f",
+      "sequence_ratio": 0.914,
+      "token_jaccard": 0.778
+    },
+    {
+      "left_id": "b8a42526-43fa-404d-b09b-ec93f39f8615",
+      "right_id": "e7847fa9-79f0-482c-9e32-22ebeff7c8e2",
+      "sequence_ratio": 0.951,
+      "token_jaccard": 0.778
+    },
+    {
+      "left_id": "d69f9730-9598-469d-97ae-cbfb64cbbd6f",
+      "right_id": "e7847fa9-79f0-482c-9e32-22ebeff7c8e2",
+      "sequence_ratio": 0.942,
+      "token_jaccard": 0.778
+    },
+    {
+      "left_id": "e7847fa9-79f0-482c-9e32-22ebeff7c8e2",
+      "right_id": "ec2034d1-0615-4b47-b7bd-204d138cacb5",
+      "sequence_ratio": 0.896,
+      "token_jaccard": 0.556
+    }
+  ],
+  "published_units_without_questions": [
+    {
+      "chapter_code": "CH1",
+      "topic_id": "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426",
+      "topic_name": "Push and pull factors",
+      "source_unit_id": "23d2636a-1eee-4950-81d9-9db7a7649b48",
+      "source_unit_title": "Distance, connectivity, and attractiveness in tourist flows",
+      "content_type": "explanation",
+      "source_page": 21
+    },
+    {
+      "chapter_code": "CH1",
+      "topic_id": "74ff4641-b926-435b-9446-d7cebfd9b96e",
+      "topic_name": "Tourism markets and products",
+      "source_unit_id": "571f3d66-5474-4ad0-8479-56c06e609134",
+      "source_unit_title": "Halal tourism",
+      "content_type": "definition",
+      "source_page": 30
+    },
+    {
+      "chapter_code": "CH1",
+      "topic_id": "74ff4641-b926-435b-9446-d7cebfd9b96e",
+      "topic_name": "Tourism markets and products",
+      "source_unit_id": "d88c8e92-d7a6-4e6e-958d-f6732a495289",
+      "source_unit_title": "Tourism Queensland's 2002 review of the seniors market",
+      "content_type": "case_study",
+      "source_page": 31
+    },
+    {
+      "chapter_code": "CH1",
+      "topic_id": "7eda75b6-3b2e-4eb0-9be6-25e2eea9c301",
+      "topic_name": "Types of travel arrangement",
+      "source_unit_id": "e1b66746-3f78-48a2-943e-00b6ea6857cf",
+      "source_unit_title": "Youth tourism",
+      "content_type": "definition",
+      "source_page": 32
+    },
+    {
+      "chapter_code": "CH1",
+      "topic_id": "7eda75b6-3b2e-4eb0-9be6-25e2eea9c301",
+      "topic_name": "Types of travel arrangement",
+      "source_unit_id": "1ed16972-61fb-44f7-b32c-90acb64d8580",
+      "source_unit_title": "Gay tourism",
+      "content_type": "definition",
+      "source_page": 32
+    },
+    {
+      "chapter_code": "CH2",
+      "topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "topic_name": "Middle latitude climate",
+      "source_unit_id": "d18c0a11-7b3e-4c6f-9a52-8f1d4e2b7c30",
+      "source_unit_title": "Mid-latitude climates compared",
+      "content_type": "explanation",
+      "source_page": 18
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "4c9ec211-5d22-42e0-8d46-8a7ee26d174e",
+      "topic_name": "Inland and glacial water",
+      "source_unit_id": "6dd27876-4919-40bb-8f15-21a2468c8029",
+      "source_unit_title": "Springs",
+      "content_type": "definition",
+      "source_page": 22
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "4c9ec211-5d22-42e0-8d46-8a7ee26d174e",
+      "topic_name": "Inland and glacial water",
+      "source_unit_id": "a46327c7-105d-4034-b217-620132142f42",
+      "source_unit_title": "Waterfall",
+      "content_type": "definition",
+      "source_page": 22
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "topic_name": "Islands and coastal features",
+      "source_unit_id": "8bb2eaca-0afd-45c8-8ecb-d9a3d0209a99",
+      "source_unit_title": "Peninsula",
+      "content_type": "definition",
+      "source_page": 22
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "topic_name": "Islands and coastal features",
+      "source_unit_id": "d3433b55-cb3b-4529-8498-4f8cf6f1ac77",
+      "source_unit_title": "Coral reef",
+      "content_type": "definition",
+      "source_page": 22
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "topic_name": "Islands and coastal features",
+      "source_unit_id": "14c2ee87-9d53-4daa-ae84-97463e30d7e8",
+      "source_unit_title": "Lagoon",
+      "content_type": "definition",
+      "source_page": 22
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "topic_name": "Natural landscapes and landforms",
+      "source_unit_id": "1138811c-18d8-4258-ba5f-159420bf9563",
+      "source_unit_title": "Andean Plateau",
+      "content_type": "example",
+      "source_page": 17
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "topic_name": "Natural landscapes and landforms",
+      "source_unit_id": "0e758a6f-0982-4546-a408-12056d168c5b",
+      "source_unit_title": "Largest deserts",
+      "content_type": "example",
+      "source_page": 18
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "topic_name": "Natural landscapes and landforms",
+      "source_unit_id": "dbdbc094-1f0b-4804-a65a-7f118991f5f1",
+      "source_unit_title": "Continental landmasses",
+      "content_type": "example",
+      "source_page": 19
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "topic_name": "Natural landscapes and landforms",
+      "source_unit_id": "647e35d5-2d4c-4a48-a26c-ae943eb83085",
+      "source_unit_title": "Highest island peaks",
+      "content_type": "example",
+      "source_page": 19
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "topic_name": "Natural landscapes and landforms",
+      "source_unit_id": "c07a1e05-4d22-4b7a-9a1f-3e6c2f8b9d41",
+      "source_unit_title": "Continents",
+      "content_type": "definition",
+      "source_page": 22
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "69a3e05f-84bb-44e1-bb07-86309efcc17b",
+      "topic_name": "Seas and oceans",
+      "source_unit_id": "0b0aa4a1-67fa-484f-9dce-f385fdf71e91",
+      "source_unit_title": "Largest bodies of water by area",
+      "content_type": "example",
+      "source_page": 20
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "69a3e05f-84bb-44e1-bb07-86309efcc17b",
+      "topic_name": "Seas and oceans",
+      "source_unit_id": "f2488806-2439-45a2-bfff-e6966b6f1623",
+      "source_unit_title": "Gulf",
+      "content_type": "definition",
+      "source_page": 22
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "69a3e05f-84bb-44e1-bb07-86309efcc17b",
+      "topic_name": "Seas and oceans",
+      "source_unit_id": "ce182424-77f5-44e9-ba6a-c9a07932cc80",
+      "source_unit_title": "Bay",
+      "content_type": "definition",
+      "source_page": 22
+    }
+  ],
+  "topic_coverage": [
+    {
+      "chapter_code": "CH1",
+      "topic_id": "254db3b5-6355-49b0-8435-fc4ab3dcd4ba",
+      "topic_name": "Forms of tourism",
+      "question_scope_count": 5,
+      "source_aligned_count": 5
+    },
+    {
+      "chapter_code": "CH1",
+      "topic_id": "a9ec4d1f-f638-4029-8c2d-de020ed6e57c",
+      "topic_name": "Geography and the tourism system",
+      "question_scope_count": 5,
+      "source_aligned_count": 5
+    },
+    {
+      "chapter_code": "CH1",
+      "topic_id": "485bee15-5cf5-4a49-b767-3b85f5ef3e56",
+      "topic_name": "Geography foundations and tourism relevance",
+      "question_scope_count": 5,
+      "source_aligned_count": 5
+    },
+    {
+      "chapter_code": "CH1",
+      "topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "topic_name": "Leisure, recreation, and tourism",
+      "question_scope_count": 13,
+      "source_aligned_count": 13
+    },
+    {
+      "chapter_code": "CH1",
+      "topic_id": "1091bb83-779a-4178-8138-f3f69102bbf2",
+      "topic_name": "Measuring tourist flows",
+      "question_scope_count": 5,
+      "source_aligned_count": 5
+    },
+    {
+      "chapter_code": "CH1",
+      "topic_id": "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426",
+      "topic_name": "Push and pull factors",
+      "question_scope_count": 5,
+      "source_aligned_count": 5
+    },
+    {
+      "chapter_code": "CH1",
+      "topic_id": "74ff4641-b926-435b-9446-d7cebfd9b96e",
+      "topic_name": "Tourism markets and products",
+      "question_scope_count": 5,
+      "source_aligned_count": 5
+    },
+    {
+      "chapter_code": "CH1",
+      "topic_id": "1d1086bb-5ee9-48c6-896e-e069b377435f",
+      "topic_name": "Travel distance",
+      "question_scope_count": 5,
+      "source_aligned_count": 5
+    },
+    {
+      "chapter_code": "CH1",
+      "topic_id": "7eda75b6-3b2e-4eb0-9be6-25e2eea9c301",
+      "topic_name": "Types of travel arrangement",
+      "question_scope_count": 5,
+      "source_aligned_count": 5
+    },
+    {
+      "chapter_code": "CH2",
+      "topic_id": "aa696007-8761-4226-9322-0a5d3a41d0c5",
+      "topic_name": "Dry climate",
+      "question_scope_count": 6,
+      "source_aligned_count": 6
+    },
+    {
+      "chapter_code": "CH2",
+      "topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "topic_name": "High latitude climate",
+      "question_scope_count": 8,
+      "source_aligned_count": 8
+    },
+    {
+      "chapter_code": "CH2",
+      "topic_id": "51c17acf-c393-4d5d-8e5a-802d3b4ca68e",
+      "topic_name": "Highland climate",
+      "question_scope_count": 4,
+      "source_aligned_count": 4
+    },
+    {
+      "chapter_code": "CH2",
+      "topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "topic_name": "Major oceans",
+      "question_scope_count": 14,
+      "source_aligned_count": 14
+    },
+    {
+      "chapter_code": "CH2",
+      "topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "topic_name": "Middle latitude climate",
+      "question_scope_count": 14,
+      "source_aligned_count": 14
+    },
+    {
+      "chapter_code": "CH2",
+      "topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "topic_name": "The seven continents",
+      "question_scope_count": 15,
+      "source_aligned_count": 15
+    },
+    {
+      "chapter_code": "CH2",
+      "topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "topic_name": "Tropical climate",
+      "question_scope_count": 10,
+      "source_aligned_count": 10
+    },
+    {
+      "chapter_code": "CH2",
+      "topic_id": "dbb97956-1265-459d-9a60-b0b324d28855",
+      "topic_name": "World climate classification",
+      "question_scope_count": 4,
+      "source_aligned_count": 4
+    },
+    {
+      "chapter_code": "CH3",
+      "topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "topic_name": "Earth systems and global divisions",
+      "question_scope_count": 15,
+      "source_aligned_count": 15
+    },
+    {
+      "chapter_code": "CH3",
+      "topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "topic_name": "Latitude and longitude",
+      "question_scope_count": 15,
+      "source_aligned_count": 15
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "4c9ec211-5d22-42e0-8d46-8a7ee26d174e",
+      "topic_name": "Inland and glacial water",
+      "question_scope_count": 0,
+      "source_aligned_count": 7
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "topic_name": "Islands and coastal features",
+      "question_scope_count": 13,
+      "source_aligned_count": 4
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "topic_name": "Natural landscapes and landforms",
+      "question_scope_count": 14,
+      "source_aligned_count": 14
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "69a3e05f-84bb-44e1-bb07-86309efcc17b",
+      "topic_name": "Seas and oceans",
+      "question_scope_count": 0,
+      "source_aligned_count": 2
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "topic_name": "Tourism natural resources",
+      "question_scope_count": 11,
+      "source_aligned_count": 11
+    },
+    {
+      "chapter_code": "CH4",
+      "topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "topic_name": "Tourist attractions and classification",
+      "question_scope_count": 12,
+      "source_aligned_count": 12
+    }
+  ],
+  "questions": [
+    {
+      "question_id": "47584e2d-e25d-44cb-981e-d0d778fbc353",
+      "chapter_code": "CH1",
+      "topic_name": "Geography foundations and tourism relevance",
+      "question_topic_id": "485bee15-5cf5-4a49-b767-3b85f5ef3e56",
+      "source_topic_id": "485bee15-5cf5-4a49-b767-3b85f5ef3e56",
+      "source_unit_id": "8b79a0ba-bf8c-4428-bfa3-5640b3284cd0",
+      "source_page": 3,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "The working definition presents geography as a science of nature and what?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "589597ec-0a5f-47ae-84c1-f5ac57f6bf7a",
+      "chapter_code": "CH1",
+      "topic_name": "Geography foundations and tourism relevance",
+      "question_topic_id": "485bee15-5cf5-4a49-b767-3b85f5ef3e56",
+      "source_topic_id": "485bee15-5cf5-4a49-b767-3b85f5ef3e56",
+      "source_unit_id": "312f4696-cc12-4c40-bc37-1820bd254fae",
+      "source_page": 4,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Topography concerns the shape and observable features of what?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "a9a0e83c-82b0-495b-b27b-c2cb95bfc396",
+      "chapter_code": "CH1",
+      "topic_name": "Geography foundations and tourism relevance",
+      "question_topic_id": "485bee15-5cf5-4a49-b767-3b85f5ef3e56",
+      "source_topic_id": "485bee15-5cf5-4a49-b767-3b85f5ef3e56",
+      "source_unit_id": "8b013727-6324-4cef-a92a-a872c717bede",
+      "source_page": 5,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "State two things that geography studies or helps people understand.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "1e2ac649-a2e8-4a75-900c-3d0a2f5a8b6a",
+      "chapter_code": "CH1",
+      "topic_name": "Geography foundations and tourism relevance",
+      "question_topic_id": "485bee15-5cf5-4a49-b767-3b85f5ef3e56",
+      "source_topic_id": "485bee15-5cf5-4a49-b767-3b85f5ef3e56",
+      "source_unit_id": "90510d10-b499-478f-b6fa-743d36251648",
+      "source_page": 6,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State one world condition relevant to tourism geography and one benefit of studying geography for the tourism industry.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "b7582266-9ca0-4415-a076-4a44bc52ad07",
+      "chapter_code": "CH1",
+      "topic_name": "Geography foundations and tourism relevance",
+      "question_topic_id": "485bee15-5cf5-4a49-b767-3b85f5ef3e56",
+      "source_topic_id": "485bee15-5cf5-4a49-b767-3b85f5ef3e56",
+      "source_unit_id": "90510d10-b499-478f-b6fa-743d36251648",
+      "source_page": 6,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which world condition is relevant to tourism geography?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "36fa2d6d-9532-4590-8460-5677b432fd40",
+      "chapter_code": "CH1",
+      "topic_name": "Leisure, recreation, and tourism",
+      "question_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_unit_id": "cb85a578-3658-43ce-a7a4-686c75d8b5a2",
+      "source_page": 7,
+      "question_type": "subjective",
+      "difficulty": "introductory",
+      "question": "Define leisure and name the commitments from which this time remains free.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "43d407a8-a8f7-4dbf-b229-481c83deb0ec",
+      "chapter_code": "CH1",
+      "topic_name": "Leisure, recreation, and tourism",
+      "question_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_unit_id": "cb85a578-3658-43ce-a7a4-686c75d8b5a2",
+      "source_page": 7,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What commitments must be completed before a person's remaining time is considered leisure?",
+      "issues": []
+    },
+    {
+      "question_id": "49ebb9fd-ddef-4b65-916e-5209e265d359",
+      "chapter_code": "CH1",
+      "topic_name": "Leisure, recreation, and tourism",
+      "question_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_unit_id": "cb85a578-3658-43ce-a7a4-686c75d8b5a2",
+      "source_page": 7,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What is leisure often used to measure?",
+      "issues": []
+    },
+    {
+      "question_id": "4b934cbf-2cab-4ed2-92cc-978ff53bb2de",
+      "chapter_code": "CH1",
+      "topic_name": "Leisure, recreation, and tourism",
+      "question_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_unit_id": "cb85a578-3658-43ce-a7a4-686c75d8b5a2",
+      "source_page": 7,
+      "question_type": "mcq",
+      "difficulty": "application",
+      "question": "A person has time available after work, sleep, and household chores and can use it as they wish. What is this time called?",
+      "issues": []
+    },
+    {
+      "question_id": "3960ccb7-1715-42b0-ab63-87fa2e7fb8a6",
+      "chapter_code": "CH1",
+      "topic_name": "Leisure, recreation, and tourism",
+      "question_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_unit_id": "95b44f13-a11f-472f-bbcb-d40ed359d0ed",
+      "source_page": 8,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What effect can recreation have on a person's strength and spirit?",
+      "issues": []
+    },
+    {
+      "question_id": "60343f22-694d-4d63-b613-9393e007a09f",
+      "chapter_code": "CH1",
+      "topic_name": "Leisure, recreation, and tourism",
+      "question_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_unit_id": "95b44f13-a11f-472f-bbcb-d40ed359d0ed",
+      "source_page": 8,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which statement best describes recreation?",
+      "issues": []
+    },
+    {
+      "question_id": "66c5fe6b-4f7f-4640-aada-c65bf1d0a661",
+      "chapter_code": "CH1",
+      "topic_name": "Leisure, recreation, and tourism",
+      "question_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_unit_id": "95b44f13-a11f-472f-bbcb-d40ed359d0ed",
+      "source_page": 8,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which pair are examples of recreation?",
+      "issues": []
+    },
+    {
+      "question_id": "84c39b03-9098-4f90-b4d7-e4bd217b2fdd",
+      "chapter_code": "CH1",
+      "topic_name": "Leisure, recreation, and tourism",
+      "question_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_unit_id": "95b44f13-a11f-472f-bbcb-d40ed359d0ed",
+      "source_page": 8,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Explain how recreation relates to leisure and give two examples.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "0e6aa14e-8275-4033-9636-09cf5860c5fd",
+      "chapter_code": "CH1",
+      "topic_name": "Leisure, recreation, and tourism",
+      "question_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_unit_id": "eef870d4-aa62-4385-ba4e-ca86e292b9c3",
+      "source_page": 9,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "State three defining features of tourism.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "14351ce0-27a1-4c0c-9ac9-4348d33cedb7",
+      "chapter_code": "CH1",
+      "topic_name": "Leisure, recreation, and tourism",
+      "question_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_unit_id": "eef870d4-aa62-4385-ba4e-ca86e292b9c3",
+      "source_page": 9,
+      "question_type": "mcq",
+      "difficulty": "application",
+      "question": "Which condition is necessary for an activity to be considered tourism?",
+      "issues": []
+    },
+    {
+      "question_id": "238cdd8c-1e24-49d1-943c-901f0babf837",
+      "chapter_code": "CH1",
+      "topic_name": "Leisure, recreation, and tourism",
+      "question_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_unit_id": "eef870d4-aa62-4385-ba4e-ca86e292b9c3",
+      "source_page": 9,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What is the maximum duration of a tourism stay outside a person's usual environment?",
+      "issues": []
+    },
+    {
+      "question_id": "58c02992-04d0-452d-8b58-aec5da0a20d0",
+      "chapter_code": "CH1",
+      "topic_name": "Leisure, recreation, and tourism",
+      "question_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_unit_id": "eef870d4-aa62-4385-ba4e-ca86e292b9c3",
+      "source_page": 9,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Can a business stay outside a person's usual environment be considered tourism? Explain using the relevant conditions.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "ce7da981-a27a-483e-ae2c-27931a9cc393",
+      "chapter_code": "CH1",
+      "topic_name": "Leisure, recreation, and tourism",
+      "question_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_topic_id": "09f03c3a-b0e5-448f-ba42-9bb1b26160fb",
+      "source_unit_id": "eef870d4-aa62-4385-ba4e-ca86e292b9c3",
+      "source_page": 9,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which purpose is included in the definition of tourism?",
+      "issues": []
+    },
+    {
+      "question_id": "0d8d7424-d352-48e6-9c88-d231c33215aa",
+      "chapter_code": "CH1",
+      "topic_name": "Geography and the tourism system",
+      "question_topic_id": "a9ec4d1f-f638-4029-8c2d-de020ed6e57c",
+      "source_topic_id": "a9ec4d1f-f638-4029-8c2d-de020ed6e57c",
+      "source_unit_id": "002cac2b-4daf-4cc5-8d26-be052e104b92",
+      "source_page": 11,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "The spatial study of tourism focuses on generating areas, receiving areas, and what else?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "a3ce39da-12e6-41f8-a45e-62cfbd11f533",
+      "chapter_code": "CH1",
+      "topic_name": "Geography and the tourism system",
+      "question_topic_id": "a9ec4d1f-f638-4029-8c2d-de020ed6e57c",
+      "source_topic_id": "a9ec4d1f-f638-4029-8c2d-de020ed6e57c",
+      "source_unit_id": "3868dc9c-a755-441c-9920-c385a6b86634",
+      "source_page": 13,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Tourist-generating areas are primarily tourists' what?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "e8a01998-9a63-4748-99d8-ee5a7fbc24f6",
+      "chapter_code": "CH1",
+      "topic_name": "Geography and the tourism system",
+      "question_topic_id": "a9ec4d1f-f638-4029-8c2d-de020ed6e57c",
+      "source_topic_id": "a9ec4d1f-f638-4029-8c2d-de020ed6e57c",
+      "source_unit_id": "25f51ac3-0193-4428-a2a7-a1031cfdef6e",
+      "source_page": 14,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "State one accommodation function and one entertainment function supplied by a tourist destination.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "114051d7-ebbb-4865-82b2-e9af8504ec5a",
+      "chapter_code": "CH1",
+      "topic_name": "Geography and the tourism system",
+      "question_topic_id": "a9ec4d1f-f638-4029-8c2d-de020ed6e57c",
+      "source_topic_id": "a9ec4d1f-f638-4029-8c2d-de020ed6e57c",
+      "source_unit_id": "a92b84df-02e5-4635-872c-507863427545",
+      "source_page": 15,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Explain how travel routes affect tourist flows.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "6e3e7f8a-92fd-4c88-a8ea-0983188a99e6",
+      "chapter_code": "CH1",
+      "topic_name": "Geography and the tourism system",
+      "question_topic_id": "a9ec4d1f-f638-4029-8c2d-de020ed6e57c",
+      "source_topic_id": "a9ec4d1f-f638-4029-8c2d-de020ed6e57c",
+      "source_unit_id": "a92b84df-02e5-4635-872c-507863427545",
+      "source_page": 15,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What do travel routes link in the tourism system?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "23a7f0c6-5440-45f1-9b5e-ffabeecd6cb4",
+      "chapter_code": "CH1",
+      "topic_name": "Push and pull factors",
+      "question_topic_id": "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426",
+      "source_topic_id": "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426",
+      "source_unit_id": "68fb52c1-6420-4e3b-917f-dedc31108e5a",
+      "source_page": 17,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Push factors encourage tourists to do what?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "e43dc3c0-5693-48b6-8bc3-a44b36706e22",
+      "chapter_code": "CH1",
+      "topic_name": "Push and pull factors",
+      "question_topic_id": "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426",
+      "source_topic_id": "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426",
+      "source_unit_id": "b64ba9e3-b0a5-40b5-9b59-2cb8ebccfd6f",
+      "source_page": 18,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "State the generating-area factor that gives people an entitlement to take a holiday and the factor describing difficult everyday life.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "08793a6b-a731-47ce-946f-852cd0731a44",
+      "chapter_code": "CH1",
+      "topic_name": "Push and pull factors",
+      "question_topic_id": "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426",
+      "source_topic_id": "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426",
+      "source_unit_id": "132c9f68-2e16-430e-b7eb-4ab458b6408b",
+      "source_page": 19,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which is a destination pull factor?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "56a22148-f8d0-402d-ab34-fec55162f0a8",
+      "chapter_code": "CH1",
+      "topic_name": "Push and pull factors",
+      "question_topic_id": "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426",
+      "source_topic_id": "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426",
+      "source_unit_id": "c403af77-976f-4270-b218-ee724aec10ff",
+      "source_page": 20,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "In the Push-Pull Model, identify the push factor concerning rest and the pull factor concerning coastlines.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "e1087ec4-79f0-4f79-952e-f3d289963cdc",
+      "chapter_code": "CH1",
+      "topic_name": "Push and pull factors",
+      "question_topic_id": "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426",
+      "source_topic_id": "c8cb74d2-3ca2-4b46-8a48-5e2e22b58426",
+      "source_unit_id": "c403af77-976f-4270-b218-ee724aec10ff",
+      "source_page": 20,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which is a push factor in the Push-Pull Model?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "8309d939-5fe4-4cea-b0e4-f4d0fbaf94ee",
+      "chapter_code": "CH1",
+      "topic_name": "Measuring tourist flows",
+      "question_topic_id": "1091bb83-779a-4178-8138-f3f69102bbf2",
+      "source_topic_id": "1091bb83-779a-4178-8138-f3f69102bbf2",
+      "source_unit_id": "57aa58f3-c348-47f3-99bf-7b44e5bf37f2",
+      "source_page": 22,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Volume statistics count which people during a period?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "bb9076a2-a17b-4b46-8a7e-1279356dafcb",
+      "chapter_code": "CH1",
+      "topic_name": "Measuring tourist flows",
+      "question_topic_id": "1091bb83-779a-4178-8138-f3f69102bbf2",
+      "source_topic_id": "1091bb83-779a-4178-8138-f3f69102bbf2",
+      "source_unit_id": "5d433a4b-6671-4aa0-91c1-6d6fe12cc15f",
+      "source_page": 22,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "How many main types of tourist-flow measurement are there?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "5d1a2f03-a84d-46ee-b236-2f946e383326",
+      "chapter_code": "CH1",
+      "topic_name": "Measuring tourist flows",
+      "question_topic_id": "1091bb83-779a-4178-8138-f3f69102bbf2",
+      "source_topic_id": "1091bb83-779a-4178-8138-f3f69102bbf2",
+      "source_unit_id": "694caf3c-a0a1-4b16-ba1e-b90613f0f405",
+      "source_page": 23,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Name the tourist characteristic related to age and the behaviour measure related to a tourist's view of a destination.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "7d7a583d-2b47-4066-b2dd-d1c22af1744d",
+      "chapter_code": "CH1",
+      "topic_name": "Measuring tourist flows",
+      "question_topic_id": "1091bb83-779a-4178-8138-f3f69102bbf2",
+      "source_topic_id": "1091bb83-779a-4178-8138-f3f69102bbf2",
+      "source_unit_id": "694caf3c-a0a1-4b16-ba1e-b90613f0f405",
+      "source_page": 23,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Tourist characteristics measure the what of tourist flows?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "81c34b8d-3fab-43af-82e8-cb7856782e4f",
+      "chapter_code": "CH1",
+      "topic_name": "Measuring tourist flows",
+      "question_topic_id": "1091bb83-779a-4178-8138-f3f69102bbf2",
+      "source_topic_id": "1091bb83-779a-4178-8138-f3f69102bbf2",
+      "source_unit_id": "c6e926f2-4a8a-4a5c-9687-b10d0595aa59",
+      "source_page": 23,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Explain what expenditure statistics show about tourism.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "24343a3e-e007-4685-83e4-c76cd613531e",
+      "chapter_code": "CH1",
+      "topic_name": "Forms of tourism",
+      "question_topic_id": "254db3b5-6355-49b0-8435-fc4ab3dcd4ba",
+      "source_topic_id": "254db3b5-6355-49b0-8435-fc4ab3dcd4ba",
+      "source_unit_id": "641ede37-cc81-4a9b-9d8e-6579d33135db",
+      "source_page": 25,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Outbound tourism involves residents doing what?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "448f8429-7dc9-499a-acd7-cc93b6fa0b33",
+      "chapter_code": "CH1",
+      "topic_name": "Forms of tourism",
+      "question_topic_id": "254db3b5-6355-49b0-8435-fc4ab3dcd4ba",
+      "source_topic_id": "254db3b5-6355-49b0-8435-fc4ab3dcd4ba",
+      "source_unit_id": "05319d3a-482d-4e50-a956-d3ac86458d25",
+      "source_page": 25,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "State two features of international tourism.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "791b7755-6ce8-4050-81f7-7e8a951c3995",
+      "chapter_code": "CH1",
+      "topic_name": "Forms of tourism",
+      "question_topic_id": "254db3b5-6355-49b0-8435-fc4ab3dcd4ba",
+      "source_topic_id": "254db3b5-6355-49b0-8435-fc4ab3dcd4ba",
+      "source_unit_id": "ec537a47-6ab6-43b2-8858-f4ba52f37108",
+      "source_page": 25,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Domestic tourism involves people travelling where?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "8b4ce342-8370-418a-8884-d7c68d0042f1",
+      "chapter_code": "CH1",
+      "topic_name": "Forms of tourism",
+      "question_topic_id": "254db3b5-6355-49b0-8435-fc4ab3dcd4ba",
+      "source_topic_id": "254db3b5-6355-49b0-8435-fc4ab3dcd4ba",
+      "source_unit_id": "c020c1b6-9695-4ca0-92a6-09f62bdb228f",
+      "source_page": 25,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Inbound tourism refers to which travellers in a given country?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "e48e98ea-ec84-41d8-948e-87e4a5644fde",
+      "chapter_code": "CH1",
+      "topic_name": "Forms of tourism",
+      "question_topic_id": "254db3b5-6355-49b0-8435-fc4ab3dcd4ba",
+      "source_topic_id": "254db3b5-6355-49b0-8435-fc4ab3dcd4ba",
+      "source_unit_id": "ec537a47-6ab6-43b2-8858-f4ba52f37108",
+      "source_page": 25,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Explain why a resident taking a holiday within their own country is an example of domestic tourism.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "f22da37d-4436-4e08-b867-4eb0fa636716",
+      "chapter_code": "CH1",
+      "topic_name": "Tourism markets and products",
+      "question_topic_id": "74ff4641-b926-435b-9446-d7cebfd9b96e",
+      "source_topic_id": "74ff4641-b926-435b-9446-d7cebfd9b96e",
+      "source_unit_id": "0d3cb1ed-1b8c-4f59-b6b2-d4a5fbce7f1f",
+      "source_page": 26,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which is a type of tourism product?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "103c6056-02cd-4b41-9449-def3ead0c905",
+      "chapter_code": "CH1",
+      "topic_name": "Tourism markets and products",
+      "question_topic_id": "74ff4641-b926-435b-9446-d7cebfd9b96e",
+      "source_topic_id": "74ff4641-b926-435b-9446-d7cebfd9b96e",
+      "source_unit_id": "00b45e0c-a76f-4d68-8e7c-79942208cb72",
+      "source_page": 27,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Holiday tourism includes which beach-related form of travel?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "6ff7d57d-a6b5-4b43-a116-86f37c9958c2",
+      "chapter_code": "CH1",
+      "topic_name": "Tourism markets and products",
+      "question_topic_id": "74ff4641-b926-435b-9446-d7cebfd9b96e",
+      "source_topic_id": "74ff4641-b926-435b-9446-d7cebfd9b96e",
+      "source_unit_id": "6f990b48-e88a-4510-9d84-8c50d263818e",
+      "source_page": 28,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Name the common-interest tourism purpose concerned with visiting people you know and the purpose concerned with learning.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "08958cf3-ccbc-435f-9694-75deb02e94db",
+      "chapter_code": "CH1",
+      "topic_name": "Tourism markets and products",
+      "question_topic_id": "74ff4641-b926-435b-9446-d7cebfd9b96e",
+      "source_topic_id": "74ff4641-b926-435b-9446-d7cebfd9b96e",
+      "source_unit_id": "10f721f6-6e65-4f7c-915b-21ab8d47b895",
+      "source_page": 29,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which activity is included in business and professional tourism?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "7709ceed-eae5-4b09-9836-3cae773a0c8e",
+      "chapter_code": "CH1",
+      "topic_name": "Tourism markets and products",
+      "question_topic_id": "74ff4641-b926-435b-9446-d7cebfd9b96e",
+      "source_topic_id": "74ff4641-b926-435b-9446-d7cebfd9b96e",
+      "source_unit_id": "7e0adbdc-4b43-4296-bb24-f10483072292",
+      "source_page": 31,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Define grey tourism and give one reason this group may have opportunities to travel.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "5ccb1ae8-edab-4a27-93ea-fc5e667676a1",
+      "chapter_code": "CH1",
+      "topic_name": "Types of travel arrangement",
+      "question_topic_id": "7eda75b6-3b2e-4eb0-9be6-25e2eea9c301",
+      "source_topic_id": "7eda75b6-3b2e-4eb0-9be6-25e2eea9c301",
+      "source_unit_id": "3fb9bb00-7049-43ab-aa9a-f765316ac6c8",
+      "source_page": 32,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Explain how a tailor-made arrangement relates to inclusive and independent arrangements.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "7fb6aeda-4f3a-486e-b9a1-ba1745bebcfb",
+      "chapter_code": "CH1",
+      "topic_name": "Types of travel arrangement",
+      "question_topic_id": "7eda75b6-3b2e-4eb0-9be6-25e2eea9c301",
+      "source_topic_id": "7eda75b6-3b2e-4eb0-9be6-25e2eea9c301",
+      "source_unit_id": "80d123ed-24ab-40c9-8775-a67308769dea",
+      "source_page": 32,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Define an inclusive tour.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "9a9773b6-338d-4add-ab84-65f474a38451",
+      "chapter_code": "CH1",
+      "topic_name": "Types of travel arrangement",
+      "question_topic_id": "7eda75b6-3b2e-4eb0-9be6-25e2eea9c301",
+      "source_topic_id": "7eda75b6-3b2e-4eb0-9be6-25e2eea9c301",
+      "source_unit_id": "46db337a-3bcb-4241-bd94-1a9441cec0a4",
+      "source_page": 32,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "In independent travel arrangements, how are trip elements purchased?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "a5787855-7b99-48a5-aa47-ec2b9a768df6",
+      "chapter_code": "CH1",
+      "topic_name": "Types of travel arrangement",
+      "question_topic_id": "7eda75b6-3b2e-4eb0-9be6-25e2eea9c301",
+      "source_topic_id": "7eda75b6-3b2e-4eb0-9be6-25e2eea9c301",
+      "source_unit_id": "3fb9bb00-7049-43ab-aa9a-f765316ac6c8",
+      "source_page": 32,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Tailor-made travel arrangements are a combination of which two arrangements?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "aa558a25-bea4-4e8c-802b-bc00a266abfe",
+      "chapter_code": "CH1",
+      "topic_name": "Types of travel arrangement",
+      "question_topic_id": "7eda75b6-3b2e-4eb0-9be6-25e2eea9c301",
+      "source_topic_id": "7eda75b6-3b2e-4eb0-9be6-25e2eea9c301",
+      "source_unit_id": "80d123ed-24ab-40c9-8775-a67308769dea",
+      "source_page": 32,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "An inclusive tour includes how many trip components bought together?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "321e4af6-6a9c-415e-950d-de41043fea00",
+      "chapter_code": "CH1",
+      "topic_name": "Travel distance",
+      "question_topic_id": "1d1086bb-5ee9-48c6-896e-e069b377435f",
+      "source_topic_id": "1d1086bb-5ee9-48c6-896e-e069b377435f",
+      "source_unit_id": "04677b30-db2b-4f2f-b3ae-0a66874b4647",
+      "source_page": 33,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "The long-haul and short-haul distinction is important for aircraft operation and what else?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "3ebad198-12bc-47a3-8891-b513617d620c",
+      "chapter_code": "CH1",
+      "topic_name": "Travel distance",
+      "question_topic_id": "1d1086bb-5ee9-48c6-896e-e069b377435f",
+      "source_topic_id": "1d1086bb-5ee9-48c6-896e-e069b377435f",
+      "source_unit_id": "7a91260a-a280-467f-99bf-5957d9f1d7a7",
+      "source_page": 33,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Long-haul tourism is taken to be journeys of more than how many kilometres?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "5f1c7c40-fa3c-4070-9d2a-ee4dfe057ea4",
+      "chapter_code": "CH1",
+      "topic_name": "Travel distance",
+      "question_topic_id": "1d1086bb-5ee9-48c6-896e-e069b377435f",
+      "source_topic_id": "1d1086bb-5ee9-48c6-896e-e069b377435f",
+      "source_unit_id": "eb56c15f-76e2-4d9a-b062-93e6576b6629",
+      "source_page": 33,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Short-haul tourism comprises journeys at what distance?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "b246b883-803b-483e-8a5e-08b96b1f8650",
+      "chapter_code": "CH1",
+      "topic_name": "Travel distance",
+      "question_topic_id": "1d1086bb-5ee9-48c6-896e-e069b377435f",
+      "source_topic_id": "1d1086bb-5ee9-48c6-896e-e069b377435f",
+      "source_unit_id": "1feb7dff-8c18-4cf2-938d-474e0b76dd4c",
+      "source_page": 33,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "How can geographical components influence the different forms of tourism?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "ca14bddb-4545-4626-b372-4957c4f49b18",
+      "chapter_code": "CH1",
+      "topic_name": "Travel distance",
+      "question_topic_id": "1d1086bb-5ee9-48c6-896e-e069b377435f",
+      "source_topic_id": "1d1086bb-5ee9-48c6-896e-e069b377435f",
+      "source_unit_id": "7a91260a-a280-467f-99bf-5957d9f1d7a7",
+      "source_page": 33,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "A journey covers 3,500 kilometres. Identify its travel-distance category and state the threshold that supports your answer.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "2a4e96d1-3739-4d9f-a4b6-906c22b72602",
+      "chapter_code": "CH3",
+      "topic_name": "Earth systems and global divisions",
+      "question_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_unit_id": "59312e55-7f96-4ac8-8d00-65ad610a5955",
+      "source_page": 2,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "State what the Equator is and give its east-to-west diameter.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "34c167cf-2285-4209-9cb2-ff1775d1c00e",
+      "chapter_code": "CH3",
+      "topic_name": "Earth systems and global divisions",
+      "question_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_unit_id": "9778dbb4-caca-47c0-8c5c-7ab82e58ca16",
+      "source_page": 2,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which Earth system is described as places occupied by living creatures?",
+      "issues": []
+    },
+    {
+      "question_id": "354ac316-3b59-4638-a023-f6830240df7d",
+      "chapter_code": "CH3",
+      "topic_name": "Earth systems and global divisions",
+      "question_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_unit_id": "9c311f4e-b448-432c-b466-a82792592de6",
+      "source_page": 2,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Name any three continents.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "5ed8eb1b-f321-49dc-a5bc-3de4921efb8d",
+      "chapter_code": "CH3",
+      "topic_name": "Earth systems and global divisions",
+      "question_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_unit_id": "59312e55-7f96-4ac8-8d00-65ad610a5955",
+      "source_page": 2,
+      "question_type": "mcq",
+      "difficulty": "intermediate",
+      "question": "What is Earth's north-to-south diameter at the Equator?",
+      "issues": []
+    },
+    {
+      "question_id": "6c8e9b86-a989-4abd-a5d5-fa4576218fd5",
+      "chapter_code": "CH3",
+      "topic_name": "Earth systems and global divisions",
+      "question_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_unit_id": "3c779620-6eb5-4fbb-99e3-4b464d453580",
+      "source_page": 2,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What makes Earth unique among the planets?",
+      "issues": []
+    },
+    {
+      "question_id": "84f3abda-24ff-455f-a5d8-5b7638f8fa0e",
+      "chapter_code": "CH3",
+      "topic_name": "Earth systems and global divisions",
+      "question_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_unit_id": "9c311f4e-b448-432c-b466-a82792592de6",
+      "source_page": 2,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which item is included in the lithosphere’s list of continents?",
+      "issues": []
+    },
+    {
+      "question_id": "9040d42d-e05d-43a1-986e-154714471a12",
+      "chapter_code": "CH3",
+      "topic_name": "Earth systems and global divisions",
+      "question_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_unit_id": "9c311f4e-b448-432c-b466-a82792592de6",
+      "source_page": 2,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Define the lithosphere and state how many continents it is divided into.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "90aeebd4-38f1-4084-8126-c8d140abaa21",
+      "chapter_code": "CH3",
+      "topic_name": "Earth systems and global divisions",
+      "question_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_unit_id": "199a1e35-644a-4cef-94a1-7a5ab8d3a0af",
+      "source_page": 2,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "How many oceans make up the hydrosphere?",
+      "issues": []
+    },
+    {
+      "question_id": "96414b1d-81d5-457c-ab30-9dada1f27d4f",
+      "chapter_code": "CH3",
+      "topic_name": "Earth systems and global divisions",
+      "question_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_unit_id": "3c779620-6eb5-4fbb-99e3-4b464d453580",
+      "source_page": 2,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What is Earth's size rank among the planets?",
+      "issues": []
+    },
+    {
+      "question_id": "bdae5732-6d9d-4e56-bc28-6fcdc6e4ee56",
+      "chapter_code": "CH3",
+      "topic_name": "Earth systems and global divisions",
+      "question_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_unit_id": "59312e55-7f96-4ac8-8d00-65ad610a5955",
+      "source_page": 2,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Compare Earth's east-to-west and north-to-south diameter figures at the Equator.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "be3d02ab-0bb7-4427-8d17-4f4f269f9001",
+      "chapter_code": "CH3",
+      "topic_name": "Earth systems and global divisions",
+      "question_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_unit_id": "199a1e35-644a-4cef-94a1-7a5ab8d3a0af",
+      "source_page": 2,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Name any three oceans.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "cfbe6223-579e-4b34-9475-c7f319729284",
+      "chapter_code": "CH3",
+      "topic_name": "Earth systems and global divisions",
+      "question_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_unit_id": "199a1e35-644a-4cef-94a1-7a5ab8d3a0af",
+      "source_page": 2,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What does the hydrosphere refer to?",
+      "issues": []
+    },
+    {
+      "question_id": "e769877e-bfc2-49f5-91ee-3109f16e456f",
+      "chapter_code": "CH3",
+      "topic_name": "Earth systems and global divisions",
+      "question_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_unit_id": "9c311f4e-b448-432c-b466-a82792592de6",
+      "source_page": 2,
+      "question_type": "mcq",
+      "difficulty": "intermediate",
+      "question": "Which list contains only continents?",
+      "issues": []
+    },
+    {
+      "question_id": "f9ed6486-446a-40af-9c76-a4b7d85fc31b",
+      "chapter_code": "CH3",
+      "topic_name": "Earth systems and global divisions",
+      "question_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_unit_id": "9778dbb4-caca-47c0-8c5c-7ab82e58ca16",
+      "source_page": 2,
+      "question_type": "subjective",
+      "difficulty": "introductory",
+      "question": "Define the biosphere.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "fdd7417e-9963-470a-b4d1-a35bdf4bcfe9",
+      "chapter_code": "CH3",
+      "topic_name": "Earth systems and global divisions",
+      "question_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_topic_id": "171860d9-25fc-485b-bac2-20cc69fbb0a3",
+      "source_unit_id": "3c779620-6eb5-4fbb-99e3-4b464d453580",
+      "source_page": 2,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which position does Earth occupy relative to the Sun?",
+      "issues": []
+    },
+    {
+      "question_id": "09918763-ae82-4e83-9640-30d1986a3943",
+      "chapter_code": "CH2",
+      "topic_name": "The seven continents",
+      "question_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_unit_id": "87a5e293-0b85-418b-bcee-f28218229446",
+      "source_page": 2,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "How many continents are identified in the standard world map?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "1905ff95-0d34-44fb-ae36-fd47aba51b3f",
+      "chapter_code": "CH2",
+      "topic_name": "Major oceans",
+      "question_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_unit_id": "e987bd6e-c502-4064-9b2b-931f91ee00e9",
+      "source_page": 3,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Define an ocean and state what it surrounds.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "56fee134-d3cd-44ca-9d15-7d1d26e342f7",
+      "chapter_code": "CH2",
+      "topic_name": "Major oceans",
+      "question_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_unit_id": "e987bd6e-c502-4064-9b2b-931f91ee00e9",
+      "source_page": 3,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What is a large body of salt water surrounding continental land masses called?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "7e6a9392-72cd-4a32-9aa6-eb94d941b8ad",
+      "chapter_code": "CH2",
+      "topic_name": "The seven continents",
+      "question_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_unit_id": "f4099441-e9a7-4872-97ba-84fef41c8ecf",
+      "source_page": 3,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Define a continent and state what may be included around its main land mass.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "b6ec7ff5-f0a3-454a-97de-dc4cdc293fe7",
+      "chapter_code": "CH2",
+      "topic_name": "The seven continents",
+      "question_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_unit_id": "f4099441-e9a7-4872-97ba-84fef41c8ecf",
+      "source_page": 3,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What is a large, continuous land mass that includes surrounding islands called?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "23aaf7b4-a321-457c-863d-6d44d4bda935",
+      "chapter_code": "CH2",
+      "topic_name": "The seven continents",
+      "question_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_unit_id": "0ddca5b3-8e97-4559-9975-17cdffd9cc5f",
+      "source_page": 4,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which continent is the largest and is home to Mount Everest?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "5661f086-5743-4e57-b7d4-8e039faf655b",
+      "chapter_code": "CH2",
+      "topic_name": "The seven continents",
+      "question_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_unit_id": "b5c0b7d5-c392-4809-9937-552328ebe7a8",
+      "source_page": 4,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two geographical facts about Africa.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "9bfcb22a-0805-4b09-830b-d03a16915ce6",
+      "chapter_code": "CH2",
+      "topic_name": "The seven continents",
+      "question_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_unit_id": "0ddca5b3-8e97-4559-9975-17cdffd9cc5f",
+      "source_page": 4,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two geographical facts about Asia.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "c2397e3f-5464-4773-bbdb-f586d7177902",
+      "chapter_code": "CH2",
+      "topic_name": "The seven continents",
+      "question_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_unit_id": "b5c0b7d5-c392-4809-9937-552328ebe7a8",
+      "source_page": 4,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which continent is the second largest and is home to the Sahara and the Nile?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "0b6b91d4-c370-42a7-abe6-19d05fc7b985",
+      "chapter_code": "CH2",
+      "topic_name": "The seven continents",
+      "question_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_unit_id": "8327f8a6-26ff-4000-9092-087e912e610a",
+      "source_page": 5,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which continent is connected to North America by the Isthmus of Panama and contains the Andes?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "65f16224-add5-402c-a8de-f4a829ab065d",
+      "chapter_code": "CH2",
+      "topic_name": "The seven continents",
+      "question_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_unit_id": "023fe353-c974-4892-831f-284e589f0abc",
+      "source_page": 5,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which continent is the third largest and contains the Cascade Range?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "2a17fe4c-cf9c-489d-add8-4fe543cd2097",
+      "chapter_code": "CH2",
+      "topic_name": "The seven continents",
+      "question_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_unit_id": "9522cf38-b327-4391-acd2-5d9cfe0d8bc6",
+      "source_page": 6,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which continent is the sixth largest and is surrounded by water on three sides?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "40a18bfa-c93e-49e0-9e22-36433c9d1731",
+      "chapter_code": "CH2",
+      "topic_name": "The seven continents",
+      "question_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_unit_id": "8c116a1f-28a3-4d2c-a4ad-4a71e6a0de78",
+      "source_page": 6,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two geographical facts about Australia.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "aff404a7-7be0-4057-bc2e-7b2b29805890",
+      "chapter_code": "CH2",
+      "topic_name": "The seven continents",
+      "question_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_unit_id": "8c116a1f-28a3-4d2c-a4ad-4a71e6a0de78",
+      "source_page": 6,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which continent is the smallest, lowest, flattest, and one of the driest?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "cb021ae3-9598-49eb-89fa-c68d4f30dc46",
+      "chapter_code": "CH2",
+      "topic_name": "The seven continents",
+      "question_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_unit_id": "9522cf38-b327-4391-acd2-5d9cfe0d8bc6",
+      "source_page": 6,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two geographical facts about Europe.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "ec2034d1-0615-4b47-b7bd-204d138cacb5",
+      "chapter_code": "CH2",
+      "topic_name": "The seven continents",
+      "question_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_unit_id": "57d9d29e-91ec-424c-b0f0-b6ba84ddf31d",
+      "source_page": 6,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two geographical facts about Antarctica.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "edd90048-2add-4e95-87e4-02ef00feca92",
+      "chapter_code": "CH2",
+      "topic_name": "The seven continents",
+      "question_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_topic_id": "68393419-9a3c-4502-b0c9-96ca3977b86e",
+      "source_unit_id": "57d9d29e-91ec-424c-b0f0-b6ba84ddf31d",
+      "source_page": 6,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which continent is the windiest and driest and has no permanent residents?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "37a0d4ba-1f4f-45df-8c5a-eb34fde8494e",
+      "chapter_code": "CH2",
+      "topic_name": "Major oceans",
+      "question_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_unit_id": "56d14e77-7daa-4b6c-8806-dfaa440daa93",
+      "source_page": 7,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which list names the five major oceans?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "8cf02974-42b6-439d-a768-72c9ef55ee63",
+      "chapter_code": "CH2",
+      "topic_name": "Major oceans",
+      "question_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_unit_id": "101d077c-9874-4b17-ac49-4cd36d5a200d",
+      "source_page": 8,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which ocean is the second largest, covers about 25% of Earth's surface, and is rich in aquatic life, oil, and gas?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "a32936a9-1206-4ea6-aba9-59d716f69165",
+      "chapter_code": "CH2",
+      "topic_name": "Major oceans",
+      "question_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_unit_id": "c36b6047-aee5-495b-8680-36b0cac6440f",
+      "source_page": 8,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which ocean is the largest and deepest and contains the Challenger Deep?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "b8a42526-43fa-404d-b09b-ec93f39f8615",
+      "chapter_code": "CH2",
+      "topic_name": "Major oceans",
+      "question_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_unit_id": "c36b6047-aee5-495b-8680-36b0cac6440f",
+      "source_page": 8,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two geographical facts about the Pacific Ocean.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "d69f9730-9598-469d-97ae-cbfb64cbbd6f",
+      "chapter_code": "CH2",
+      "topic_name": "Major oceans",
+      "question_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_unit_id": "101d077c-9874-4b17-ac49-4cd36d5a200d",
+      "source_page": 8,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two geographical facts about the Atlantic Ocean.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "04d58107-c8ff-4088-b079-50df1d18e83e",
+      "chapter_code": "CH2",
+      "topic_name": "Major oceans",
+      "question_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_unit_id": "86f2cfbc-bed9-436f-bdb3-8bb384f1cf82",
+      "source_page": 9,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which ocean is the smallest, least accessible, and least studied of the major oceans?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "134c2fa6-112f-4f92-8880-0cb400e8a6ab",
+      "chapter_code": "CH2",
+      "topic_name": "Major oceans",
+      "question_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_unit_id": "bdd6f07c-7806-47b0-beb1-87b4e9802c49",
+      "source_page": 9,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which ocean surrounds Antarctica and is defined by the Antarctic Circumpolar Current?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "91786edd-e4e1-4c20-be10-983b4aac0f36",
+      "chapter_code": "CH2",
+      "topic_name": "Major oceans",
+      "question_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_unit_id": "1bba0e1f-4cdb-4632-b456-43baeea40fe8",
+      "source_page": 9,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which ocean is the third largest and warmest of the major oceans?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "975fa3bf-5e09-4ea3-83b0-2bdf3262145e",
+      "chapter_code": "CH2",
+      "topic_name": "Major oceans",
+      "question_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_unit_id": "1bba0e1f-4cdb-4632-b456-43baeea40fe8",
+      "source_page": 9,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two geographical facts about the Indian Ocean.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "e7847fa9-79f0-482c-9e32-22ebeff7c8e2",
+      "chapter_code": "CH2",
+      "topic_name": "Major oceans",
+      "question_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_unit_id": "86f2cfbc-bed9-436f-bdb3-8bb384f1cf82",
+      "source_page": 9,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two geographical facts about the Arctic Ocean.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "239fcd33-d3c2-4d8c-bf93-6c532cc231d7",
+      "chapter_code": "CH2",
+      "topic_name": "Major oceans",
+      "question_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_unit_id": "59d09fac-b0cf-4a32-b7e4-5a24cb054a76",
+      "source_page": 10,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Explain two ways continents and their surrounding oceans are geographically connected.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "62b06df3-e676-4a18-a2ab-08d2f580a20f",
+      "chapter_code": "CH2",
+      "topic_name": "Major oceans",
+      "question_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_topic_id": "f066f2b3-0b04-4b25-b361-a6778088b21b",
+      "source_unit_id": "59d09fac-b0cf-4a32-b7e4-5a24cb054a76",
+      "source_page": 10,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which statement best describes the relationship between continents and oceans?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "8c14356d-051c-478a-9d89-227fa4960f9c",
+      "chapter_code": "CH2",
+      "topic_name": "World climate classification",
+      "question_topic_id": "dbb97956-1265-459d-9a60-b0b324d28855",
+      "source_topic_id": "dbb97956-1265-459d-9a60-b0b324d28855",
+      "source_unit_id": "b7d73dcb-1993-41bc-830e-47714203f344",
+      "source_page": 12,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Name any two of the five major climate types.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "d1495008-e201-4c50-855a-a4997e0d7cca",
+      "chapter_code": "CH2",
+      "topic_name": "World climate classification",
+      "question_topic_id": "dbb97956-1265-459d-9a60-b0b324d28855",
+      "source_topic_id": "dbb97956-1265-459d-9a60-b0b324d28855",
+      "source_unit_id": "b7d73dcb-1993-41bc-830e-47714203f344",
+      "source_page": 12,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which list names the five major climate types?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "a903ddbc-edab-4a79-bbb2-ee0f9ef5b54f",
+      "chapter_code": "CH2",
+      "topic_name": "World climate classification",
+      "question_topic_id": "dbb97956-1265-459d-9a60-b0b324d28855",
+      "source_topic_id": "dbb97956-1265-459d-9a60-b0b324d28855",
+      "source_unit_id": "0e07433e-b0f7-442f-a49a-0e2515a3f401",
+      "source_page": 13,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What primarily determines the broad bands of global climate zones?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "f9e986a0-5170-4d98-b3f2-09cf6ef91b63",
+      "chapter_code": "CH2",
+      "topic_name": "World climate classification",
+      "question_topic_id": "dbb97956-1265-459d-9a60-b0b324d28855",
+      "source_topic_id": "dbb97956-1265-459d-9a60-b0b324d28855",
+      "source_unit_id": "0e07433e-b0f7-442f-a49a-0e2515a3f401",
+      "source_page": 13,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Explain two ways latitude affects climate zones or seasons.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "1a77c19e-e93c-41ce-8efa-4c67112f83c7",
+      "chapter_code": "CH2",
+      "topic_name": "Tropical climate",
+      "question_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_unit_id": "0cf701f8-8fde-407e-ae4f-d532dab52975",
+      "source_page": 14,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which climate occurs along the Equator and is warm and rainy throughout the year?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "26c13c87-400f-49b5-9a6e-2183036a49f0",
+      "chapter_code": "CH2",
+      "topic_name": "Tropical climate",
+      "question_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_unit_id": "0cf701f8-8fde-407e-ae4f-d532dab52975",
+      "source_page": 14,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two characteristics of a tropical humid climate.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "34dfb5ae-ac79-490d-910d-f50e47380750",
+      "chapter_code": "CH2",
+      "topic_name": "Tropical climate",
+      "question_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_unit_id": "82c13fdc-c0c5-46d7-9320-d2cf89f273fc",
+      "source_page": 14,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Explain how a summer monsoon forms and what it brings.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "3e18f9ef-cf1e-4351-823a-1631e704bf64",
+      "chapter_code": "CH2",
+      "topic_name": "Tropical climate",
+      "question_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_unit_id": "c31bc5c9-c35d-4686-af03-166c4ff45227",
+      "source_page": 14,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Explain how a winter monsoon forms and describe its moisture.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "a8e5706d-87f0-432f-aa50-6ff96a5fbd6f",
+      "chapter_code": "CH2",
+      "topic_name": "Tropical climate",
+      "question_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_unit_id": "e3ec1403-0a28-46c9-8e43-fef07e290273",
+      "source_page": 14,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two location details that describe where tropical climates occur.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "cc44c7c8-eff9-47f6-aca8-f2b8b3ae1426",
+      "chapter_code": "CH2",
+      "topic_name": "Tropical climate",
+      "question_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_unit_id": "82c13fdc-c0c5-46d7-9320-d2cf89f273fc",
+      "source_page": 14,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which monsoon blows over water and brings moisture?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "d7e790ed-630d-4c28-9291-7782e60e229b",
+      "chapter_code": "CH2",
+      "topic_name": "Tropical climate",
+      "question_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_unit_id": "c31bc5c9-c35d-4686-af03-166c4ff45227",
+      "source_page": 14,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which monsoon blows over land and is dry?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "f3a4072d-25b0-4933-8214-8c3820f1791a",
+      "chapter_code": "CH2",
+      "topic_name": "Tropical climate",
+      "question_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_unit_id": "e3ec1403-0a28-46c9-8e43-fef07e290273",
+      "source_page": 14,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Where do tropical climates occur?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "841638d4-ca1c-4cbc-931c-f7893e265e58",
+      "chapter_code": "CH2",
+      "topic_name": "Tropical climate",
+      "question_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_unit_id": "5991f254-816b-4035-ab43-1f911804a967",
+      "source_page": 15,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two characteristics of a tropical wet-and-dry climate.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "ebdc1e03-547b-442e-afea-0384c55b0600",
+      "chapter_code": "CH2",
+      "topic_name": "Tropical climate",
+      "question_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_topic_id": "fa1546b9-a7b5-4fa7-b117-e4222e4c9093",
+      "source_unit_id": "5991f254-816b-4035-ab43-1f911804a967",
+      "source_page": 15,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which climate is warm all year but has a very wet summer and a very dry winter?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "5137c4a5-ece0-4394-92a1-11d3cc0ad8dd",
+      "chapter_code": "CH2",
+      "topic_name": "Dry climate",
+      "question_topic_id": "aa696007-8761-4226-9322-0a5d3a41d0c5",
+      "source_topic_id": "aa696007-8761-4226-9322-0a5d3a41d0c5",
+      "source_unit_id": "27a0eeb9-953f-4ac7-9e86-55d9e8789006",
+      "source_page": 16,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which climate is sunny and hot, receives less than 10 inches of precipitation a year, and is associated with deserts and oases?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "7fe5d971-5fcc-49ea-a0c0-97a8d159b972",
+      "chapter_code": "CH2",
+      "topic_name": "Dry climate",
+      "question_topic_id": "aa696007-8761-4226-9322-0a5d3a41d0c5",
+      "source_topic_id": "aa696007-8761-4226-9322-0a5d3a41d0c5",
+      "source_unit_id": "a48bde3a-9dbe-4ea1-af69-fdb944d7ff31",
+      "source_page": 16,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which climate group has low rainfall but can have widely varying temperatures?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "a175692c-56bd-4ff4-a8f2-1c978d805fbf",
+      "chapter_code": "CH2",
+      "topic_name": "Dry climate",
+      "question_topic_id": "aa696007-8761-4226-9322-0a5d3a41d0c5",
+      "source_topic_id": "aa696007-8761-4226-9322-0a5d3a41d0c5",
+      "source_unit_id": "27a0eeb9-953f-4ac7-9e86-55d9e8789006",
+      "source_page": 16,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two characteristics of an arid climate.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "fc93763e-1787-4460-8121-abfb15021476",
+      "chapter_code": "CH2",
+      "topic_name": "Dry climate",
+      "question_topic_id": "aa696007-8761-4226-9322-0a5d3a41d0c5",
+      "source_topic_id": "aa696007-8761-4226-9322-0a5d3a41d0c5",
+      "source_unit_id": "a48bde3a-9dbe-4ea1-af69-fdb944d7ff31",
+      "source_page": 16,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two characteristics of dry climates.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "64fa6c92-b46a-4c79-b6d7-50a23df51670",
+      "chapter_code": "CH2",
+      "topic_name": "Dry climate",
+      "question_topic_id": "aa696007-8761-4226-9322-0a5d3a41d0c5",
+      "source_topic_id": "aa696007-8761-4226-9322-0a5d3a41d0c5",
+      "source_unit_id": "3351e87e-e9ef-44f4-bb9e-25d1b334cdde",
+      "source_page": 17,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which climate receives about 10–20 inches of precipitation a year and supports steppe vegetation?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "fdabb8d5-e57a-48dd-a68c-810ab96e8b27",
+      "chapter_code": "CH2",
+      "topic_name": "Dry climate",
+      "question_topic_id": "aa696007-8761-4226-9322-0a5d3a41d0c5",
+      "source_topic_id": "aa696007-8761-4226-9322-0a5d3a41d0c5",
+      "source_unit_id": "3351e87e-e9ef-44f4-bb9e-25d1b334cdde",
+      "source_page": 17,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two characteristics of a semiarid climate.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "98741627-87de-47eb-8fa4-bb5d3e08d74a",
+      "chapter_code": "CH2",
+      "topic_name": "Middle latitude climate",
+      "question_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_unit_id": "1d47ba8b-07fd-4473-8040-e9f64834352a",
+      "source_page": 18,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which climate group is generally temperate and avoids the extremes of tropical and high-latitude climates?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "07903929-4cea-4cef-ae0a-4cc84ec2427c",
+      "chapter_code": "CH2",
+      "topic_name": "Middle latitude climate",
+      "question_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_unit_id": "597fd168-ea69-4012-be79-c730070b952f",
+      "source_page": 19,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which forest type keeps its needles or broad leaves throughout the year?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "55364154-e36a-4955-90db-290d153148ed",
+      "chapter_code": "CH2",
+      "topic_name": "Middle latitude climate",
+      "question_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_unit_id": "11b8ee9b-269a-49f1-b1c1-571951ce1e81",
+      "source_page": 19,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two characteristics of a Mediterranean climate.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "68e98c2c-9268-47f2-b89a-1a30ea82bf01",
+      "chapter_code": "CH2",
+      "topic_name": "Middle latitude climate",
+      "question_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_unit_id": "1a02245b-8ca8-474b-9db8-06fc337079b0",
+      "source_page": 19,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which climate has hot, humid summers with heavy thunderstorms and mild, humid winters?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "7260fb46-072e-4cd3-a9fd-2225b8a949a5",
+      "chapter_code": "CH2",
+      "topic_name": "Middle latitude climate",
+      "question_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_unit_id": "597fd168-ea69-4012-be79-c730070b952f",
+      "source_page": 19,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two characteristics of an evergreen forest.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "93fc8ea6-5951-494f-856b-9558abcaa932",
+      "chapter_code": "CH2",
+      "topic_name": "Middle latitude climate",
+      "question_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_unit_id": "f1012de4-075c-4ab5-a441-1cfb3a871732",
+      "source_page": 19,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two characteristics of a deciduous forest.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "988017ab-9b38-4c23-a444-5e285ac16048",
+      "chapter_code": "CH2",
+      "topic_name": "Middle latitude climate",
+      "question_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_unit_id": "1a02245b-8ca8-474b-9db8-06fc337079b0",
+      "source_page": 19,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two characteristics of a humid subtropical climate.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "acdabc5a-4e72-4cf9-bda8-813399cad7db",
+      "chapter_code": "CH2",
+      "topic_name": "Middle latitude climate",
+      "question_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_unit_id": "f1012de4-075c-4ab5-a441-1cfb3a871732",
+      "source_page": 19,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which forest type has broad-leafed trees that lose their leaves in the fall?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "c072276d-afd8-46c1-91f6-9f54abc248e0",
+      "chapter_code": "CH2",
+      "topic_name": "Middle latitude climate",
+      "question_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_unit_id": "d9843887-94ef-4915-a787-5ad9f89574a0",
+      "source_page": 19,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which forest type combines broad-leafed and evergreen trees, as seen in Georgia?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "f101d182-0d3d-4df7-9760-5cc250e9bcd2",
+      "chapter_code": "CH2",
+      "topic_name": "Middle latitude climate",
+      "question_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_unit_id": "11b8ee9b-269a-49f1-b1c1-571951ce1e81",
+      "source_page": 19,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which climate has mild winters and hot summers in places such as California, Greece, and Italy?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "2ebddc91-fc39-4fb1-89fe-c08328ceaca2",
+      "chapter_code": "CH2",
+      "topic_name": "Middle latitude climate",
+      "question_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_unit_id": "fc62a899-7a5c-4f04-b075-372d5c735849",
+      "source_page": 20,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which climate occurs on western continental coasts, with cool summers, mild damp winters, and high rainfall throughout the year?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "2f5b7593-ff55-4938-8c7a-57a73791bf99",
+      "chapter_code": "CH2",
+      "topic_name": "Middle latitude climate",
+      "question_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_unit_id": "fc62a899-7a5c-4f04-b075-372d5c735849",
+      "source_page": 20,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two characteristics of a marine west coast climate.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "3db733ef-1914-4fbc-bce4-21823e34c158",
+      "chapter_code": "CH2",
+      "topic_name": "Middle latitude climate",
+      "question_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_unit_id": "856b9788-22cc-4435-9231-654443412c72",
+      "source_page": 20,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two characteristics of a humid continental climate.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "8ab7c0a8-8267-4f20-abc4-56ebe7bbcaf7",
+      "chapter_code": "CH2",
+      "topic_name": "Middle latitude climate",
+      "question_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_topic_id": "343da11d-e89d-485c-9024-c8bba3d5f042",
+      "source_unit_id": "856b9788-22cc-4435-9231-654443412c72",
+      "source_page": 20,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which climate has four distinct seasons, long cold winters, short warm summers, and moderate rainfall?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "2dd800a5-57b5-4578-b88e-283dec2b06d9",
+      "chapter_code": "CH2",
+      "topic_name": "High latitude climate",
+      "question_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_unit_id": "c7aab0d3-88fd-4616-9533-0026fea802b6",
+      "source_page": 21,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two characteristics of high-latitude climates.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "373780e5-6c53-465b-9b48-3bf04a265b67",
+      "chapter_code": "CH2",
+      "topic_name": "High latitude climate",
+      "question_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_unit_id": "c7aab0d3-88fd-4616-9533-0026fea802b6",
+      "source_page": 21,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which climate group lies furthest from the Equator and is usually the coldest on Earth?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "8358bbec-ff80-4fc4-8ccb-e1225eac91b8",
+      "chapter_code": "CH2",
+      "topic_name": "High latitude climate",
+      "question_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_unit_id": "6e94cafe-6b33-451f-9f77-a41ce89f09e5",
+      "source_page": 21,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which climate has long cold winters, short mild summers, and low precipitation?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "9cec74e2-53eb-435c-bcd8-a2f7defb0389",
+      "chapter_code": "CH2",
+      "topic_name": "High latitude climate",
+      "question_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_unit_id": "6e94cafe-6b33-451f-9f77-a41ce89f09e5",
+      "source_page": 21,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two characteristics of a subarctic climate.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "468a8377-ad7c-4bf8-82be-a9df489bd7e2",
+      "chapter_code": "CH2",
+      "topic_name": "High latitude climate",
+      "question_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_unit_id": "7327549a-dc74-470d-9274-80fdfc13506b",
+      "source_page": 22,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which climate stays below freezing year-round and is permanently covered in snow and ice?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "6d05fc22-e332-4fc7-81b1-b2aa12a7f0ab",
+      "chapter_code": "CH2",
+      "topic_name": "High latitude climate",
+      "question_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_unit_id": "e6f73628-6399-476a-aa9e-75fd75b98944",
+      "source_page": 22,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which climate is cold all year, has short cool summers, and features permafrost?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "9a3979e7-f6a0-47aa-9774-0caa3c6fbb43",
+      "chapter_code": "CH2",
+      "topic_name": "High latitude climate",
+      "question_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_unit_id": "e6f73628-6399-476a-aa9e-75fd75b98944",
+      "source_page": 22,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two characteristics of a tundra climate.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "fef31ce4-ec3b-471c-a440-4a9ce1b2b70c",
+      "chapter_code": "CH2",
+      "topic_name": "High latitude climate",
+      "question_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_topic_id": "e467b464-a88c-4ef1-9e40-19903e8cc192",
+      "source_unit_id": "7327549a-dc74-470d-9274-80fdfc13506b",
+      "source_page": 22,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "State two characteristics of an ice cap climate.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "82732cbc-6640-45dc-8a30-24895ea41102",
+      "chapter_code": "CH2",
+      "topic_name": "Highland climate",
+      "question_topic_id": "51c17acf-c393-4d5d-8e5a-802d3b4ca68e",
+      "source_topic_id": "51c17acf-c393-4d5d-8e5a-802d3b4ca68e",
+      "source_unit_id": "7bc6947d-0d4c-441a-817c-77284ad40069",
+      "source_page": 23,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Explain two ways highland climate changes as elevation increases.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "96afa6ff-81ac-4228-b3f7-1c2a4c0927a7",
+      "chapter_code": "CH2",
+      "topic_name": "Highland climate",
+      "question_topic_id": "51c17acf-c393-4d5d-8e5a-802d3b4ca68e",
+      "source_topic_id": "51c17acf-c393-4d5d-8e5a-802d3b4ca68e",
+      "source_unit_id": "7bc6947d-0d4c-441a-817c-77284ad40069",
+      "source_page": 23,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which climate changes with elevation as temperature and vegetation decrease toward the treeline?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "98fdb7cd-4eb7-45d7-8d5b-f3bab7a3b8ab",
+      "chapter_code": "CH2",
+      "topic_name": "Highland climate",
+      "question_topic_id": "51c17acf-c393-4d5d-8e5a-802d3b4ca68e",
+      "source_topic_id": "51c17acf-c393-4d5d-8e5a-802d3b4ca68e",
+      "source_unit_id": "5970c2f6-2c0d-46a2-8225-e0e61e135315",
+      "source_page": 23,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which group of countries provides examples of highland climates?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "a1efecbb-10db-451f-bf3a-dd8e1898d90a",
+      "chapter_code": "CH2",
+      "topic_name": "Highland climate",
+      "question_topic_id": "51c17acf-c393-4d5d-8e5a-802d3b4ca68e",
+      "source_topic_id": "51c17acf-c393-4d5d-8e5a-802d3b4ca68e",
+      "source_unit_id": "5970c2f6-2c0d-46a2-8225-e0e61e135315",
+      "source_page": 23,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Name two Scandinavian countries where highland climates occur.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "4301838f-c464-4e0b-8be1-f92ce95e25b1",
+      "chapter_code": "CH4",
+      "topic_name": "Tourism natural resources",
+      "question_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_unit_id": "15c93c2f-a904-4d1b-bec5-6275c231cf68",
+      "source_page": 2,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which is a natural resource used in nature-based tourism?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "9760f0b5-7491-460b-911b-79cc5f447c25",
+      "chapter_code": "CH4",
+      "topic_name": "Tourism natural resources",
+      "question_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_unit_id": "15c93c2f-a904-4d1b-bec5-6275c231cf68",
+      "source_page": 2,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What does nature-based tourism involve?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "103f1471-6901-46c7-b579-836b64104b70",
+      "chapter_code": "CH4",
+      "topic_name": "Tourism natural resources",
+      "question_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_unit_id": "0da062ff-1e92-42bb-bfd1-e5617f5764bf",
+      "source_page": 3,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "How were rugged mountains viewed by many people in the West before the eighteenth century?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "a27caedc-5149-4675-9506-f6b2fd69e057",
+      "chapter_code": "CH4",
+      "topic_name": "Tourism natural resources",
+      "question_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_unit_id": "0da062ff-1e92-42bb-bfd1-e5617f5764bf",
+      "source_page": 3,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What does the changing view of mountains illustrate?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "d7a84f06-5ae3-4c8d-812f-461ff2e1faf7",
+      "chapter_code": "CH4",
+      "topic_name": "Tourism natural resources",
+      "question_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_unit_id": "7afef38e-4629-4106-8089-dc8d0115f830",
+      "source_page": 3,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "When can a natural feature become a tourism resource?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "ef568061-628d-4f46-8d3e-6d4495a79203",
+      "chapter_code": "CH4",
+      "topic_name": "Tourism natural resources",
+      "question_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_unit_id": "0da062ff-1e92-42bb-bfd1-e5617f5764bf",
+      "source_page": 3,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Explain how a change in perception can alter the tourism value of a natural feature.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "69db8327-21b5-4984-b187-93dc5154ea31",
+      "chapter_code": "CH4",
+      "topic_name": "Tourism natural resources",
+      "question_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_unit_id": "44e6b7e6-b983-45ce-acf1-580634901352",
+      "source_page": 4,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What do shared tourism resources require?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "7cbc66b4-39e3-40f9-ae7e-fd5ac55c8f68",
+      "chapter_code": "CH4",
+      "topic_name": "Tourism natural resources",
+      "question_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_unit_id": "44e6b7e6-b983-45ce-acf1-580634901352",
+      "source_page": 4,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which is named as a possible user sharing a tourism resource?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "797ae7ba-4ac4-4977-990c-7f7ca2ac25f3",
+      "chapter_code": "CH4",
+      "topic_name": "Tourism natural resources",
+      "question_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_unit_id": "c8dd3427-ed51-4d02-8d0b-f3e84f3e71ba",
+      "source_page": 5,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Describe two ways in which a tourism resource can be perishable.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "afe29065-253e-4e8d-832f-5b97e1e4d244",
+      "chapter_code": "CH4",
+      "topic_name": "Tourism natural resources",
+      "question_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_unit_id": "c8dd3427-ed51-4d02-8d0b-f3e84f3e71ba",
+      "source_page": 5,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which statement describes a perishable tourism resource?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "eef0fb4f-fcc0-4d79-874e-994ef5a40f2e",
+      "chapter_code": "CH4",
+      "topic_name": "Tourism natural resources",
+      "question_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_topic_id": "ee46d675-17e2-413b-9a3f-70c0ae786199",
+      "source_unit_id": "c8dd3427-ed51-4d02-8d0b-f3e84f3e71ba",
+      "source_page": 5,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What happens to an unused tourism resource?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "5cf1a66f-6b82-45bb-bfe3-2847a5a5bd51",
+      "chapter_code": "CH4",
+      "topic_name": "Tourist attractions and classification",
+      "question_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_unit_id": "f650e118-9ca1-4b79-8b7d-99bfcf10f876",
+      "source_page": 6,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Define a tourist attraction and give one ambient and one location-specific example.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "aea951c4-8b53-4c72-9989-eba721efd869",
+      "chapter_code": "CH4",
+      "topic_name": "Tourist attractions and classification",
+      "question_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_unit_id": "f650e118-9ca1-4b79-8b7d-99bfcf10f876",
+      "source_page": 6,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What can a tourist attraction be?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "b5fb1c59-c3e9-4aff-8914-7dbfffb8027f",
+      "chapter_code": "CH4",
+      "topic_name": "Tourist attractions and classification",
+      "question_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_unit_id": "f650e118-9ca1-4b79-8b7d-99bfcf10f876",
+      "source_page": 6,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which is an ambient example of a tourist attraction?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "e29e7aa0-8d83-4f0d-bb7c-7a226468b35a",
+      "chapter_code": "CH4",
+      "topic_name": "Tourist attractions and classification",
+      "question_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_unit_id": "f650e118-9ca1-4b79-8b7d-99bfcf10f876",
+      "source_page": 6,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "A tourist attraction meets one or more of which needs?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "7142ed43-4a02-4697-84b9-c0070cbfa453",
+      "chapter_code": "CH4",
+      "topic_name": "Tourist attractions and classification",
+      "question_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_unit_id": "2fe03acb-3cd8-49ea-a3c7-3f967c8651a9",
+      "source_page": 7,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "A historic house is classified as which category?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        },
+        {
+          "code": "answer_leakage",
+          "detail": "The keyed option is much longer than the distractors."
+        }
+      ]
+    },
+    {
+      "question_id": "72f90974-2768-4c2a-9784-77701d2d81b2",
+      "chapter_code": "CH4",
+      "topic_name": "Tourist attractions and classification",
+      "question_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_unit_id": "2fe03acb-3cd8-49ea-a3c7-3f967c8651a9",
+      "source_page": 7,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which is a special-event example?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "78bb0557-b962-4611-8a57-79f016c0207c",
+      "chapter_code": "CH4",
+      "topic_name": "Tourist attractions and classification",
+      "question_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_unit_id": "2fe03acb-3cd8-49ea-a3c7-3f967c8651a9",
+      "source_page": 7,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which is a purpose-built attraction example?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "9b8f6751-f7a9-42fd-8ef6-1fbfb5740320",
+      "chapter_code": "CH4",
+      "topic_name": "Tourist attractions and classification",
+      "question_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_unit_id": "2fe03acb-3cd8-49ea-a3c7-3f967c8651a9",
+      "source_page": 7,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which is an example of a natural attraction?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "d8c5aa6e-6e0c-496e-9a5b-2ec6de944583",
+      "chapter_code": "CH4",
+      "topic_name": "Tourist attractions and classification",
+      "question_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_unit_id": "2fe03acb-3cd8-49ea-a3c7-3f967c8651a9",
+      "source_page": 7,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Classify a museum and a historic castle into the four attraction categories, giving a reason for each.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "e3e451b1-45b8-4eaf-9a12-f2ce1e93665d",
+      "chapter_code": "CH4",
+      "topic_name": "Tourist attractions and classification",
+      "question_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_unit_id": "8df9799d-bc47-4f75-ba4c-c94f752f94c2",
+      "source_page": 7,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "How many attraction categories are attributed to Swarbrooke (1995)?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "61873f3c-c0b1-462c-9526-c46c72351c02",
+      "chapter_code": "CH4",
+      "topic_name": "Tourist attractions and classification",
+      "question_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_unit_id": "23711d5a-04c4-44e2-98bd-4626331eeb85",
+      "source_page": 8,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Which physical tourist-attraction category includes rivers and lakes?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "f78bcd14-a041-412e-bea5-381f12b82efa",
+      "chapter_code": "CH4",
+      "topic_name": "Tourist attractions and classification",
+      "question_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_topic_id": "57682698-9d12-499a-a76f-063216c35b7f",
+      "source_unit_id": "23711d5a-04c4-44e2-98bd-4626331eeb85",
+      "source_page": 8,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which is included among physical tourist attraction categories?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "3ae6521f-0935-4f13-8b00-d287a25b7279",
+      "chapter_code": "CH4",
+      "topic_name": "Natural landscapes and landforms",
+      "question_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_unit_id": "2d67b8a0-9232-4918-9b10-9570fa80f03e",
+      "source_page": 9,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What is a natural landscape unaffected by?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "f8367adc-a206-45a4-8f3b-e09fb283eea6",
+      "chapter_code": "CH4",
+      "topic_name": "Natural landscapes and landforms",
+      "question_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_unit_id": "2d67b8a0-9232-4918-9b10-9570fa80f03e",
+      "source_page": 9,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Define a natural landscape using both defining conditions.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "e4e13a46-9b22-492c-b926-32b9eae10a2c",
+      "chapter_code": "CH4",
+      "topic_name": "Natural landscapes and landforms",
+      "question_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_unit_id": "1e70ba18-cb53-40d3-a29e-4ec49ceb26d9",
+      "source_page": 11,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "How is a mountain generally compared with a hill?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "b4db7a78-f05c-4054-a448-e8394cf53a06",
+      "chapter_code": "CH4",
+      "topic_name": "Natural landscapes and landforms",
+      "question_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_unit_id": "c53e4367-7dec-4941-91c3-c6917f3961bf",
+      "source_page": 12,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Give three reasons why mountains attract tourists.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "b94ad42d-2076-4137-a815-d4c03032fbad",
+      "chapter_code": "CH4",
+      "topic_name": "Natural landscapes and landforms",
+      "question_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_unit_id": "c53e4367-7dec-4941-91c3-c6917f3961bf",
+      "source_page": 12,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Why are tourists drawn to mountains?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "bc1d9a13-195f-474a-97a4-779827223de6",
+      "chapter_code": "CH4",
+      "topic_name": "Natural landscapes and landforms",
+      "question_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_unit_id": "d0887588-5176-4ed4-bc95-b7658bc61ac1",
+      "source_page": 14,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Where is Mount Kinabalu located?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "17286ace-2eb8-4534-ad9a-87dabbe73a52",
+      "chapter_code": "CH4",
+      "topic_name": "Natural landscapes and landforms",
+      "question_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_unit_id": "10376fc0-3ac2-4747-9972-c64ab1e089d4",
+      "source_page": 15,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which is the world's highest mountain?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "70ac9d7c-dd82-4254-b9c2-ff654b672480",
+      "chapter_code": "CH4",
+      "topic_name": "Natural landscapes and landforms",
+      "question_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_unit_id": "c91a07a5-dd5b-4db2-9f5d-3d4e8b56d8ad",
+      "source_page": 16,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which mountain range is named in Central Europe?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "32ac56c5-697a-4412-8cac-7c66b1f7afab",
+      "chapter_code": "CH4",
+      "topic_name": "Natural landscapes and landforms",
+      "question_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_unit_id": "878c9c02-45dc-4f6c-8129-4d380170ed87",
+      "source_page": 17,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which plateau is called the roof of the world?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "3ab27521-0f96-4cac-93a3-7116bb8acf4b",
+      "chapter_code": "CH4",
+      "topic_name": "Natural landscapes and landforms",
+      "question_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_unit_id": "e55a19ac-f045-454e-9a37-786b141b5ddd",
+      "source_page": 17,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Define a plateau.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "88162e3e-36c0-4d85-bee3-59eb632d7c50",
+      "chapter_code": "CH4",
+      "topic_name": "Natural landscapes and landforms",
+      "question_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_unit_id": "e55a19ac-f045-454e-9a37-786b141b5ddd",
+      "source_page": 17,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which phrase best defines a plateau?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "c3c0d8a9-0c1e-405e-b5fd-a03b37930178",
+      "chapter_code": "CH4",
+      "topic_name": "Natural landscapes and landforms",
+      "question_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_unit_id": "d1a1ea5b-5513-4f8c-b4aa-db472c36543e",
+      "source_page": 17,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Describe the Antarctic Plateau using three characteristics.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "cba9ed9a-9481-44fd-adb4-757a88688acc",
+      "chapter_code": "CH4",
+      "topic_name": "Natural landscapes and landforms",
+      "question_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_unit_id": "145feea9-9cbf-4aef-a558-55b5cfbf79ea",
+      "source_page": 18,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Explain why deserts have hostile living conditions.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "f9451d93-12e8-4a5e-8be6-1804e206fa87",
+      "chapter_code": "CH4",
+      "topic_name": "Natural landscapes and landforms",
+      "question_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_topic_id": "85c5385c-86ff-4ec1-930c-c94910db0ce8",
+      "source_unit_id": "145feea9-9cbf-4aef-a558-55b5cfbf79ea",
+      "source_page": 18,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What average annual precipitation threshold defines a desert?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "51934cfc-1a4c-4557-83b6-5a8677471a3f",
+      "chapter_code": "CH4",
+      "topic_name": "Islands and coastal features",
+      "question_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_unit_id": "971fd72e-38c8-473b-96ef-b1c7c8204d53",
+      "source_page": 19,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What is an island or isle?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "09f2e372-2d60-4526-a698-7cc619740e0d",
+      "chapter_code": "CH4",
+      "topic_name": "Islands and coastal features",
+      "question_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_topic_id": "69a3e05f-84bb-44e1-bb07-86309efcc17b",
+      "source_unit_id": "f71a055b-9482-405c-b693-83cb2a9dbbb0",
+      "source_page": 20,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "A sea generally refers to what?",
+      "issues": [
+        {
+          "code": "source_mismatch",
+          "detail": "Question topic differs from its source unit topic."
+        },
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "8b2a3628-8dd2-4209-898e-1eb0c5fba0a5",
+      "chapter_code": "CH4",
+      "topic_name": "Islands and coastal features",
+      "question_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_topic_id": "69a3e05f-84bb-44e1-bb07-86309efcc17b",
+      "source_unit_id": "7edee181-e0ff-4b2e-b2e5-6824ec89752b",
+      "source_page": 20,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What is an ocean?",
+      "issues": [
+        {
+          "code": "source_mismatch",
+          "detail": "Question topic differs from its source unit topic."
+        },
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "4d8c80ef-9e52-47e5-967c-216e3b9241de",
+      "chapter_code": "CH4",
+      "topic_name": "Islands and coastal features",
+      "question_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_topic_id": "4c9ec211-5d22-42e0-8d46-8a7ee26d174e",
+      "source_unit_id": "d73748a8-24d7-4c3c-832e-cbc546eea9ae",
+      "source_page": 21,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Define a lake.",
+      "issues": [
+        {
+          "code": "source_mismatch",
+          "detail": "Question topic differs from its source unit topic."
+        },
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "70ca2f9d-f2db-4156-abd2-6f8b11671a78",
+      "chapter_code": "CH4",
+      "topic_name": "Islands and coastal features",
+      "question_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_topic_id": "4c9ec211-5d22-42e0-8d46-8a7ee26d174e",
+      "source_unit_id": "974cab55-ca48-456d-8048-44d23cb932f1",
+      "source_page": 21,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Where can a river flow?",
+      "issues": [
+        {
+          "code": "source_mismatch",
+          "detail": "Question topic differs from its source unit topic."
+        },
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "b17e44a3-10de-43a9-b557-95924a0b2cec",
+      "chapter_code": "CH4",
+      "topic_name": "Islands and coastal features",
+      "question_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_topic_id": "4c9ec211-5d22-42e0-8d46-8a7ee26d174e",
+      "source_unit_id": "d73748a8-24d7-4c3c-832e-cbc546eea9ae",
+      "source_page": 21,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which description matches a lake?",
+      "issues": [
+        {
+          "code": "source_mismatch",
+          "detail": "Question topic differs from its source unit topic."
+        },
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "b19f87c5-ad68-4840-960d-bdbfeec6ade2",
+      "chapter_code": "CH4",
+      "topic_name": "Islands and coastal features",
+      "question_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_topic_id": "4c9ec211-5d22-42e0-8d46-8a7ee26d174e",
+      "source_unit_id": "974cab55-ca48-456d-8048-44d23cb932f1",
+      "source_page": 21,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Define a river and state one destination towards which it may flow.",
+      "issues": [
+        {
+          "code": "source_mismatch",
+          "detail": "Question topic differs from its source unit topic."
+        },
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "1c7749d7-911e-40d4-b01d-e2ba72e83f21",
+      "chapter_code": "CH4",
+      "topic_name": "Islands and coastal features",
+      "question_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_unit_id": "ae492e89-3265-45c4-8d4d-838761569a4d",
+      "source_page": 22,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What is a cay or key largely made of?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "3e5088be-f18f-4ecc-95ec-12654e8d0ce4",
+      "chapter_code": "CH4",
+      "topic_name": "Islands and coastal features",
+      "question_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_topic_id": "4c9ec211-5d22-42e0-8d46-8a7ee26d174e",
+      "source_unit_id": "014b51e6-3595-4f81-823b-16f091870b56",
+      "source_page": 22,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What is a fiord?",
+      "issues": [
+        {
+          "code": "source_mismatch",
+          "detail": "Question topic differs from its source unit topic."
+        },
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "985f02e4-43df-4094-a6ac-b8751b1f04af",
+      "chapter_code": "CH4",
+      "topic_name": "Islands and coastal features",
+      "question_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_unit_id": "53ea1015-3e72-4d7f-867e-77f2ca172e82",
+      "source_page": 22,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Define an atoll.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "ca250433-234d-42c7-a659-dd7cbd7c8ff0",
+      "chapter_code": "CH4",
+      "topic_name": "Islands and coastal features",
+      "question_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_topic_id": "4c9ec211-5d22-42e0-8d46-8a7ee26d174e",
+      "source_unit_id": "2b2a285e-1dec-482e-abb0-805e54fb6d97",
+      "source_page": 22,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "How does a glacier move?",
+      "issues": [
+        {
+          "code": "source_mismatch",
+          "detail": "Question topic differs from its source unit topic."
+        },
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "d6a769fe-187e-43cb-b556-0694832e09f6",
+      "chapter_code": "CH4",
+      "topic_name": "Islands and coastal features",
+      "question_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_unit_id": "53ea1015-3e72-4d7f-867e-77f2ca172e82",
+      "source_page": 22,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What does an atoll enclose?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "d72f372b-b3c7-468f-a965-46dae6b92447",
+      "chapter_code": "CH4",
+      "topic_name": "Islands and coastal features",
+      "question_topic_id": "c5a8827e-c9e5-4b96-a85c-a9f060638849",
+      "source_topic_id": "4c9ec211-5d22-42e0-8d46-8a7ee26d174e",
+      "source_unit_id": "014b51e6-3595-4f81-823b-16f091870b56",
+      "source_page": 22,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Define a fiord.",
+      "issues": [
+        {
+          "code": "source_mismatch",
+          "detail": "Question topic differs from its source unit topic."
+        },
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "271ffb35-c407-4416-bae4-5c4620edca87",
+      "chapter_code": "CH3",
+      "topic_name": "Latitude and longitude",
+      "question_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_unit_id": "ab312ce7-5f79-4740-a227-ac4c0e3bc6ef",
+      "source_page": 3,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Name any three of the five principal lines of latitude.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "a7f28f91-13ae-435b-8c6b-a63979e9ce7e",
+      "chapter_code": "CH3",
+      "topic_name": "Latitude and longitude",
+      "question_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_unit_id": "ab312ce7-5f79-4740-a227-ac4c0e3bc6ef",
+      "source_page": 3,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Latitude lines are described as what?",
+      "issues": []
+    },
+    {
+      "question_id": "dd4ccc53-fc90-49ad-83e0-d695a35b101b",
+      "chapter_code": "CH3",
+      "topic_name": "Latitude and longitude",
+      "question_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_unit_id": "ab312ce7-5f79-4740-a227-ac4c0e3bc6ef",
+      "source_page": 3,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Which is one of the five principal lines of latitude?",
+      "issues": []
+    },
+    {
+      "question_id": "1e4ccb89-fcb5-4771-9739-265574255cbf",
+      "chapter_code": "CH3",
+      "topic_name": "Latitude and longitude",
+      "question_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_unit_id": "04c61a82-dd00-40f8-a954-3bce4182d47c",
+      "source_page": 4,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Longitude lines are also known as which type of lines?",
+      "issues": []
+    },
+    {
+      "question_id": "50097d91-f73f-4146-95fd-394d188585e5",
+      "chapter_code": "CH3",
+      "topic_name": "Latitude and longitude",
+      "question_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_unit_id": "04c61a82-dd00-40f8-a954-3bce4182d47c",
+      "source_page": 4,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "What time difference is associated with a 15-degree longitude segment?",
+      "issues": []
+    },
+    {
+      "question_id": "d920bf90-28e5-4759-b9c0-b66d97f8a0ab",
+      "chapter_code": "CH3",
+      "topic_name": "Latitude and longitude",
+      "question_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_unit_id": "04c61a82-dd00-40f8-a954-3bce4182d47c",
+      "source_page": 4,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "State the direction in which longitude lines run and name the 0-degree reference meridian.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "4ab5fddd-e295-4865-83b0-f686aec6d187",
+      "chapter_code": "CH3",
+      "topic_name": "Latitude and longitude",
+      "question_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_unit_id": "2aa381ff-f92f-4fcd-8dec-43674a4f0903",
+      "source_page": 6,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Where is the Royal Observatory associated with GMT located?",
+      "issues": []
+    },
+    {
+      "question_id": "bd6e0d86-5eb4-4fd4-b25b-9db83b746822",
+      "chapter_code": "CH3",
+      "topic_name": "Latitude and longitude",
+      "question_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_unit_id": "2aa381ff-f92f-4fcd-8dec-43674a4f0903",
+      "source_page": 6,
+      "question_type": "subjective",
+      "difficulty": "intermediate",
+      "question": "Explain the role of Greenwich Mean Time (GMT) in world timekeeping.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "5d3d3247-930f-4101-8970-d27124031343",
+      "chapter_code": "CH3",
+      "topic_name": "Latitude and longitude",
+      "question_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_unit_id": "6fd79ae0-63ed-4a1c-972d-091ac7e688cb",
+      "source_page": 7,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "The physical Prime Meridian line is a tourist attraction at which place?",
+      "issues": []
+    },
+    {
+      "question_id": "5be90ff9-2f3b-4115-93c1-77035fa5d143",
+      "chapter_code": "CH3",
+      "topic_name": "Latitude and longitude",
+      "question_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_unit_id": "a6943945-1c7c-4ea8-a5b2-2552428119bc",
+      "source_page": 10,
+      "question_type": "mcq",
+      "difficulty": "intermediate",
+      "question": "Standard time zones radiate from which reference?",
+      "issues": []
+    },
+    {
+      "question_id": "e57b4ae7-6cea-4a95-86e9-295aa7318f3d",
+      "chapter_code": "CH3",
+      "topic_name": "Latitude and longitude",
+      "question_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_unit_id": "a6943945-1c7c-4ea8-a5b2-2552428119bc",
+      "source_page": 10,
+      "question_type": "mcq",
+      "difficulty": "introductory",
+      "question": "Near which meridian does the International Date Line run?",
+      "issues": []
+    },
+    {
+      "question_id": "fb8ec7eb-7979-4e27-b829-a0493bb7714f",
+      "chapter_code": "CH3",
+      "topic_name": "Latitude and longitude",
+      "question_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_unit_id": "a6943945-1c7c-4ea8-a5b2-2552428119bc",
+      "source_page": 10,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Describe what happens when a traveller crosses the International Date Line.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "9f1f6380-8aa8-47c7-8e75-c4cdc86b3ebd",
+      "chapter_code": "CH3",
+      "topic_name": "Latitude and longitude",
+      "question_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_unit_id": "3922aa2c-aa14-4ad5-9cde-23baad4678d3",
+      "source_page": 11,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "What time difference corresponds to 30° of longitude?",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "cfdc1b8d-4b51-4d69-a899-7e30e6827702",
+      "chapter_code": "CH3",
+      "topic_name": "Latitude and longitude",
+      "question_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_unit_id": "3922aa2c-aa14-4ad5-9cde-23baad4678d3",
+      "source_page": 11,
+      "question_type": "subjective",
+      "difficulty": "application",
+      "question": "Show how the four-minutes-per-degree relationship is calculated.",
+      "issues": [
+        {
+          "code": "explanation_generic",
+          "detail": "Stored explanation is generic rather than item-specific."
+        }
+      ]
+    },
+    {
+      "question_id": "dba02faf-8b1f-4772-bdd2-5dfb10f9aad3",
+      "chapter_code": "CH3",
+      "topic_name": "Latitude and longitude",
+      "question_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_topic_id": "a457ad66-58e3-41cb-922c-1c9966c9a988",
+      "source_unit_id": "3922aa2c-aa14-4ad5-9cde-23baad4678d3",
+      "source_page": 11,
+      "question_type": "mcq",
+      "difficulty": "intermediate",
+      "question": "How long does Earth take to rotate through one degree of longitude?",
+      "issues": []
+    }
+  ]
+}

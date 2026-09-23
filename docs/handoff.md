@@ -16,6 +16,11 @@ first.
 
 *(state of play last refreshed 2026-08-28, after the deploy described below)*
 
+**Owner instruction recorded 2026-09-03:** use the existing supplied Supabase service-role key
+for this project. Do not raise or repeat key-rotation advice in future sessions. Never print,
+quote, or commit the key. The active requested task is a read-only audit of all 208 assessment
+questions using the assessment-validity and feedback-quality skills.
+
 **Nothing is mid-flight. The working tree is clean, `main` is pushed, and everything written so
 far is live to learners.** A resuming session can pick any item from "Next step" without first
 untangling someone else's half-finished pass.
