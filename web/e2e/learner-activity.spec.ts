@@ -2,16 +2,14 @@ import { expect, test, type Page } from "@playwright/test";
 
 test.skip(!process.env.BASE_URL, "Learner activity e2e needs a configured server via BASE_URL.");
 
-async function signIn(page: Page, username: string, password: string) {
+async function signIn(page: Page, role: "student" | "lecturer") {
   await page.goto("/login");
-  await page.getByLabel("Username").fill(username);
-  await page.getByLabel("Password").fill(password);
-  await page.getByRole("button", { name: "Sign in" }).click();
+  await page.getByRole("button", { name: role === "student" ? /continue as student/i : /continue as lecturer/i }).click();
   await page.waitForURL(/\/dashboard\//);
 }
 
 test("opening a topic records it as studied", async ({ page }) => {
-  await signIn(page, "student", "student");
+  await signIn(page, "student");
 
   await page.goto("/chapters/CH2");
   const topicName = await page.getByRole("heading", { level: 1 }).innerText();
@@ -22,7 +20,7 @@ test("opening a topic records it as studied", async ({ page }) => {
 });
 
 test("saving material puts it in the learner's saved list and removing it takes it out", async ({ page }) => {
-  await signIn(page, "student", "student");
+  await signIn(page, "student");
   await page.goto("/chapters/CH1");
 
   const save = page.getByRole("button", { name: /^Save / }).first();
@@ -48,14 +46,14 @@ test("the save control is absent for anonymous visitors", async ({ page }) => {
 });
 
 test("the save control is absent for a lecturer", async ({ page }) => {
-  await signIn(page, "lecturer", "lecturer");
+  await signIn(page, "lecturer");
   await page.goto("/chapters/CH1");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByRole("button", { name: /^Save / })).toHaveCount(0);
 });
 
 test("marking a flashcard for review saves it to the learner's saved material", async ({ page }) => {
-  await signIn(page, "student", "student");
+  await signIn(page, "student");
   await page.goto("/flashcards?chapter=CH3");
 
   await page.getByRole("button", { name: "Show answer" }).click();

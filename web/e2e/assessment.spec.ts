@@ -6,11 +6,9 @@ test.skip(!process.env.BASE_URL, "Assessment e2e needs a configured server via B
 // comfortably outlives the default 30s test timeout.
 test.setTimeout(180_000);
 
-async function signIn(page: Page, username: string, password: string) {
+async function signIn(page: Page, role: "student" | "lecturer") {
   await page.goto("/login");
-  await page.getByLabel("Username").fill(username);
-  await page.getByLabel("Password").fill(password);
-  await page.getByRole("button", { name: "Sign in" }).click();
+  await page.getByRole("button", { name: role === "student" ? /continue as student/i : /continue as lecturer/i }).click();
   await page.waitForURL(/\/dashboard\//);
 }
 
@@ -28,7 +26,7 @@ async function completeAssessment(page: Page) {
 }
 
 test("a learner's assessment is marked, scored, and kept in their results", async ({ page }) => {
-  await signIn(page, "student", "student");
+  await signIn(page, "student");
 
   await page.goto("/practice/course");
   await expect(page.getByRole("heading", { name: /full course exam/i })).toBeVisible();

@@ -1,14 +1,18 @@
 import Image from "next/image";
-import LoginForm from "./login-form";
+import RoleChooser from "./role-chooser";
 
-export const metadata = { title: "Sign in · Tourism Geography Tutor" };
+export const metadata = { title: "Choose a role · Tourism Geography Tutor" };
 
-export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
-  const { next } = await searchParams;
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string; error?: string }>;
+}) {
+  const { next, error } = await searchParams;
   const safeNext = next && next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard";
 
   return (
-    <main className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-[28rem] flex-col justify-center gap-6 px-6 py-12">
+    <main className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-[30rem] flex-col justify-center gap-6 px-6 py-12">
       {/* The badge and the course name together: this is the first page anyone sees. */}
       <div className="flex flex-col items-center gap-3 text-center">
         <Image
@@ -22,18 +26,16 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         <h1 className="font-display text-[2rem]/[1.15] font-semibold tracking-[-0.015em] text-ink-strong">
           Tourism Geography Tutor
         </h1>
-        <p className="text-ink">
-          Sign in to open the course, the flashcards, the tutor, and your results.
+        <p className="text-ink">Choose how you would like to explore. You can switch at any time.</p>
+      </div>
+
+      {error ? (
+        <p role="alert" className="text-center text-danger">
+          The course could not be opened just now. Please try again in a moment.
         </p>
-      </div>
+      ) : null}
 
-      <div className="rounded-card border border-graticule bg-surface p-5">
-        <LoginForm next={safeNext} />
-      </div>
-
-      <p className="text-center text-ink-muted">
-        Ask your lecturer if you do not have an account yet.
-      </p>
+      <RoleChooser next={safeNext} />
     </main>
   );
 }

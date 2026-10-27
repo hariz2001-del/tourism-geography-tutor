@@ -63,7 +63,10 @@ Build a course-grounded Tourism Geography learning platform. The product is a le
 
 ## MVP scope
 - Include: course-material browser, topic explorer, citation-grounded tutor, basic self-assessment quizzes, anonymous helpfulness feedback.
-- Include as of 2026-08-17: username/password login, student and lecturer roles, saved
+- As of 2026-10-27 the site is a **showcase**: there is no password form. `/login` is a role
+  chooser that signs a visitor into the shared `student` or `lecturer` demo account (see
+  `web/src/app/login/actions.ts`). The owner accepted that anyone can act as the lecturer.
+- Include as of 2026-08-17: student and lecturer roles, saved
   bookmarks, reading history, recorded assessment results, and a lecturer dashboard with
   question-bank CRUD and a draft-approval queue.
 - Exclude for now: self-registration, public web knowledge, and multiple classrooms.

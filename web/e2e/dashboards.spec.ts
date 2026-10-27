@@ -2,11 +2,9 @@ import { expect, test, type Page } from "@playwright/test";
 
 test.skip(!process.env.BASE_URL, "Dashboard e2e needs a configured server via BASE_URL.");
 
-async function signIn(page: Page, username: string, password: string) {
+async function signIn(page: Page, role: "student" | "lecturer") {
   await page.goto("/login");
-  await page.getByLabel("Username").fill(username);
-  await page.getByLabel("Password").fill(password);
-  await page.getByRole("button", { name: "Sign in" }).click();
+  await page.getByRole("button", { name: role === "student" ? /continue as student/i : /continue as lecturer/i }).click();
   await page.waitForURL(/\/dashboard\//);
 }
 
@@ -20,7 +18,7 @@ function collectFailures(page: Page) {
 
 test("every learner dashboard section renders without browser errors", async ({ page }) => {
   const failures = collectFailures(page);
-  await signIn(page, "student", "student");
+  await signIn(page, "student");
 
   await expect(page.getByRole("heading", { name: /welcome back/i })).toBeVisible();
 
@@ -38,7 +36,7 @@ test("every learner dashboard section renders without browser errors", async ({ 
 
 test("every teaching dashboard section renders without browser errors", async ({ page }) => {
   const failures = collectFailures(page);
-  await signIn(page, "lecturer", "lecturer");
+  await signIn(page, "lecturer");
 
   await expect(page.getByRole("heading", { name: /good to see you/i })).toBeVisible();
 
@@ -55,7 +53,7 @@ test("every teaching dashboard section renders without browser errors", async ({
 });
 
 test("the lecturer's view of a student shows results but never their saved material or reading history", async ({ page }) => {
-  await signIn(page, "lecturer", "lecturer");
+  await signIn(page, "lecturer");
   await page.getByRole("link", { name: "Students", exact: true }).click();
   await page.getByRole("link", { name: "Student One" }).click();
 
@@ -74,7 +72,7 @@ test("the lecturer's view of a student shows results but never their saved mater
 });
 
 test("the question bank lists the real bank and filters it", async ({ page }) => {
-  await signIn(page, "lecturer", "lecturer");
+  await signIn(page, "lecturer");
   await page.goto("/dashboard/lecturer/questions");
 
   await expect(page.getByRole("status")).toContainText(/Showing 208 of 208 questions/);
@@ -87,7 +85,7 @@ test("the question bank lists the real bank and filters it", async ({ page }) =>
 });
 
 test("the approval queue shows the unapproved drafts", async ({ page }) => {
-  await signIn(page, "lecturer", "lecturer");
+  await signIn(page, "lecturer");
   await page.goto("/dashboard/lecturer/review");
 
   await expect(page.getByRole("status").first()).toContainText(/208[\s\S]*drafts awaiting review/);

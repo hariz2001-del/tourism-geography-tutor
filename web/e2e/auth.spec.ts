@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 // The default webServer in playwright.config.ts deliberately blanks the Supabase
 // env to exercise the unconfigured empty state, so these tests only run when the
@@ -6,65 +6,50 @@ import { expect, test } from "@playwright/test";
 //   BASE_URL=http://localhost:3000 npx playwright test e2e/auth.spec.ts
 test.skip(!process.env.BASE_URL, "Auth e2e needs a configured server via BASE_URL.");
 
-// Next renders an always-present empty route announcer with role="alert", so
-// error assertions have to target the form's own message.
-function formError(page: import("@playwright/test").Page) {
-  return page.locator("p[role='alert']");
-}
-
-async function signIn(page: import("@playwright/test").Page, username: string, password: string) {
+/** Chooses a role on the opening page and waits for its dashboard, so a later goto cannot race it. */
+async function enterAs(page: Page, role: "Student" | "Lecturer") {
   await page.goto("/login");
-  await page.getByLabel("Username").fill(username);
-  await page.getByLabel("Password").fill(password);
-  await page.getByRole("button", { name: "Sign in" }).click();
-}
-
-/** Waits for the sign-in server action to land, so a later goto cannot race it. */
-async function signInAndLand(page: import("@playwright/test").Page, username: string, password: string) {
-  await signIn(page, username, password);
+  await page.getByRole("button", { name: new RegExp(`continue as ${role}`, "i") }).click();
   await page.waitForURL(/\/dashboard\//);
 }
 
-test("anonymous visitors are sent to sign-in and returned to where they were headed", async ({ page }) => {
+test("anonymous visitors are sent to the role chooser and returned to where they were headed", async ({ page }) => {
   await page.goto("/dashboard/student");
   await expect(page).toHaveURL(/\/login\?next=%2Fdashboard%2Fstudent/);
-  await expect(page.getByRole("heading", { name: "Sign in" })).toBeVisible();
+  await expect(page.getByRole("button", { name: /continue as student/i })).toBeVisible();
+  await expect(page.getByRole("button", { name: /continue as lecturer/i })).toBeVisible();
+  // There is no password form any more.
+  await expect(page.getByLabel("Password")).toHaveCount(0);
 });
 
-test("a wrong password is rejected without revealing which field was wrong", async ({ page }) => {
-  await signIn(page, "student", "definitely-not-the-password");
-  await expect(formError(page)).toHaveText(/do not match an account/i);
-  await expect(page).toHaveURL(/\/login/);
-});
-
-test("the student account lands on the learner dashboard", async ({ page }) => {
-  await signIn(page, "student", "student");
+test("choosing Student lands on the learner dashboard", async ({ page }) => {
+  await enterAs(page, "Student");
   await expect(page).toHaveURL(/\/dashboard\/student/);
-  await expect(page.getByRole("button", { name: "Sign out" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Switch to Lecturer" })).toBeVisible();
 });
 
-test("the lecturer account lands on the teaching dashboard", async ({ page }) => {
-  await signIn(page, "lecturer", "lecturer");
+test("choosing Lecturer lands on the teaching dashboard", async ({ page }) => {
+  await enterAs(page, "Lecturer");
   await expect(page).toHaveURL(/\/dashboard\/lecturer/);
   await expect(page.getByRole("link", { name: "Teaching" })).toBeVisible();
 });
 
+test("the header switches between the two roles in one click", async ({ page }) => {
+  await enterAs(page, "Student");
+  await page.getByRole("button", { name: "Switch to Lecturer" }).click();
+  await expect(page).toHaveURL(/\/dashboard\/lecturer/);
+  await page.getByRole("button", { name: "Switch to Student" }).click();
+  await expect(page).toHaveURL(/\/dashboard\/student/);
+});
+
 test("a student cannot reach the lecturer dashboard", async ({ page }) => {
-  await signInAndLand(page, "student", "student");
+  await enterAs(page, "Student");
   await page.goto("/dashboard/lecturer");
   await expect(page).toHaveURL(/\/dashboard\/student/);
 });
 
 test("a lecturer cannot reach the student dashboard", async ({ page }) => {
-  await signInAndLand(page, "lecturer", "lecturer");
+  await enterAs(page, "Lecturer");
   await page.goto("/dashboard/student");
   await expect(page).toHaveURL(/\/dashboard\/lecturer/);
-});
-
-test("signing out returns the visitor to the public site", async ({ page }) => {
-  await signInAndLand(page, "student", "student");
-  await page.getByRole("button", { name: "Sign out" }).click();
-  await expect(page.getByRole("link", { name: "Sign in" })).toBeVisible();
-  await page.goto("/dashboard/student");
-  await expect(page).toHaveURL(/\/login/);
 });

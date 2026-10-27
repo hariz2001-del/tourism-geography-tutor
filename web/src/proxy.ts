@@ -7,9 +7,9 @@ import { NextResponse, type NextRequest } from "next/server";
 // whole site. It is an optimistic check only — every page and route handler
 // independently calls requireProfile() from lib/auth/session.
 //
-// The course used to be readable without an account. The lecturer asked for the
-// opposite: the site opens on the sign-in page, and nothing is reachable until a
-// learner is signed in.
+// The site opens on /login, which is a role chooser rather than a password form
+// (see app/login/actions.ts): a visitor picks Student or Lecturer and is signed
+// into that demo account. Nothing else is reachable until they have chosen.
 const PUBLIC_PATHS = new Set(["/login"]);
 
 export async function proxy(request: NextRequest) {
@@ -54,13 +54,8 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(signIn);
   }
 
-  if (isSignedIn && pathname === "/login") {
-    const home = request.nextUrl.clone();
-    home.pathname = "/dashboard";
-    home.search = "";
-    return NextResponse.redirect(home);
-  }
-
+  // A signed-in visitor may come back to /login: it is the role chooser, and
+  // returning to it is how they switch between student and lecturer.
   return response;
 }
 

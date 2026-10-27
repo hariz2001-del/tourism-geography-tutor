@@ -59,12 +59,13 @@ describe("the sign-in gate", () => {
     expect(response.headers.get("location")).toBeNull();
   });
 
-  it("does not hold a signed-in learner on the sign-in page", async () => {
+  it("lets a signed-in visitor back to the role chooser, so they can switch roles", async () => {
     signedIn(true);
 
     const response = await proxy(request("/login"));
 
-    expect(new URL(response.headers.get("location")!).pathname).toBe("/dashboard");
+    expect(response.status).toBe(200);
+    expect(response.headers.get("location")).toBeNull();
   });
 
   it("leaves the sign-in page itself reachable", async () => {

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut } from "@/app/login/actions";
+import { enterAs } from "@/app/login/actions";
 import type { Profile } from "@/lib/auth/types";
 import ThemeToggle from "@/components/theme-toggle";
 
@@ -86,12 +86,14 @@ export default function SiteHeader({ profile }: { profile: Profile | null }) {
               <span className="hidden max-w-[12rem] truncate text-[0.9375rem] text-ink-muted lg:inline">
                 {profile.displayName}
               </span>
-              <form action={signOut}>
+              {/* One click swaps to the other demo role and opens its dashboard. */}
+              <form action={enterAs}>
+                <input type="hidden" name="role" value={profile.role === "lecturer" ? "student" : "lecturer"} />
                 <button
                   type="submit"
-                  className="inline-flex min-h-11 items-center rounded-card border border-graticule bg-surface px-3 text-[0.9375rem] font-medium text-meridian transition-colors hover:border-meridian hover:bg-meridian/6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
+                  className="inline-flex min-h-11 items-center whitespace-nowrap rounded-card border border-graticule bg-surface px-3 text-[0.9375rem] font-medium text-meridian transition-colors hover:border-meridian hover:bg-meridian/6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-meridian"
                 >
-                  Sign out
+                  {profile.role === "lecturer" ? "Switch to Student" : "Switch to Lecturer"}
                 </button>
               </form>
             </>

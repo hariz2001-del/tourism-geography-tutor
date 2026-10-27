@@ -14,9 +14,30 @@ first.
 
 ## Right now
 
-*(state of play last refreshed 2026-09-19, after the exam builder below)*
+*(state of play last refreshed 2026-10-27, after the role chooser below)*
 
-### 2026-09-19 (latest): the lecturer builds exams, and each chapter has a colour
+### 2026-10-27 (latest): no more password form, visitors choose Student or Lecturer
+
+**The owner turned the site into a showcase.** `/login` no longer asks for a username and
+password. It offers **Continue as Student** / **Continue as Lecturer**; the server action
+`enterAs` (`web/src/app/login/actions.ts`) mints a one-time magic-link token for that role's seeded
+demo account with the service-role key and redeems it on the visitor's cookies. The header's
+"Sign out" became a one-click **Switch to Lecturer / Switch to Student**, and the proxy no longer
+bounces a signed-in visitor away from `/login`.
+
+- **The owner chose this knowingly:** anyone can act as the lecturer, including editing the
+  question bank, approving drafts and building exams. They confirmed no real class uses the site.
+- **Never call `auth.signOut()` on these shared accounts.** Its default scope is global, so one
+  visitor switching role would end every other visitor's session. `enterAs` only replaces the
+  current session; a unit test guards this.
+- **Production needs `SUPABASE_SERVICE_ROLE_KEY` in Vercel** for the chooser to work. Without it
+  the page shows "The course could not be opened just now" rather than half-signing anyone in.
+- **Not yet verified end-to-end:** on 2026-10-27 the Supabase project was paused (its hostname no
+  longer resolved), so only typecheck, lint, 283 unit tests, the build and the chooser's failure
+  path were checked. After restoring the project, run
+  `BASE_URL=https://tourism-geography-tutor.vercel.app npx playwright test e2e/auth.spec.ts`.
+
+### 2026-09-19: the lecturer builds exams, and each chapter has a colour
 
 **Exams are now a list she writes, not a random draw.** `drawCoursePaper` picked 20 questions
 at random every time; nobody had built that paper, and none of the 208 AI drafts had ever been

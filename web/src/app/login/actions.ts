@@ -3,55 +3,55 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { emailForUsername } from "@/lib/auth/session";
-import { createUserScopedClient } from "@/lib/supabase/server";
+import type { AppRole } from "@/lib/auth/types";
+import { createServiceRoleClient, createUserScopedClient } from "@/lib/supabase/server";
 
-export type LoginState = { error: string | null };
+// The site is a showcase: there is no password form. A visitor chooses a role and
+// is signed straight into that role's seeded demo account, whose username is the
+// role name ("student" / "lecturer"). The owner chose this knowingly (2026-10-27):
+// anyone can act as the lecturer, including editing the question bank.
+const ROLES: readonly AppRole[] = ["student", "lecturer"];
+
+function isRole(value: FormDataEntryValue | null): value is AppRole {
+  return typeof value === "string" && (ROLES as readonly string[]).includes(value);
+}
 
 function safeNextPath(value: FormDataEntryValue | null): string {
-  // Only same-origin absolute paths, so a crafted ?next= cannot bounce a learner
-  // to another host after signing in.
+  // Only same-origin absolute paths, so a crafted ?next= cannot bounce a visitor
+  // to another host after choosing a role.
   const next = typeof value === "string" ? value : "";
   return next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard";
 }
 
-export async function signIn(_previous: LoginState, formData: FormData): Promise<LoginState> {
-  const username = String(formData.get("username") ?? "").trim().toLowerCase();
-  const password = String(formData.get("password") ?? "");
+export async function enterAs(formData: FormData): Promise<void> {
+  const role = formData.get("role");
+  if (!isRole(role)) redirect("/login");
   const next = safeNextPath(formData.get("next"));
 
-  if (!username || !password) {
-    return { error: "Enter both a username and a password." };
-  }
-
+  let admin;
   let client;
   try {
+    admin = createServiceRoleClient();
     client = await createUserScopedClient();
   } catch {
-    return { error: "Sign-in is not configured." };
+    redirect("/login?error=unavailable");
   }
 
-  const { error } = await client.auth.signInWithPassword({
-    email: emailForUsername(username),
-    password,
+  // Mint a one-time sign-in token for the demo account and redeem it straight away
+  // on this visitor's cookies. No password is stored or sent anywhere.
+  const { data, error } = await admin.auth.admin.generateLink({
+    type: "magiclink",
+    email: emailForUsername(role),
   });
+  const tokenHash = data?.properties?.hashed_token;
+  if (error || !tokenHash) redirect("/login?error=unavailable");
 
-  // Deliberately generic: do not reveal whether the username or the password was
-  // the part that did not match.
-  if (error) return { error: "That username and password do not match an account." };
+  // Switching roles simply replaces this visitor's session. Never call signOut()
+  // here: its default scope is global, and with one shared demo account that would
+  // sign every other visitor out as well.
+  const { error: verifyError } = await client.auth.verifyOtp({ type: "magiclink", token_hash: tokenHash });
+  if (verifyError) redirect("/login?error=unavailable");
 
   revalidatePath("/", "layout");
   redirect(next);
-}
-
-export async function signOut(): Promise<void> {
-  try {
-    const client = await createUserScopedClient();
-    await client.auth.signOut();
-  } catch {
-    // Already signed out or unconfigured — fall through to the redirect.
-  }
-  revalidatePath("/", "layout");
-  // Straight to the sign-in page. Sending them to "/" also ends up here, but only
-  // after a second redirect, which leaves the address bar reading "/".
-  redirect("/login");
 }

@@ -4,7 +4,7 @@ import SiteHeader from "./site-header";
 import type { Profile } from "@/lib/auth/types";
 
 vi.mock("next/navigation", () => ({ usePathname: () => "/flashcards" }));
-vi.mock("@/app/login/actions", () => ({ signOut: vi.fn() }));
+vi.mock("@/app/login/actions", () => ({ enterAs: vi.fn() }));
 
 const student: Profile = { id: "s1", username: "student", displayName: "Student One", role: "student" };
 const lecturer: Profile = { id: "l1", username: "lecturer", displayName: "Dr. Lecturer", role: "lecturer" };
@@ -32,23 +32,25 @@ describe("SiteHeader", () => {
     render(<SiteHeader profile={null} />);
 
     expect(screen.queryByRole("navigation", { name: "Primary" })).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: /sign out/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /switch to (student|lecturer)/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /flashcards/i })).not.toBeInTheDocument();
     // The course name still identifies the site on the sign-in page.
     expect(screen.getByRole("link", { name: /tourism geography tutor/i })).toHaveAttribute("href", "/");
   });
 
-  it("shows a learner their dashboard and a sign-out control", () => {
-    render(<SiteHeader profile={student} />);
+  it("shows a student their dashboard and a one-click switch to the lecturer role", () => {
+    const { container } = render(<SiteHeader profile={student} />);
 
     expect(screen.getByRole("link", { name: /my learning/i })).toHaveAttribute("href", "/dashboard");
-    expect(screen.getByRole("button", { name: /sign out/i })).toBeInTheDocument();
-    expect(screen.queryByRole("link", { name: /sign in/i })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Switch to Lecturer" })).toBeInTheDocument();
+    expect(container.querySelector("input[name='role']")).toHaveValue("lecturer");
   });
 
-  it("labels the lecturer's dashboard entry for teaching", () => {
-    render(<SiteHeader profile={lecturer} />);
+  it("labels the lecturer's dashboard entry for teaching, and offers the switch back", () => {
+    const { container } = render(<SiteHeader profile={lecturer} />);
 
     expect(screen.getByRole("link", { name: /teaching/i })).toHaveAttribute("href", "/dashboard");
+    expect(screen.getByRole("button", { name: "Switch to Student" })).toBeInTheDocument();
+    expect(container.querySelector("input[name='role']")).toHaveValue("student");
   });
 });
